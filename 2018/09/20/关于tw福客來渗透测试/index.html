@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a22711cd4e2697b723">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a2ea3b4a3fed4c429f">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a250f8dd54d44d032d">
-<meta property="og:updated_time" content="2018-11-19T15:39:53.000Z">
+<meta property="og:updated_time" content="2018-11-19T16:40:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次简单的渗透测试">
 <meta name="twitter:description" content="简述:当初为了交报告，不小心就Getshell ～ 1.2 主机环境1.软件版本：Apache2.操作系统：Linux3．IP地址：103.17.8.51 =&amp;gt; 台湾新北市客户端地址：福客來.tw4.脚本语言：PHP 框架:TweenMax 漏洞详情 0x01 目录遍历漏洞：漏洞地址：http://xn--9rqz80aw9x.tw/source/  0x02 数据库备份文件泄露：后台密码泄">
@@ -110,7 +110,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-目录遍历漏洞："><span class="toc-number">1.</span> <span class="toc-text">0x01 目录遍历漏洞：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-数据库备份文件泄露："><span class="toc-number">2.</span> <span class="toc-text">0x02 数据库备份文件泄露：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成功上传webshell-，是时候拨出我的刀。"><span class="toc-number">3.</span> <span class="toc-text">成功上传webshell ，是时候拨出我的刀。</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-目录遍历漏洞："><span class="toc-number">1.</span> <span class="toc-text">0x01 目录遍历漏洞：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-数据库备份文件泄露："><span class="toc-number">2.</span> <span class="toc-text">0x02 数据库备份文件泄露：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-文件上传漏洞："><span class="toc-number">3.</span> <span class="toc-text">0x03 文件上传漏洞：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成功上传webshell-，是时候拨出我的刀。"><span class="toc-number">4.</span> <span class="toc-text">成功上传webshell ，是时候拨出我的刀。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-解决方案建议"><span class="toc-number">5.</span> <span class="toc-text">0x04 解决方案建议</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -155,16 +155,16 @@
 <ul>
 <li>备份文件包含重要的数据库结构，后台管理员登陆账号和地址以及后台登陆记录 如果这些目录没有做好权限设置，会让攻击者对网站数据库进行恶意查询，那么极有可能导致网站后台失陷于此。可能给网站带来不可预计的后果。</li>
 </ul>
-<p>0x03 文件上传漏洞：<br>漏洞地址：<a href="http://xn--9rqz80aw9x.tw/filemanager/" target="_blank" rel="noopener">http://xn--9rqz80aw9x.tw/filemanager/</a></p>
+<h2 id="0x03-文件上传漏洞："><a href="#0x03-文件上传漏洞：" class="headerlink" title="0x03 文件上传漏洞："></a>0x03 文件上传漏洞：</h2><p>漏洞地址：<a href="http://xn--9rqz80aw9x.tw/filemanager/" target="_blank" rel="noopener">http://xn--9rqz80aw9x.tw/filemanager/</a></p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a2ea3b4a3fed4c42a0" alt=""></p>
 <ul>
-<li>上传漏洞与SQL注入或 XSS相比 ,其风险更大,如果Web应用程序存在上传漏洞 ,攻击者甚至可以直接上传一个webshell到服务器上.对系统维护人员来说，文件上传漏洞的巨大危害也无须赘述。<br>1．上传文件发现服务器只是对文件名做了简单的处理，固定解析成.jpg图片格式 、成功绕过服务器验证机制。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a22711cd4e2697b723" alt=""></li>
+<li>上传漏洞与SQL注入或 XSS相比 ,其风险更大,如果Web应用程序存在上传漏洞 ,攻击者甚至可以直接上传一个webshell到服务器上.对系统维护人员来说，文件上传漏洞的巨大危害也无须赘述。<br>1．上传文件发现服务器只是对文件名做了简单的处理，固定解析成.jpg图片格式 以及对php做了黑名单处理，故成功绕过服务器验证机制。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a22711cd4e2697b723" alt=""></li>
 </ul>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a2ea3b4a3fed4c429f" alt=""></p>
 <h2 id="成功上传webshell-，是时候拨出我的刀。"><a href="#成功上传webshell-，是时候拨出我的刀。" class="headerlink" title="成功上传webshell ，是时候拨出我的刀。"></a>成功上传webshell ，是时候拨出我的刀。</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf2d3a250f8dd54d44d032d" alt=""></p>
 <ul>
 <li><p>未授权用户可能通过该漏洞获取数据库敏感资料，造成敏感信息泄漏，最终获取网站后台，通过上传WEBSHELL，控制网站。</p>
-<p>0x04 解决方案建议<br>关闭中间件目录遍历功能，增加用户授权认证，防止用户未授权访问敏感目录，删除数据库备份文件，并且由于filemanager编辑器文件存在安全漏洞，删除默认上传页面，升级最新版编辑器。</p>
+<h2 id="0x04-解决方案建议"><a href="#0x04-解决方案建议" class="headerlink" title="0x04 解决方案建议"></a>0x04 解决方案建议</h2><p>关闭中间件目录遍历功能，增加用户授权认证，防止用户未授权访问敏感目录，删除数据库备份文件，并且由于filemanager编辑器文件存在安全漏洞，删除默认上传页面，升级最新版编辑器。</p>
 </li>
 </ul>
 
@@ -192,7 +192,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-目录遍历漏洞："><span class="toc-number">1.</span> <span class="toc-text">0x01 目录遍历漏洞：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-数据库备份文件泄露："><span class="toc-number">2.</span> <span class="toc-text">0x02 数据库备份文件泄露：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成功上传webshell-，是时候拨出我的刀。"><span class="toc-number">3.</span> <span class="toc-text">成功上传webshell ，是时候拨出我的刀。</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-目录遍历漏洞："><span class="toc-number">1.</span> <span class="toc-text">0x01 目录遍历漏洞：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-数据库备份文件泄露："><span class="toc-number">2.</span> <span class="toc-text">0x02 数据库备份文件泄露：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-文件上传漏洞："><span class="toc-number">3.</span> <span class="toc-text">0x03 文件上传漏洞：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成功上传webshell-，是时候拨出我的刀。"><span class="toc-number">4.</span> <span class="toc-text">成功上传webshell ，是时候拨出我的刀。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-解决方案建议"><span class="toc-number">5.</span> <span class="toc-text">0x04 解决方案建议</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
