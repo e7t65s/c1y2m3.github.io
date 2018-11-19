@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="#防御方案： Referer Token   前后端分离 前后端未分离  ###Referer一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。 ###Token #####0x01 前后端未分离：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何有效防御CSRF">
+<meta property="og:url" content="http://yoursite.com/2018/11/14/如何有效防御CSRF/index.html">
+<meta property="og:site_name" content="c1y2m3‘s Blog">
+<meta property="og:description" content="#防御方案： Referer Token   前后端分离 前后端未分离  ###Referer一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。 ###Token #####0x01 前后端未分离：">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-18T18:32:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何有效防御CSRF">
+<meta name="twitter:description" content="#防御方案： Referer Token   前后端分离 前后端未分离  ###Referer一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。 ###Token #####0x01 前后端未分离：">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>如何有效防御CSRF</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">Home</a></li>
+         
+          <li><a href="/c1y2m3.github.io/about/">About</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">Writing</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2018/11/02/upload-labs-writeup/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/11/14/如何有效防御CSRF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&text=如何有效防御CSRF"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&is_video=false&description=如何有效防御CSRF"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何有效防御CSRF&body=Check out this article: http://yoursite.com/2018/11/14/如何有效防御CSRF/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&name=如何有效防御CSRF&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        如何有效防御CSRF
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-11-13T16:34:14.000Z" itemprop="datePublished">2018-11-14</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>#防御方案：</p>
+<p>Referer</p>
+<p>Token </p>
+<ul>
+<li>前后端分离</li>
+<li>前后端未分离</li>
+</ul>
+<p>###Referer<br>一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。</p>
+<p>###Token</p>
+<p>#####0x01 前后端未分离：</p>
+<ol>
+<li><p>后端随机产生一个token，把这个token保存在SESSION状态中，同时，后端把这个token交给前端页面；</p>
+</li>
+<li><p>下次前端需要发起请求(比如发帖)的时候把这个token加入请求数据或头信息中，一起转给后端；</p>
+</li>
+<li><p>后端校验前端请求带过来的token和session里的token是否一致；</p>
+</li>
+</ol>
+<hr>
+<p>#####0x02 前后端分离：<br>(可以借助Cookie把这个升级下，通过Cookie进行浏览器和服务端的交互。)</p>
+<ol>
+<li><p>后端随机产生一个token</p>
+</li>
+<li><p>后端将这个token设置为cookie，返回给前端</p>
+</li>
+<li><p>前端需要发起请求的时候，从cookie中获取token，把这个token加入请求数据或者头信息中，一起传给后端，由于前端要获取cookie里的token，所以该token必须设置为非httponly</p>
+</li>
+<li><p>后端校验$_cookie[‘token’]= $_POST[‘token’]</p>
+</li>
+</ol>
+<p>在这种防御方案下，攻击者构造一个CSRF页面，由于不知道被攻击者的cookie中的token字段的值，导致无法构造$_POST[‘token’]参数，所以，攻击失败。</p>
+<p>####总结：</p>
+<ul>
+<li><p>CSRF的token存在cookie的方式，如果存在xss，必定会被绕过，因为前端要获取cookie里的token，该字段必须设置为非httponly，否则获取不到。</p>
+</li>
+<li><p>用Referer限制防御CSRF，存在XSS也会被绕过。</p>
+</li>
+<li><p>通过$SESSION的token方式，CSRF防御不会被XSS等漏洞绕过，因为XSS等漏洞不能操作SESSION。</p>
+</li>
+<li><p>CSRF的防御手段(除了SESSION)目前在有XSS组合利用情况下都可以被绕过。(XSS和CSRF同域的情况下)。</p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">Home</a></li>
+         
+          <li><a href="/c1y2m3.github.io/about/">About</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">Writing</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/11/14/如何有效防御CSRF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&text=如何有效防御CSRF"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&is_video=false&description=如何有效防御CSRF"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何有效防御CSRF&body=Check out this article: http://yoursite.com/2018/11/14/如何有效防御CSRF/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&title=如何有效防御CSRF"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/11/14/如何有效防御CSRF/&name=如何有效防御CSRF&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">Home</a></li>
+         
+          <li><a href="/c1y2m3.github.io/about/">About</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">Writing</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
