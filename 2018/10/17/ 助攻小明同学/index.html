@@ -9,7 +9,7 @@
     <meta name="description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次Jboss反序列化渗透">
-<meta property="og:url" content="http://yoursite.com/2018/11/20/ 助攻小明同学/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/10/17/ 助攻小明同学/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
 <meta property="og:locale" content="default">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/32CFD6A67E5143F1A7AF77AB55106E0C/5055">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/413C9C66C2194A24A68047E36C515F76/5069">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/EF7CE3A44EE34BEAA6F9E1C32400669A/5080">
-<meta property="og:updated_time" content="2018-11-20T18:20:38.000Z">
+<meta property="og:updated_time" content="2018-11-20T18:22:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次Jboss反序列化渗透">
 <meta name="twitter:description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
@@ -79,10 +79,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/17/端口转发的学习/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -95,16 +95,16 @@
     <br>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/11/20/ 助攻小明同学/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&text=一次Jboss反序列化渗透"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&is_video=false&description=一次Jboss反序列化渗透"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=一次Jboss反序列化渗透&body=Check out this article: http://yoursite.com/2018/11/20/ 助攻小明同学/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&name=一次Jboss反序列化渗透&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/17/ 助攻小明同学/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&text=一次Jboss反序列化渗透"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&is_video=false&description=一次Jboss反序列化渗透"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=一次Jboss反序列化渗透&body=Check out this article: http://yoursite.com/2018/10/17/ 助攻小明同学/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&name=一次Jboss反序列化渗透&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -132,7 +132,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2018-11-19T16:34:14.000Z" itemprop="datePublished">2018-11-20</time>
+        <time datetime="2018-10-16T16:34:14.000Z" itemprop="datePublished">2018-10-17</time>
     </div>
 
 
@@ -199,16 +199,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/11/20/ 助攻小明同学/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&text=一次Jboss反序列化渗透"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&is_video=false&description=一次Jboss反序列化渗透"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=一次Jboss反序列化渗透&body=Check out this article: http://yoursite.com/2018/11/20/ 助攻小明同学/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/11/20/ 助攻小明同学/&name=一次Jboss反序列化渗透&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/17/ 助攻小明同学/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&text=一次Jboss反序列化渗透"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&is_video=false&description=一次Jboss反序列化渗透"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=一次Jboss反序列化渗透&body=Check out this article: http://yoursite.com/2018/10/17/ 助攻小明同学/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&title=一次Jboss反序列化渗透"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/ 助攻小明同学/&name=一次Jboss反序列化渗透&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
