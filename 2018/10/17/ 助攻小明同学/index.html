@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
+    <meta name="description" content="（已修复)最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/deplo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次Jboss反序列化渗透">
 <meta property="og:url" content="http://yoursite.com/2018/10/17/ 助攻小明同学/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
+<meta property="og:description" content="（已修复)最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/deplo">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf451ff50f8dd54d461c898">
@@ -19,10 +19,10 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf452322711cd4e26ac5323">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf4526b2711cd4e26ac533b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf45253db5aa647e44e3696">
-<meta property="og:updated_time" content="2018-11-20T18:29:17.000Z">
+<meta property="og:updated_time" content="2018-11-20T18:31:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次Jboss反序列化渗透">
-<meta name="twitter:description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
+<meta name="twitter:description" content="（已修复)最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/deplo">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869">
     
     
@@ -109,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">1.</span> <span class="toc-text">总结：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（已修复"><span class="toc-number">1.</span> <span class="toc-text">（已修复)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">2.</span> <span class="toc-text">总结：</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -145,8 +145,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>（已修复)</p>
-<p>最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869" alt=""></p>
+    <h2 id="（已修复"><a href="#（已修复" class="headerlink" title="（已修复)"></a>（已修复)</h2><p>最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869" alt=""></p>
 <p>查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin</p>
 <p>在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$_jboss/server/default/deploy/jobss-web.deployer/ROOT.war</span><br></pre></td></tr></table></figure>
@@ -167,7 +166,7 @@
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf4526b2711cd4e26ac533b" alt=""></p>
 <p>直接就登陆进来了，(这是什么操作?把密码写在主页上…)。</p>
 <p>发现了一些敏感信息：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf45253db5aa647e44e3696" alt=""></p>
-<p>由于没找到数据库的入口，查看域 ，# net user /domain，本来还想来个内网渗透，正好最近一直在研究内网的思路，可是发现没有在域里面，oh my god…</p>
+<p>由于没找到数据库的入口，查看域 ，# net user /domain，本来还想来个内网渗透，正好最近一直在研究内网的思路，可是发现没有在域里面，也就不提权了吧，oh my god…</p>
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>这是一个失败的渗透测试，不过还是得感谢小明同学。</p>
 
   </div>
@@ -194,7 +193,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">1.</span> <span class="toc-text">总结：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#（已修复"><span class="toc-number">1.</span> <span class="toc-text">（已修复)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">2.</span> <span class="toc-text">总结：</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
