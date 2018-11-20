@@ -13,17 +13,17 @@
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/DFD3E87899784558AF0AFB7662C25995/4936">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/4A42C776901545F0A5B98A117DCBFC0D/4989">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/E440344752104B00AE61C4F6FFBE16C2/5015">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/32CFD6A67E5143F1A7AF77AB55106E0C/5055">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/413C9C66C2194A24A68047E36C515F76/5069">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/EF7CE3A44EE34BEAA6F9E1C32400669A/5080">
-<meta property="og:updated_time" content="2018-11-20T18:22:53.000Z">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf451ff50f8dd54d461c898">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf45216ea3b4a3fed60b7d1">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf452322711cd4e26ac5323">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf4526b2711cd4e26ac533b">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf45253db5aa647e44e3696">
+<meta property="og:updated_time" content="2018-11-20T18:29:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次Jboss反序列化渗透">
 <meta name="twitter:description" content="（已修复) 最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器： 查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin 在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ： 1$_jboss/server/default/depl">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/DFD3E87899784558AF0AFB7662C25995/4936">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869">
     
     
         
@@ -79,10 +79,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/17/端口转发的学习/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/10/17/端口转发的学习/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -146,27 +146,27 @@
 
   <div class="content" itemprop="articleBody">
     <p>（已修复)</p>
-<p>最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器：<br><img src="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/DFD3E87899784558AF0AFB7662C25995/4936" alt=""></p>
+<p>最近闲来无事，正好小明同学发给了我一个jboss站，确认存在 Jboss反序列化漏洞，叫我帮忙搞下，我爽快的答应了，于是打开了神器：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf451d450f8dd54d461c869" alt=""></p>
 <p>查找到 #User Current Directory:        D:\jboss-6.1.0.Final\bin</p>
 <p>在寻找jboss web绝对路径中 遇到了点波折，最后找到 根目录网站 ：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$_jboss/server/default/deploy/jobss-web.deployer/ROOT.war</span><br></pre></td></tr></table></figure>
 <p>故上用冰蝎传了个asp免杀马 ，发现会报500的解析报错，但是解析是没问题的， 连接之 。</p>
 <p>os类型:Windows server 2008  查看远程端口是否开启以及端口号 ：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG query HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server\WinStations\RDP-Tcp /v PortNumber</span><br></pre></td></tr></table></figure>
-<p><img src="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/4A42C776901545F0A5B98A117DCBFC0D/4989" alt=""></p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf451ff50f8dd54d461c898" alt=""></p>
 <p>通过16进制转10进制 ：set /a a=0xd3d  =3389  </p>
 <p>原先的思路是，创建个用户 添加到管理组 然后连接到服务器的3389端口，可是没想到 ，无法连接， 应该是管理员把3389禁止外连了，不过没关系，直接把3389反向代理出来。</p>
-<p>使用Regeorg  把webshell的服务 与本机的9999端口 建立 socks代理 。<br><img src="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/E440344752104B00AE61C4F6FFBE16C2/5015" alt=""></p>
+<p>使用Regeorg  把webshell的服务 与本机的9999端口 建立 socks代理 。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf45216ea3b4a3fed60b7d1" alt=""></p>
 <p>（由于当时没保存完图，后面就不上图了。）<br>这里要设置下kali下的 /etc/proxychains.conf</p>
 <p>去连接3389端口  ==&gt;   proxychains rdesktop ip  </p>
 <p>这里登陆 创建好的用户，用冰蝎 上传 mimikatz 发现打开exe，来了个提示:<br>文件所在的卷已被外部更改 文件不再有效。经过一波折腾，原来是QQ管家的问题，果断卸载， 可惜最后还是没dump到管理员的密码 ，哦，fuck…..</p>
 <p>后面找了个bat脚本去提取内存中的密码，提取出sam，用 saminside 去抓密码 。</p>
 <p>Administrator  NT-hash   拿去cmd5没破出来， 想想还是不改administrat的密码了。</p>
-<p><img src="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/32CFD6A67E5143F1A7AF77AB55106E0C/5055" alt=""></p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf452322711cd4e26ac5323" alt=""></p>
 <p>后面自己又把 端口扫了一下 ，发现了个9090 ZooKeeper  发现….</p>
-<p><img src="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/413C9C66C2194A24A68047E36C515F76/5069" alt=""></p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf4526b2711cd4e26ac533b" alt=""></p>
 <p>直接就登陆进来了，(这是什么操作?把密码写在主页上…)。</p>
-<p>发现了一些敏感信息：<br><img src="https://note.youdao.com/yws/public/resource/1037699352cd1b07d9d7e5fd56da5d85/xmlnote/EF7CE3A44EE34BEAA6F9E1C32400669A/5080" alt=""></p>
+<p>发现了一些敏感信息：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf45253db5aa647e44e3696" alt=""></p>
 <p>由于没找到数据库的入口，查看域 ，# net user /domain，本来还想来个内网渗透，正好最近一直在研究内网的思路，可是发现没有在域里面，oh my god…</p>
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>这是一个失败的渗透测试，不过还是得感谢小明同学。</p>
 
