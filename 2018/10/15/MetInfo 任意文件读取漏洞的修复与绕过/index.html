@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。 漏洞影响 MetInfo 6.0.0 MetInfo 6.1.0  漏洞分析看到\MetInfo6\app\system\include\module\old_thumb.cl">
+    <meta name="description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。 漏洞影响 MetInfo 6.0.0 MetInfo 6.1.0  漏洞分析看到\MetInfo6\app\system\include\module\old_thumb.c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MetInfo 任意文件读取漏洞的修复与绕过">
-<meta property="og:url" content="http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。 漏洞影响 MetInfo 6.0.0 MetInfo 6.1.0  漏洞分析看到\MetInfo6\app\system\include\module\old_thumb.cl">
+<meta property="og:description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。 漏洞影响 MetInfo 6.0.0 MetInfo 6.1.0  漏洞分析看到\MetInfo6\app\system\include\module\old_thumb.c">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69">
@@ -20,10 +20,10 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9">
-<meta property="og:updated_time" content="2018-12-21T17:38:29.000Z">
+<meta property="og:updated_time" content="2018-12-21T17:40:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MetInfo 任意文件读取漏洞的修复与绕过">
-<meta name="twitter:description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。 漏洞影响 MetInfo 6.0.0 MetInfo 6.1.0  漏洞分析看到\MetInfo6\app\system\include\module\old_thumb.cl">
+<meta name="twitter:description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。 漏洞影响 MetInfo 6.0.0 MetInfo 6.1.0  漏洞分析看到\MetInfo6\app\system\include\module\old_thumb.c">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da">
     
     
@@ -80,10 +80,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/20/关于tw福客來渗透测试/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/17/ 助攻小明同学/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -96,16 +96,16 @@
     <br>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&text=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&is_video=false&description=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MetInfo 任意文件读取漏洞的修复与绕过&body=Check out this article: http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&name=MetInfo 任意文件读取漏洞的修复与绕过&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&text=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&is_video=false&description=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MetInfo 任意文件读取漏洞的修复与绕过&body=Check out this article: http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&name=MetInfo 任意文件读取漏洞的修复与绕过&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -133,7 +133,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2018-09-19T16:34:14.000Z" itemprop="datePublished">2018-09-20</time>
+        <time datetime="2018-10-14T16:34:14.000Z" itemprop="datePublished">2018-10-15</time>
     </div>
 
 
@@ -146,7 +146,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
+    <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
 <h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><ul>
 <li>MetInfo 6.0.0</li>
 <li>MetInfo 6.1.0</li>
@@ -198,16 +198,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&text=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&is_video=false&description=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=MetInfo 任意文件读取漏洞的修复与绕过&body=Check out this article: http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/20/MetInfo 任意文件读取漏洞的修复与绕过/&name=MetInfo 任意文件读取漏洞的修复与绕过&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&text=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&is_video=false&description=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MetInfo 任意文件读取漏洞的修复与绕过&body=Check out this article: http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&title=MetInfo 任意文件读取漏洞的修复与绕过"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/&name=MetInfo 任意文件读取漏洞的修复与绕过&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
