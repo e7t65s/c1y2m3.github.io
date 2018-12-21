@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
 <meta property="og:type" content="article">
-<meta property="og:title" content="斗鱼某处存储型XSS(附Bypass过程)">
-<meta property="og:url" content="http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/index.html">
+<meta property="og:title" content="记一次有意思的XSS过程#Bypass过程">
+<meta property="og:url" content="http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
 <meta property="og:locale" content="default">
@@ -17,9 +17,9 @@
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085364853892.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085571559018.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085992896489.png">
-<meta property="og:updated_time" content="2018-12-07T16:55:04.000Z">
+<meta property="og:updated_time" content="2018-12-21T17:38:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="斗鱼某处存储型XSS(附Bypass过程)">
+<meta name="twitter:title" content="记一次有意思的XSS过程#Bypass过程">
 <meta name="twitter:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
 <meta name="twitter:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544084508153696.png">
     
@@ -41,7 +41,7 @@
         
     
     <!-- title -->
-    <title>斗鱼某处存储型XSS(附Bypass过程)</title>
+    <title>记一次有意思的XSS过程#Bypass过程</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -77,8 +77,6 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/c1y2m3.github.io/2018/12/20/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
         
         <li><a class="icon" href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -93,16 +91,16 @@
     <br>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&text=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&is_video=false&description=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=斗鱼某处存储型XSS(附Bypass过程)&body=Check out this article: http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&name=斗鱼某处存储型XSS(附Bypass过程)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&text=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&is_video=false&description=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次有意思的XSS过程#Bypass过程&body=Check out this article: http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&name=记一次有意思的XSS过程#Bypass过程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -119,7 +117,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        斗鱼某处存储型XSS(附Bypass过程)
+        记一次有意思的XSS过程#Bypass过程
     </h1>
 
 
@@ -194,16 +192,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&text=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&is_video=false&description=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=斗鱼某处存储型XSS(附Bypass过程)&body=Check out this article: http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&title=斗鱼某处存储型XSS(附Bypass过程)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/07/斗鱼某处存储型XSS(附Bypass过程)/&name=斗鱼某处存储型XSS(附Bypass过程)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&text=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&is_video=false&description=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次有意思的XSS过程#Bypass过程&body=Check out this article: http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&title=记一次有意思的XSS过程#Bypass过程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/07/ 记一次有意思的XSS过程#Bypass过程/&name=记一次有意思的XSS过程#Bypass过程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
