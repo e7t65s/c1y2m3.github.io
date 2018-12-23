@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请">
+    <meta name="description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请参">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python实现端口扫描">
 <meta property="og:url" content="http://yoursite.com/2018/12/23/Python实现端口扫描/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请">
+<meta property="og:description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请参">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-23T14:50:28.000Z">
+<meta property="og:updated_time" content="2018-12-23T14:56:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python实现端口扫描">
-<meta name="twitter:description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请">
+<meta name="twitter:description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请参">
     
     
         
@@ -100,7 +100,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">2.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-读取端口及目标服务器"><span class="toc-number">2.</span> <span class="toc-text">1.读取端口及目标服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-测试TCP端口连接"><span class="toc-number">3.</span> <span class="toc-text">2.测试TCP端口连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-输出开放端口结果"><span class="toc-number">4.</span> <span class="toc-text">3.输出开放端口结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">5.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -139,16 +139,15 @@
     <p>python是世界上最好的语言！ </p>
 <p>此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态</p>
 <h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><p>1.读取端口及目标服务器<br>2.测试TCP端口连接<br>3.输出开放端口结果</p>
-<p>1.读取端口及目标服务器</p>
-<p>直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：<br>程序中使用sys.argv[]来读取并初步处理,具体的语法请参考<a href="http://www.360doc.com/content/11/0530/12/54470_120450746.shtml" target="_blank" rel="noopener">python sys.argv[]用法:</a></p>
+<h1 id="1-读取端口及目标服务器"><a href="#1-读取端口及目标服务器" class="headerlink" title="1.读取端口及目标服务器"></a>1.读取端口及目标服务器</h1><p>直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：<br>程序中使用sys.argv[]来读取并初步处理,具体的语法请参考<a href="http://www.360doc.com/content/11/0530/12/54470_120450746.shtml" target="_blank" rel="noopener">python sys.argv[]用法:</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line"></span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line"># portscan.py &lt;host&gt; &lt;start_port&gt;-&lt;end_port&gt;</span><br><span class="line">host = sys.argv[1]</span><br><span class="line">portstrs = sys.argv[2].split(&apos;-&apos;)</span><br><span class="line"></span><br><span class="line">start_port = int(portstrs[0])</span><br><span class="line">end_port = int(portstrs[1])</span><br></pre></td></tr></table></figure>
-<p>2.测试TCP端口连接<br>我们进入到一个循环，在这个循环中依次对端口范围内的端口进行连接测试。<br>连接测试方法是：</p>
+<h1 id="2-测试TCP端口连接"><a href="#2-测试TCP端口连接" class="headerlink" title="2.测试TCP端口连接"></a>2.测试TCP端口连接</h1><p>我们进入到一个循环，在这个循环中依次对端口范围内的端口进行连接测试。<br>连接测试方法是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">创建socket</span><br><span class="line">调用connect()函数</span><br><span class="line">关闭连接</span><br></pre></td></tr></table></figure>
-<p>3.输出开放端口结果<br>具体代码如下：</p>
+<h1 id="3-输出开放端口结果"><a href="#3-输出开放端口结果" class="headerlink" title="3.输出开放端口结果"></a>3.输出开放端口结果</h1><p>具体代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">from socket import *</span><br><span class="line"></span><br><span class="line"># port_scan.py &lt;host&gt; &lt;start_port&gt;-&lt;end_port&gt;</span><br><span class="line">host = sys.argv[1]</span><br><span class="line">portstrs = sys.argv[2].split(&apos;-&apos;)</span><br><span class="line"></span><br><span class="line">start_port = int(portstrs[0])</span><br><span class="line">end_port = int(portstrs[1])</span><br><span class="line"></span><br><span class="line">target_ip = gethostbyname(host)</span><br><span class="line">opened_ports = []</span><br><span class="line"></span><br><span class="line">for port in range(start_port, end_port):</span><br><span class="line">    sock = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">    sock.settimeout(10)</span><br><span class="line">    result = sock.connect_ex((target_ip, port))</span><br><span class="line">    if result == 0:</span><br><span class="line">        opened_ports.append(port)</span><br><span class="line"></span><br><span class="line">print(&quot;Opened ports:&quot;)</span><br><span class="line"></span><br><span class="line">for i in opened_ports:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
 <h1 id="多线程端口扫描器"><a href="#多线程端口扫描器" class="headerlink" title="多线程端口扫描器"></a>多线程端口扫描器</h1><p>上面的简单程序中，我们依次测试每个端口，如果要提高性能，可以考虑采用多线程的方式。</p>
 <p>改进的方式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.把TCP连接测试封装进函数</span><br><span class="line">2.每次循环都创建一个线程来执行1中的扫描函数</span><br><span class="line">3.为了简化实现，把开放端口输出步骤写入到1的测试函数中</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">把TCP连接测试封装进函数</span><br><span class="line">每次循环都创建一个线程来执行1中的扫描函数</span><br><span class="line">为了简化实现，把开放端口输出步骤写入到1的测试函数中</span><br></pre></td></tr></table></figure>
 <p>实现TCP测试函数，需要注意print输出时候需要加锁，如果不加锁可能会出现多个输出混合在一起的错误状态，而锁需要在程序启动时创建，从而能让新建的线程共享这个锁：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def tcp_test(port):</span><br><span class="line">    sock = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">    sock.settimeout(10)</span><br><span class="line">    result = sock.connect_ex((target_ip, port))</span><br><span class="line">    if result == 0:</span><br><span class="line">        lock.acquire()</span><br><span class="line">        print &quot;Opened Port:&quot;,port</span><br><span class="line">        lock.release()</span><br></pre></td></tr></table></figure>
 <p>thread.start_new_thread 用来创建一个线程，该函数的第一个参数是一个线程中执行的函数，第二个参数必须是个元组，作为函数的输入，由于 tcp_test 函数只有一个参数，所以我们使用(port,)这种形式表示这个参数为元组。</p>
@@ -178,7 +177,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">2.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-读取端口及目标服务器"><span class="toc-number">2.</span> <span class="toc-text">1.读取端口及目标服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-测试TCP端口连接"><span class="toc-number">3.</span> <span class="toc-text">2.测试TCP端口连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-输出开放端口结果"><span class="toc-number">4.</span> <span class="toc-text">3.输出开放端口结果</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">5.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
