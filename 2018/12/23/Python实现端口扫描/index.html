@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Python实现端口扫描python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取">
+    <meta name="description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c1y2m3’blog">
+<meta property="og:title" content="Python实现端口扫描">
 <meta property="og:url" content="http://yoursite.com/2018/12/23/Python实现端口扫描/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="Python实现端口扫描python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取">
+<meta property="og:description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-23T14:45:46.000Z">
+<meta property="og:updated_time" content="2018-12-23T14:50:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c1y2m3’blog">
-<meta name="twitter:description" content="Python实现端口扫描python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取">
+<meta name="twitter:title" content="Python实现端口扫描">
+<meta name="twitter:description" content="python是世界上最好的语言！  此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态 实现步骤1.读取端口及目标服务器2.测试TCP端口连接3.输出开放端口结果 1.读取端口及目标服务器 直接把目标服务器和端口范围作为参数传给我们的程序，程序运行参数：程序中使用sys.argv[]来读取并初步处理,具体的语法请">
     
     
         
@@ -36,7 +36,7 @@
         
     
     <!-- title -->
-    <title>c1y2m3’blog</title>
+    <title>Python实现端口扫描</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -87,20 +87,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/12/23/Python实现端口扫描/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2018/12/23/Python实现端口扫描/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&text=Python实现端口扫描"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&is_video=false&description=Python实现端口扫描"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Python实现端口扫描&body=Check out this article: http://yoursite.com/2018/12/23/Python实现端口扫描/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&name=Python实现端口扫描&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python实现端口扫描"><span class="toc-number">1.</span> <span class="toc-text">Python实现端口扫描</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">2.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">3.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">2.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -112,7 +112,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        Python实现端口扫描
     </h1>
 
 
@@ -123,7 +123,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2018-12-23T14:24:53.000Z" itemprop="datePublished">2018-12-23</time>
+        <time datetime="2018-12-22T16:34:14.000Z" itemprop="datePublished">2018-12-23</time>
     </div>
 
 
@@ -136,7 +136,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Python实现端口扫描"><a href="#Python实现端口扫描" class="headerlink" title="Python实现端口扫描"></a>Python实现端口扫描</h1><p>python是世界上最好的语言！ </p>
+    <p>python是世界上最好的语言！ </p>
 <p>此次使用的是TCP连接扫描方式，直接利用操作系统的socket连接接口，初步测试目标服务器的端口是否可以连接，如果可以则返回端口打开状态</p>
 <h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><p>1.读取端口及目标服务器<br>2.测试TCP端口连接<br>3.输出开放端口结果</p>
 <p>1.读取端口及目标服务器</p>
@@ -178,21 +178,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python实现端口扫描"><span class="toc-number">1.</span> <span class="toc-text">Python实现端口扫描</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">2.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">3.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程端口扫描器"><span class="toc-number">2.</span> <span class="toc-text">多线程端口扫描器</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/12/23/Python实现端口扫描/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2018/12/23/Python实现端口扫描/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&text=Python实现端口扫描"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&is_video=false&description=Python实现端口扫描"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Python实现端口扫描&body=Check out this article: http://yoursite.com/2018/12/23/Python实现端口扫描/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&title=Python实现端口扫描"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/12/23/Python实现端口扫描/&name=Python实现端口扫描&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
