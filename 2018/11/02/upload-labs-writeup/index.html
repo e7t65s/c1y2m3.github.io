@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bdbd9cb50f8dd54d4198868">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bdbdd0e9b521a5a85f5e5c5">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bdbdeb350f8dd54d419e1db">
-<meta property="og:updated_time" content="2019-01-13T04:15:26.000Z">
+<meta property="og:updated_time" content="2019-01-13T04:19:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="upload-labs-writeup">
 <meta name="twitter:description" content="项目地址: https://github.com/c0ny1/upload-labs 边写边练，方法不是唯一的，只是简单的记录下思路 ~ Pass-01 - Pass-02 修改数据包MIME和文件名成功绕过 ~  Pass-03 查看源代码： 由于对首尾去空，利用正则匹配的特性，成功绕过： Content-Disposition: form-data; name=&amp;quot;upload_fil">
@@ -160,14 +160,11 @@
 <h2 id="Pass-03-查看源代码："><a href="#Pass-03-查看源代码：" class="headerlink" title="Pass-03 查看源代码："></a>Pass-03 查看源代码：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdaf36e2711cd4e265a1e5c" alt=""></p>
 <p><code>由于对首尾去空，利用正则匹配的特性，成功绕过：</code></p>
 <p><code>Content-Disposition: form-data; name=&quot;upload_file&quot;; filename=&quot;2. php&quot;</code></p>
-<hr>
 <h2 id="Pass-04-查看源代码"><a href="#Pass-04-查看源代码" class="headerlink" title=" Pass-04  查看源代码:"></a> Pass-04  查看源代码:</h2><p><code>只是多了类型的验证，继续用Pass-03的方法，成功绕过.</code></p>
 <h2 id="Pass-05-查看源代码："><a href="#Pass-05-查看源代码：" class="headerlink" title=" Pass-05 查看源代码："></a> Pass-05 查看源代码：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdb1b7aea3b4a3fed119d57" alt=""><br><code>又只是多加了部分类型的验证，依然继续采用Pass-03的方法，成功绕过，而且没有对后缀进行大小写统一，还可以通过大小写绕过。</code></p>
 <h2 id="Pass-06-查看源代码："><a href="#Pass-06-查看源代码：" class="headerlink" title=" Pass-06 查看源代码："></a> Pass-06 查看源代码：</h2><p><code>还是只加了部分类型的验证，继续采用Pass-03的方法，成功绕过。</code></p>
-<hr>
 <h2 id="Pass-07-查看源代码："><a href="#Pass-07-查看源代码：" class="headerlink" title=" Pass-07 查看源代码："></a> Pass-07 查看源代码：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdafc76db5aa647e4fd408e" alt=""><br>没有对后缀名进行去”.”处理，利用windows特性，会自动去掉后缀名中最后的”.”，可在后缀名中加 ” . ”绕过。</p>
 <p><code>Content-Disposition: form-data; name=&quot;upload_file&quot;; filename=&quot;2. php.&quot;</code></p>
-<hr>
 <h2 id="Pass-08-查看源代码："><a href="#Pass-08-查看源代码：" class="headerlink" title=" Pass-08 查看源代码："></a> Pass-08 查看源代码：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdb142950f8dd54d40f3f13" alt=""></p>
 <p>没有对后缀名进行去”::$DATA”处理，利用windows特性，可在后缀名中加” ::$DATA”绕过：</p>
 <h2 id="Pass-09-查看源代码："><a href="#Pass-09-查看源代码：" class="headerlink" title=" Pass-09 查看源代码："></a> Pass-09 查看源代码：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdb20c99b521a5a85ebc8d7" alt=""></p>
@@ -198,7 +195,6 @@ if(in_array($file_ext,$ext_arr)){
 <p><code>发现主要是取上传文件的头两个字节判断文件类型，因此直接上传图片马即可。</code></p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdbb2a4db5aa647e4035c18" alt=""></p>
 <p>但是只能在系统存在文件包含的时候才可以配合利用 。</p>
-<hr>
 <h2 id="Pass-14-查看源代码："><a href="#Pass-14-查看源代码：" class="headerlink" title=" Pass-14 查看源代码："></a> Pass-14 查看源代码：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bdbb61fdb5aa647e403e100" alt=""></p>
 <p><code>这里用getmagsize获取文件类型，这里还是直接利用图片马进行绕过，需要文件包含漏洞。</code></p>
 <h2 id="Pass-15-查看源代码："><a href="#Pass-15-查看源代码：" class="headerlink" title=" Pass-15 查看源代码："></a> Pass-15 查看源代码：</h2><p><code>$image_type = exif_imagetype($filename);</code></p>
