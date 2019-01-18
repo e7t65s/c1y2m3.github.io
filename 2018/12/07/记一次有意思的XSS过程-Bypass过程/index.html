@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085364853892.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085571559018.png">
 <meta property="og:image" content="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085992896489.png">
-<meta property="og:updated_time" content="2019-01-13T07:18:28.000Z">
+<meta property="og:updated_time" content="2019-01-18T15:02:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次有意思的XSS过程#Bypass过程">
 <meta name="twitter:description" content="(已修复)    一次非常有意思的fuzzing过程，故做个简单的xsser记录，感谢55开的火箭。给老铁点点关注（我卢本伟没有开挂）- . -  刷了这么久直播，终于能关顾下斗鱼的src了…泪奔!! 简要描述:虽然在PC分享页面过滤掉的非常完美，还有WAF的鼎力支持，但是还是疏忽了app端的分享页面的过滤。 0x01 点击进入：https://yuba.douyu.com/homepage/ma">
@@ -152,7 +152,7 @@
 <p>简单的发布一条带图片的动态吧，用Burp抓取post包：</p>
 <p><img src="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544084508153696.png" alt=""></p>
 <p>经过一波fuzzing, 发现防火墙是不拦截“&lt;” ，“&gt;”，”的 ，只是对&lt;&gt;内的敏感标签进行了屏蔽拦截，那就简单了，(看来这个墙只能防水，不能防火 0.0 )</p>
-<p>当然，绕过的方法可能有一百种，这里利用简单暴力的方法，</p>
+<p>这里附一个 风在指尖大佬给的payload 屡试不爽 <body onpageshow="alert()"><br>当然，绕过的方法可能有一百种，这里利用简单暴力的方法，</body></p>
 <p>向服务端发送了一波垃圾数据 , 发现waf检测内容有字节限制，无法判断后面的内容，导致直接bypass，(因此封了我好几个号….)</p>
 <p><img src="https://security.douyu.com/Public/ueditor/php/upload/Temp/20181206/1544085364853892.png" alt=""></p>
 <h2 id="0x02-点击分享"><a href="#0x02-点击分享" class="headerlink" title="0x02 点击分享"></a>0x02 点击分享</h2><p>点击分享，得到以下链接：<br><code>https://yuba.douyu.com/wb/1065528069613203737</code></p>
