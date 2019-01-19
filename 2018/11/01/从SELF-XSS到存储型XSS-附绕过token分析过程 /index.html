@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small">
-<meta property="og:updated_time" content="2019-01-19T01:31:43.000Z">
+<meta property="og:updated_time" content="2019-01-19T04:14:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从SELF-XSS到存储型XSS&#x2F;附绕过token分析过程">
 <meta name="twitter:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
@@ -171,7 +171,7 @@
 <p>腾讯让人头疼的skey,可跨域打cookie，危害不能小视~<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small" alt=""></p>
 <p>0x02 修复建议：</p>
 <p>   原先自己觉得可以 session  == token ，每次发布的session 都不同， 后端判断 token = session ，但这不适合用于 这种场景，而是用于CSRF、 也是自己对条件竞争不太了解。</p>
-<p>1、后端对预览处进行过滤吧，XSS修复这种方法这里就不再提了。<br>2、对应条件竞争， 后端对发送请求时间间隔进行限制，也是最简单暴力的，但是同时又影响了用户的体验，正牌的方法是设置锁，这个之后还要仔细研究一下，</p>
+<p>1、后端对预览处进行过滤吧，XSS修复这种方法这里就不再提了。<br>2、对应条件竞争， 后端对发送请求时间间隔进行限制，也是最简单暴力的，但是同时又影响了用户的体验，正牌的方法是多线程加锁，并发（时间间隔极小）请求时，前一个线程的请求还未处理完时，开始处理第二个线程，后续的代码还没判断时第二个线程的请求也得到了处理，导致多个线程资源竞争问题 ，这个之后还要仔细研究一下。</p>
 
   </div>
 </article>
