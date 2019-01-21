@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956">
-<meta property="og:updated_time" content="2019-01-17T09:06:15.000Z">
+<meta property="og:updated_time" content="2019-01-21T11:38:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用tscon未授权登录远程桌面">
 <meta name="twitter:description" content="​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。​参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。 对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：测试系统： Server 2008 R2用户A">
@@ -108,7 +108,7 @@
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#防御建议："><span class="toc-number">1.</span> <span class="toc-text">防御建议：</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -173,8 +173,7 @@
 <p>在登录界面状态下，降权方法受限，SelectMyParent和Invoke-TokenManipulation.ps1均报错</p>
 <p>使用incognito能够成功降权，但是操作受限如下图：</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956" alt=""></p>
-<p>#防御建议：</p>
-<p>建议用户使用注销用户的方式断开远程桌面，注销后，无法通过tscon获得桌面会话</p>
+<h2 id="防御建议："><a href="#防御建议：" class="headerlink" title="防御建议："></a>防御建议：</h2><p>建议用户使用注销用户的方式断开远程桌面，注销后，无法通过tscon获得桌面会话</p>
 <p>监控系统用户的登录日志，攻击者需要先远程登录系统后才能做进一步利用：未授权切换桌面会话</p>
 <p>对于Windows系统，需要注意攻击者如果获得了系统的访问权限，能够利用放大镜和辅助工具管理器后门实现未授权登录</p>
 
@@ -202,7 +201,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#防御建议："><span class="toc-number">1.</span> <span class="toc-text">防御建议：</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
