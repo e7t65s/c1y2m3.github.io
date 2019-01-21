@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="浅解Windows网络认证网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们">
+    <meta name="description" content="网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们接触比较多的SMB共享文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c1y2m3’blog">
+<meta property="og:title" content="浅解Windows网络认证">
 <meta property="og:url" content="http://yoursite.com/2019/01/21/浅解Windows 网络认证/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="浅解Windows网络认证网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们">
+<meta property="og:description" content="网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们接触比较多的SMB共享文件">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png">
-<meta property="og:updated_time" content="2019-01-21T06:43:44.000Z">
+<meta property="og:updated_time" content="2019-01-21T06:46:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c1y2m3’blog">
-<meta name="twitter:description" content="浅解Windows网络认证网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们">
+<meta name="twitter:title" content="浅解Windows网络认证">
+<meta name="twitter:description" content="网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们接触比较多的SMB共享文件">
 <meta name="twitter:image" content="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png">
     
     
@@ -38,7 +38,7 @@
         
     
     <!-- title -->
-    <title>c1y2m3’blog</title>
+    <title>浅解Windows网络认证</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -89,20 +89,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/21/浅解Windows 网络认证/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/01/21/浅解Windows 网络认证/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&text=浅解Windows网络认证"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&is_video=false&description=浅解Windows网络认证"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅解Windows网络认证&body=Check out this article: http://yoursite.com/2019/01/21/浅解Windows 网络认证/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&name=浅解Windows网络认证&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#浅解Windows网络认证"><span class="toc-number">1.</span> <span class="toc-text">浅解Windows网络认证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网络认证"><span class="toc-number">2.</span> <span class="toc-text">网络认证</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络认证"><span class="toc-number">1.</span> <span class="toc-text">网络认证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pass-The-Hash"><span class="toc-number">2.</span> <span class="toc-text">Pass The Hash</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -114,7 +114,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        浅解Windows网络认证
     </h1>
 
 
@@ -125,7 +125,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2019-01-21T06:36:00.000Z" itemprop="datePublished">2019-01-21</time>
+        <time datetime="2019-01-21T06:45:14.000Z" itemprop="datePublished">2019-01-21</time>
     </div>
 
 
@@ -138,7 +138,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="浅解Windows网络认证"><a href="#浅解Windows网络认证" class="headerlink" title="浅解Windows网络认证"></a>浅解Windows网络认证</h1><h1 id="网络认证"><a href="#网络认证" class="headerlink" title="网络认证"></a>网络认证</h1><p>​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。</p>
+    <h1 id="网络认证"><a href="#网络认证" class="headerlink" title="网络认证"></a>网络认证</h1><p>​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。</p>
 <p>​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。</p>
 <p>​    这是我们接触比较多的SMB共享文件的案例，SMB的默认端口是445.</p>
 <p>​    早期的SMB协议就在网络上传输明文口令。后来出现LAN Manager Challenge/Response 验证机制，简称LM，它是如此简单以至很容易就被破解，现在又有了NTLM以及Kerberos。</p>
@@ -190,8 +190,7 @@
 <li><p>Net-NTLM Hash:NTLM v1主要加密算法是DES,NTLM v2主要算法是HMAC-MD5。</p>
 </li>
 </ul>
-<p>0x02 Pass The Hash</p>
-<p>   ​    在内网渗透中，我们经常会需要抓取管理员的密码、NTLM Hash，通过收集这些信息有助于我们扩大战果，域环境下。</p>
+<h1 id="Pass-The-Hash"><a href="#Pass-The-Hash" class="headerlink" title="Pass The Hash"></a>Pass The Hash</h1><p>   ​    在内网渗透中，我们经常会需要抓取管理员的密码、NTLM Hash，通过收集这些信息有助于我们扩大战果，域环境下。</p>
 <ul>
 <li><p>什么是哈希传递</p>
 <p>哈希传递是能够在不需要账户明文密码的情况下完成认证的一个技术。</p>
@@ -245,21 +244,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#浅解Windows网络认证"><span class="toc-number">1.</span> <span class="toc-text">浅解Windows网络认证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网络认证"><span class="toc-number">2.</span> <span class="toc-text">网络认证</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络认证"><span class="toc-number">1.</span> <span class="toc-text">网络认证</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pass-The-Hash"><span class="toc-number">2.</span> <span class="toc-text">Pass The Hash</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/21/浅解Windows 网络认证/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/01/21/浅解Windows 网络认证/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&text=浅解Windows网络认证"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&is_video=false&description=浅解Windows网络认证"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅解Windows网络认证&body=Check out this article: http://yoursite.com/2019/01/21/浅解Windows 网络认证/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&title=浅解Windows网络认证"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/21/浅解Windows 网络认证/&name=浅解Windows网络认证&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
