@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Active Directory(活动目录)概念： ​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了">
+    <meta name="description" content="Active Directory(活动目录)概念：​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了有">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kerberos域认证">
+<meta property="og:title" content="理解Kerberos域认证">
 <meta property="og:url" content="http://yoursite.com/2019/01/22/Kerberos域认证/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="Active Directory(活动目录)概念： ​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了">
+<meta property="og:description" content="Active Directory(活动目录)概念：​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了有">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45b9279b521a6695dd2818">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45b4cd9b521a6695dd0fac">
@@ -20,10 +20,10 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45d45b9b521a6695dda91d">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45d4e9ea3b4a77e69aae6c">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45d5099b521a6695ddab49">
-<meta property="og:updated_time" content="2019-01-22T02:51:40.000Z">
+<meta property="og:updated_time" content="2019-01-22T02:58:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kerberos域认证">
-<meta name="twitter:description" content="Active Directory(活动目录)概念： ​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了">
+<meta name="twitter:title" content="理解Kerberos域认证">
+<meta name="twitter:description" content="Active Directory(活动目录)概念：​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了有">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45b9279b521a6695dd2818">
     
     
@@ -44,7 +44,7 @@
         
     
     <!-- title -->
-    <title>Kerberos域认证</title>
+    <title>理解Kerberos域认证</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -95,20 +95,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/22/Kerberos域认证/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/22/Kerberos域认证/&text=Kerberos域认证"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/22/Kerberos域认证/&is_video=false&description=Kerberos域认证"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Kerberos域认证&body=Check out this article: http://yoursite.com/2019/01/22/Kerberos域认证/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/22/Kerberos域认证/&name=Kerberos域认证&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/22/Kerberos域认证/&text=理解Kerberos域认证"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/22/Kerberos域认证/&is_video=false&description=理解Kerberos域认证"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=理解Kerberos域认证&body=Check out this article: http://yoursite.com/2019/01/22/Kerberos域认证/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/22/Kerberos域认证/&name=理解Kerberos域认证&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">1.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">2.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">3.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">4.</span> <span class="toc-text">数据结构：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-number">1.</span> <span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">2.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">3.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">4.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">5.</span> <span class="toc-text">数据结构：</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -120,7 +120,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        Kerberos域认证
+        理解Kerberos域认证
     </h1>
 
 
@@ -144,8 +144,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>Active Directory(活动目录)概念：</p>
-<p>​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。<br>​<br>​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。</p>
+    <h1 id="Active-Directory-活动目录-概念："><a href="#Active-Directory-活动目录-概念：" class="headerlink" title="Active Directory(活动目录)概念："></a>Active Directory(活动目录)概念：</h1><p>​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。<br>​<br>​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。</p>
 <ul>
 <li>Active DireCtory 存储了有关网络对象的信息，并且让管理员和用户能够轻松地查找和使用这些信息。Active DireCtory 使用了一种结构化的数据存储方式，并以此作为基础对目录信息进行合乎的逻辑的分层组织。</li>
 <li>网络对象分为:用户、用户组、计算机、域、组织单位以及安全 策略等。</li>
@@ -221,21 +220,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">1.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">2.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">3.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">4.</span> <span class="toc-text">数据结构：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-number">1.</span> <span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">2.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">3.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">4.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">5.</span> <span class="toc-text">数据结构：</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/22/Kerberos域认证/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/22/Kerberos域认证/&text=Kerberos域认证"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/22/Kerberos域认证/&is_video=false&description=Kerberos域认证"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Kerberos域认证&body=Check out this article: http://yoursite.com/2019/01/22/Kerberos域认证/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=Kerberos域认证"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/22/Kerberos域认证/&name=Kerberos域认证&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/22/Kerberos域认证/&text=理解Kerberos域认证"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/22/Kerberos域认证/&is_video=false&description=理解Kerberos域认证"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=理解Kerberos域认证&body=Check out this article: http://yoursite.com/2019/01/22/Kerberos域认证/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/22/Kerberos域认证/&title=理解Kerberos域认证"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/22/Kerberos域认证/&name=理解Kerberos域认证&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
