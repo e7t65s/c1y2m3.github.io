@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5">
 <meta property="og:image" content="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png">
-<meta property="og:updated_time" content="2019-04-02T13:50:04.000Z">
+<meta property="og:updated_time" content="2019-04-03T01:46:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析Kerberoasting攻击">
 <meta name="twitter:description" content="基本概念SPN 全称 Service Principal Names SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下 当一个服务的权限为 Local System或Network Service，则SPN注册在机器帐户(Computers)下 当一个服务的">
@@ -165,7 +165,8 @@
 <h1 id="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><a href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系" class="headerlink" title="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"></a>2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</h1><p>这里举一个例子：</p>
 <p>用户a要访问Mysql服务的资源，进行4.tgs_reply时,步骤如下：</p>
 <p>(1)Domain Controller查询MySQL服务的SPN</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果该SPN注册在机器帐户(Computers)下，将会查询所有机器帐户(Computers)的servicePrincipalName属性，找到对应的帐户</span><br><span class="line"></span><br><span class="line">如果该SPN注册在域用户帐户(Users)下，将会查询所有域用户(Users)的servicePrincipalName属性，找到对应的帐户</span><br></pre></td></tr></table></figure>
+<p>如果该SPN注册在机器帐户(Computers)下，将会查询所有机器帐户(Computers)的servicePrincipalName属性，找到对应的帐户</p>
+<p>如果该SPN注册在域用户帐户(Users)下，将会查询所有域用户(Users)的servicePrincipalName属性，找到对应的帐户</p>
 <p>(2)找到对应的帐户后，使用该帐户的NTLM hash，生成TGS</p>
 <h1 id="Kerberoasting的实现方法"><a href="#Kerberoasting的实现方法" class="headerlink" title="Kerberoasting的实现方法"></a>Kerberoasting的实现方法</h1><p>综上，域内的任何一台主机，都能够通过查询SPN，向域内的所有服务请求TGS，拿到TGS后对其进行暴力破解</p>
 <p>对于破解出的明文口令，只有域用户帐户(Users)的口令存在价值，不必考虑机器帐户的口令(无法用于远程连接)</p>
