@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="JSP Shell Bypass WAF主要提供一种思路，戒骄戒躁 之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上  由于JSP 的content-type 类型为 text/html   故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护.. 12345&amp;lt;%@ page import=&amp;quot;java.uti">
+    <meta name="description" content="主要提供一种思路，戒骄戒躁 之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上  由于JSP 的content-type 类型为 text/html   故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护.. 12345&amp;lt;%@ page import=&amp;quot;java.util.*,java.io.*,java.n">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c1y2m3’blog">
+<meta property="og:title" content="JSP Shell Bypass WAF">
 <meta property="og:url" content="http://yoursite.com/2019/04/04/15543609538285/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="JSP Shell Bypass WAF主要提供一种思路，戒骄戒躁 之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上  由于JSP 的content-type 类型为 text/html   故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护.. 12345&amp;lt;%@ page import=&amp;quot;java.uti">
+<meta property="og:description" content="主要提供一种思路，戒骄戒躁 之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上  由于JSP 的content-type 类型为 text/html   故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护.. 12345&amp;lt;%@ page import=&amp;quot;java.util.*,java.io.*,java.n">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-04T06:59:41.000Z">
+<meta property="og:updated_time" content="2019-04-04T07:03:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c1y2m3’blog">
-<meta name="twitter:description" content="JSP Shell Bypass WAF主要提供一种思路，戒骄戒躁 之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上  由于JSP 的content-type 类型为 text/html   故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护.. 12345&amp;lt;%@ page import=&amp;quot;java.uti">
+<meta name="twitter:title" content="JSP Shell Bypass WAF">
+<meta name="twitter:description" content="主要提供一种思路，戒骄戒躁 之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上  由于JSP 的content-type 类型为 text/html   故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护.. 12345&amp;lt;%@ page import=&amp;quot;java.util.*,java.io.*,java.n">
     
     
         
@@ -36,7 +36,7 @@
         
     
     <!-- title -->
-    <title>c1y2m3’blog</title>
+    <title>JSP Shell Bypass WAF</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -87,20 +87,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/04/15543609538285/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/04/15543609538285/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/04/15543609538285/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/04/04/15543609538285/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/04/15543609538285/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/04/15543609538285/&text=JSP Shell Bypass WAF"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/04/15543609538285/&is_video=false&description=JSP Shell Bypass WAF"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JSP Shell Bypass WAF&body=Check out this article: http://yoursite.com/2019/04/04/15543609538285/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/04/15543609538285/&name=JSP Shell Bypass WAF&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSP-Shell-Bypass-WAF"><span class="toc-number">1.</span> <span class="toc-text">JSP Shell Bypass WAF</span></a></li></ol>
+      
     </div>
   </span>
 </div>
@@ -112,7 +112,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        JSP Shell Bypass WAF
     </h1>
 
 
@@ -123,7 +123,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2019-04-04T06:55:53.000Z" itemprop="datePublished">2019-04-04</time>
+        <time datetime="2019-04-04T07:00:00.000Z" itemprop="datePublished">2019-04-04</time>
     </div>
 
 
@@ -136,7 +136,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="JSP-Shell-Bypass-WAF"><a href="#JSP-Shell-Bypass-WAF" class="headerlink" title="JSP Shell Bypass WAF"></a>JSP Shell Bypass WAF</h1><p><code>主要提供一种思路，戒骄戒躁</code></p>
+    <p><code>主要提供一种思路，戒骄戒躁</code></p>
 <p>之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上 </p>
 <p>由于JSP 的content-type 类型为 text/html  </p>
 <p>故利用此特性 使用html中的16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护..</p>
@@ -168,21 +168,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSP-Shell-Bypass-WAF"><span class="toc-number">1.</span> <span class="toc-text">JSP Shell Bypass WAF</span></a></li></ol>
+      
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/04/15543609538285/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/04/15543609538285/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/04/15543609538285/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/04/04/15543609538285/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/04/15543609538285/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/04/15543609538285/&text=JSP Shell Bypass WAF"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/04/15543609538285/&is_video=false&description=JSP Shell Bypass WAF"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JSP Shell Bypass WAF&body=Check out this article: http://yoursite.com/2019/04/04/15543609538285/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/04/15543609538285/&title=JSP Shell Bypass WAF"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/04/15543609538285/&name=JSP Shell Bypass WAF&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
