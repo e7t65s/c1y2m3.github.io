@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cc80b91ea3b4a4996ac0e92">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cc820d450f8dd7e26bfbfb4">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cc8211dea3b4a4996ae7eda">
-<meta property="og:updated_time" content="2019-04-30T10:49:52.000Z">
+<meta property="og:updated_time" content="2019-04-30T14:25:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="权限维持学习笔记（持续更新）">
 <meta name="twitter:description" content="分享便是我最好的老师。 ——Micropoor 0x01 DSRM 密码同步利用​    在每个域控机器下都有一个”本地管理员账户”[“Administrator”] 即所谓的目录服务还原模式[ DSRM ]账户,万一哪天域管权限丢失,我们就可以把域内任意用户的密码同步到 DSRM 账户上[即 dc 本地的 admainistrator 用户],而后再利用 DSRM 账户 ipc 连到 dc 上把">
@@ -157,6 +157,7 @@
 <h1 id="0x02-劫持-msdtc"><a href="#0x02-劫持-msdtc" class="headerlink" title="0x02 劫持 msdtc"></a>0x02 劫持 msdtc</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">实现原理：</span><br><span class="line">	msdtc 每次启动时都会加载三个 dll,但其中的 oci.dll 默认是不存在的,</span><br><span class="line">	此时我们就可以通过劫持这个 dll 以达到简单的权限维持目的</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cc806ae50f8dd7e26bcb08f" alt=""></p>
 <p>根据系统位数 生成 对应的dll、重命名为oci.dll 放到系统的system32 目录下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># taskkill /im msdtc.exe /F</span><br><span class="line"></span><br><span class="line"># net stop msdtc</span><br><span class="line"></span><br><span class="line"># net start msdtc</span><br><span class="line"></span><br><span class="line"># msdtc -install  // 默认弹回权限较低的网络权限  这里以administration启动</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cc806c42711cd657f626375" alt=""></p>
 <h1 id="0x03-劫持-explorer-下-linkinfo-dll"><a href="#0x03-劫持-explorer-下-linkinfo-dll" class="headerlink" title="0x03 劫持 explorer 下 linkinfo.dll"></a>0x03 劫持 explorer 下 linkinfo.dll</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">简单原理：</span><br><span class="line"></span><br><span class="line">explorer.exe 每隔一段时间就会自动去加载它一次, 非系统必需</span><br><span class="line"></span><br><span class="line">根据系统位数 生成 对应的dll、重命名为linkinfo.dll 放到系统的 C:\Windows 目录下：</span><br><span class="line"></span><br><span class="line">等待目标管理员重启正常登录后,系统便会自动加载执行该 dll，上线</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cc80b91ea3b4a4996ac0e92" alt=""></p>
