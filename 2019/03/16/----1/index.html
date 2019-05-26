@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460">
-<meta property="og:updated_time" content="2019-05-21T15:55:28.000Z">
+<meta property="og:updated_time" content="2019-05-26T07:10:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次域渗透测试">
 <meta name="twitter:description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
@@ -194,8 +194,7 @@
 <p>使用impacket 的 secretsdump.Py  从ntds.dit文件中转存储NTLM hash</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python /root/impacket/examples/secretsdump.py -system /root/SYSTEM -ntds /root/ntds.dit LOCAL</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460" alt=""></p>
-<p>后面自己编写了个脚本，通过域名批量去获取域用户对应的IP，定位在线目标，进行窃取资料。</p>
-<p>当然，这里使用nmap更快,献丑了….</p>
+<p>这里使用nmap获取域用户对应的IP，定位在线目标，进行窃取资料。</p>
 <p>最终 从财务部门获取到该公司的下年计划，人员组织构架，财务报表，盈利情况，以及内部相关work文档等。</p>
 <p>进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
 <h1 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h1><p>1、在行动之前思考几分钟，有没有更好的办法<br>2、思考一个问题多个解决方案的利弊<br>3、选取自己熟悉的协议进行信息搜集<br>4、网络命令一定要熟<br>5、对于后门要加强维护<br>6、渗透的本质是信息搜集，每一次的项目如果碰到迷茫无解的时候，请继续搜集。而信息搜集的本质是渗透的沉思。</p>
