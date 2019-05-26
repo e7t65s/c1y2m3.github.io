@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次域渗透测试">
+<meta property="og:title" content="记一次域渗透攻击测试">
 <meta property="og:url" content="http://yoursite.com/2019/03/16/----1/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
@@ -21,9 +21,9 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460">
-<meta property="og:updated_time" content="2019-05-26T07:10:42.000Z">
+<meta property="og:updated_time" content="2019-05-26T07:20:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记一次域渗透测试">
+<meta name="twitter:title" content="记一次域渗透攻击测试">
 <meta name="twitter:description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722">
     
@@ -45,7 +45,7 @@
         
     
     <!-- title -->
-    <title>记一次域渗透测试</title>
+    <title>记一次域渗透攻击测试</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -98,15 +98,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/16/----1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/16/----1/&text=记一次域渗透测试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/16/----1/&is_video=false&description=记一次域渗透测试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=记一次域渗透测试&body=Check out this article: http://yoursite.com/2019/03/16/----1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/16/----1/&name=记一次域渗透测试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/16/----1/&text=记一次域渗透攻击测试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/16/----1/&is_video=false&description=记一次域渗透攻击测试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次域渗透攻击测试&body=Check out this article: http://yoursite.com/2019/03/16/----1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/16/----1/&name=记一次域渗透攻击测试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -123,7 +123,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        记一次域渗透测试
+        记一次域渗透攻击测试
     </h1>
 
 
@@ -229,15 +229,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/16/----1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/16/----1/&text=记一次域渗透测试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/16/----1/&is_video=false&description=记一次域渗透测试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=记一次域渗透测试&body=Check out this article: http://yoursite.com/2019/03/16/----1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透测试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/16/----1/&name=记一次域渗透测试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/16/----1/&text=记一次域渗透攻击测试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/16/----1/&is_video=false&description=记一次域渗透攻击测试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次域渗透攻击测试&body=Check out this article: http://yoursite.com/2019/03/16/----1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/16/----1/&title=记一次域渗透攻击测试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/16/----1/&name=记一次域渗透攻击测试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
