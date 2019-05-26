@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f">
-<meta property="og:updated_time" content="2019-05-26T08:20:51.000Z">
+<meta property="og:updated_time" content="2019-05-26T11:56:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JBoss引起的内网渗透">
 <meta name="twitter:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
@@ -174,7 +174,7 @@
 <p>利用 <code>Log Parser</code> 日志分析工具,从log中匹配：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LogParser.exe -i:EVT -o csv &quot;SELECT TO_UPPERCASE(EXTRACT_TOKEN(Strings,5,&apos;|&apos;)) as NAME,TO_UPPERCASE(EXTRACT_TOKEN(Strings,18,&apos;|&apos;)) as IP FROM c:\risalogs.evtx&quot; &gt; C:\log.txt</span><br><span class="line"></span><br><span class="line">进行去重、替换：</span><br><span class="line"></span><br><span class="line">grep -v &apos;\$&apos; log.txt | sort | uniq | egrep -v &apos;ANONYMOUS LOGON|-|:&apos; &gt; login_succeed.txt</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f" alt=""></p>
-<h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>​    从内网中获取了大量主机权限，核心代码，数据库等，逐进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
+<h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>​    从内网中获取了大量主机权限，VPN、核心代码，数据库等，逐进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
 
   </div>
 </article>
