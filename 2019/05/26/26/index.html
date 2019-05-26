@@ -14,13 +14,12 @@
 <meta property="og:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a3d9b521a11ecb734d3">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f">
-<meta property="og:updated_time" content="2019-05-26T07:58:12.000Z">
+<meta property="og:updated_time" content="2019-05-26T08:00:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JBoss引起的内网渗透">
 <meta name="twitter:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
@@ -147,10 +146,10 @@
     <h1 id="切入点"><a href="#切入点" class="headerlink" title="切入点"></a>切入点</h1><p>Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。</p>
 <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami  --&gt; windows-7p8piq7\administrator</span><br><span class="line">ipconfig --&gt; 192.168.58.231</span><br><span class="line">tasklist --&gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)</span><br><span class="line">systeminfo --&gt; Windows Server 2008 R2 Enterprise</span><br></pre></td></tr></table></figure>
 <h1 id="横向拓展"><a href="#横向拓展" class="headerlink" title="横向拓展"></a>横向拓展</h1><h4 id="前奏"><a href="#前奏" class="headerlink" title="前奏"></a>前奏</h4><p>用<code>CS</code>生成<code>powershell</code>的<code>exp</code>就过了。到目标机<code>cmd</code>下执行弹回。由于权限较高，</p>
-<p>直接<code>run Mimikatz</code> 获取到了当前主机的hash。</p>
+<p>直接<code>run Mimikatz</code> 获取到了当前主机用户的ntlm hash。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80" alt=""></p>
-<p>使用<code>Cobalt Strike</code>的ARP扫描（因为net view使用不了），使得<code>Targets</code>有记录。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a3d9b521a11ecb734d3" alt=""></p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>用比较典型的<code>hash传递</code>碰一下看看运气怎么样。</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>使用<code>Cobalt Strike</code>的ARP扫描（因为net view使用不了），使得<code>Targets</code>有记录。</p>
+<p>用比较典型的<code>hash传递</code>碰一下看看运气怎么样。</p>
 <p>登陆情况如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.58.1 # 成功</span><br><span class="line">192.168.58.18 # 成功</span><br><span class="line">....</span><br><span class="line">192.168.58.3 # 失败</span><br><span class="line">192.168.58.7 # 失败</span><br><span class="line">....</span><br><span class="line">192.168.58.68 # 成功</span><br><span class="line">192.168.58.21 # 成功</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116" alt=""></p>
