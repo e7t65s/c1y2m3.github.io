@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="端口转发的学习">
+<meta property="og:title" content="关于内网端口转发学习">
 <meta property="og:url" content="http://yoursite.com/2018/10/17/端口转发的学习/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
@@ -18,9 +18,9 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc6b065db5aa603f192deee">
-<meta property="og:updated_time" content="2018-11-19T04:13:47.000Z">
+<meta property="og:updated_time" content="2019-06-01T15:43:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="端口转发的学习">
+<meta name="twitter:title" content="关于内网端口转发学习">
 <meta name="twitter:description" content="空闲之余,故学习下端口转发的原理和实践以便日后查看。 首先，区分下正向代理和反向代理  A  -B  -C  A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。  反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。 首先  开两台实验机：A（172.28.100.51）">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73">
     
@@ -42,7 +42,7 @@
         
     
     <!-- title -->
-    <title>端口转发的学习</title>
+    <title>关于内网端口转发学习</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -95,15 +95,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/端口转发的学习/&text=端口转发的学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/端口转发的学习/&is_video=false&description=端口转发的学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=端口转发的学习&body=Check out this article: http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/端口转发的学习/&name=端口转发的学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/端口转发的学习/&text=关于内网端口转发学习"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/端口转发的学习/&is_video=false&description=关于内网端口转发学习"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于内网端口转发学习&body=Check out this article: http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/端口转发的学习/&name=关于内网端口转发学习&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -120,7 +120,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        端口转发的学习
+        关于内网端口转发学习
     </h1>
 
 
@@ -229,15 +229,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/端口转发的学习/&text=端口转发的学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/端口转发的学习/&is_video=false&description=端口转发的学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=端口转发的学习&body=Check out this article: http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=端口转发的学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/端口转发的学习/&name=端口转发的学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/17/端口转发的学习/&text=关于内网端口转发学习"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/17/端口转发的学习/&is_video=false&description=关于内网端口转发学习"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于内网端口转发学习&body=Check out this article: http://yoursite.com/2018/10/17/端口转发的学习/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/17/端口转发的学习/&title=关于内网端口转发学习"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/17/端口转发的学习/&name=关于内网端口转发学习&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
