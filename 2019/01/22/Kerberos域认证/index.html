@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45d45b9b521a6695dda91d">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45d4e9ea3b4a77e69aae6c">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45d5099b521a6695ddab49">
-<meta property="og:updated_time" content="2019-01-22T02:58:36.000Z">
+<meta property="og:updated_time" content="2019-06-01T13:57:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解Kerberos域认证">
 <meta name="twitter:description" content="Active Directory(活动目录)概念：​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。​​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。  Active DireCtory 存储了有">
@@ -110,7 +110,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-number">1.</span> <span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">2.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">3.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">4.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">5.</span> <span class="toc-text">数据结构：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-number">1.</span> <span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">2.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">3.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">4.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">5.</span> <span class="toc-text">数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注意："><span class="toc-number">6.</span> <span class="toc-text">注意：</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -191,10 +191,19 @@
 <p>KDC接到TGT与其他内容后，会首先解密TGT，只有KDC可以解密TGT，从TGT中提取到Session Key，再使用Session Key解密其他内容，解密出来的内容同TGT中的信息进行校验来确认客户端是否受信。</p>
 <p>验证通过后，就会生成一个新的Session Key，我们称之为Server Session Key，这个Server Session Key主要用于和服务器进行通信。同时还会生成一个Ticket，也就是最后的票据了。</p>
 <p>Ticket组成如下：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d4e9ea3b4a77e69aae6c" alt=""><br>Server Hash：这个Hash是在AD中服务器计算机的NTLM Hash<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d5099b521a6695ddab49" alt=""><br>在第三步里，客户端向服务器请求，需要提供Ticket，Server Session Key加密的客户端信息与时间戳。</p>
-<ul>
-<li>Ticket客户端无法解密</li>
-<li>服务器端通过解密Ticket解密Server Session Key(Client info + Timestamp)</li>
-<li>比较时间长度</li>
+<h1 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h1><ul>
+<li><p>Kerberos 协议设计的思路就是用来在不受信的环境下进行认证的协议。</p>
+</li>
+<li><p>krbtgt 账号的 NTLM Hash 理论上只存在于 KDC 中。这意味着 TGT 只能由 KDC 来解密。如果krbtgt 账号的NTLM Hash泄露了，那么 TGT 就能被解密甚至伪造。伪造的 TGT 叫做黄金票据。</p>
+</li>
+<li><p>Ticket 是由服务器计算机本身的 NTLM Hash 加密的，Client 不能解密。如果该Hash 泄露，那么就可以解密甚至伪造 Ticket。伪造的 Ticket 叫做白银票据。</p>
+</li>
+<li><p>在上述的流程中，涉及到时间戳 timestamp，由于它的存在，才使得被第三方获取了加密信息 A 、B、TGT不会在短时间内被暴力破解。timestamp 一般时间为8小时。</p>
+</li>
+<li><p>Kerberos 协议和 NTLM 协议都会使用 NTLM Hash 对生成的任意随机数加密，然后比对结果。 Kerberos 的主要区别在于添加了第三方——-KDC参与到认证过程中。</p>
+</li>
+<li><p>Client info 中包含域名信息、Client 名称等</p>
+</li>
 </ul>
 <p>校验通过后，认证成功，该票据会一直存在客户端内存中。</p>
 
@@ -222,7 +231,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-number">1.</span> <span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">2.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">3.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">4.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">5.</span> <span class="toc-text">数据结构：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-number">1.</span> <span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-number">2.</span> <span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-number">3.</span> <span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-number">4.</span> <span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-number">5.</span> <span class="toc-text">数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注意："><span class="toc-number">6.</span> <span class="toc-text">注意：</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
