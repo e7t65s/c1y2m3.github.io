@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5">
 <meta property="og:image" content="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png">
-<meta property="og:updated_time" content="2019-06-02T05:26:10.000Z">
+<meta property="og:updated_time" content="2019-06-26T14:39:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="域渗透之Kerberoasting攻击">
 <meta name="twitter:description" content="基本概念SPN 全称 Service Principal Names SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下 当一个服务的权限为 Local System或Network Service，则SPN注册在机器帐户(Computers)下 当一个服务的">
@@ -178,7 +178,6 @@
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5" alt=""></p>
 <h1 id="破解："><a href="#破解：" class="headerlink" title="破解："></a>破解：</h1><p><a href="https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py" target="_blank" rel="noopener">https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tgsrepcrack.py wordlist.txt 0-40e00000-Administrator@krbtgt~CORP.VK.LOCAL-CORP.VK.LOCAL.kirbi</span><br></pre></td></tr></table></figure>
-<hr>
 <h1 id="二、使用Powershell实现"><a href="#二、使用Powershell实现" class="headerlink" title="二、使用Powershell实现"></a>二、使用Powershell实现</h1><p>自动实现，并且不需要mimikatz，普通用户权限即可，参考资料：</p>
 <p><a href="http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/" target="_blank" rel="noopener">http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/</a></p>
 <p>使用<code>System.IdentityModel.Tokens.KerberosRequestorSecurityToken</code>请求TGS，在返回结果中提取出TGS，输出的TGS可选择John the Ripper或Hashcat进行破解</p>
