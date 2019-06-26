@@ -1,210 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
+extends includes/layout
 
-    <title>
-        
-        MetInfo 任意文件读取漏洞的修复与绕过 - undefined
-        
-    </title>
+block content
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
+    section#wrapper.post
+        article
+            header
+                h1!=page.title
+                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
+                    |·
+                    |#{wordcount(page.content)} words
+                    |·
+                    |#{min2read(page.content)} minutes read
+                    span.tags
 
-<body>
+            if toc(page.content)
+                div#toc!=toc(page.content,{list_number:false})
 
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
-</div>
+            section#post-body!=page.content
 
-<div class="index-about">
-    <i>  </i>
-</div>
+            - var prev = page.prev ? page.prev.path : false;
+            - var next = page.next ? page.next.path : false;
+            nav#post-nav
+                span.prev
+                    if page.prev
+                        a(href=url_for(prev))
+                            span.arrow ←
+                            | Newer Posts
+                span.next
+                    if page.next
+                        a(href=url_for(next))
+                            | Older Posts
+                            span.arrow →
 
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar ">
-            <img src="/c1y2m3.github.io/">
-        </div>
-        <div class="name">
-            <i>John Doe</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li>
-                <a href="/c1y2m3.github.io/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞简介"><span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞影响"><span class="toc-text">漏洞影响</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞分析"><span class="toc-text">漏洞分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第一次绕过"><span class="toc-text">第一次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二次绕过"><span class="toc-text">第二次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三次绕过"><span class="toc-text">第三次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
-</div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i>  </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        MetInfo 任意文件读取漏洞的修复与绕过
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2018-10-15 00:34:14</span></span>
-        
-        
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-
-    </div>
-    <div class="post-content ">
-        <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
-<h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><ul>
-<li>MetInfo 6.0.0</li>
-<li>MetInfo 6.1.0</li>
-</ul>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>看到\MetInfo6\app\system\include\module\old_thumb.class.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"># MetInfo Enterprise Content Management System</span><br><span class="line"># Copyright (C) MetInfo Co.,Ltd (http://www.metinfo.cn). All rights reserved.</span><br><span class="line"></span><br><span class="line">defined(&apos;IN_MET&apos;) or exit(&apos;No permission&apos;);</span><br><span class="line"></span><br><span class="line">load::sys_class(&apos;web&apos;);</span><br><span class="line"></span><br><span class="line">class old_thumb extends web&#123;</span><br><span class="line"></span><br><span class="line">      public function doshow()&#123;</span><br><span class="line">        global $_M;</span><br><span class="line"></span><br><span class="line">        $dir = str_replace(&apos;../&apos;, &apos;&apos;, $_GET[&apos;dir&apos;]);</span><br><span class="line"></span><br><span class="line">        if(strstr(str_replace($_M[&apos;url&apos;][&apos;site&apos;], &apos;&apos;, $dir), &apos;http&apos;))&#123;</span><br><span class="line">            header(&quot;Content-type: image/jpeg&quot;);</span><br><span class="line">            ob_start();</span><br><span class="line">            readfile($dir);</span><br><span class="line">            ob_flush();</span><br><span class="line">            flush();</span><br><span class="line">            die;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
-<p>从代码中看到，<code>$dir</code>直接由<code>$_GET[&#39;dir&#39;]</code>传递进来，并将<code>../</code>置空。目前是进入到第一个if里面的<code>readfile($dir）</code>; 读取文件，看着if语句的条件，里面的是将<code>$dir</code>中包含<code>$$_M[&#39;url&#39;][&#39;site&#39;]</code>的部分置空，外面是一个<code>strstr</code>函数，判断$dir中http字符串的首次出现位置，也就是说，要进入到这个 if 语句里面，<code>$dir</code>中包含<code>http</code>字符串即可。</p>
-<p>从上面的分析可以构造出 payload，只要$dir里包含http字符串就可以进入到readfile函数从而读取任意函数，然后可以使用…/./来进行目录跳转，因为../会被置空，所以最终payload 如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?dir=..././http/..././config/config_db.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da" alt=""><br>对于这个任意文件读取漏洞，官方一直没补好，导致被绕过了几次。以下几种绕过方式均已提交CNVD，由CNVD通报厂商。</p>
-<h1 id="第一次绕过"><a href="#第一次绕过" class="headerlink" title="第一次绕过"></a>第一次绕过</h1><p>根据WAM的监测记录，官方5月份的时候补了这个漏洞，但是没补完全。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69" alt=""></p>
-<p>可以看到，之前的只是把<code>../</code>置空，而补丁是把<code>../</code>和<code>./</code>都置空了。但是这里还是可以绕过。可以使用<code>.....///</code>来跳转目录，<code>.....///</code>经过<code>str_replace</code>置空，正好剩下../，可以跳转。所以payload是</p>
-<p><code>?dir=.....///http/.....///config/config_db.php</code></p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf" alt=""></p>
-<h1 id="第二次绕过"><a href="#第二次绕过" class="headerlink" title="第二次绕过"></a>第二次绕过</h1><p>在提交第一种绕过方式给CNVD之后，MetInfo没多久就更新了，来看下官方的修复方式。<br>diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976" alt=""></p>
-<p>这里加了一个判断，$dir要以http开头，变换一下之前的payload就可以继续绕过了。</p>
-<p><code>?dir=http/.....///.....///config/config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869" alt=""></p>
-<h1 id="第三次绕过"><a href="#第三次绕过" class="headerlink" title="第三次绕过"></a>第三次绕过</h1><p>再次提交之后，官方知悉该绕过方式，又补了一次了。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027" alt=""></p>
-<p>看到补丁，又多加了一个判断条件，使用strpos函数查找<code>./</code>首次出现的位置，也就是说不能有<code>./</code>。没了<code>./</code>，在Windows下还可以用<code>..\</code>来跳转目录。所以payload</p>
-<p><code>?dir=http\..\..\config\config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9" alt=""><br>遗憾的是，这个只能在Windows环境下面才可以。</p>
-<p>#最终<br>目前在官网供下载的最新的6.1.0版本中，<code>old_thumb.class.php</code>这个文件已经被删除。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一次次的修补，一次次的绕过，感觉开发者应该是没有理解到漏洞利用的原理，一直以类黑名单的形式在修复，而黑名单的形式总是容易被绕过。除了删除文件外，根据实际功能，可以考虑使用白名单方式修复，例如限定所能读取的文件类型为图片类型。</p>
-
-        
-        <br>
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-</footer>
+            include includes/comment.pug
 
 
 
 
-</body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = ""
-    window.hexo_root = "/c1y2m3.github.io/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-</html>

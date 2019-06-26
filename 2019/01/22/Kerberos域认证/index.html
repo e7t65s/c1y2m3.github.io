@@ -1,248 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
+extends includes/layout
 
-    <title>
-        
-        理解Kerberos域认证 - undefined
-        
-    </title>
+block content
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
+    section#wrapper.post
+        article
+            header
+                h1!=page.title
+                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
+                    |·
+                    |#{wordcount(page.content)} words
+                    |·
+                    |#{min2read(page.content)} minutes read
+                    span.tags
 
-<body>
+            if toc(page.content)
+                div#toc!=toc(page.content,{list_number:false})
 
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
-</div>
+            section#post-body!=page.content
 
-<div class="index-about">
-    <i>  </i>
-</div>
+            - var prev = page.prev ? page.prev.path : false;
+            - var next = page.next ? page.next.path : false;
+            nav#post-nav
+                span.prev
+                    if page.prev
+                        a(href=url_for(prev))
+                            span.arrow ←
+                            | Newer Posts
+                span.next
+                    if page.next
+                        a(href=url_for(next))
+                            | Older Posts
+                            span.arrow →
 
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar ">
-            <img src="/c1y2m3.github.io/">
-        </div>
-        <div class="name">
-            <i>John Doe</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li>
-                <a href="/c1y2m3.github.io/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-概念："><span class="toc-text">Active Directory(活动目录)概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Active-Directory-活动目录-功能"><span class="toc-text">Active Directory (活动目录)功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证所参与的角色-三只狗头"><span class="toc-text">域认证所参与的角色(三只狗头)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#域认证粗略流程"><span class="toc-text">域认证粗略流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构："><span class="toc-text">数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注意："><span class="toc-text">注意：</span></a></li></ol>
-</div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i>  </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        理解Kerberos域认证
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2019-01-22 10:51:14</span></span>
-        
-        
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-
-    </div>
-    <div class="post-content ">
-        <h1 id="Active-Directory-活动目录-概念："><a href="#Active-Directory-活动目录-概念：" class="headerlink" title="Active Directory(活动目录)概念："></a>Active Directory(活动目录)概念：</h1><p>​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。<br>​<br>​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。</p>
-<ul>
-<li>Active DireCtory 存储了有关网络对象的信息，并且让管理员和用户能够轻松地查找和使用这些信息。Active DireCtory 使用了一种结构化的数据存储方式，并以此作为基础对目录信息进行合乎的逻辑的分层组织。</li>
-<li>网络对象分为:用户、用户组、计算机、域、组织单位以及安全 策略等。</li>
-</ul>
-<h1 id="Active-Directory-活动目录-功能"><a href="#Active-Directory-活动目录-功能" class="headerlink" title="Active Directory (活动目录)功能"></a>Active Directory (活动目录)功能</h1><ul>
-<li>服务器及客户端计算机管理：管理服务器及客户端计算机账户，所有服务及客户端加入域管理并实施组策略。</li>
-<li>用户服务：管理用户域账户、用户信息、企业通讯录(与电子邮件系统集成)、用户组管理、用户身份证、用户授权管理等，按省实施组策略。</li>
-<li>资源管理：管理打印机、文件共享服务等网络资源。</li>
-<li>桌面配置：系统管理员可以集中的配置各种桌面配置策略，如：用户使用域中资源权限限制，界面的功能的限制、应用程序执行特征、网络连接限制、安全配置限制等。</li>
-<li>应用系统支撑:支持财务、人事、电子邮件、企业信息门户、办 公自动化、补丁管理、防病毒系统等各种应用系统。</li>
-</ul>
-<p>在域中，网络对象可以相互访问，但是在真实情况中，需要对某些部门的计算机进行限制，例如：销售部门不能访问技术部门的服务器。</p>
-<p>这个中间就需要Kerberos认证协议来验证网络对象间的权限。</p>
-<h1 id="域认证所参与的角色-三只狗头"><a href="#域认证所参与的角色-三只狗头" class="headerlink" title="域认证所参与的角色(三只狗头)"></a>域认证所参与的角色(三只狗头)</h1><p>Kerberos的标准是三只狗头，狗头分别代表以下角色：</p>
-<ul>
-<li>Client</li>
-<li>Server</li>
-<li>KDC(Key Distribution Center 密钥分发中心) = DC (Domain Controller)</li>
-</ul>
-<p>Kerberos认证协议的基础概念：<br>    票据(Ticket)：是网络对象互相访问的凭证。TGT(Ticket Granting Ticket)：入场券，通过入场券能够获得票据，是一种临时凭证的存在。<br>    KDC 负责管理票据、认证票据、分发票据，但是KDC不是一个独立的服务，它是由以下服务组成：</p>
-<ul>
-<li>Authentication Service：为client 生成TGT服务</li>
-<li>Tikcet Granting Service ：为client生成某个服务等ticket<br>另外还需要介绍一个类似于本机SAM的一个数据库：AD，全称叫account database，存储所有client的白名单，只有存 在于白名单的client才能顺利申请到TGT。</li>
-</ul>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b9279b521a6695dd2818" alt=""></p>
-<p>PS:从物理层面看，AD与KDC均为域控制器(Domain Controller)</p>
-<h1 id="域认证粗略流程"><a href="#域认证粗略流程" class="headerlink" title="域认证粗略流程"></a>域认证粗略流程</h1><ul>
-<li>client 向Kerberos 服务请求，希望获取服务server的权限。kerberos得到了这个消息，首先得判断client是否可信赖，也就是白名单黑名单的说法。这就是AS服务完成的工作，通过 在AD中存储黑名单和白名单来区分client。成功后，通过AS返回TGT给client。</li>
-<li>client得到TGT 后，继续向kerberos请求，希望获取访问server的权限。kerberos又得到了这个消息，这时候通过client 消息中的TGT，判断出了client拥有了这个权限，给了client访 问server的权限ticket。</li>
-<li>client得到ticket后，终于可以成功访问server。这个ticket只是 针对这个server，其他server需要向TGS申请。</li>
-</ul>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b4cd9b521a6695dd0fac" alt=""></p>
-<p>首先，客户端需要发送自己的身份信息到KDC，身份信息中起码包含用户名，KDC根据用户名在AD中寻找是否在白名单中，然后根据用户名提取到对应的NTLM Hash。</p>
-<p>KDC此时生成一个随机字符串，叫Session Key，使用用户名对应的NTLM Hash加密Session Key，作为AS数据，使用KDC中krbtgt的NTLM Hash加密Session Key和客户端的信息，生成TGT。</p>
-<ul>
-<li>Session Key用于客户端向TGS服务通信。</li>
-<li>域内所有网络对象的凭证都在AD中保存</li>
-</ul>
-<h1 id="数据结构："><a href="#数据结构：" class="headerlink" title="数据结构："></a>数据结构：</h1><p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d27450f8dd61e0744462" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d35cea3b4a77e69aa997" alt=""></p>
-<p>其中，TGT的到期时间为8小时，如果超过了8小时，还需要重新申请TGT，不能之间进入下一步获取Ticket。<br>Kerberos是一个假设网络环境不安全的情况下能够正常进行认证工作的协议。<br>第一步中，KDC返回的TGT客户端是无法解密的，因为它没有KDC Hash，如果有，我们就可以伪造黄金票据，这个是后话了。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d45b9b521a6695dda91d" alt=""><br>    第二步客户端需要提供TGT与第一步中使用自己NTLM Hash解密出来的Session Key加密的客户端信息跟时间戳。<br>如果假设这个数据被中间人窃取到，也无法在段时间内破解，因为KDC会校验时间戳。</p>
-<p>KDC接到TGT与其他内容后，会首先解密TGT，只有KDC可以解密TGT，从TGT中提取到Session Key，再使用Session Key解密其他内容，解密出来的内容同TGT中的信息进行校验来确认客户端是否受信。</p>
-<p>验证通过后，就会生成一个新的Session Key，我们称之为Server Session Key，这个Server Session Key主要用于和服务器进行通信。同时还会生成一个Ticket，也就是最后的票据了。</p>
-<p>Ticket组成如下：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d4e9ea3b4a77e69aae6c" alt=""><br>Server Hash：这个Hash是在AD中服务器计算机的NTLM Hash<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d5099b521a6695ddab49" alt=""><br>在第三步里，客户端向服务器请求，需要提供Ticket，Server Session Key加密的客户端信息与时间戳。</p>
-<h1 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h1><ul>
-<li><p>Kerberos 协议设计的思路就是用来在不受信的环境下进行认证的协议。</p>
-</li>
-<li><p>krbtgt 账号的 NTLM Hash 理论上只存在于 KDC 中。这意味着 TGT 只能由 KDC 来解密。如果krbtgt 账号的NTLM Hash泄露了，那么 TGT 就能被解密甚至伪造。伪造的 TGT 叫做黄金票据。</p>
-</li>
-<li><p>Ticket 是由服务器计算机本身的 NTLM Hash 加密的，Client 不能解密。如果该Hash 泄露，那么就可以解密甚至伪造 Ticket。伪造的 Ticket 叫做白银票据。</p>
-</li>
-<li><p>在上述的流程中，涉及到时间戳 timestamp，由于它的存在，才使得被第三方获取了加密信息 A 、B、TGT不会在短时间内被暴力破解。timestamp 一般时间为8小时。</p>
-</li>
-<li><p>Kerberos 协议和 NTLM 协议都会使用 NTLM Hash 对生成的任意随机数加密，然后比对结果。 Kerberos 的主要区别在于添加了第三方——-KDC参与到认证过程中。</p>
-</li>
-<li><p>Client info 中包含域名信息、Client 名称等</p>
-</li>
-</ul>
-<p>校验通过后，认证成功，该票据会一直存在客户端内存中。</p>
-
-        
-        <br>
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-</footer>
+            include includes/comment.pug
 
 
 
 
-</body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = ""
-    window.hexo_root = "/c1y2m3.github.io/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-</html>

