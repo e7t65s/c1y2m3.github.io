@@ -3,7 +3,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>MetInfo 任意文件读取漏洞的修复与绕过 | c1y2m3’blog</title>
+  <title>MetInfo 任意文件读取漏洞的修复与绕过 › c1y2m3’blog</title>
   <meta name="author" content="John Doe">
   
   <meta name="description" content="漏洞简介MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。
@@ -23,47 +23,50 @@ MetInfo 6.1.0
     <meta property="og:image" content="">
   
 
-  
-    <link rel="alternative" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
-  
-  
-    <link href="/c1y2m3.github.io/favicon.png" rel="icon">
-  
-  
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/bootstrap.min.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/font-awesome.css" media="screen" type="text/css">
+  <link href="/c1y2m3.github.io/favicon.png" rel="icon">
+  <link rel="alternate" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
   <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/highlight.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/google-fonts.css" media="screen" type="text/css">
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/responsive.css" media="screen" type="text/css">  
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/sidenav.css" media="screen" type="text/css">  
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
-  <script src="/c1y2m3.github.io/js/jquery-2.0.3.min.js"></script>
-
-  <!-- analytics -->
   
 
 </head>
 </html>
-<body id="body" data-spy="scroll" data-target=".toc">
-  <div class="container" id="container">
-	<div class="content">
-	  <div class="page-header">		
-  <h1><a class="brand" href="/c1y2m3.github.io/">c1y2m3’blog</a><span class="split"></span><span class="title">MetInfo 任意文件读取漏洞的修复与绕过</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2018-10-15</span></h1>
-</div>		
 
-<div class="row page">
-  <!-- cols -->	
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/c1y2m3.github.io/">c1y2m3’blog</a></h1>
+  <h2><a href="/c1y2m3.github.io/"></a></h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/about">About</a></li>
+      
+      <li><a href="/archives">Archives</a></li>
+      
+      <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
   
+    <h1 class="title">MetInfo 任意文件读取漏洞的修复与绕过</h1>
   
 
-  
-	<div class="col-md-12">
-	  
-
-	  <!-- content -->
-	  <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
+      
+        <time datetime="2018-10-14T16:34:14.000Z">2018-10-15</time>
+      
+    </header>
+    <div class="entry">
+      
+        <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
 <h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><ul>
 <li>MetInfo 6.0.0</li>
 <li>MetInfo 6.1.0</li>
@@ -85,152 +88,97 @@ MetInfo 6.1.0
 <p><code>?dir=http\..\..\config\config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9" alt=""><br>遗憾的是，这个只能在Windows环境下面才可以。</p>
 <p>#最终<br>目前在官网供下载的最新的6.1.0版本中，<code>old_thumb.class.php</code>这个文件已经被删除。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一次次的修补，一次次的绕过，感觉开发者应该是没有理解到漏洞利用的原理，一直以类黑名单的形式在修复，而黑名单的形式总是容易被绕过。除了删除文件外，根据实际功能，可以考虑使用白名单方式修复，例如限定所能读取的文件类型为图片类型。</p>
-	  
 
-	  <div>
-  		<center>
-		  <div class="pagination">
-<ul class="pagination">
-	
-	
-	
-	
-	
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-			
-		
-	
-		
-			
-			
-			
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-		
-			
-		
-	
-	
-	
-		<li class="prev"><a href="/c1y2m3.github.io/2018/10/17/端口转发的学习/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>prev</a></li>
-	
-	<li><a href="/c1y2m3.github.io/"><i class="fa fa-archive"></i>Home</a></li>
-	
-		<li class="next"><a href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/" class="alignright next">next<i class="fa fa-arrow-circle-o-right"></i></a></li>
-	
-</ul>
+      
+    </div>
+      
+      <footer>
+        
+        
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+      </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  
+</section>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
 </div>
 
-		</center>
-	  </div>
-	  
-	</div> <!-- col-md-9/col-md-12 -->
-	
-  </div><!-- row -->
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/c1y2m3.github.io/2019/05/26/26/">JBoss引起的内网渗透</a>
+      </li>
+    
+      <li>
+        <a href="/c1y2m3.github.io/2019/04/04/15543609538285/">JSP Shell Bypass WAF</a>
+      </li>
+    
+      <li>
+        <a href="/c1y2m3.github.io/2019/04/02/15542127307091/">域渗透之Kerberoasting攻击</a>
+      </li>
+    
+      <li>
+        <a href="/c1y2m3.github.io/2019/03/16/----1/">记一次域渗透攻击测试</a>
+      </li>
+    
+      <li>
+        <a href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/">python实现SSRF检测脚本</a>
+      </li>
+    
+  </ul>
+</div>
 
-	</div>
+
+  
+
+  
+</aside>
+    <div class="clearfix"></div>
   </div>
-  <div class="container-narrow">
-	<footer> <p>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
   &copy; 2019 John Doe
   
-      with help from <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-wixo/">Wixo</a>.    
-</p> </footer>
-  </div> <!-- container-narrow -->
-  
-<a id="gotop" href="#">   
-  <span>▲</span> 
-</a>
-
-<script src="/c1y2m3.github.io/js/jquery.imagesloaded.min.js"></script>
-<script src="/c1y2m3.github.io/js/gallery.js"></script>
-<script src="/c1y2m3.github.io/js/bootstrap.min.js"></script>
-<script src="/c1y2m3.github.io/js/jquery.tableofcontents.min.js"></script>
-<script src="/c1y2m3.github.io/js/tocgenerator.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<script src="/c1y2m3.github.io/js/search.js"></script> 
-
-
-
-
-<link rel="stylesheet" href="/c1y2m3.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/c1y2m3.github.io/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
-</script>
-
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
 
 </body>
 </html>
+
