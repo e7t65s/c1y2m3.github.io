@@ -1,68 +1,151 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
-  <title>JBoss引起的内网渗透 › c1y2m3’blog</title>
-  <meta name="author" content="John Doe">
-  
-  <meta name="description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。
-信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <meta property="og:title" content="JBoss引起的内网渗透">
-  <meta property="og:site_name" content="c1y2m3’blog">
-
-  
-    <meta property="og:image" content="">
-  
-
-  <link href="/c1y2m3.github.io/favicon.png" rel="icon">
-  <link rel="alternate" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  
-
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JBoss引起的内网渗透">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/26/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f">
+<meta property="og:updated_time" content="2019-05-31T14:41:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JBoss引起的内网渗透">
+<meta name="twitter:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>JBoss引起的内网渗透</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
 </head>
-</html>
 
-<body>
-  <header id="header"><div class="meta inner">
-  <h1><a href="/c1y2m3.github.io/">c1y2m3’blog</a></h1>
-  <h2><a href="/c1y2m3.github.io/"></a></h2>
-  <nav id="main-nav">
-    <ul>
-      
-      <li><a href="/about">About</a></li>
-      
-      <li><a href="/archives">Archives</a></li>
-      
-      <li><a href="/atom.xml">RSS</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/04/04/15543609538285/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/26/26/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/26/26/&text=JBoss引起的内网渗透"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/26/26/&is_video=false&description=JBoss引起的内网渗透"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JBoss引起的内网渗透&body=Check out this article: http://yoursite.com/2019/05/26/26/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/26/26/&name=JBoss引起的内网渗透&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切入点"><span class="toc-number">1.</span> <span class="toc-text">切入点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#横向拓展"><span class="toc-number">3.</span> <span class="toc-text">横向拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前奏"><span class="toc-number">3.1.</span> <span class="toc-text">前奏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-number">3.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位"><span class="toc-number">3.3.</span> <span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">3.4.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#突破方法："><span class="toc-number">3.5.</span> <span class="toc-text">突破方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提取"><span class="toc-number">3.6.</span> <span class="toc-text">提取</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#收尾"><span class="toc-number">4.</span> <span class="toc-text">收尾</span></a></li></ol>
+    </div>
+  </span>
 </div>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  <div class="post-content">
-    <header>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JBoss引起的内网渗透
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
       
-  
-    <h1 class="title">JBoss引起的内网渗透</h1>
-  
+    <div class="postdate">
+        <time datetime="2019-05-26T07:12:00.000Z" itemprop="datePublished">2019-05-26</time>
+    </div>
+
 
       
-        <time datetime="2019-05-26T07:12:00.000Z">2019-05-26</time>
+
       
-    </header>
-    <div class="entry">
-      
-        <h1 id="切入点"><a href="#切入点" class="headerlink" title="切入点"></a>切入点</h1><p>Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。</p>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="切入点"><a href="#切入点" class="headerlink" title="切入点"></a>切入点</h1><p>Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。</p>
 <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami  --&gt; windows-7p8piq7\administrator</span><br><span class="line">ipconfig --&gt; 192.168.58.231</span><br><span class="line">tasklist --&gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)</span><br><span class="line">systeminfo --&gt; Windows Server 2008 R2 Enterprise</span><br></pre></td></tr></table></figure>
 <h1 id="横向拓展"><a href="#横向拓展" class="headerlink" title="横向拓展"></a>横向拓展</h1><h2 id="前奏"><a href="#前奏" class="headerlink" title="前奏"></a>前奏</h2><p>用<code>CS</code>生成<code>powershell</code>的<code>exp</code>就过了。到目标机<code>cmd</code>下执行弹回。由于权限较高，</p>
 <p>直接<code>run Mimikatz</code> 获取到了当前主机用户的ntlm hash。</p>
@@ -96,96 +179,98 @@
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f" alt=""></p>
 <h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>​    从内网中获取了大量主机权限，VPN、核心代码，数据库等，逐进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
 
-      
-    </div>
-      
-      <footer>
-        
-        
-        
-  <div class="addthis addthis_toolbox addthis_default_style">
-    
-      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-    
-    
-      <a class="addthis_button_tweet"></a>
-    
-    
-      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    
-    
-      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
-    
-    <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
-
-      
-      <div class="clearfix"></div>
-      </footer>
   </div>
 </article>
 
 
-<section id="comment">
-  
-</section>
 
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
 
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/05/26/26/">JBoss引起的内网渗透</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/04/04/15543609538285/">JSP Shell Bypass WAF</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/04/02/15542127307091/">域渗透之Kerberoasting攻击</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/03/16/----1/">记一次域渗透攻击测试</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/">python实现SSRF检测脚本</a>
-      </li>
-    
-  </ul>
-</div>
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切入点"><span class="toc-number">1.</span> <span class="toc-text">切入点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#横向拓展"><span class="toc-number">3.</span> <span class="toc-text">横向拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前奏"><span class="toc-number">3.1.</span> <span class="toc-text">前奏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-number">3.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位"><span class="toc-number">3.3.</span> <span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">3.4.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#突破方法："><span class="toc-number">3.5.</span> <span class="toc-text">突破方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提取"><span class="toc-number">3.6.</span> <span class="toc-text">提取</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#收尾"><span class="toc-number">4.</span> <span class="toc-text">收尾</span></a></li></ol>
+    </div>
 
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/26/26/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/26/26/&text=JBoss引起的内网渗透"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/26/26/&is_video=false&description=JBoss引起的内网渗透"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JBoss引起的内网渗透&body=Check out this article: http://yoursite.com/2019/05/26/26/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/26/26/&name=JBoss引起的内网渗透&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
 
-  
+    </div>
 
-  
-</aside>
-    <div class="clearfix"></div>
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2019 John Doe
-  
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-
+    </div>
 </body>
 </html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
 

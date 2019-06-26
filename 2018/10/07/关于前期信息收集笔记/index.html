@@ -1,70 +1,146 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
-  <title>关于前期信息收集笔记 › c1y2m3’blog</title>
-  <meta name="author" content="John Doe">
-  
-  <meta name="description" content="1.通过HTTPS证书日志收集信息:http://censys.io
- 资产搜索:www.zoomeye.org #pythonwww.shodan.iowww.fofa.so
- 2.CDN解析记录:查看历史解析记录，中奖率蛮高的：https://viewdns.info 
-子域名的DNS解析记录：">
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <meta property="og:title" content="关于前期信息收集笔记">
-  <meta property="og:site_name" content="c1y2m3’blog">
-
-  
-    <meta property="og:image" content="">
-  
-
-  <link href="/c1y2m3.github.io/favicon.png" rel="icon">
-  <link rel="alternate" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
-  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  
-
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="1.通过HTTPS证书日志收集信息:http://censys.io  资产搜索:www.zoomeye.org #pythonwww.shodan.iowww.fofa.so  2.CDN解析记录:查看历史解析记录，中奖率蛮高的：https://viewdns.info  子域名的DNS解析记录： http://site.ip138.com 多地 ping ，感觉现在没用了http://ping">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于前期信息收集笔记">
+<meta property="og:url" content="http://yoursite.com/2018/10/07/关于前期信息收集笔记/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="1.通过HTTPS证书日志收集信息:http://censys.io  资产搜索:www.zoomeye.org #pythonwww.shodan.iowww.fofa.so  2.CDN解析记录:查看历史解析记录，中奖率蛮高的：https://viewdns.info  子域名的DNS解析记录： http://site.ip138.com 多地 ping ，感觉现在没用了http://ping">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/tom0li/tom0li.github.io/master/images/cross.png">
+<meta property="og:updated_time" content="2018-11-19T04:19:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于前期信息收集笔记">
+<meta name="twitter:description" content="1.通过HTTPS证书日志收集信息:http://censys.io  资产搜索:www.zoomeye.org #pythonwww.shodan.iowww.fofa.so  2.CDN解析记录:查看历史解析记录，中奖率蛮高的：https://viewdns.info  子域名的DNS解析记录： http://site.ip138.com 多地 ping ，感觉现在没用了http://ping">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/tom0li/tom0li.github.io/master/images/cross.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>关于前期信息收集笔记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
 </head>
-</html>
 
-<body>
-  <header id="header"><div class="meta inner">
-  <h1><a href="/c1y2m3.github.io/">c1y2m3’blog</a></h1>
-  <h2><a href="/c1y2m3.github.io/"></a></h2>
-  <nav id="main-nav">
-    <ul>
-      
-      <li><a href="/about">About</a></li>
-      
-      <li><a href="/archives">Archives</a></li>
-      
-      <li><a href="/atom.xml">RSS</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2018/09/29/ Cobalt Strike学习笔记/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/07/关于前期信息收集笔记/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&text=关于前期信息收集笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&is_video=false&description=关于前期信息收集笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于前期信息收集笔记&body=Check out this article: http://yoursite.com/2018/10/07/关于前期信息收集笔记/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&name=关于前期信息收集笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#资产搜索"><span class="toc-number">1.</span> <span class="toc-text"> 资产搜索:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CDN解析记录"><span class="toc-number">2.</span> <span class="toc-text"> 2.CDN解析记录:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-搜索引擎"><span class="toc-number">3.</span> <span class="toc-text"> 3.搜索引擎:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#子域名"><span class="toc-number">4.</span> <span class="toc-text"> 子域名:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用nmap批量扫描"><span class="toc-number">5.</span> <span class="toc-text">使用nmap批量扫描:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举"><span class="toc-number">6.</span> <span class="toc-text">枚举:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Url网页状态码-刷Src必备-："><span class="toc-number">7.</span> <span class="toc-text">验证Url网页状态码(刷Src必备) ：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件泄露"><span class="toc-number">8.</span> <span class="toc-text"> 文件泄露:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从主站爬取url："><span class="toc-number">9.</span> <span class="toc-text">从主站爬取url：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whois查询和关联查询"><span class="toc-number">10.</span> <span class="toc-text"> whois查询和关联查询: </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Google-hacking"><span class="toc-number">11.</span> <span class="toc-text"> Google hacking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#旁站C段："><span class="toc-number">12.</span> <span class="toc-text"> 旁站C段：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网站指纹"><span class="toc-number">13.</span> <span class="toc-text"> 网站指纹:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录爆破"><span class="toc-number">14.</span> <span class="toc-text"> 目录爆破:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nmap开发端口"><span class="toc-number">15.</span> <span class="toc-text"> Nmap开发端口:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">16.</span> <span class="toc-text"> 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#信息收集决定测试漏洞数量-需要耐心加细心"><span class="toc-number">16.0.0.1.</span> <span class="toc-text">信息收集决定测试漏洞数量,需要耐心加细心</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#渗透标准"><span class="toc-number">17.</span> <span class="toc-text"> 渗透标准</span></a></li>
+    </div>
+  </span>
 </div>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  <div class="post-content">
-    <header>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        关于前期信息收集笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
       
-  
-    <h1 class="title">关于前期信息收集笔记</h1>
-  
+    <div class="postdate">
+        <time datetime="2018-10-06T16:34:14.000Z" itemprop="datePublished">2018-10-07</time>
+    </div>
+
 
       
-        <time datetime="2018-10-06T16:34:14.000Z">2018-10-07</time>
+
       
-    </header>
-    <div class="entry">
-      
-        <p>1.通过HTTPS证书日志收集信息:<a href="http://censys.io" target="_blank" rel="noopener">http://censys.io</a></p>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>1.通过HTTPS证书日志收集信息:<a href="http://censys.io" target="_blank" rel="noopener">http://censys.io</a></p>
 <h2 id="资产搜索"><a href="#资产搜索" class="headerlink" title=" 资产搜索:"></a> 资产搜索:</h2><p><a href="http://www.zoomeye.org" target="_blank" rel="noopener">www.zoomeye.org</a> #python<br><a href="http://www.shodan.io" target="_blank" rel="noopener">www.shodan.io</a><br><a href="http://www.fofa.so" target="_blank" rel="noopener">www.fofa.so</a></p>
 <h2 id="2-CDN解析记录"><a href="#2-CDN解析记录" class="headerlink" title=" 2.CDN解析记录:"></a> 2.CDN解析记录:</h2><p><code>查看历史解析记录，中奖率蛮高的：</code><br><a href="https://viewdns.info" target="_blank" rel="noopener">https://viewdns.info</a> </p>
 <p><code>子域名的DNS解析记录：</code></p>
@@ -103,96 +179,98 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title=" 总结"></a> 总结</h2><h5 id="信息收集决定测试漏洞数量-需要耐心加细心"><a href="#信息收集决定测试漏洞数量-需要耐心加细心" class="headerlink" title="信息收集决定测试漏洞数量,需要耐心加细心"></a>信息收集决定测试漏洞数量,需要耐心加细心</h5><p>=&gt;<br>=&gt;<br>=&gt;</p>
 <h2 id="渗透标准"><a href="#渗透标准" class="headerlink" title=" 渗透标准"></a> <a href="https://www.processon.com/view/583e8834e4b08e31357bb727" target="_blank" rel="noopener">渗透标准</a></h2><p>附钟馗之眼的API资产收集脚本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">#coding: utf-8</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">author : xnianq</span><br><span class="line">date : 2016-08-25</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">import os</span><br><span class="line">import requests</span><br><span class="line">import json</span><br><span class="line">access_token=&apos;&apos;</span><br><span class="line">ip_list=[]</span><br><span class="line">def login():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">     输入帐号密码，进行登录操作</span><br><span class="line">    :return:  访问口令 access_token</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    user = raw_input(&apos;[-] input : username :&apos;)</span><br><span class="line">    passwd = raw_input(&apos;[-] input : passwd :&apos;)</span><br><span class="line">    data = &#123;</span><br><span class="line">        &apos;username&apos; : user,</span><br><span class="line">        &apos;password&apos; : passwd</span><br><span class="line">    &#125;</span><br><span class="line">    data_encoded = json.dumps(data)</span><br><span class="line">    try:</span><br><span class="line">        r = requests.post(url=&quot;https://api.zoomeye.org/user/login&quot;,data=data_encoded)</span><br><span class="line">        r_decode = json.loads(r.text)</span><br><span class="line">        global access_token</span><br><span class="line">        access_token = r_decode[&apos;access_token&apos;]</span><br><span class="line">    except Exception,e:</span><br><span class="line">        print &apos;[-] info : username or password seems wrong,please try again .&apos;</span><br><span class="line">        exit()</span><br><span class="line">def saveStrToFile(file,str):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    将字符串写入文本中</span><br><span class="line">    :param file:</span><br><span class="line">    :param str:</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    with open(file,&apos;w&apos;) as output:</span><br><span class="line">        output.write(str)</span><br><span class="line">def saveListToFile(file,list):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    将列表逐行写入文件中</span><br><span class="line">    :param file:</span><br><span class="line">    :param list:</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    s = &apos;\n&apos;.join(list)</span><br><span class="line">    with open(file,&apos;w&apos;) as output:</span><br><span class="line">        output.write(s)</span><br><span class="line">def apiTest():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    进行Api测试</span><br><span class="line">    :return:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    page = 1</span><br><span class="line">    global access_token</span><br><span class="line">    with open(&apos;access_token.txt&apos;,&apos;r&apos;) as input:</span><br><span class="line">        access_token = input.read()</span><br><span class="line">    headers = &#123;</span><br><span class="line">        &apos;Authorization&apos; : &apos;JWT &apos; + access_token,</span><br><span class="line">    &#125;</span><br><span class="line">    while(True):</span><br><span class="line">        try:</span><br><span class="line">            r = requests.get(url = &apos;https://api.zoomeye.org/host/search?query=“ximalaya.com”&amp;page=&apos;+str(page),headers=headers)</span><br><span class="line">            r_decoded = json.loads(r.text)</span><br><span class="line">            for x in r_decoded[&apos;matches&apos;]:</span><br><span class="line">                print x[&apos;ip&apos;]</span><br><span class="line">                ip_list.append(x[&apos;ip&apos;])</span><br><span class="line">            print &apos;[-] info : count &apos; + str(page*10)</span><br><span class="line">        except Exception,e:</span><br><span class="line">            if str(e.message) == &apos;matches&apos;:</span><br><span class="line">                print &apos;[-] info : account was break ,excceeding the max limitations&apos;</span><br><span class="line">                break</span><br><span class="line">            else:</span><br><span class="line">                print &apos;[-] info :&apos; + str(e.message)</span><br><span class="line">        else:</span><br><span class="line">            if page == 100 :</span><br><span class="line">                break</span><br><span class="line">            page +=1</span><br><span class="line">def main():</span><br><span class="line">    if not os.path.isfile(&apos;access_token.txt&apos;):</span><br><span class="line">        print &apos;[-] info : access_toke is not exists,please login&apos;</span><br><span class="line">        login()</span><br><span class="line">        saveStrToFile(&apos;access_token.txt&apos;,access_token)</span><br><span class="line">    apiTest()</span><br><span class="line">    saveListToFile(&apos;ip_list.txt&apos;,ip_list)</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
 
-      
-    </div>
-      
-      <footer>
-        
-        
-        
-  <div class="addthis addthis_toolbox addthis_default_style">
-    
-      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-    
-    
-      <a class="addthis_button_tweet"></a>
-    
-    
-      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    
-    
-      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
-    
-    <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
-
-      
-      <div class="clearfix"></div>
-      </footer>
   </div>
 </article>
 
 
-<section id="comment">
-  
-</section>
 
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
 
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:yoursite.com">
-  </form>
-</div>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
 
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/05/26/26/">JBoss引起的内网渗透</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/04/04/15543609538285/">JSP Shell Bypass WAF</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/04/02/15542127307091/">域渗透之Kerberoasting攻击</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/03/16/----1/">记一次域渗透攻击测试</a>
-      </li>
-    
-      <li>
-        <a href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/">python实现SSRF检测脚本</a>
-      </li>
-    
-  </ul>
-</div>
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#资产搜索"><span class="toc-number">1.</span> <span class="toc-text"> 资产搜索:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CDN解析记录"><span class="toc-number">2.</span> <span class="toc-text"> 2.CDN解析记录:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-搜索引擎"><span class="toc-number">3.</span> <span class="toc-text"> 3.搜索引擎:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#子域名"><span class="toc-number">4.</span> <span class="toc-text"> 子域名:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用nmap批量扫描"><span class="toc-number">5.</span> <span class="toc-text">使用nmap批量扫描:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举"><span class="toc-number">6.</span> <span class="toc-text">枚举:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证Url网页状态码-刷Src必备-："><span class="toc-number">7.</span> <span class="toc-text">验证Url网页状态码(刷Src必备) ：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件泄露"><span class="toc-number">8.</span> <span class="toc-text"> 文件泄露:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从主站爬取url："><span class="toc-number">9.</span> <span class="toc-text">从主站爬取url：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whois查询和关联查询"><span class="toc-number">10.</span> <span class="toc-text"> whois查询和关联查询: </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Google-hacking"><span class="toc-number">11.</span> <span class="toc-text"> Google hacking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#旁站C段："><span class="toc-number">12.</span> <span class="toc-text"> 旁站C段：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网站指纹"><span class="toc-number">13.</span> <span class="toc-text"> 网站指纹:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录爆破"><span class="toc-number">14.</span> <span class="toc-text"> 目录爆破:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nmap开发端口"><span class="toc-number">15.</span> <span class="toc-text"> Nmap开发端口:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">16.</span> <span class="toc-text"> 总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#信息收集决定测试漏洞数量-需要耐心加细心"><span class="toc-number">16.0.0.1.</span> <span class="toc-text">信息收集决定测试漏洞数量,需要耐心加细心</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#渗透标准"><span class="toc-number">17.</span> <span class="toc-text"> 渗透标准</span></a></li>
+    </div>
 
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/10/07/关于前期信息收集笔记/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&text=关于前期信息收集笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&is_video=false&description=关于前期信息收集笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于前期信息收集笔记&body=Check out this article: http://yoursite.com/2018/10/07/关于前期信息收集笔记/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&title=关于前期信息收集笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/10/07/关于前期信息收集笔记/&name=关于前期信息收集笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
 
-  
+    </div>
 
-  
-</aside>
-    <div class="clearfix"></div>
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-  &copy; 2019 John Doe
-  
 </div>
-<div class="clearfix"></div></footer>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
 
-
+    </div>
 </body>
 </html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
 
