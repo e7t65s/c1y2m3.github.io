@@ -1,39 +1,190 @@
-extends includes/layout
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>c1y2m3’blog</title>
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-block content
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/c1y2m3.github.io/" class="header-nav-link">
+                首页
+            </a>
+            
 
-    section#wrapper.post
-        article
-            header
-                h1!=page.title
-                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
-                    |·
-                    |#{wordcount(page.content)} words
-                    |·
-                    |#{min2read(page.content)} minutes read
-                    span.tags
+            
+            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-            if toc(page.content)
-                div#toc!=toc(page.content,{list_number:false})
+            
+            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-            section#post-body!=page.content
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
+        </div>
 
-            - var prev = page.prev ? page.prev.path : false;
-            - var next = page.next ? page.next.path : false;
-            nav#post-nav
-                span.prev
-                    if page.prev
-                        a(href=url_for(prev))
-                            span.arrow ←
-                            | Newer Posts
-                span.next
-                    if page.next
-                        a(href=url_for(next))
-                            | Older Posts
-                            span.arrow →
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">关于服务器的上传漏洞分析</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-09-15</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#文件上传练习"><span class="toc-text">文件上传练习:</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#（一）IIS5-x-6-x解析漏洞"><span class="toc-text">（一）IIS5.x-6.x解析漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#目录解析-6-0"><span class="toc-text">目录解析(6.0)</span></a></li></ol><li class="toc-item toc-level-5"><a class="toc-link" href="#形式：www-xxx-com-xx-asp-xx-jpg"><span class="toc-text">形式：www.xxx.com/xx.asp/xx.jpg</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#文件解析"><span class="toc-text">文件解析</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#解析文件类型"><span class="toc-text">解析文件类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修复方案"><span class="toc-text">修复方案</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#（二）apache解析漏洞"><span class="toc-text">（二）apache解析漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修复方案-1"><span class="toc-text">修复方案</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#（三）nginx解析漏洞"><span class="toc-text">（三）nginx解析漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#漏洞形式"><span class="toc-text">漏洞形式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修复方案-2"><span class="toc-text">修复方案</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#文件包含漏洞"><span class="toc-text">文件包含漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#远程包含"><span class="toc-text">远程包含</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</li></div>
+        <div class="post-content">
+            <p>很久没有归纳总结知识点了，学了那么多总感觉那么零散，所以准备开始总结这一系列的漏洞详解。一方面是总结一方面也是复习。</p>
+<h6 id="文件上传练习"><a href="#文件上传练习" class="headerlink" title="文件上传练习:"></a>文件上传练习:</h6><p><a href="https://github.com/cnnetarmy/uploadfile" target="_blank" rel="noopener">https://github.com/cnnetarmy/uploadfile</a></p>
+<h6 id="（一）IIS5-x-6-x解析漏洞"><a href="#（一）IIS5-x-6-x解析漏洞" class="headerlink" title="（一）IIS5.x-6.x解析漏洞"></a>（一）IIS5.x-6.x解析漏洞</h6><p>使用iis5.x-6.x版本的服务器，大多为windows server 2003，网站比较古老，开发语句一般为asp；该解析漏洞也只能解析asp文件，而不能解析aspx文件。</p>
+<h6 id="目录解析-6-0"><a href="#目录解析-6-0" class="headerlink" title="目录解析(6.0)"></a>目录解析(6.0)</h6><h5 id="形式：www-xxx-com-xx-asp-xx-jpg"><a href="#形式：www-xxx-com-xx-asp-xx-jpg" class="headerlink" title="形式：www.xxx.com/xx.asp/xx.jpg"></a>形式：<a href="http://www.xxx.com/xx.asp/xx.jpg" target="_blank" rel="noopener">www.xxx.com/xx.asp/xx.jpg</a></h5><p>原理: 服务器默认会把.asp，.asa目录下的文件都解析成asp文件</p>
+<h6 id="文件解析"><a href="#文件解析" class="headerlink" title="文件解析"></a>文件解析</h6><p>形式：<a href="http://www.xxx.com/xx.asp;.jpg" target="_blank" rel="noopener">www.xxx.com/xx.asp;.jpg</a><br>形式：<a href="http://www.xxx.com/xx.asp:.jpg" target="_blank" rel="noopener">www.xxx.com/xx.asp:.jpg</a></p>
+<p>原理：服务器默认不解析;号后面的内容，因此xx.asp;.jpg便被解析成asp文件了。</p>
+<h6 id="解析文件类型"><a href="#解析文件类型" class="headerlink" title="解析文件类型"></a>解析文件类型</h6><ol>
+<li>IIS6.0 默认的可执行文件除了asp还包含这三种 :<br>/test.asa<br>/test.cer<br>/test.cdx</li>
+</ol>
+<h6 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h6><p>1.通过自己编写正则，阻止上传xx.asp;.jpg类型的文件名。<br>2.2.做好权限设置，限制用户创建文件夹。</p>
+<hr>
+<h6 id="（二）apache解析漏洞"><a href="#（二）apache解析漏洞" class="headerlink" title="（二）apache解析漏洞"></a>（二）apache解析漏洞</h6><ol>
+<li>漏洞原理</li>
+</ol>
+<p><code>从右到左开始判断解析,如果后缀名为不可识别文件解析,就再往左判断`</code>比如 test.php.owf.rar “.owf”和”.rar” 这两种后缀是apache不可识别解析,apache就会把test.php.owf.rar解析成php。`</p>
+<ol start="2">
+<li>漏洞形式<br><a href="http://www.xxxx.xxx.com/test.php.php123" target="_blank" rel="noopener">www.xxxx.xxx.com/test.php.php123</a></li>
+</ol>
+<p>(1). 漏洞原理</p>
+<p><code>如果在 Apache 的 conf 里有这样一行配置 AddHandler php5-script .php 这时只要文件名里包含.php 即使文件名是 test2.php.jpg 也会以 php 来执行。</code></p>
+<p>(2)<code>如果在 Apache 的 conf 里有这样一行配置 AddType application/x-httpd-php .jpg 即使扩展名是 jpg，一样能以 php 方式执行。</code></p>
+<h6 id="修复方案-1"><a href="#修复方案-1" class="headerlink" title="修复方案"></a>修复方案</h6><p>1.apache配置文件，禁止.php. 这样的文件执行</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5b9e15b950f8dd53ff5cec03" alt=""><br>2.用伪静态能解决这个问题，重写类似.php.*这类文件<br><code>打开apache的httpd.conf找到LoadModule rewrite_module modules/mod_rewrite.so
+把#号去掉，重启apache,在网站根目录下建立.htaccess文件,代码如下:</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5b9e16849b521a370e8eaadf" alt=""></p>
+<h6 id="（三）nginx解析漏洞"><a href="#（三）nginx解析漏洞" class="headerlink" title="（三）nginx解析漏洞"></a>（三）nginx解析漏洞</h6><ol>
+<li>漏洞原理<br>　　<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Nginx默认是以CGI的方式支持PHP解析的，普遍的做法是在Nginx配置文件中通过正则匹配设置SCRIPT_FILENAME。</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li><code>当访问www.xx.com/phpinfo.jpg/1.php这个URL时，$fastcgi_script_name会被设置为“phpinfo.jpg/1.php”，
+然后构造成SCRIPT_FILENAME传递给PHP CGI</code></li>
+</ul>
+<p><code>因为PHP的配置原因，开启fix_pathinfo这个选项了,PHP会认为SCPIPT_FILENAME是phpinfo.jpg,而1.php是PATG_INFO，所以就会将phpinfo.jpg作为PHP文件来解析了</code></p>
+<h6 id="漏洞形式"><a href="#漏洞形式" class="headerlink" title="漏洞形式"></a>漏洞形式</h6><p><a href="http://www.xxxx.com/UploadFiles/image/1.jpg/1.php" target="_blank" rel="noopener">www.xxxx.com/UploadFiles/image/1.jpg/1.php</a></p>
+<p>版本：0.5，0.6,0.7&lt;=0.7.65&amp;&amp;08&lt;=0.8.37<br><a href="http://www.xxxx.com/UploadFiles/image/1.jpg%00.php" target="_blank" rel="noopener">www.xxxx.com/UploadFiles/image/1.jpg%00.php</a></p>
+<p>版本：0.8.041-1.5.6<br><a href="http://www.xxxx.com/UploadFiles/image/1.jpg%20.php" target="_blank" rel="noopener">www.xxxx.com/UploadFiles/image/1.jpg%20.php</a></p>
+<p><a href="http://www.xxxx.com/UploadFiles/image/1.jpg/%20\0.php" target="_blank" rel="noopener">www.xxxx.com/UploadFiles/image/1.jpg/%20\0.php</a></p>
+<h6 id="修复方案-2"><a href="#修复方案-2" class="headerlink" title="修复方案"></a>修复方案</h6><p>1.修改php.ini文件，将cgi.fix_pathinfo的值设置为0;<br>2.在Nginx配置文件中添加以下代码：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5b9e1ca82711cd127f1a4161" alt=""></p>
+<hr>
+<h6 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h6><p><code>普通本地包含
+&lt;?php include_once(&amp;_GET[‘f’]); ?&gt;</code></p>
+<p>Php?f=1.txt<br><code>截断本地包含，Magic_quote_gpc为off的情况使用</code></p>
+<p>Php?=1.txt%00<br><code>长文件名截断 &lt;?php include_once($_GET[‘f’].”.php”); ?&gt;</code></p>
+<p>Php?f=1.txt/././././././././././././././././././…………php</p>
+<h6 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h6><p>这种默认情况下关闭的套路别用了，愁人！<br><code>allow_url_include=On默认不开启，以及远程读取文件allow_url_fopen=On</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">读取远程文件内容函数:</span><br><span class="line">fopen() copy() file_get_content()</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">包含远程文件代码:</span><br><span class="line">include()  include_once() require() require_once()</span><br></pre></td></tr></table></figure>
+<p>前面读取远程文件内容，可能会出现在上传头像处，存取远程头像。<br>后者危害可能更大，直接包含恶意代码执行导致任意代码执行。</p>
 
-            include includes/comment.pug
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">文件上传绕过总结</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
+    
 
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
 
+</script>
+</html>

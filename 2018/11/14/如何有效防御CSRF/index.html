@@ -1,39 +1,189 @@
-extends includes/layout
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>c1y2m3’blog</title>
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-block content
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/c1y2m3.github.io/" class="header-nav-link">
+                首页
+            </a>
+            
 
-    section#wrapper.post
-        article
-            header
-                h1!=page.title
-                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
-                    |·
-                    |#{wordcount(page.content)} words
-                    |·
-                    |#{min2read(page.content)} minutes read
-                    span.tags
+            
+            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-            if toc(page.content)
-                div#toc!=toc(page.content,{list_number:false})
+            
+            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-            section#post-body!=page.content
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
+        </div>
 
-            - var prev = page.prev ? page.prev.path : false;
-            - var next = page.next ? page.next.path : false;
-            nav#post-nav
-                span.prev
-                    if page.prev
-                        a(href=url_for(prev))
-                            span.arrow ←
-                            | Newer Posts
-                span.next
-                    if page.next
-                        a(href=url_for(next))
-                            | Older Posts
-                            span.arrow →
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">如何有效防御CSRF</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-11-14</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Referer"><span class="toc-text">Referer </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#token"><span class="toc-text">token </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-前后端分离："><span class="toc-text">0x02 前后端分离：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-text">总结：</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p>防御方案：</p>
+<p>Referer</p>
+<p>Token </p>
+<ul>
+<li>前后端分离</li>
+<li>前后端未分离</li>
+</ul>
+<h2 id="Referer"><a href="#Referer" class="headerlink" title="Referer "></a>Referer </h2><p>一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。</p>
+<h2 id="token"><a href="#token" class="headerlink" title="token "></a>token </h2><p>0x01 前后端未分离：</p>
+<ol>
+<li><p>后端随机产生一个token，把这个token保存在SESSION状态中，同时，后端把这个token交给前端页面；</p>
+</li>
+<li><p>下次前端需要发起请求(比如发帖)的时候把这个token加入请求数据或头信息中，一起转给后端；</p>
+</li>
+<li><p>后端校验前端请求带过来的token和session里的token是否一致；</p>
+</li>
+</ol>
+<h2 id="0x02-前后端分离："><a href="#0x02-前后端分离：" class="headerlink" title="0x02 前后端分离："></a>0x02 前后端分离：</h2><p>(可以借助Cookie把这个升级下，通过Cookie进行浏览器和服务端的交互。</p>
+<ol>
+<li><p>后端随机产生一个token</p>
+</li>
+<li><p>后端将这个token设置为cookie，返回给前端</p>
+</li>
+<li><p>前端需要发起请求的时候，从cookie中获取token，把这个token加入请求数据或者头信息中，一起传给后端，由于前端要获取cookie里的token，所以该token必须设置为非httponly</p>
+</li>
+<li><p>后端校验$_cookie[‘token’]= $_POST[‘token’]</p>
+</li>
+</ol>
+<p>在这种防御方案下，攻击者构造一个CSRF页面，由于不知道被攻击者的cookie中的token字段的值，导致无法构造$_POST[‘token’]参数，所以，攻击失败。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
+<li><p>CSRF的token存在cookie的方式，如果存在xss，必定会被绕过，因为前端要获取cookie里的token，该字段必须设置为非httponly，否则获取不到。</p>
+</li>
+<li><p>用Referer限制防御CSRF，存在XSS也会被绕过。</p>
+</li>
+<li><p>通过$SESSION的token方式，CSRF防御不会被XSS等漏洞绕过，因为XSS等漏洞不能操作SESSION。</p>
+</li>
+<li><p>CSRF的防御手段(除了SESSION)目前在有XSS组合利用情况下都可以被绕过。(XSS和CSRF同域的情况下)。</p>
+</li>
+</ul>
 
-            include includes/comment.pug
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">在Linux下文件包含漏洞的另类拿SHELL方法</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/c1y2m3.github.io/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /">
+                <span class="nav-default">从SELF-XSS到存储型XSS/附绕过token分析过程</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
+    
 
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
 
+</script>
+</html>

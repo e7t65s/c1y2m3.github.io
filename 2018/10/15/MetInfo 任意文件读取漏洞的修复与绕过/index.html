@@ -1,39 +1,172 @@
-extends includes/layout
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>c1y2m3’blog</title>
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-block content
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/c1y2m3.github.io/" class="header-nav-link">
+                首页
+            </a>
+            
 
-    section#wrapper.post
-        article
-            header
-                h1!=page.title
-                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
-                    |·
-                    |#{wordcount(page.content)} words
-                    |·
-                    |#{min2read(page.content)} minutes read
-                    span.tags
+            
+            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-            if toc(page.content)
-                div#toc!=toc(page.content,{list_number:false})
+            
+            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-            section#post-body!=page.content
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
+        </div>
 
-            - var prev = page.prev ? page.prev.path : false;
-            - var next = page.next ? page.next.path : false;
-            nav#post-nav
-                span.prev
-                    if page.prev
-                        a(href=url_for(prev))
-                            span.arrow ←
-                            | Newer Posts
-                span.next
-                    if page.next
-                        a(href=url_for(next))
-                            | Older Posts
-                            span.arrow →
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">MetInfo 任意文件读取漏洞的修复与绕过</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-10-15</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞简介"><span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞影响"><span class="toc-text">漏洞影响</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞分析"><span class="toc-text">漏洞分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第一次绕过"><span class="toc-text">第一次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二次绕过"><span class="toc-text">第二次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三次绕过"><span class="toc-text">第三次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
+<h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><ul>
+<li>MetInfo 6.0.0</li>
+<li>MetInfo 6.1.0</li>
+</ul>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>看到\MetInfo6\app\system\include\module\old_thumb.class.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"># MetInfo Enterprise Content Management System</span><br><span class="line"># Copyright (C) MetInfo Co.,Ltd (http://www.metinfo.cn). All rights reserved.</span><br><span class="line"></span><br><span class="line">defined(&apos;IN_MET&apos;) or exit(&apos;No permission&apos;);</span><br><span class="line"></span><br><span class="line">load::sys_class(&apos;web&apos;);</span><br><span class="line"></span><br><span class="line">class old_thumb extends web&#123;</span><br><span class="line"></span><br><span class="line">      public function doshow()&#123;</span><br><span class="line">        global $_M;</span><br><span class="line"></span><br><span class="line">        $dir = str_replace(&apos;../&apos;, &apos;&apos;, $_GET[&apos;dir&apos;]);</span><br><span class="line"></span><br><span class="line">        if(strstr(str_replace($_M[&apos;url&apos;][&apos;site&apos;], &apos;&apos;, $dir), &apos;http&apos;))&#123;</span><br><span class="line">            header(&quot;Content-type: image/jpeg&quot;);</span><br><span class="line">            ob_start();</span><br><span class="line">            readfile($dir);</span><br><span class="line">            ob_flush();</span><br><span class="line">            flush();</span><br><span class="line">            die;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中看到，<code>$dir</code>直接由<code>$_GET[&#39;dir&#39;]</code>传递进来，并将<code>../</code>置空。目前是进入到第一个if里面的<code>readfile($dir）</code>; 读取文件，看着if语句的条件，里面的是将<code>$dir</code>中包含<code>$$_M[&#39;url&#39;][&#39;site&#39;]</code>的部分置空，外面是一个<code>strstr</code>函数，判断$dir中http字符串的首次出现位置，也就是说，要进入到这个 if 语句里面，<code>$dir</code>中包含<code>http</code>字符串即可。</p>
+<p>从上面的分析可以构造出 payload，只要$dir里包含http字符串就可以进入到readfile函数从而读取任意函数，然后可以使用…/./来进行目录跳转，因为../会被置空，所以最终payload 如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?dir=..././http/..././config/config_db.php</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da" alt=""><br>对于这个任意文件读取漏洞，官方一直没补好，导致被绕过了几次。以下几种绕过方式均已提交CNVD，由CNVD通报厂商。</p>
+<h1 id="第一次绕过"><a href="#第一次绕过" class="headerlink" title="第一次绕过"></a>第一次绕过</h1><p>根据WAM的监测记录，官方5月份的时候补了这个漏洞，但是没补完全。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69" alt=""></p>
+<p>可以看到，之前的只是把<code>../</code>置空，而补丁是把<code>../</code>和<code>./</code>都置空了。但是这里还是可以绕过。可以使用<code>.....///</code>来跳转目录，<code>.....///</code>经过<code>str_replace</code>置空，正好剩下../，可以跳转。所以payload是</p>
+<p><code>?dir=.....///http/.....///config/config_db.php</code></p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf" alt=""></p>
+<h1 id="第二次绕过"><a href="#第二次绕过" class="headerlink" title="第二次绕过"></a>第二次绕过</h1><p>在提交第一种绕过方式给CNVD之后，MetInfo没多久就更新了，来看下官方的修复方式。<br>diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976" alt=""></p>
+<p>这里加了一个判断，$dir要以http开头，变换一下之前的payload就可以继续绕过了。</p>
+<p><code>?dir=http/.....///.....///config/config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869" alt=""></p>
+<h1 id="第三次绕过"><a href="#第三次绕过" class="headerlink" title="第三次绕过"></a>第三次绕过</h1><p>再次提交之后，官方知悉该绕过方式，又补了一次了。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027" alt=""></p>
+<p>看到补丁，又多加了一个判断条件，使用strpos函数查找<code>./</code>首次出现的位置，也就是说不能有<code>./</code>。没了<code>./</code>，在Windows下还可以用<code>..\</code>来跳转目录。所以payload</p>
+<p><code>?dir=http\..\..\config\config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9" alt=""><br>遗憾的是，这个只能在Windows环境下面才可以。</p>
+<p>#最终<br>目前在官网供下载的最新的6.1.0版本中，<code>old_thumb.class.php</code>这个文件已经被删除。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一次次的修补，一次次的绕过，感觉开发者应该是没有理解到漏洞利用的原理，一直以类黑名单的形式在修复，而黑名单的形式总是容易被绕过。除了删除文件外，根据实际功能，可以考虑使用白名单方式修复，例如限定所能读取的文件类型为图片类型。</p>
 
-            include includes/comment.pug
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/c1y2m3.github.io/2018/10/17/端口转发的学习/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">关于内网端口转发学习</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/">
+                <span class="nav-default">关于前期信息收集笔记</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
+    
 
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
 
+</script>
+</html>

