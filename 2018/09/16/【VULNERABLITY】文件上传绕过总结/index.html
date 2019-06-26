@@ -1,17 +1,20 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="概述  一个文件以http协议上传的时候，将以post请求发送至web服务器。服务器接受并同意后，用户与web服务器建立连接，并且传输数据 上传检测流程  1.客户端javascript检测（检测文件扩展名为主） 2.服务端MIME类型检测（检测Content-type内容） 3.服务端目录路径检测（检测跟path相关的内容） 4.服务端文件扩展名检测（检测跟文件后缀相关的内容） 5.服务端文件">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>文件上传绕过总结 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x6982;&amp;#x8FF0;  &amp;#x4E00;&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x4EE5;http&amp;#x534F;&amp;#x8BAE;&amp;#x4E0A;&amp;#x4F20;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;&amp;#x5C06;&amp;#x4EE5;post&amp;#x8BF7;&amp;#x6C42;&amp;#x53D1;&amp;#x9001;&amp;#x81F3;web&amp;#x670D;&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文件上传绕过总结">
 <meta property="og:url" content="http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="概述  一个文件以http协议上传的时候，将以post请求发送至web服务器。服务器接受并同意后，用户与web服务器建立连接，并且传输数据 上传检测流程  1.客户端javascript检测（检测文件扩展名为主） 2.服务端MIME类型检测（检测Content-type内容） 3.服务端目录路径检测（检测跟path相关的内容） 4.服务端文件扩展名检测（检测跟文件后缀相关的内容） 5.服务端文件">
+<meta property="og:description" content="&amp;#x6982;&amp;#x8FF0;  &amp;#x4E00;&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x4EE5;http&amp;#x534F;&amp;#x8BAE;&amp;#x4E0A;&amp;#x4F20;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;&amp;#x5C06;&amp;#x4EE5;post&amp;#x8BF7;&amp;#x6C42;&amp;#x53D1;&amp;#x9001;&amp;#x81F3;web&amp;#x670D;&amp;#">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5b9e41e02711cd127f1b3a33">
 <meta property="og:image" content="http://www.vuln.cn/wp-content/uploads/2016/10/e9a20f6cbd6533adefa34f7c8e16ee4f.png">
@@ -19,294 +22,304 @@
 <meta property="og:updated_time" content="2018-11-18T16:28:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件上传绕过总结">
-<meta name="twitter:description" content="概述  一个文件以http协议上传的时候，将以post请求发送至web服务器。服务器接受并同意后，用户与web服务器建立连接，并且传输数据 上传检测流程  1.客户端javascript检测（检测文件扩展名为主） 2.服务端MIME类型检测（检测Content-type内容） 3.服务端目录路径检测（检测跟path相关的内容） 4.服务端文件扩展名检测（检测跟文件后缀相关的内容） 5.服务端文件">
+<meta name="twitter:description" content="&amp;#x6982;&amp;#x8FF0;  &amp;#x4E00;&amp;#x4E2A;&amp;#x6587;&amp;#x4EF6;&amp;#x4EE5;http&amp;#x534F;&amp;#x8BAE;&amp;#x4E0A;&amp;#x4F20;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#xFF0C;&amp;#x5C06;&amp;#x4EE5;post&amp;#x8BF7;&amp;#x6C42;&amp;#x53D1;&amp;#x9001;&amp;#x81F3;web&amp;#x670D;&amp;#">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5b9e41e02711cd127f1b3a33">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>文件上传绕过总结</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/26/ redis安全详解/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/15/服务器解析漏洞(总结)/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&text=文件上传绕过总结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&is_video=false&description=文件上传绕过总结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=文件上传绕过总结&body=Check out this article: http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&name=文件上传绕过总结&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
+    </div>
 
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端javascript检测"><span class="toc-number">1.</span> <span class="toc-text">客户端javascript检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端检测绕过（目录路径检测）"><span class="toc-number">2.</span> <span class="toc-text">服务端检测绕过（目录路径检测）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器端检测绕过（文件扩展名检测）"><span class="toc-number">3.</span> <span class="toc-text">服务器端检测绕过（文件扩展名检测）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#htaccess文件攻击"><span class="toc-number">4.</span> <span class="toc-text">.htaccess文件攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#user-ini-文件攻击"><span class="toc-number">5.</span> <span class="toc-text">.user.ini 文件攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器端检测绕过（文件内容检测）"><span class="toc-number">6.</span> <span class="toc-text">服务器端检测绕过（文件内容检测）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#总结"><span class="toc-number">6.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </span>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        文件上传绕过总结
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post-【VULNERABLITY】文件上传绕过总结" class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    文件上传绕过总结
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-09-15T16:34:14.000Z" itemprop="datePublished">2018-09-16</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <ul>
-<li>概述</li>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <ul class="ui list">
+<li>&#x6982;&#x8FF0;</li>
 </ul>
-<p><code>一个文件以http协议上传的时候，将以post请求发送至web服务器。服务器接受并同意后，用户与web服务器建立连接，并且传输数据</code></p>
-<p><strong>上传检测流程</strong></p>
-<ul>
-<li>1.客户端javascript检测（检测文件扩展名为主）</li>
-<li>2.服务端MIME类型检测（检测Content-type内容）</li>
-<li>3.服务端目录路径检测（检测跟path相关的内容）</li>
-<li>4.服务端文件扩展名检测（检测跟文件后缀相关的内容）</li>
-<li>5.服务端文件内容检测（检测内容是否合法或含有恶意代码）</li>
+<p><code>&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x4EE5;http&#x534F;&#x8BAE;&#x4E0A;&#x4F20;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C06;&#x4EE5;post&#x8BF7;&#x6C42;&#x53D1;&#x9001;&#x81F3;web&#x670D;&#x52A1;&#x5668;&#x3002;&#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7;&#x5E76;&#x540C;&#x610F;&#x540E;&#xFF0C;&#x7528;&#x6237;&#x4E0E;web&#x670D;&#x52A1;&#x5668;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x4E14;&#x4F20;&#x8F93;&#x6570;&#x636E;</code></p>
+<p><strong>&#x4E0A;&#x4F20;&#x68C0;&#x6D4B;&#x6D41;&#x7A0B;</strong></p>
+<ul class="ui list">
+<li>1.&#x5BA2;&#x6237;&#x7AEF;javascript&#x68C0;&#x6D4B;&#xFF08;&#x68C0;&#x6D4B;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x4E3A;&#x4E3B;&#xFF09;</li>
+<li>2.&#x670D;&#x52A1;&#x7AEF;MIME&#x7C7B;&#x578B;&#x68C0;&#x6D4B;&#xFF08;&#x68C0;&#x6D4B;Content-type&#x5185;&#x5BB9;&#xFF09;</li>
+<li>3.&#x670D;&#x52A1;&#x7AEF;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x68C0;&#x6D4B;&#xFF08;&#x68C0;&#x6D4B;&#x8DDF;path&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#xFF09;</li>
+<li>4.&#x670D;&#x52A1;&#x7AEF;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x68C0;&#x6D4B;&#xFF08;&#x68C0;&#x6D4B;&#x8DDF;&#x6587;&#x4EF6;&#x540E;&#x7F00;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#xFF09;</li>
+<li>5.&#x670D;&#x52A1;&#x7AEF;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x68C0;&#x6D4B;&#xFF08;&#x68C0;&#x6D4B;&#x5185;&#x5BB9;&#x662F;&#x5426;&#x5408;&#x6CD5;&#x6216;&#x542B;&#x6709;&#x6076;&#x610F;&#x4EE3;&#x7801;&#xFF09;</li>
 </ul>
-<h4 id="客户端javascript检测"><a href="#客户端javascript检测" class="headerlink" title="客户端javascript检测"></a>客户端javascript检测</h4><p>通常此类检测会在js文件中有一个检测的函数，一般对上传的文件后缀名做检测,例如仅允许上传png,jpg,gif等类型的文件，如果检测到的文件后缀名不是在这些名单内，则不向服务器端传输文件内容。</p>
-<p>使用burp，，通过burp拦包，并修改后缀后提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">_ _ _</span><br><span class="line"></span><br><span class="line">#### 服务端检测绕过（MIME类型检测）</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">	if($_FILES[&apos;userfile&apos;][&apos;type&apos;] != &quot;image/gif&quot;) &#123; //检测Content-type</span><br><span class="line">		echo &quot;Sorry, we only allow uploading GIF images&quot;;</span><br><span class="line">		exit;</span><br><span class="line">	&#125;</span><br><span class="line">	$uploaddir = &apos;uploads/&apos;;</span><br><span class="line">	$uploadfile = $uploaddir . basename($_FILES[&apos;userfile&apos;][&apos;name&apos;]);</span><br><span class="line">	if (move_uploaded_file($_FILES[&apos;userfile&apos;][&apos;tmp_name&apos;], $uploadfile)) 	  &#123;</span><br><span class="line">		echo &quot;File is valid, and was successfully uploaded.\n&quot;;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		echo &quot;File uploading failed.\n&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>通过判断$_FILES[‘userfile’][‘type’] != “image/gif”来保证上传的类型为gif类型的文件。<br><code>绕过这一类型的检测，可以通过burp拦包，将原Content-Type类型该为符合要求的image/gif类型。</code></li>
+<h4 id="&#x5BA2;&#x6237;&#x7AEF;javascript&#x68C0;&#x6D4B;"><a href="#&#x5BA2;&#x6237;&#x7AEF;javascript&#x68C0;&#x6D4B;" class="headerlink" title="&#x5BA2;&#x6237;&#x7AEF;javascript&#x68C0;&#x6D4B;"></a>&#x5BA2;&#x6237;&#x7AEF;javascript&#x68C0;&#x6D4B;</h4><p>&#x901A;&#x5E38;&#x6B64;&#x7C7B;&#x68C0;&#x6D4B;&#x4F1A;&#x5728;js&#x6587;&#x4EF6;&#x4E2D;&#x6709;&#x4E00;&#x4E2A;&#x68C0;&#x6D4B;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x4E00;&#x822C;&#x5BF9;&#x4E0A;&#x4F20;&#x7684;&#x6587;&#x4EF6;&#x540E;&#x7F00;&#x540D;&#x505A;&#x68C0;&#x6D4B;,&#x4F8B;&#x5982;&#x4EC5;&#x5141;&#x8BB8;&#x4E0A;&#x4F20;png,jpg,gif&#x7B49;&#x7C7B;&#x578B;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x679C;&#x68C0;&#x6D4B;&#x5230;&#x7684;&#x6587;&#x4EF6;&#x540E;&#x7F00;&#x540D;&#x4E0D;&#x662F;&#x5728;&#x8FD9;&#x4E9B;&#x540D;&#x5355;&#x5185;&#xFF0C;&#x5219;&#x4E0D;&#x5411;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x4F20;&#x8F93;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x3002;</p>
+<p>&#x4F7F;&#x7528;burp&#xFF0C;&#xFF0C;&#x901A;&#x8FC7;burp&#x62E6;&#x5305;&#xFF0C;&#x5E76;&#x4FEE;&#x6539;&#x540E;&#x7F00;&#x540E;&#x63D0;&#x4EA4;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">_ _ _</span><br><span class="line"></span><br><span class="line">#### &#x670D;&#x52A1;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;MIME&#x7C7B;&#x578B;&#x68C0;&#x6D4B;&#xFF09;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">	if($_FILES[&apos;userfile&apos;][&apos;type&apos;] != &quot;image/gif&quot;) { //&#x68C0;&#x6D4B;Content-type</span><br><span class="line">		echo &quot;Sorry, we only allow uploading GIF images&quot;;</span><br><span class="line">		exit;</span><br><span class="line">	}</span><br><span class="line">	$uploaddir = &apos;uploads/&apos;;</span><br><span class="line">	$uploadfile = $uploaddir . basename($_FILES[&apos;userfile&apos;][&apos;name&apos;]);</span><br><span class="line">	if (move_uploaded_file($_FILES[&apos;userfile&apos;][&apos;tmp_name&apos;], $uploadfile)) 	  {</span><br><span class="line">		echo &quot;File is valid, and was successfully uploaded.\n&quot;;</span><br><span class="line">	} else {</span><br><span class="line">		echo &quot;File uploading failed.\n&quot;;</span><br><span class="line">	}</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<ol class="ui list">
+<li>&#x901A;&#x8FC7;&#x5224;&#x65AD;$_FILES[&#x2018;userfile&#x2019;][&#x2018;type&#x2019;] != &#x201C;image/gif&#x201D;&#x6765;&#x4FDD;&#x8BC1;&#x4E0A;&#x4F20;&#x7684;&#x7C7B;&#x578B;&#x4E3A;gif&#x7C7B;&#x578B;&#x7684;&#x6587;&#x4EF6;&#x3002;<br><code>&#x7ED5;&#x8FC7;&#x8FD9;&#x4E00;&#x7C7B;&#x578B;&#x7684;&#x68C0;&#x6D4B;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;burp&#x62E6;&#x5305;&#xFF0C;&#x5C06;&#x539F;Content-Type&#x7C7B;&#x578B;&#x8BE5;&#x4E3A;&#x7B26;&#x5408;&#x8981;&#x6C42;&#x7684;image/gif&#x7C7B;&#x578B;&#x3002;</code></li>
 </ol>
 <hr>
-<h4 id="服务端检测绕过（目录路径检测）"><a href="#服务端检测绕过（目录路径检测）" class="headerlink" title="服务端检测绕过（目录路径检测）"></a>服务端检测绕过（目录路径检测）</h4><p>某些web应用，为了标识上传的图片是属于哪个文件夹的，上传文件时会带上文件存储路径，如果对目录路径检测不够完全，可以通过截断攻击。（如<strong>%00</strong>,windows下%80-%90）(0x00)</p>
-<p><code>如上传时提供存储路劲为image/20160704/可以通过修改为image/20160704/evil.php%00来达到截断目的。
-后端程序会将该路径连接为image/20160704/evil.php%00filename.gif 00截断导致最终存储的文件名为evil.php</code></p>
+<h4 id="&#x670D;&#x52A1;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x68C0;&#x6D4B;&#xFF09;"><a href="#&#x670D;&#x52A1;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x68C0;&#x6D4B;&#xFF09;" class="headerlink" title="&#x670D;&#x52A1;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x68C0;&#x6D4B;&#xFF09;"></a>&#x670D;&#x52A1;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x68C0;&#x6D4B;&#xFF09;</h4><p>&#x67D0;&#x4E9B;web&#x5E94;&#x7528;&#xFF0C;&#x4E3A;&#x4E86;&#x6807;&#x8BC6;&#x4E0A;&#x4F20;&#x7684;&#x56FE;&#x7247;&#x662F;&#x5C5E;&#x4E8E;&#x54EA;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x7684;&#xFF0C;&#x4E0A;&#x4F20;&#x6587;&#x4EF6;&#x65F6;&#x4F1A;&#x5E26;&#x4E0A;&#x6587;&#x4EF6;&#x5B58;&#x50A8;&#x8DEF;&#x5F84;&#xFF0C;&#x5982;&#x679C;&#x5BF9;&#x76EE;&#x5F55;&#x8DEF;&#x5F84;&#x68C0;&#x6D4B;&#x4E0D;&#x591F;&#x5B8C;&#x5168;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x622A;&#x65AD;&#x653B;&#x51FB;&#x3002;&#xFF08;&#x5982;<strong>%00</strong>,windows&#x4E0B;%80-%90&#xFF09;(0x00)</p>
+<p><code>&#x5982;&#x4E0A;&#x4F20;&#x65F6;&#x63D0;&#x4F9B;&#x5B58;&#x50A8;&#x8DEF;&#x52B2;&#x4E3A;image/20160704/&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4FEE;&#x6539;&#x4E3A;image/20160704/evil.php%00&#x6765;&#x8FBE;&#x5230;&#x622A;&#x65AD;&#x76EE;&#x7684;&#x3002;
+&#x540E;&#x7AEF;&#x7A0B;&#x5E8F;&#x4F1A;&#x5C06;&#x8BE5;&#x8DEF;&#x5F84;&#x8FDE;&#x63A5;&#x4E3A;image/20160704/evil.php%00filename.gif 00&#x622A;&#x65AD;&#x5BFC;&#x81F4;&#x6700;&#x7EC8;&#x5B58;&#x50A8;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x4E3A;evil.php</code></p>
 <hr>
-<h4 id="服务器端检测绕过（文件扩展名检测）"><a href="#服务器端检测绕过（文件扩展名检测）" class="headerlink" title="服务器端检测绕过（文件扩展名检测）"></a>服务器端检测绕过（文件扩展名检测）</h4><ol>
-<li>黑名单检测<br><code>黑名单检测通常会有一个文件后缀名黑名单</code>（例如html|htm|php|php2|php3|php4|php5…）<br>但是通常黑名单检测不能包含所有的恶意脚本后缀，防护难度会比较大，推荐使用白名单<br>绕过的方法：</li>
-<li><p><code>文件名大小写绕过（例如用Php，Asp等）</code></p>
+<h4 id="&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x68C0;&#x6D4B;&#xFF09;"><a href="#&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x68C0;&#x6D4B;&#xFF09;" class="headerlink" title="&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x68C0;&#x6D4B;&#xFF09;"></a>&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#x68C0;&#x6D4B;&#xFF09;</h4><ol class="ui list">
+<li>&#x9ED1;&#x540D;&#x5355;&#x68C0;&#x6D4B;<br><code>&#x9ED1;&#x540D;&#x5355;&#x68C0;&#x6D4B;&#x901A;&#x5E38;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x540E;&#x7F00;&#x540D;&#x9ED1;&#x540D;&#x5355;</code>&#xFF08;&#x4F8B;&#x5982;html|htm|php|php2|php3|php4|php5&#x2026;&#xFF09;<br>&#x4F46;&#x662F;&#x901A;&#x5E38;&#x9ED1;&#x540D;&#x5355;&#x68C0;&#x6D4B;&#x4E0D;&#x80FD;&#x5305;&#x542B;&#x6240;&#x6709;&#x7684;&#x6076;&#x610F;&#x811A;&#x672C;&#x540E;&#x7F00;&#xFF0C;&#x9632;&#x62A4;&#x96BE;&#x5EA6;&#x4F1A;&#x6BD4;&#x8F83;&#x5927;&#xFF0C;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x767D;&#x540D;&#x5355;<br>&#x7ED5;&#x8FC7;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</li>
+<li><p><code>&#x6587;&#x4EF6;&#x540D;&#x5927;&#x5C0F;&#x5199;&#x7ED5;&#x8FC7;&#xFF08;&#x4F8B;&#x5982;&#x7528;Php&#xFF0C;Asp&#x7B49;&#xFF09;</code></p>
 </li>
-<li><p><code>名单列表绕过</code>(用黑名单中未提及的文件后缀来绕过，如asa，cer等不常见的文件后缀)</p>
+<li><p><code>&#x540D;&#x5355;&#x5217;&#x8868;&#x7ED5;&#x8FC7;</code>(&#x7528;&#x9ED1;&#x540D;&#x5355;&#x4E2D;&#x672A;&#x63D0;&#x53CA;&#x7684;&#x6587;&#x4EF6;&#x540E;&#x7F00;&#x6765;&#x7ED5;&#x8FC7;&#xFF0C;&#x5982;asa&#xFF0C;cer&#x7B49;&#x4E0D;&#x5E38;&#x89C1;&#x7684;&#x6587;&#x4EF6;&#x540E;&#x7F00;)</p>
 </li>
-<li><p><code>0x00截断</code>（asp下可以尝试使用,asp为从后往前扫描扩展名，evil.asp%00.jpg，会被识别为jpg，只要检测方式如这种可以通过这种方式绕过）</p>
+<li><p><code>0x00&#x622A;&#x65AD;</code>&#xFF08;asp&#x4E0B;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x4F7F;&#x7528;,asp&#x4E3A;&#x4ECE;&#x540E;&#x5F80;&#x524D;&#x626B;&#x63CF;&#x6269;&#x5C55;&#x540D;&#xFF0C;evil.asp%00.jpg&#xFF0C;&#x4F1A;&#x88AB;&#x8BC6;&#x522B;&#x4E3A;jpg&#xFF0C;&#x53EA;&#x8981;&#x68C0;&#x6D4B;&#x65B9;&#x5F0F;&#x5982;&#x8FD9;&#x79CD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x7ED5;&#x8FC7;&#xFF09;</p>
 </li>
-<li><p><code>特殊文件名绕过</code></p>
-<p>只适用windows NTFS流<br><strong>文件名改为evil.php.或evil.php(空格)，不允许这样的命名，所以会将.和空格自动去掉。</strong></p>
-</li>
-</ol>
-<p><code>test.php::$DATA 生成test.php,有内容</code><br><code>test.php::$DATA……. 生成test.php,有内容</code><br><code>test.php::$INDEX_ALLOCATION 生成test.php文件夹</code></p>
-<h4 id="htaccess文件攻击"><a href="#htaccess文件攻击" class="headerlink" title=".htaccess文件攻击"></a>.htaccess文件攻击</h4><ol start="6">
-<li><p>.htaccess文件攻击（配合名单列表绕过，上传一个自定义的.htaccess，就可以轻松绕过各种检测）</p>
-</li>
-<li><p><code>.htaccess文件攻击</code></p>
+<li><p><code>&#x7279;&#x6B8A;&#x6587;&#x4EF6;&#x540D;&#x7ED5;&#x8FC7;</code></p>
+<p>&#x53EA;&#x9002;&#x7528;windows NTFS&#x6D41;<br><strong>&#x6587;&#x4EF6;&#x540D;&#x6539;&#x4E3A;evil.php.&#x6216;evil.php(&#x7A7A;&#x683C;)&#xFF0C;&#x4E0D;&#x5141;&#x8BB8;&#x8FD9;&#x6837;&#x7684;&#x547D;&#x540D;&#xFF0C;&#x6240;&#x4EE5;&#x4F1A;&#x5C06;.&#x548C;&#x7A7A;&#x683C;&#x81EA;&#x52A8;&#x53BB;&#x6389;&#x3002;</strong></p>
 </li>
 </ol>
-<p>如果黑名单中未包含.htaccess后缀的可以通过重写解析配置来达到解析的效果<br>针对php，上传自定义.htaccess。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5b9e41e02711cd127f1b3a33" alt=""></p>
-<p> 成因：<br><strong>在 PHP manual 中提到了下面一段话</strong></p>
-<p><code>move_uploaded_file section, there is a warning which states ‘If the destination file already exists, it will be overwritten.</code></p>
-<p><strong>如果 PHP 安全没配置好</strong>就可以通过 <code>move_uploaded_file</code> <strong>函数把自己写的.htaccess 文件覆盖掉服务器上的这样就能任意定义解析名单了</strong></p>
-<p>这个估计很多同学看了不屑，认为是烂大街的东西了,那么下面将个新的吧。</p>
-<h4 id="user-ini-文件攻击"><a href="#user-ini-文件攻击" class="headerlink" title=".user.ini 文件攻击"></a>.user.ini 文件攻击</h4><ol>
-<li><p>它比.htaccess用的更广，不管是nginx/apache/IIS，只要是以fastcgi运行的php都可以用这个方法，不像.htaccess有局限性。</p>
+<p><code>test.php::$DATA &#x751F;&#x6210;test.php,&#x6709;&#x5185;&#x5BB9;</code><br><code>test.php::$DATA&#x2026;&#x2026;. &#x751F;&#x6210;test.php,&#x6709;&#x5185;&#x5BB9;</code><br><code>test.php::$INDEX_ALLOCATION &#x751F;&#x6210;test.php&#x6587;&#x4EF6;&#x5939;</code></p>
+<h4 id="htaccess&#x6587;&#x4EF6;&#x653B;&#x51FB;"><a href="#htaccess&#x6587;&#x4EF6;&#x653B;&#x51FB;" class="headerlink" title=".htaccess&#x6587;&#x4EF6;&#x653B;&#x51FB;"></a>.htaccess&#x6587;&#x4EF6;&#x653B;&#x51FB;</h4><ol start="6" class="ui list">
+<li><p>.htaccess&#x6587;&#x4EF6;&#x653B;&#x51FB;&#xFF08;&#x914D;&#x5408;&#x540D;&#x5355;&#x5217;&#x8868;&#x7ED5;&#x8FC7;&#xFF0C;&#x4E0A;&#x4F20;&#x4E00;&#x4E2A;&#x81EA;&#x5B9A;&#x4E49;&#x7684;.htaccess&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8F7B;&#x677E;&#x7ED5;&#x8FC7;&#x5404;&#x79CD;&#x68C0;&#x6D4B;&#xFF09;</p>
 </li>
-<li><p>.user.ini都能被动态加载，也就是说我修改了.user.ini后，不需要重启服务器中间件，只需要等待<code>user_ini.cache_ttl</code> 所设置的时间即可被重新加载。</p>
+<li><p><code>.htaccess&#x6587;&#x4EF6;&#x653B;&#x51FB;</code></p>
 </li>
 </ol>
-<p>只要.user.ini中可以添加 auto_prepend_file=aa.jpg ，这句话可以让其他php文件执行 自动包含01.gif ，和require()一样。   </p>
-<p>原理：<code>.user.ini</code>实际上就是一个可以由用户’自定义’的php.ini，我们能够自定义的设置是模式为 ”PHP_INI_REPDIR，PHP_INI_USER”的设置。</p>
-<p><img src="http://www.vuln.cn/wp-content/uploads/2016/10/e9a20f6cbd6533adefa34f7c8e16ee4f.png" alt=""></p>
+<p>&#x5982;&#x679C;&#x9ED1;&#x540D;&#x5355;&#x4E2D;&#x672A;&#x5305;&#x542B;.htaccess&#x540E;&#x7F00;&#x7684;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x91CD;&#x5199;&#x89E3;&#x6790;&#x914D;&#x7F6E;&#x6765;&#x8FBE;&#x5230;&#x89E3;&#x6790;&#x7684;&#x6548;&#x679C;<br>&#x9488;&#x5BF9;php&#xFF0C;&#x4E0A;&#x4F20;&#x81EA;&#x5B9A;&#x4E49;.htaccess&#x3002;<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5b9e41e02711cd127f1b3a33"><img src="https://www.yunzhijia.com/microblog/filesvr/5b9e41e02711cd127f1b3a33" alt="" class="ui centered image"></a></p>
+<p> &#x6210;&#x56E0;&#xFF1A;<br><strong>&#x5728; PHP manual &#x4E2D;&#x63D0;&#x5230;&#x4E86;&#x4E0B;&#x9762;&#x4E00;&#x6BB5;&#x8BDD;</strong></p>
+<p><code>move_uploaded_file section, there is a warning which states &#x2018;If the destination file already exists, it will be overwritten.</code></p>
+<p><strong>&#x5982;&#x679C; PHP &#x5B89;&#x5168;&#x6CA1;&#x914D;&#x7F6E;&#x597D;</strong>&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <code>move_uploaded_file</code> <strong>&#x51FD;&#x6570;&#x628A;&#x81EA;&#x5DF1;&#x5199;&#x7684;.htaccess &#x6587;&#x4EF6;&#x8986;&#x76D6;&#x6389;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x7684;&#x8FD9;&#x6837;&#x5C31;&#x80FD;&#x4EFB;&#x610F;&#x5B9A;&#x4E49;&#x89E3;&#x6790;&#x540D;&#x5355;&#x4E86;</strong></p>
+<p>&#x8FD9;&#x4E2A;&#x4F30;&#x8BA1;&#x5F88;&#x591A;&#x540C;&#x5B66;&#x770B;&#x4E86;&#x4E0D;&#x5C51;&#xFF0C;&#x8BA4;&#x4E3A;&#x662F;&#x70C2;&#x5927;&#x8857;&#x7684;&#x4E1C;&#x897F;&#x4E86;,&#x90A3;&#x4E48;&#x4E0B;&#x9762;&#x5C06;&#x4E2A;&#x65B0;&#x7684;&#x5427;&#x3002;</p>
+<h4 id="user-ini-&#x6587;&#x4EF6;&#x653B;&#x51FB;"><a href="#user-ini-&#x6587;&#x4EF6;&#x653B;&#x51FB;" class="headerlink" title=".user.ini &#x6587;&#x4EF6;&#x653B;&#x51FB;"></a>.user.ini &#x6587;&#x4EF6;&#x653B;&#x51FB;</h4><ol class="ui list">
+<li><p>&#x5B83;&#x6BD4;.htaccess&#x7528;&#x7684;&#x66F4;&#x5E7F;&#xFF0C;&#x4E0D;&#x7BA1;&#x662F;nginx/apache/IIS&#xFF0C;&#x53EA;&#x8981;&#x662F;&#x4EE5;fastcgi&#x8FD0;&#x884C;&#x7684;php&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0D;&#x50CF;.htaccess&#x6709;&#x5C40;&#x9650;&#x6027;&#x3002;</p>
+</li>
+<li><p>.user.ini&#x90FD;&#x80FD;&#x88AB;&#x52A8;&#x6001;&#x52A0;&#x8F7D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x6211;&#x4FEE;&#x6539;&#x4E86;.user.ini&#x540E;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x542F;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x95F4;&#x4EF6;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x7B49;&#x5F85;<code>user_ini.cache_ttl</code> &#x6240;&#x8BBE;&#x7F6E;&#x7684;&#x65F6;&#x95F4;&#x5373;&#x53EF;&#x88AB;&#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x3002;</p>
+</li>
+</ol>
+<p>&#x53EA;&#x8981;.user.ini&#x4E2D;&#x53EF;&#x4EE5;&#x6DFB;&#x52A0; auto_prepend_file=aa.jpg &#xFF0C;&#x8FD9;&#x53E5;&#x8BDD;&#x53EF;&#x4EE5;&#x8BA9;&#x5176;&#x4ED6;php&#x6587;&#x4EF6;&#x6267;&#x884C; &#x81EA;&#x52A8;&#x5305;&#x542B;01.gif &#xFF0C;&#x548C;require()&#x4E00;&#x6837;&#x3002;   </p>
+<p>&#x539F;&#x7406;&#xFF1A;<code>.user.ini</code>&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x7531;&#x7528;&#x6237;&#x2019;&#x81EA;&#x5B9A;&#x4E49;&#x2019;&#x7684;php.ini&#xFF0C;&#x6211;&#x4EEC;&#x80FD;&#x591F;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x8BBE;&#x7F6E;&#x662F;&#x6A21;&#x5F0F;&#x4E3A; &#x201D;PHP_INI_REPDIR&#xFF0C;PHP_INI_USER&#x201D;&#x7684;&#x8BBE;&#x7F6E;&#x3002;</p>
+<p><a class="magnific-img" href="http://www.vuln.cn/wp-content/uploads/2016/10/e9a20f6cbd6533adefa34f7c8e16ee4f.png"><img src="http://www.vuln.cn/wp-content/uploads/2016/10/e9a20f6cbd6533adefa34f7c8e16ee4f.png" alt="" class="ui centered image"></a></p>
 <hr>
-<h4 id="服务器端检测绕过（文件内容检测）"><a href="#服务器端检测绕过（文件内容检测）" class="headerlink" title="服务器端检测绕过（文件内容检测）"></a>服务器端检测绕过（文件内容检测）</h4><p> 图像类的文件内容检测<br><strong>文件幻数检测（图片头格式检测）<br>jpg内容头value= FF D8 FF E0 00 10 4A 46 49 46<br>gif内容头value= 47 49 46 38 39 61<br>png内容头value= 89 50 4E 47</strong></p>
-<ul>
-<li>  文件相关信息检测<br>图像文件相关信息检测常用的就是php的getimagesize()函数，可以通过修改图片的注释区（data区）插入一句话代码，如下：</li>
+<h4 id="&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x68C0;&#x6D4B;&#xFF09;"><a href="#&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x68C0;&#x6D4B;&#xFF09;" class="headerlink" title="&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x68C0;&#x6D4B;&#xFF09;"></a>&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#xFF08;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x68C0;&#x6D4B;&#xFF09;</h4><p> &#x56FE;&#x50CF;&#x7C7B;&#x7684;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x68C0;&#x6D4B;<br><strong>&#x6587;&#x4EF6;&#x5E7B;&#x6570;&#x68C0;&#x6D4B;&#xFF08;&#x56FE;&#x7247;&#x5934;&#x683C;&#x5F0F;&#x68C0;&#x6D4B;&#xFF09;<br>jpg&#x5185;&#x5BB9;&#x5934;value= FF D8 FF E0 00 10 4A 46 49 46<br>gif&#x5185;&#x5BB9;&#x5934;value= 47 49 46 38 39 61<br>png&#x5185;&#x5BB9;&#x5934;value= 89 50 4E 47</strong></p>
+<ul class="ui list">
+<li>  &#x6587;&#x4EF6;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x68C0;&#x6D4B;<br>&#x56FE;&#x50CF;&#x6587;&#x4EF6;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x68C0;&#x6D4B;&#x5E38;&#x7528;&#x7684;&#x5C31;&#x662F;php&#x7684;getimagesize()&#x51FD;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4FEE;&#x6539;&#x56FE;&#x7247;&#x7684;&#x6CE8;&#x91CA;&#x533A;&#xFF08;data&#x533A;&#xFF09;&#x63D2;&#x5165;&#x4E00;&#x53E5;&#x8BDD;&#x4EE3;&#x7801;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GIF89a</span><br><span class="line">(...some binary data for image...)</span><br><span class="line">&lt;?php phpinfo(); ?&gt;</span><br><span class="line">(... skipping the rest of binary data ...)</span><br></pre></td></tr></table></figure>
-<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ol>
-<li>绕过 javascript 对扩展名的检测<br> &lt;用 burp 之类的反向代理工具直接 POST 数据包到服务端，绕过前端检测&gt;</li>
-<li>绕过服务端对 http request 包 MIME 类型检测<br> &lt;用 burp 之类的反向代理工具伪造 POST 数据包到服务端，绕过 MIME 检测&gt;<br>路径/扩展名检测绕过攻击<br><img src="https://raw.githubusercontent.com/cnnetarmy/uploadfile/master/image/attack_way.png" alt=""></li>
+<h5 id="&#x603B;&#x7ED3;"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</h5><ol class="ui list">
+<li>&#x7ED5;&#x8FC7; javascript &#x5BF9;&#x6269;&#x5C55;&#x540D;&#x7684;&#x68C0;&#x6D4B;<br> &lt;&#x7528; burp &#x4E4B;&#x7C7B;&#x7684;&#x53CD;&#x5411;&#x4EE3;&#x7406;&#x5DE5;&#x5177;&#x76F4;&#x63A5; POST &#x6570;&#x636E;&#x5305;&#x5230;&#x670D;&#x52A1;&#x7AEF;&#xFF0C;&#x7ED5;&#x8FC7;&#x524D;&#x7AEF;&#x68C0;&#x6D4B;&gt;</li>
+<li>&#x7ED5;&#x8FC7;&#x670D;&#x52A1;&#x7AEF;&#x5BF9; http request &#x5305; MIME &#x7C7B;&#x578B;&#x68C0;&#x6D4B;<br> &lt;&#x7528; burp &#x4E4B;&#x7C7B;&#x7684;&#x53CD;&#x5411;&#x4EE3;&#x7406;&#x5DE5;&#x5177;&#x4F2A;&#x9020; POST &#x6570;&#x636E;&#x5305;&#x5230;&#x670D;&#x52A1;&#x7AEF;&#xFF0C;&#x7ED5;&#x8FC7; MIME &#x68C0;&#x6D4B;&gt;<br>&#x8DEF;&#x5F84;/&#x6269;&#x5C55;&#x540D;&#x68C0;&#x6D4B;&#x7ED5;&#x8FC7;&#x653B;&#x51FB;<br><img src="https://raw.githubusercontent.com/cnnetarmy/uploadfile/master/image/attack_way.png" alt=""></li>
 </ol>
-<ul>
-<li>黑白名单绕过<br>文件名大小写绕过<br>名单列表绕过<br>特殊文件名绕过<br>0x00 截断绕过<br>.htaccess 文件攻击</li>
+<ul class="ui list">
+<li>&#x9ED1;&#x767D;&#x540D;&#x5355;&#x7ED5;&#x8FC7;<br>&#x6587;&#x4EF6;&#x540D;&#x5927;&#x5C0F;&#x5199;&#x7ED5;&#x8FC7;<br>&#x540D;&#x5355;&#x5217;&#x8868;&#x7ED5;&#x8FC7;<br>&#x7279;&#x6B8A;&#x6587;&#x4EF6;&#x540D;&#x7ED5;&#x8FC7;<br>0x00 &#x622A;&#x65AD;&#x7ED5;&#x8FC7;<br>.htaccess &#x6587;&#x4EF6;&#x653B;&#x51FB;</li>
 </ul>
 <hr>
-<ul>
-<li>白名单绕过<br>0x00 截断绕过<br>本地文件包含漏洞<br>IIS 解析漏洞<br>Nginx 解析漏洞</li>
+<ul class="ui list">
+<li>&#x767D;&#x540D;&#x5355;&#x7ED5;&#x8FC7;<br>0x00 &#x622A;&#x65AD;&#x7ED5;&#x8FC7;<br>&#x672C;&#x5730;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x6F0F;&#x6D1E;<br>IIS &#x89E3;&#x6790;&#x6F0F;&#x6D1E;<br>Nginx &#x89E3;&#x6790;&#x6F0F;&#x6D1E;</li>
 </ul>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2018-09-15T16:34:14.000Z" itemprop="datePublished">2018-09-16</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端javascript检测"><span class="toc-number">1.</span> <span class="toc-text">客户端javascript检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端检测绕过（目录路径检测）"><span class="toc-number">2.</span> <span class="toc-text">服务端检测绕过（目录路径检测）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器端检测绕过（文件扩展名检测）"><span class="toc-number">3.</span> <span class="toc-text">服务器端检测绕过（文件扩展名检测）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#htaccess文件攻击"><span class="toc-number">4.</span> <span class="toc-text">.htaccess文件攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#user-ini-文件攻击"><span class="toc-number">5.</span> <span class="toc-text">.user.ini 文件攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器端检测绕过（文件内容检测）"><span class="toc-number">6.</span> <span class="toc-text">服务器端检测绕过（文件内容检测）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#总结"><span class="toc-number">6.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&text=文件上传绕过总结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&is_video=false&description=文件上传绕过总结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=文件上传绕过总结&body=Check out this article: http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&title=文件上传绕过总结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/16/【VULNERABLITY】文件上传绕过总结/&name=文件上传绕过总结&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2018/09/26/ redis安全详解/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    Redis学习详解
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2018/09/15/服务器解析漏洞(总结)/" class="ui tiny button">
+                    
+                    关于服务器的上传漏洞分析
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#客户端javascript检测"><span>客户端javascript检测</span></a></li><li><a href="#服务端检测绕过（目录路径检测）"><span>服务端检测绕过（目录路径检测）</span></a></li><li><a href="#服务器端检测绕过（文件扩展名检测）"><span>服务器端检测绕过（文件扩展名检测）</span></a></li><li><a href="#htaccess文件攻击"><span>.htaccess文件攻击</span></a></li><li><a href="#user-ini-文件攻击"><span>.user.ini 文件攻击</span></a></li><li><a href="#服务器端检测绕过（文件内容检测）"><span>服务器端检测绕过（文件内容检测）</span></a><ol><li><a href="#总结"><span>总结</span></a></li></ol></li></ol>
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-

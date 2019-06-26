@@ -1,273 +1,286 @@
+
+
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="0x00 本地认证 本地操作系统密码存储：%SystemRoot%\system32\config\sam 当我们登录系统的时候，系统会自动读取SAM文件中的密码与我们输入的密码进行比对，如果相同，证明认证成功。 SAM文件中保留了计算机本地所有用户的凭证信息，可以理解为数据库。 为了保证存储的不是明文，从而采用了Hash，但是密码Hash也需要特定的生成算法以及表现形式。 NTLM Hash与">
+<html lang="">
+<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>浅析Windows本地认证 | c1y2m3’blog</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="0x00 &amp;#x672C;&amp;#x5730;&amp;#x8BA4;&amp;#x8BC1; &amp;#x672C;&amp;#x5730;&amp;#x64CD;&amp;#x4F5C;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5BC6;&amp;#x7801;&amp;#x5B58;&amp;#x50A8;&amp;#xFF1A;%SystemRoot%\system32\config\sam &amp;#x5F53;&amp;#x6211;&amp;#x4EEC;&amp;#x767B;&amp;#x5F55;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅析Windows本地认证">
 <meta property="og:url" content="http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="0x00 本地认证 本地操作系统密码存储：%SystemRoot%\system32\config\sam 当我们登录系统的时候，系统会自动读取SAM文件中的密码与我们输入的密码进行比对，如果相同，证明认证成功。 SAM文件中保留了计算机本地所有用户的凭证信息，可以理解为数据库。 为了保证存储的不是明文，从而采用了Hash，但是密码Hash也需要特定的生成算法以及表现形式。 NTLM Hash与">
+<meta property="og:description" content="0x00 &amp;#x672C;&amp;#x5730;&amp;#x8BA4;&amp;#x8BC1; &amp;#x672C;&amp;#x5730;&amp;#x64CD;&amp;#x4F5C;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5BC6;&amp;#x7801;&amp;#x5B58;&amp;#x50A8;&amp;#xFF1A;%SystemRoot%\system32\config\sam &amp;#x5F53;&amp;#x6211;&amp;#x4EEC;&amp;#x767B;&amp;#x5F55;">
 <meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2019-01-24T11:36:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析Windows本地认证">
-<meta name="twitter:description" content="0x00 本地认证 本地操作系统密码存储：%SystemRoot%\system32\config\sam 当我们登录系统的时候，系统会自动读取SAM文件中的密码与我们输入的密码进行比对，如果相同，证明认证成功。 SAM文件中保留了计算机本地所有用户的凭证信息，可以理解为数据库。 为了保证存储的不是明文，从而采用了Hash，但是密码Hash也需要特定的生成算法以及表现形式。 NTLM Hash与">
+<meta name="twitter:description" content="0x00 &amp;#x672C;&amp;#x5730;&amp;#x8BA4;&amp;#x8BC1; &amp;#x672C;&amp;#x5730;&amp;#x64CD;&amp;#x4F5C;&amp;#x7CFB;&amp;#x7EDF;&amp;#x5BC6;&amp;#x7801;&amp;#x5B58;&amp;#x50A8;&amp;#xFF1A;%SystemRoot%\system32\config\sam &amp;#x5F53;&amp;#x6211;&amp;#x4EEC;&amp;#x767B;&amp;#x5F55;">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:",
+  "image": "",
+  "name": "John Doe",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
     
     
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
         
-          
-              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
-          
+        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
         
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
         
-          
-            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
-          
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
         
     
-    <!-- title -->
-    <title>浅析Windows本地认证</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <!-- persian styles -->
-    
-      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
-    
-    <!-- rss -->
-    
-    
+
 </head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
 
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </span>
-    <br>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2019/01/21/浅析Windows网络认证/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="/c1y2m3.github.io/2019/01/17/---/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&text=浅析Windows本地认证"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&is_video=false&description=浅析Windows本地认证"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=浅析Windows本地认证&body=Check out this article: http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&name=浅析Windows本地认证&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
+    </div>
 
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>c1y2m3’blog</h3>
+        </div>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-本地认证"><span class="toc-number">1.</span> <span class="toc-text"> 0x00 本地认证 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM-Hash与NTLM"><span class="toc-number">2.</span> <span class="toc-text">NTLM Hash与NTLM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM-Hash的产生"><span class="toc-number">3.</span> <span class="toc-text"> NTLM Hash的产生 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LM-Hash"><span class="toc-number">4.</span> <span class="toc-text">LM Hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">5.</span> <span class="toc-text">总结：</span></a></li></ol>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">John Doe</a>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </span>
+
+
 </div>
 
     
-    <div class="content index py4">
-        
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-  <header>
     
-    <h1 class="posttitle" itemprop="name headline">
-        浅析Windows本地认证
-    </h1>
+
+    
+
+    
+    <a href="/index.html" class="item">
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post- 浅析Windows本地认证 " class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    浅析Windows本地认证
+</h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">c1y2m3’blog</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2019-01-19T09:16:14.000Z" itemprop="datePublished">2019-01-19</time>
-    </div>
+                <div class="article-inner">
 
-
-      
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h2 id="0x00-本地认证"><a href="#0x00-本地认证" class="headerlink" title=" 0x00 本地认证 "></a> 0x00 本地认证 </h2><p>本地操作系统密码存储：%SystemRoot%\system32\config\sam</p>
-<p>当我们登录系统的时候，系统会自动读取SAM文件中的密码与我们输入的密码进行比对，如果相同，证明认证成功。</p>
-<p>SAM文件中保留了计算机本地所有用户的凭证信息，可以理解为数据库。</p>
-<p>为了保证存储的不是明文，从而采用了Hash，但是密码Hash也需要特定的生成算法以及表现形式。</p>
-<h2 id="NTLM-Hash与NTLM"><a href="#NTLM-Hash与NTLM" class="headerlink" title="NTLM Hash与NTLM"></a>NTLM Hash与NTLM</h2><p>​        在windows中，密码Hahs目前称为NTLM Hash ，其中NTLM全程是：”NT LAN Manager”</p>
-<p>​    这个NTLM是一种网络认证协议，与NTLM Hash的关系就是：NTLM网络认证协议是以NTLM Hash作为根本凭证进行认证的协议。</p>
-<p>​    也就是说，NTLM与NTLM Hash相互对应。</p>
-<p>​    在本地认证过程中，其实就是将用户输入的密码切换为NTLM Hash与SAM中的NTLM Hash 进行比较。</p>
-<h2 id="NTLM-Hash的产生"><a href="#NTLM-Hash的产生" class="headerlink" title=" NTLM Hash的产生 "></a> NTLM Hash的产生 </h2><p>​    假设我的密码是admin,那么操作系统会将admin转换成十六进制，经过Unicode转换，再调用MD4加密算法加密，这个加密结果的十六进制就是NTLM Hash </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">admin -&gt;hex(16进制编码) =61646d696e</span><br><span class="line">61646d696e -&gt; Unicode = 610064006d0069006e00</span><br><span class="line">610064006d0069006e00 -&gt; MD4 =20b14e3cf107a49fbbb0fdf4b63907ee</span><br></pre></td></tr></table></figure>
-<p>本地认证流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winlogon.exe -&gt; 接受用户输入 -&gt; lsass.exe -&gt; 认证</span><br></pre></td></tr></table></figure>
-<p>​    首先，用户注销、重启、锁屏后，操作系统会让winlogon显示登录界面，也就是输入框，接受输入后，将密码交给lsass进程，这个进程中会存一份明文密码，将明文密码加密称NTLM Hash， 对SAM数据库比较认证。</p>
-<ul>
-<li>Windows Logon Process(即 winlogon.exe)，是Windows NT 用户登陆程序，用于管理用户登录和退出。</li>
-<li>LSASS用于微软Windows系统的安全机制。它用于本地安全和登录策略。</li>
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <h2 id="0x00-&#x672C;&#x5730;&#x8BA4;&#x8BC1;"><a href="#0x00-&#x672C;&#x5730;&#x8BA4;&#x8BC1;" class="headerlink" title=" 0x00 &#x672C;&#x5730;&#x8BA4;&#x8BC1; "></a> 0x00 &#x672C;&#x5730;&#x8BA4;&#x8BC1; </h2><p>&#x672C;&#x5730;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5BC6;&#x7801;&#x5B58;&#x50A8;&#xFF1A;%SystemRoot%\system32\config\sam</p>
+<p>&#x5F53;&#x6211;&#x4EEC;&#x767B;&#x5F55;&#x7CFB;&#x7EDF;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x81EA;&#x52A8;&#x8BFB;&#x53D6;SAM&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5BC6;&#x7801;&#x4E0E;&#x6211;&#x4EEC;&#x8F93;&#x5165;&#x7684;&#x5BC6;&#x7801;&#x8FDB;&#x884C;&#x6BD4;&#x5BF9;&#xFF0C;&#x5982;&#x679C;&#x76F8;&#x540C;&#xFF0C;&#x8BC1;&#x660E;&#x8BA4;&#x8BC1;&#x6210;&#x529F;&#x3002;</p>
+<p>SAM&#x6587;&#x4EF6;&#x4E2D;&#x4FDD;&#x7559;&#x4E86;&#x8BA1;&#x7B97;&#x673A;&#x672C;&#x5730;&#x6240;&#x6709;&#x7528;&#x6237;&#x7684;&#x51ED;&#x8BC1;&#x4FE1;&#x606F;&#xFF0C;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x6570;&#x636E;&#x5E93;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x5B58;&#x50A8;&#x7684;&#x4E0D;&#x662F;&#x660E;&#x6587;&#xFF0C;&#x4ECE;&#x800C;&#x91C7;&#x7528;&#x4E86;Hash&#xFF0C;&#x4F46;&#x662F;&#x5BC6;&#x7801;Hash&#x4E5F;&#x9700;&#x8981;&#x7279;&#x5B9A;&#x7684;&#x751F;&#x6210;&#x7B97;&#x6CD5;&#x4EE5;&#x53CA;&#x8868;&#x73B0;&#x5F62;&#x5F0F;&#x3002;</p>
+<h2 id="NTLM-Hash&#x4E0E;NTLM"><a href="#NTLM-Hash&#x4E0E;NTLM" class="headerlink" title="NTLM Hash&#x4E0E;NTLM"></a>NTLM Hash&#x4E0E;NTLM</h2><p>&#x200B;        &#x5728;windows&#x4E2D;&#xFF0C;&#x5BC6;&#x7801;Hahs&#x76EE;&#x524D;&#x79F0;&#x4E3A;NTLM Hash &#xFF0C;&#x5176;&#x4E2D;NTLM&#x5168;&#x7A0B;&#x662F;&#xFF1A;&#x201D;NT LAN Manager&#x201D;</p>
+<p>&#x200B;    &#x8FD9;&#x4E2A;NTLM&#x662F;&#x4E00;&#x79CD;&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;&#x534F;&#x8BAE;&#xFF0C;&#x4E0E;NTLM Hash&#x7684;&#x5173;&#x7CFB;&#x5C31;&#x662F;&#xFF1A;NTLM&#x7F51;&#x7EDC;&#x8BA4;&#x8BC1;&#x534F;&#x8BAE;&#x662F;&#x4EE5;NTLM Hash&#x4F5C;&#x4E3A;&#x6839;&#x672C;&#x51ED;&#x8BC1;&#x8FDB;&#x884C;&#x8BA4;&#x8BC1;&#x7684;&#x534F;&#x8BAE;&#x3002;</p>
+<p>&#x200B;    &#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;NTLM&#x4E0E;NTLM Hash&#x76F8;&#x4E92;&#x5BF9;&#x5E94;&#x3002;</p>
+<p>&#x200B;    &#x5728;&#x672C;&#x5730;&#x8BA4;&#x8BC1;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5C06;&#x7528;&#x6237;&#x8F93;&#x5165;&#x7684;&#x5BC6;&#x7801;&#x5207;&#x6362;&#x4E3A;NTLM Hash&#x4E0E;SAM&#x4E2D;&#x7684;NTLM Hash &#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#x3002;</p>
+<h2 id="NTLM-Hash&#x7684;&#x4EA7;&#x751F;"><a href="#NTLM-Hash&#x7684;&#x4EA7;&#x751F;" class="headerlink" title=" NTLM Hash&#x7684;&#x4EA7;&#x751F; "></a> NTLM Hash&#x7684;&#x4EA7;&#x751F; </h2><p>&#x200B;    &#x5047;&#x8BBE;&#x6211;&#x7684;&#x5BC6;&#x7801;&#x662F;admin,&#x90A3;&#x4E48;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4F1A;&#x5C06;admin&#x8F6C;&#x6362;&#x6210;&#x5341;&#x516D;&#x8FDB;&#x5236;&#xFF0C;&#x7ECF;&#x8FC7;Unicode&#x8F6C;&#x6362;&#xFF0C;&#x518D;&#x8C03;&#x7528;MD4&#x52A0;&#x5BC6;&#x7B97;&#x6CD5;&#x52A0;&#x5BC6;&#xFF0C;&#x8FD9;&#x4E2A;&#x52A0;&#x5BC6;&#x7ED3;&#x679C;&#x7684;&#x5341;&#x516D;&#x8FDB;&#x5236;&#x5C31;&#x662F;NTLM Hash </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">admin -&gt;hex(16&#x8FDB;&#x5236;&#x7F16;&#x7801;) =61646d696e</span><br><span class="line">61646d696e -&gt; Unicode = 610064006d0069006e00</span><br><span class="line">610064006d0069006e00 -&gt; MD4 =20b14e3cf107a49fbbb0fdf4b63907ee</span><br></pre></td></tr></table></figure>
+<p>&#x672C;&#x5730;&#x8BA4;&#x8BC1;&#x6D41;&#x7A0B;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winlogon.exe -&gt; &#x63A5;&#x53D7;&#x7528;&#x6237;&#x8F93;&#x5165; -&gt; lsass.exe -&gt; &#x8BA4;&#x8BC1;</span><br></pre></td></tr></table></figure>
+<p>&#x200B;    &#x9996;&#x5148;&#xFF0C;&#x7528;&#x6237;&#x6CE8;&#x9500;&#x3001;&#x91CD;&#x542F;&#x3001;&#x9501;&#x5C4F;&#x540E;&#xFF0C;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4F1A;&#x8BA9;winlogon&#x663E;&#x793A;&#x767B;&#x5F55;&#x754C;&#x9762;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8F93;&#x5165;&#x6846;&#xFF0C;&#x63A5;&#x53D7;&#x8F93;&#x5165;&#x540E;&#xFF0C;&#x5C06;&#x5BC6;&#x7801;&#x4EA4;&#x7ED9;lsass&#x8FDB;&#x7A0B;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FDB;&#x7A0B;&#x4E2D;&#x4F1A;&#x5B58;&#x4E00;&#x4EFD;&#x660E;&#x6587;&#x5BC6;&#x7801;&#xFF0C;&#x5C06;&#x660E;&#x6587;&#x5BC6;&#x7801;&#x52A0;&#x5BC6;&#x79F0;NTLM Hash&#xFF0C; &#x5BF9;SAM&#x6570;&#x636E;&#x5E93;&#x6BD4;&#x8F83;&#x8BA4;&#x8BC1;&#x3002;</p>
+<ul class="ui list">
+<li>Windows Logon Process(&#x5373; winlogon.exe)&#xFF0C;&#x662F;Windows NT &#x7528;&#x6237;&#x767B;&#x9646;&#x7A0B;&#x5E8F;&#xFF0C;&#x7528;&#x4E8E;&#x7BA1;&#x7406;&#x7528;&#x6237;&#x767B;&#x5F55;&#x548C;&#x9000;&#x51FA;&#x3002;</li>
+<li>LSASS&#x7528;&#x4E8E;&#x5FAE;&#x8F6F;Windows&#x7CFB;&#x7EDF;&#x7684;&#x5B89;&#x5168;&#x673A;&#x5236;&#x3002;&#x5B83;&#x7528;&#x4E8E;&#x672C;&#x5730;&#x5B89;&#x5168;&#x548C;&#x767B;&#x5F55;&#x7B56;&#x7565;&#x3002;</li>
 </ul>
-<h2 id="LM-Hash"><a href="#LM-Hash" class="headerlink" title="LM Hash"></a>LM Hash</h2><p>在NTLM协议问世之前，它对 前身 就是LM (LAN Manager)协议。</p>
-<p>LM与NTLM协议的认证机制相同，但是加密算法不同。</p>
-<p>1.用户的密码被限制为最多14个字符。<br>2.用户的密码转换为大写。<br>3.系统中用户的密码编码使用了OEM内码页<br>4.密码不足14字节将会用0来补全。<br>5.固定长度的密码被分成两个7byte部分。每部分转换成比特流，在分7bit为一组末尾加0，组成新的编码<br>6.上步骤得到的8byte二组，分别作为DES key为“KGS!@#$%”进行加密。<br>7.将二组DES加密后的编码拼接，得到最终LM HASH值。</p>
-<p>目前大多的Windows都采用LM Hash作为根本凭证进行参与认证，下面就简述一些LM Hash的产生：</p>
-<p>bit (比特流)</p>
-<ul>
-<li>将所有小写字母转换称大写字母  &gt; 123ABC //未达到7个字符 ，将密码转换为16进制，分两组，填充为14个字符，空余为使用0x00字符填补&gt; 31323341424300000000000000，将密码分割为两组7个字节的块。</li>
+<h2 id="LM-Hash"><a href="#LM-Hash" class="headerlink" title="LM Hash"></a>LM Hash</h2><p>&#x5728;NTLM&#x534F;&#x8BAE;&#x95EE;&#x4E16;&#x4E4B;&#x524D;&#xFF0C;&#x5B83;&#x5BF9; &#x524D;&#x8EAB; &#x5C31;&#x662F;LM (LAN Manager)&#x534F;&#x8BAE;&#x3002;</p>
+<p>LM&#x4E0E;NTLM&#x534F;&#x8BAE;&#x7684;&#x8BA4;&#x8BC1;&#x673A;&#x5236;&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x662F;&#x52A0;&#x5BC6;&#x7B97;&#x6CD5;&#x4E0D;&#x540C;&#x3002;</p>
+<p>1.&#x7528;&#x6237;&#x7684;&#x5BC6;&#x7801;&#x88AB;&#x9650;&#x5236;&#x4E3A;&#x6700;&#x591A;14&#x4E2A;&#x5B57;&#x7B26;&#x3002;<br>2.&#x7528;&#x6237;&#x7684;&#x5BC6;&#x7801;&#x8F6C;&#x6362;&#x4E3A;&#x5927;&#x5199;&#x3002;<br>3.&#x7CFB;&#x7EDF;&#x4E2D;&#x7528;&#x6237;&#x7684;&#x5BC6;&#x7801;&#x7F16;&#x7801;&#x4F7F;&#x7528;&#x4E86;OEM&#x5185;&#x7801;&#x9875;<br>4.&#x5BC6;&#x7801;&#x4E0D;&#x8DB3;14&#x5B57;&#x8282;&#x5C06;&#x4F1A;&#x7528;0&#x6765;&#x8865;&#x5168;&#x3002;<br>5.&#x56FA;&#x5B9A;&#x957F;&#x5EA6;&#x7684;&#x5BC6;&#x7801;&#x88AB;&#x5206;&#x6210;&#x4E24;&#x4E2A;7byte&#x90E8;&#x5206;&#x3002;&#x6BCF;&#x90E8;&#x5206;&#x8F6C;&#x6362;&#x6210;&#x6BD4;&#x7279;&#x6D41;&#xFF0C;&#x5728;&#x5206;7bit&#x4E3A;&#x4E00;&#x7EC4;&#x672B;&#x5C3E;&#x52A0;0&#xFF0C;&#x7EC4;&#x6210;&#x65B0;&#x7684;&#x7F16;&#x7801;<br>6.&#x4E0A;&#x6B65;&#x9AA4;&#x5F97;&#x5230;&#x7684;8byte&#x4E8C;&#x7EC4;&#xFF0C;&#x5206;&#x522B;&#x4F5C;&#x4E3A;DES key&#x4E3A;&#x201C;KGS!@#$%&#x201D;&#x8FDB;&#x884C;&#x52A0;&#x5BC6;&#x3002;<br>7.&#x5C06;&#x4E8C;&#x7EC4;DES&#x52A0;&#x5BC6;&#x540E;&#x7684;&#x7F16;&#x7801;&#x62FC;&#x63A5;&#xFF0C;&#x5F97;&#x5230;&#x6700;&#x7EC8;LM HASH&#x503C;&#x3002;</p>
+<p>&#x76EE;&#x524D;&#x5927;&#x591A;&#x7684;Windows&#x90FD;&#x91C7;&#x7528;LM Hash&#x4F5C;&#x4E3A;&#x6839;&#x672C;&#x51ED;&#x8BC1;&#x8FDB;&#x884C;&#x53C2;&#x4E0E;&#x8BA4;&#x8BC1;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x7B80;&#x8FF0;&#x4E00;&#x4E9B;LM Hash&#x7684;&#x4EA7;&#x751F;&#xFF1A;</p>
+<p>bit (&#x6BD4;&#x7279;&#x6D41;)</p>
+<ul class="ui list">
+<li>&#x5C06;&#x6240;&#x6709;&#x5C0F;&#x5199;&#x5B57;&#x6BCD;&#x8F6C;&#x6362;&#x79F0;&#x5927;&#x5199;&#x5B57;&#x6BCD;  &gt; 123ABC //&#x672A;&#x8FBE;&#x5230;7&#x4E2A;&#x5B57;&#x7B26; &#xFF0C;&#x5C06;&#x5BC6;&#x7801;&#x8F6C;&#x6362;&#x4E3A;16&#x8FDB;&#x5236;&#xFF0C;&#x5206;&#x4E24;&#x7EC4;&#xFF0C;&#x586B;&#x5145;&#x4E3A;14&#x4E2A;&#x5B57;&#x7B26;&#xFF0C;&#x7A7A;&#x4F59;&#x4E3A;&#x4F7F;&#x7528;0x00&#x5B57;&#x7B26;&#x586B;&#x8865;&gt; 31323341424300000000000000&#xFF0C;&#x5C06;&#x5BC6;&#x7801;&#x5206;&#x5272;&#x4E3A;&#x4E24;&#x7EC4;7&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x5757;&#x3002;</li>
 </ul>
-<p>31323341424300 00000000000000 // 16进制<br>• 将每组转化为比特流，不足56Bit则在左边加0</p>
-<p>31323341424300 -&gt;(转换为二进制)<br>110001001100100011001101000001010000100100001100000000-&gt; (补 足56Bit) 00110001001100100011001101000001010000100100001100000000<br>• 将比特流按照7比特一组，分出8组，末尾加0</p>
+<p>31323341424300 00000000000000 // 16&#x8FDB;&#x5236;<br>&#x2022; &#x5C06;&#x6BCF;&#x7EC4;&#x8F6C;&#x5316;&#x4E3A;&#x6BD4;&#x7279;&#x6D41;&#xFF0C;&#x4E0D;&#x8DB3;56Bit&#x5219;&#x5728;&#x5DE6;&#x8FB9;&#x52A0;0</p>
+<p>31323341424300 -&gt;(&#x8F6C;&#x6362;&#x4E3A;&#x4E8C;&#x8FDB;&#x5236;)<br>110001001100100011001101000001010000100100001100000000-&gt; (&#x8865; &#x8DB3;56Bit) 00110001001100100011001101000001010000100100001100000000<br>&#x2022; &#x5C06;&#x6BD4;&#x7279;&#x6D41;&#x6309;&#x7167;7&#x6BD4;&#x7279;&#x4E00;&#x7EC4;&#xFF0C;&#x5206;&#x51FA;8&#x7EC4;&#xFF0C;&#x672B;&#x5C3E;&#x52A0;0</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0011 000</span><br><span class="line">1 0011 00</span><br><span class="line">10 0011 0</span><br><span class="line">011 0011</span><br><span class="line">1001 001</span><br><span class="line">1 1001 00</span><br><span class="line">11 0100 0</span><br><span class="line">000 0000</span><br></pre></td></tr></table></figure>
-<p>将每组比特流转换为16进制作为被加密的值</p>
+<p>&#x5C06;&#x6BCF;&#x7EC4;&#x6BD4;&#x7279;&#x6D41;&#x8F6C;&#x6362;&#x4E3A;16&#x8FDB;&#x5236;&#x4F5C;&#x4E3A;&#x88AB;&#x52A0;&#x5BC6;&#x7684;&#x503C;</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0011 0000 -&gt; 3 0</span><br><span class="line">1001 1000 -&gt; 9 8</span><br><span class="line">1000 1100 -&gt; 8 C</span><br><span class="line">0110 0110 -&gt; 6 6</span><br><span class="line">1001 0010 -&gt; 9 2</span><br><span class="line">1100 1000 -&gt; C 8</span><br><span class="line">1101 0000 -&gt; D 0</span><br><span class="line">0000 0000 -&gt; 0 0</span><br></pre></td></tr></table></figure>
-<p> 从上往下得到31323339393400对应的8字节编码：30988C6692C8D000<br>由于后者都为0，结果可想而知，那就都是0;</p>
-<p>作为DES加密key分别对“KGS!@#$%”（换算成十六进制：4B47532140232425）字符，进行DES加密，如下：</p>
-<p>将二组值拼接，最终得到LM HASH值为：</p>
+<p> &#x4ECE;&#x4E0A;&#x5F80;&#x4E0B;&#x5F97;&#x5230;31323339393400&#x5BF9;&#x5E94;&#x7684;8&#x5B57;&#x8282;&#x7F16;&#x7801;&#xFF1A;30988C6692C8D000<br>&#x7531;&#x4E8E;&#x540E;&#x8005;&#x90FD;&#x4E3A;0&#xFF0C;&#x7ED3;&#x679C;&#x53EF;&#x60F3;&#x800C;&#x77E5;&#xFF0C;&#x90A3;&#x5C31;&#x90FD;&#x662F;0;</p>
+<p>&#x4F5C;&#x4E3A;DES&#x52A0;&#x5BC6;key&#x5206;&#x522B;&#x5BF9;&#x201C;KGS!@#$%&#x201D;&#xFF08;&#x6362;&#x7B97;&#x6210;&#x5341;&#x516D;&#x8FDB;&#x5236;&#xFF1A;4B47532140232425&#xFF09;&#x5B57;&#x7B26;&#xFF0C;&#x8FDB;&#x884C;DES&#x52A0;&#x5BC6;&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>&#x5C06;&#x4E8C;&#x7EC4;&#x503C;&#x62FC;&#x63A5;&#xFF0C;&#x6700;&#x7EC8;&#x5F97;&#x5230;LM HASH&#x503C;&#x4E3A;&#xFF1A;</p>
 <p> FAE8BB9ECB799902AAD3B435B51404EE </p>
-<pre><code>在上面的产生过程中，脆弱点就在于DES的Key（KGS!@#$%）是固定的，也就是说，有了Key就能够解出原文。
-</code></pre><p>并且根据LM Hash特征，也能够判断用户的密码是否是大于等于7位。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>与LM Hash算法相比，明文口令大小写敏感，无法根据NTLM Hash判断原始明文口令是否小于8字节，摆脱了魔术字符串”KGS!@#$%”。MD4是真正的单向哈希函数，穷举作为数据源出现的明文，难度较大。</p>
+<pre><code>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x4EA7;&#x751F;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x8106;&#x5F31;&#x70B9;&#x5C31;&#x5728;&#x4E8E;DES&#x7684;Key&#xFF08;KGS!@#$%&#xFF09;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x6709;&#x4E86;Key&#x5C31;&#x80FD;&#x591F;&#x89E3;&#x51FA;&#x539F;&#x6587;&#x3002;
+</code></pre><p>&#x5E76;&#x4E14;&#x6839;&#x636E;LM Hash&#x7279;&#x5F81;&#xFF0C;&#x4E5F;&#x80FD;&#x591F;&#x5224;&#x65AD;&#x7528;&#x6237;&#x7684;&#x5BC6;&#x7801;&#x662F;&#x5426;&#x662F;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;7&#x4F4D;&#x3002;</p>
+<h2 id="&#x603B;&#x7ED3;&#xFF1A;"><a href="#&#x603B;&#x7ED3;&#xFF1A;" class="headerlink" title="&#x603B;&#x7ED3;&#xFF1A;"></a>&#x603B;&#x7ED3;&#xFF1A;</h2><p>&#x4E0E;LM Hash&#x7B97;&#x6CD5;&#x76F8;&#x6BD4;&#xFF0C;&#x660E;&#x6587;&#x53E3;&#x4EE4;&#x5927;&#x5C0F;&#x5199;&#x654F;&#x611F;&#xFF0C;&#x65E0;&#x6CD5;&#x6839;&#x636E;NTLM Hash&#x5224;&#x65AD;&#x539F;&#x59CB;&#x660E;&#x6587;&#x53E3;&#x4EE4;&#x662F;&#x5426;&#x5C0F;&#x4E8E;8&#x5B57;&#x8282;&#xFF0C;&#x6446;&#x8131;&#x4E86;&#x9B54;&#x672F;&#x5B57;&#x7B26;&#x4E32;&#x201D;KGS!@#$%&#x201D;&#x3002;MD4&#x662F;&#x771F;&#x6B63;&#x7684;&#x5355;&#x5411;&#x54C8;&#x5E0C;&#x51FD;&#x6570;&#xFF0C;&#x7A77;&#x4E3E;&#x4F5C;&#x4E3A;&#x6570;&#x636E;&#x6E90;&#x51FA;&#x73B0;&#x7684;&#x660E;&#x6587;&#xFF0C;&#x96BE;&#x5EA6;&#x8F83;&#x5927;&#x3002;</p>
 
-  </div>
-</article>
+                        
+                    </div>
 
+                    
+                    
+                    
 
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2019-01-19T09:16:14.000Z" itemprop="datePublished">2019-01-19</time>
 
+    </span>
+    <span class="post-description-item">
         
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-本地认证"><span class="toc-number">1.</span> <span class="toc-text"> 0x00 本地认证 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM-Hash与NTLM"><span class="toc-number">2.</span> <span class="toc-text">NTLM Hash与NTLM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NTLM-Hash的产生"><span class="toc-number">3.</span> <span class="toc-text"> NTLM Hash的产生 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LM-Hash"><span class="toc-number">4.</span> <span class="toc-text">LM Hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-number">5.</span> <span class="toc-text">总结：</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&text=浅析Windows本地认证"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&is_video=false&description=浅析Windows本地认证"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=浅析Windows本地认证&body=Check out this article: http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&title=浅析Windows本地认证"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/19/ 浅析Windows本地认证 /&name=浅析Windows本地认证&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
-  </div>
+    </span>
 </div>
 
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2019 John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/c1y2m3.github.io/">主页</a></li>
-         
-          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
-         
-          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
-         
-          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
-        
-      </ul>
-    </nav>
-  </div>
-</footer>
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a href="/c1y2m3.github.io/2019/01/21/浅析Windows网络认证/" class="ui tiny button">
+
+                    <i class="angle left icon"></i>
+                    
+                    浅析Windows网络认证
+                    
+
+                </a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/c1y2m3.github.io/2019/01/17/---/" class="ui tiny button">
+                    
+                    利用tscon未授权登录远程桌面
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#0x00-本地认证"><span> 0x00 本地认证 </span></a></li><li><a href="#NTLM-Hash与NTLM"><span>NTLM Hash与NTLM</span></a></li><li><a href="#NTLM-Hash的产生"><span> NTLM Hash的产生 </span></a></li><li><a href="#LM-Hash"><span>LM Hash</span></a></li><li><a href="#总结："><span>总结：</span></a></li></ol>
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2019 <a href="/">John Doe</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
 
     </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
+
+<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
+
+
+
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
-<script src="/c1y2m3.github.io/js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-<!-- Baidu Analytics -->
-
-<!-- Disqus Comments -->
-
-
