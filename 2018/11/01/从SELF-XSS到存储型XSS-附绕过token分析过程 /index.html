@@ -1,96 +1,66 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>c1y2m3’blog</title>
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="utf-8">
+  
+  <title>从SELF-XSS到存储型XSS/附绕过token分析过程 | c1y2m3’blog</title>
+  <meta name="author" content="John Doe">
+  
+  <meta name="description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。
+事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。
+0x01   已修">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="从SELF-XSS到存储型XSS/附绕过token分析过程">
+  <meta property="og:site_name" content="c1y2m3’blog">
+
+  
+    <meta property="og:image" content="">
+  
+
+  
+    <link rel="alternative" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
+  
+  
+    <link href="/c1y2m3.github.io/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/c1y2m3.github.io/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
 </head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+</html>
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/c1y2m3.github.io/">c1y2m3’blog</a><span class="split"></span><span class="title">从SELF-XSS到存储型XSS/附绕过token分析过程</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2018-11-01</span></h1>
+</div>		
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/c1y2m3.github.io/" class="header-nav-link">
-                首页
-            </a>
-            
+<div class="row page">
+  <!-- cols -->	
+  
+  
 
-            
-            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
-                归档
-            </a>
-            
+  
+	<div class="col-md-12">
+	  
 
-            
-            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
-                标签
-            </a>
-            
-
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
-        </div>
-
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">从SELF-XSS到存储型XSS/附绕过token分析过程</h2>
-            <div class="post-meta">
-                <span class="post-time">2018-11-01</span>
-                
-                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
-</div>
-        <div class="post-content">
-            <p>真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。</p>
+	  <!-- content -->
+	  <p>真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。</p>
 <p>事情发生在2018年11月01日晚上，地点：北京 天气有点冷。<br>沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。</p>
 <p>0x01   已修复</p>
 <p><a href="https://om.qq.com/article/preview?articleId=20181101A1AC67" target="_blank" rel="noopener">https://om.qq.com/article/preview?articleId=20181101A1AC67</a><br>在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入payload，点击预览：</p>
@@ -115,61 +85,152 @@
 <p>0x02 修复建议：</p>
 <p>   原先自己觉得可以 session  == token ，每次发布的session 都不同， 后端判断 token = session ，但这不适合用于 这种场景，而是用于CSRF、 也是自己对条件竞争不太了解。</p>
 <p>1、后端对预览处进行过滤吧，XSS修复这种方法这里就不再提了。<br>2、对应条件竞争， 后端对发送请求时间间隔进行限制，也是最简单暴力的，但是同时又影响了用户的体验，正牌的方法是多线程加锁，并发（时间间隔极小）请求时，前一个线程的请求还未处理完时，开始处理第二个线程，后续的代码还没判断时第二个线程的请求也得到了处理，导致多个线程资源竞争问题 ，这个之后还要仔细研究一下。</p>
+	  
 
-        </div>
-        
-    </article>
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+			
+		
+	
+		
+			
+			
+			
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+	
+	
+		<li class="prev"><a href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>prev</a></li>
+	
+	<li><a href="/c1y2m3.github.io/"><i class="fa fa-archive"></i>Home</a></li>
+	
+		<li class="next"><a href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/" class="alignright next">next<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
 </div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">如何有效防御CSRF</span>
-                <span class="nav-mobile">上一篇</span>
-            </a>
-        
-        
-            <a class="next" href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/">
-                <span class="nav-default">浅谈跨站脚本绕过和防御</span>
-                <span class="nav-mobile">下一篇</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
-    </div>
-</div>
-<footer class="footer-social">
-    
 
-    
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
 
-    
+	</div>
+  </div>
+  <div class="container-narrow">
+	<footer> <p>
+  &copy; 2019 John Doe
+  
+      with help from <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-wixo/">Wixo</a>.    
+</p> </footer>
+  </div> <!-- container-narrow -->
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2019
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+<script src="/c1y2m3.github.io/js/jquery.imagesloaded.min.js"></script>
+<script src="/c1y2m3.github.io/js/gallery.js"></script>
+<script src="/c1y2m3.github.io/js/bootstrap.min.js"></script>
+<script src="/c1y2m3.github.io/js/jquery.tableofcontents.min.js"></script>
+<script src="/c1y2m3.github.io/js/tocgenerator.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<script src="/c1y2m3.github.io/js/search.js"></script> 
 
+
+
+
+<link rel="stylesheet" href="/c1y2m3.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/c1y2m3.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
+
+
+
+
+</body>
 </html>

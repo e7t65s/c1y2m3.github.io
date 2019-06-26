@@ -1,96 +1,68 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>c1y2m3’blog</title>
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="utf-8">
+  
+  <title>域渗透之Kerberoasting攻击 | c1y2m3’blog</title>
+  <meta name="author" content="John Doe">
+  
+  <meta name="description" content="基本概念SPN
+全称 Service Principal Names
+SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN
+SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下
+当一个服务的权限为 Local Sys">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="域渗透之Kerberoasting攻击">
+  <meta property="og:site_name" content="c1y2m3’blog">
+
+  
+    <meta property="og:image" content="">
+  
+
+  
+    <link rel="alternative" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
+  
+  
+    <link href="/c1y2m3.github.io/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/c1y2m3.github.io/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
 </head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+</html>
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/c1y2m3.github.io/">c1y2m3’blog</a><span class="split"></span><span class="title">域渗透之Kerberoasting攻击</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2019-04-02</span></h1>
+</div>		
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/c1y2m3.github.io/" class="header-nav-link">
-                首页
-            </a>
-            
+<div class="row page">
+  <!-- cols -->	
+  
+  
 
-            
-            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
-                归档
-            </a>
-            
+  
+	<div class="col-md-12">
+	  
 
-            
-            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
-                标签
-            </a>
-            
-
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
-        </div>
-
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">域渗透之Kerberoasting攻击</h2>
-            <div class="post-meta">
-                <span class="post-time">2019-04-02</span>
-                
-                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SPN的格式："><span class="toc-text">SPN的格式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#查询SPN"><span class="toc-text">查询SPN</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberos的原理："><span class="toc-text">Kerberos的原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><span class="toc-text">2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kerberoasting的实现方法"><span class="toc-text">Kerberoasting的实现方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#破解："><span class="toc-text">破解：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、使用Powershell实现"><span class="toc-text">二、使用Powershell实现</span></a></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
-</div>
-        <div class="post-content">
-            <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>SPN</p>
+	  <!-- content -->
+	  <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>SPN</p>
 <p>全称 <code>Service Principal Names</code></p>
 <p>SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN</p>
 <p>SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下</p>
@@ -139,61 +111,152 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 13100 /tmp/hash.txt /tmp/password.list -o found.txt --force</span><br></pre></td></tr></table></figure>
 <p>  破解结果如下图，成功获得明文口令<code>MySQLAdmin111!</code></p>
 <p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png" alt=""></p>
+	  
 
-        </div>
-        
-    </article>
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+			
+		
+	
+		
+			
+			
+			
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+	
+	
+		<li class="prev"><a href="/c1y2m3.github.io/2019/04/04/15543609538285/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>prev</a></li>
+	
+	<li><a href="/c1y2m3.github.io/"><i class="fa fa-archive"></i>Home</a></li>
+	
+		<li class="next"><a href="/c1y2m3.github.io/2019/03/16/----1/" class="alignright next">next<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
 </div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/c1y2m3.github.io/2019/04/04/15543609538285/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">JSP Shell Bypass WAF</span>
-                <span class="nav-mobile">上一篇</span>
-            </a>
-        
-        
-            <a class="next" href="/c1y2m3.github.io/2019/03/16/----1/">
-                <span class="nav-default">记一次域渗透攻击测试</span>
-                <span class="nav-mobile">下一篇</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
-    </div>
-</div>
-<footer class="footer-social">
-    
 
-    
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
 
-    
+	</div>
+  </div>
+  <div class="container-narrow">
+	<footer> <p>
+  &copy; 2019 John Doe
+  
+      with help from <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-wixo/">Wixo</a>.    
+</p> </footer>
+  </div> <!-- container-narrow -->
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2019
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+<script src="/c1y2m3.github.io/js/jquery.imagesloaded.min.js"></script>
+<script src="/c1y2m3.github.io/js/gallery.js"></script>
+<script src="/c1y2m3.github.io/js/bootstrap.min.js"></script>
+<script src="/c1y2m3.github.io/js/jquery.tableofcontents.min.js"></script>
+<script src="/c1y2m3.github.io/js/tocgenerator.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<script src="/c1y2m3.github.io/js/search.js"></script> 
 
+
+
+
+<link rel="stylesheet" href="/c1y2m3.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/c1y2m3.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
+
+
+
+
+</body>
 </html>

@@ -1,96 +1,66 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>c1y2m3’blog</title>
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="utf-8">
+  
+  <title>关于服务器的上传漏洞分析 | c1y2m3’blog</title>
+  <meta name="author" content="John Doe">
+  
+  <meta name="description" content="很久没有归纳总结知识点了，学了那么多总感觉那么零散，所以准备开始总结这一系列的漏洞详解。一方面是总结一方面也是复习。
+文件上传练习:https://github.com/cnnetarmy/uploadfile
+（一）IIS5.x-6.x解析漏洞使用iis5.x-6.x版本的服务器，大多为windo">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="关于服务器的上传漏洞分析">
+  <meta property="og:site_name" content="c1y2m3’blog">
+
+  
+    <meta property="og:image" content="">
+  
+
+  
+    <link rel="alternative" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
+  
+  
+    <link href="/c1y2m3.github.io/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/c1y2m3.github.io/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
 </head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+</html>
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/c1y2m3.github.io/">c1y2m3’blog</a><span class="split"></span><span class="title">关于服务器的上传漏洞分析</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2018-09-15</span></h1>
+</div>		
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/c1y2m3.github.io/" class="header-nav-link">
-                首页
-            </a>
-            
+<div class="row page">
+  <!-- cols -->	
+  
+  
 
-            
-            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
-                归档
-            </a>
-            
+  
+	<div class="col-md-12">
+	  
 
-            
-            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
-                标签
-            </a>
-            
-
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
-        </div>
-
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">关于服务器的上传漏洞分析</h2>
-            <div class="post-meta">
-                <span class="post-time">2018-09-15</span>
-                
-                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#文件上传练习"><span class="toc-text">文件上传练习:</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#（一）IIS5-x-6-x解析漏洞"><span class="toc-text">（一）IIS5.x-6.x解析漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#目录解析-6-0"><span class="toc-text">目录解析(6.0)</span></a></li></ol><li class="toc-item toc-level-5"><a class="toc-link" href="#形式：www-xxx-com-xx-asp-xx-jpg"><span class="toc-text">形式：www.xxx.com/xx.asp/xx.jpg</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#文件解析"><span class="toc-text">文件解析</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#解析文件类型"><span class="toc-text">解析文件类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修复方案"><span class="toc-text">修复方案</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#（二）apache解析漏洞"><span class="toc-text">（二）apache解析漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修复方案-1"><span class="toc-text">修复方案</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#（三）nginx解析漏洞"><span class="toc-text">（三）nginx解析漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#漏洞形式"><span class="toc-text">漏洞形式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修复方案-2"><span class="toc-text">修复方案</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#文件包含漏洞"><span class="toc-text">文件包含漏洞</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#远程包含"><span class="toc-text">远程包含</span></a></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
-</li></div>
-        <div class="post-content">
-            <p>很久没有归纳总结知识点了，学了那么多总感觉那么零散，所以准备开始总结这一系列的漏洞详解。一方面是总结一方面也是复习。</p>
+	  <!-- content -->
+	  <p>很久没有归纳总结知识点了，学了那么多总感觉那么零散，所以准备开始总结这一系列的漏洞详解。一方面是总结一方面也是复习。</p>
 <h6 id="文件上传练习"><a href="#文件上传练习" class="headerlink" title="文件上传练习:"></a>文件上传练习:</h6><p><a href="https://github.com/cnnetarmy/uploadfile" target="_blank" rel="noopener">https://github.com/cnnetarmy/uploadfile</a></p>
 <h6 id="（一）IIS5-x-6-x解析漏洞"><a href="#（一）IIS5-x-6-x解析漏洞" class="headerlink" title="（一）IIS5.x-6.x解析漏洞"></a>（一）IIS5.x-6.x解析漏洞</h6><p>使用iis5.x-6.x版本的服务器，大多为windows server 2003，网站比较古老，开发语句一般为asp；该解析漏洞也只能解析asp文件，而不能解析aspx文件。</p>
 <h6 id="目录解析-6-0"><a href="#目录解析-6-0" class="headerlink" title="目录解析(6.0)"></a>目录解析(6.0)</h6><h5 id="形式：www-xxx-com-xx-asp-xx-jpg"><a href="#形式：www-xxx-com-xx-asp-xx-jpg" class="headerlink" title="形式：www.xxx.com/xx.asp/xx.jpg"></a>形式：<a href="http://www.xxx.com/xx.asp/xx.jpg" target="_blank" rel="noopener">www.xxx.com/xx.asp/xx.jpg</a></h5><p>原理: 服务器默认会把.asp，.asa目录下的文件都解析成asp文件</p>
@@ -136,55 +106,152 @@
 <h6 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h6><p>这种默认情况下关闭的套路别用了，愁人！<br><code>allow_url_include=On默认不开启，以及远程读取文件allow_url_fopen=On</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">读取远程文件内容函数:</span><br><span class="line">fopen() copy() file_get_content()</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">包含远程文件代码:</span><br><span class="line">include()  include_once() require() require_once()</span><br></pre></td></tr></table></figure>
 <p>前面读取远程文件内容，可能会出现在上传头像处，存取远程头像。<br>后者危害可能更大，直接包含恶意代码执行导致任意代码执行。</p>
+	  
 
-        </div>
-        
-    </article>
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+			
+		
+	
+	
+	
+		<li class="prev"><a href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>prev</a></li>
+	
+	<li><a href="/c1y2m3.github.io/"><i class="fa fa-archive"></i>Home</a></li>
+	
+		<li class="next disabled"><a>next<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
 </div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">文件上传绕过总结</span>
-                <span class="nav-mobile">上一篇</span>
-            </a>
-        
-        
-    
-</div>
-<div id="comment-container"></div>
-    </div>
-</div>
-<footer class="footer-social">
-    
 
-    
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
 
-    
+	</div>
+  </div>
+  <div class="container-narrow">
+	<footer> <p>
+  &copy; 2019 John Doe
+  
+      with help from <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-wixo/">Wixo</a>.    
+</p> </footer>
+  </div> <!-- container-narrow -->
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2019
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+<script src="/c1y2m3.github.io/js/jquery.imagesloaded.min.js"></script>
+<script src="/c1y2m3.github.io/js/gallery.js"></script>
+<script src="/c1y2m3.github.io/js/bootstrap.min.js"></script>
+<script src="/c1y2m3.github.io/js/jquery.tableofcontents.min.js"></script>
+<script src="/c1y2m3.github.io/js/tocgenerator.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<script src="/c1y2m3.github.io/js/search.js"></script> 
 
+
+
+
+<link rel="stylesheet" href="/c1y2m3.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/c1y2m3.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
+
+
+
+
+</body>
 </html>

