@@ -1,288 +1,227 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>如何有效防御CSRF | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="&amp;#x9632;&amp;#x5FA1;&amp;#x65B9;&amp;#x6848;&amp;#xFF1A; Referer Token   &amp;#x524D;&amp;#x540E;&amp;#x7AEF;&amp;#x5206;&amp;#x79BB; &amp;#x524D;&amp;#x540E;&amp;#x7AEF;&amp;#x672A;&amp;#x5206;&amp;#x79BB;  Referer &amp;#x4E00;&amp;#x822C;&amp;#x60C5;&amp;#x51B5;&amp;#x4E0B;&amp;#xF">
-<meta property="og:type" content="article">
-<meta property="og:title" content="如何有效防御CSRF">
-<meta property="og:url" content="http://yoursite.com/2018/11/14/如何有效防御CSRF/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="&amp;#x9632;&amp;#x5FA1;&amp;#x65B9;&amp;#x6848;&amp;#xFF1A; Referer Token   &amp;#x524D;&amp;#x540E;&amp;#x7AEF;&amp;#x5206;&amp;#x79BB; &amp;#x524D;&amp;#x540E;&amp;#x7AEF;&amp;#x672A;&amp;#x5206;&amp;#x79BB;  Referer &amp;#x4E00;&amp;#x822C;&amp;#x60C5;&amp;#x51B5;&amp;#x4E0B;&amp;#xF">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-19T04:02:48.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何有效防御CSRF">
-<meta name="twitter:description" content="&amp;#x9632;&amp;#x5FA1;&amp;#x65B9;&amp;#x6848;&amp;#xFF1A; Referer Token   &amp;#x524D;&amp;#x540E;&amp;#x7AEF;&amp;#x5206;&amp;#x79BB; &amp;#x524D;&amp;#x540E;&amp;#x7AEF;&amp;#x672A;&amp;#x5206;&amp;#x79BB;  Referer &amp;#x4E00;&amp;#x822C;&amp;#x60C5;&amp;#x51B5;&amp;#x4E0B;&amp;#xF">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        如何有效防御CSRF - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
+<div class="index-about">
+    <i>  </i>
+</div>
 
+<div class="index-container">
     
-
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
     
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Referer"><span class="toc-text">Referer </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#token"><span class="toc-text">token </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-前后端分离："><span class="toc-text">0x02 前后端分离：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-text">总结：</span></a></li></ol>
+</div>
     
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post-如何有效防御CSRF" class="ui main container article-type-post">
 
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    如何有效防御CSRF
-</h1>
+    <div class="index-middle">
+        <!-- Main Content -->
+        
 
 
+<div class="post-container">
+    <div class="post-title">
+        如何有效防御CSRF
+    </div>
 
-                <div class="article-inner">
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-11-14 00:34:14</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
 
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <p>&#x9632;&#x5FA1;&#x65B9;&#x6848;&#xFF1A;</p>
+    </div>
+    <div class="post-content ">
+        <p>防御方案：</p>
 <p>Referer</p>
 <p>Token </p>
-<ul class="ui list">
-<li>&#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;</li>
-<li>&#x524D;&#x540E;&#x7AEF;&#x672A;&#x5206;&#x79BB;</li>
+<ul>
+<li>前后端分离</li>
+<li>前后端未分离</li>
 </ul>
-<h2 id="Referer"><a href="#Referer" class="headerlink" title="Referer "></a>Referer </h2><p>&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;CSRF&#x653B;&#x51FB;&#x4E0D;&#x80FD;&#x4F2A;&#x9020;Referer&#xFF0C;&#x6240;&#x4EE5;&#x9650;&#x5236;Referer&#x6765;&#x6E90;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x9650;&#x5236;CSRF&#x6F0F;&#x6D1E;&#x3002;&#x5E76;&#x4E14;Referer&#x7684;&#x4FEE;&#x590D;&#x6210;&#x672C;&#x76F8;&#x6BD4;token&#x6765;&#x8BB2;&#xFF0C;&#x786E;&#x5B9E;&#x4F4E;&#x4E86;&#x5F88;&#x591A;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x5F53;&#x5B58;&#x5728;&#x4E00;&#x4E2A;XSS&#x6F0F;&#x6D1E;&#xFF0C;&#x901A;&#x8FC7;XSS+CSRF&#x7EC4;&#x5408;&#x653B;&#x51FB;&#xFF0C;Referer&#x9650;&#x5236;&#x5C31;&#x80FD;&#x88AB;&#x7ED5;&#x8FC7;&#x3002;</p>
-<h2 id="token"><a href="#token" class="headerlink" title="token "></a>token </h2><p>0x01 &#x524D;&#x540E;&#x7AEF;&#x672A;&#x5206;&#x79BB;&#xFF1A;</p>
-<ol class="ui list">
-<li><p>&#x540E;&#x7AEF;&#x968F;&#x673A;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;token&#xFF0C;&#x628A;&#x8FD9;&#x4E2A;token&#x4FDD;&#x5B58;&#x5728;SESSION&#x72B6;&#x6001;&#x4E2D;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x540E;&#x7AEF;&#x628A;&#x8FD9;&#x4E2A;token&#x4EA4;&#x7ED9;&#x524D;&#x7AEF;&#x9875;&#x9762;&#xFF1B;</p>
+<h2 id="Referer"><a href="#Referer" class="headerlink" title="Referer "></a>Referer </h2><p>一般情况下，CSRF攻击不能伪造Referer，所以限制Referer来源可以用来限制CSRF漏洞。并且Referer的修复成本相比token来讲，确实低了很多，但是，当存在一个XSS漏洞，通过XSS+CSRF组合攻击，Referer限制就能被绕过。</p>
+<h2 id="token"><a href="#token" class="headerlink" title="token "></a>token </h2><p>0x01 前后端未分离：</p>
+<ol>
+<li><p>后端随机产生一个token，把这个token保存在SESSION状态中，同时，后端把这个token交给前端页面；</p>
 </li>
-<li><p>&#x4E0B;&#x6B21;&#x524D;&#x7AEF;&#x9700;&#x8981;&#x53D1;&#x8D77;&#x8BF7;&#x6C42;(&#x6BD4;&#x5982;&#x53D1;&#x5E16;)&#x7684;&#x65F6;&#x5019;&#x628A;&#x8FD9;&#x4E2A;token&#x52A0;&#x5165;&#x8BF7;&#x6C42;&#x6570;&#x636E;&#x6216;&#x5934;&#x4FE1;&#x606F;&#x4E2D;&#xFF0C;&#x4E00;&#x8D77;&#x8F6C;&#x7ED9;&#x540E;&#x7AEF;&#xFF1B;</p>
+<li><p>下次前端需要发起请求(比如发帖)的时候把这个token加入请求数据或头信息中，一起转给后端；</p>
 </li>
-<li><p>&#x540E;&#x7AEF;&#x6821;&#x9A8C;&#x524D;&#x7AEF;&#x8BF7;&#x6C42;&#x5E26;&#x8FC7;&#x6765;&#x7684;token&#x548C;session&#x91CC;&#x7684;token&#x662F;&#x5426;&#x4E00;&#x81F4;&#xFF1B;</p>
+<li><p>后端校验前端请求带过来的token和session里的token是否一致；</p>
 </li>
 </ol>
-<h2 id="0x02-&#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;&#xFF1A;"><a href="#0x02-&#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;&#xFF1A;" class="headerlink" title="0x02 &#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;&#xFF1A;"></a>0x02 &#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;&#xFF1A;</h2><p>(&#x53EF;&#x4EE5;&#x501F;&#x52A9;Cookie&#x628A;&#x8FD9;&#x4E2A;&#x5347;&#x7EA7;&#x4E0B;&#xFF0C;&#x901A;&#x8FC7;Cookie&#x8FDB;&#x884C;&#x6D4F;&#x89C8;&#x5668;&#x548C;&#x670D;&#x52A1;&#x7AEF;&#x7684;&#x4EA4;&#x4E92;&#x3002;</p>
-<ol class="ui list">
-<li><p>&#x540E;&#x7AEF;&#x968F;&#x673A;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;token</p>
+<h2 id="0x02-前后端分离："><a href="#0x02-前后端分离：" class="headerlink" title="0x02 前后端分离："></a>0x02 前后端分离：</h2><p>(可以借助Cookie把这个升级下，通过Cookie进行浏览器和服务端的交互。</p>
+<ol>
+<li><p>后端随机产生一个token</p>
 </li>
-<li><p>&#x540E;&#x7AEF;&#x5C06;&#x8FD9;&#x4E2A;token&#x8BBE;&#x7F6E;&#x4E3A;cookie&#xFF0C;&#x8FD4;&#x56DE;&#x7ED9;&#x524D;&#x7AEF;</p>
+<li><p>后端将这个token设置为cookie，返回给前端</p>
 </li>
-<li><p>&#x524D;&#x7AEF;&#x9700;&#x8981;&#x53D1;&#x8D77;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4ECE;cookie&#x4E2D;&#x83B7;&#x53D6;token&#xFF0C;&#x628A;&#x8FD9;&#x4E2A;token&#x52A0;&#x5165;&#x8BF7;&#x6C42;&#x6570;&#x636E;&#x6216;&#x8005;&#x5934;&#x4FE1;&#x606F;&#x4E2D;&#xFF0C;&#x4E00;&#x8D77;&#x4F20;&#x7ED9;&#x540E;&#x7AEF;&#xFF0C;&#x7531;&#x4E8E;&#x524D;&#x7AEF;&#x8981;&#x83B7;&#x53D6;cookie&#x91CC;&#x7684;token&#xFF0C;&#x6240;&#x4EE5;&#x8BE5;token&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x4E3A;&#x975E;httponly</p>
+<li><p>前端需要发起请求的时候，从cookie中获取token，把这个token加入请求数据或者头信息中，一起传给后端，由于前端要获取cookie里的token，所以该token必须设置为非httponly</p>
 </li>
-<li><p>&#x540E;&#x7AEF;&#x6821;&#x9A8C;$_cookie[&#x2018;token&#x2019;]= $_POST[&#x2018;token&#x2019;]</p>
+<li><p>后端校验$_cookie[‘token’]= $_POST[‘token’]</p>
 </li>
 </ol>
-<p>&#x5728;&#x8FD9;&#x79CD;&#x9632;&#x5FA1;&#x65B9;&#x6848;&#x4E0B;&#xFF0C;&#x653B;&#x51FB;&#x8005;&#x6784;&#x9020;&#x4E00;&#x4E2A;CSRF&#x9875;&#x9762;&#xFF0C;&#x7531;&#x4E8E;&#x4E0D;&#x77E5;&#x9053;&#x88AB;&#x653B;&#x51FB;&#x8005;&#x7684;cookie&#x4E2D;&#x7684;token&#x5B57;&#x6BB5;&#x7684;&#x503C;&#xFF0C;&#x5BFC;&#x81F4;&#x65E0;&#x6CD5;&#x6784;&#x9020;$_POST[&#x2018;token&#x2019;]&#x53C2;&#x6570;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x653B;&#x51FB;&#x5931;&#x8D25;&#x3002;</p>
-<h2 id="&#x603B;&#x7ED3;&#xFF1A;"><a href="#&#x603B;&#x7ED3;&#xFF1A;" class="headerlink" title="&#x603B;&#x7ED3;&#xFF1A;"></a>&#x603B;&#x7ED3;&#xFF1A;</h2><ul class="ui list">
-<li><p>CSRF&#x7684;token&#x5B58;&#x5728;cookie&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x5728;xss&#xFF0C;&#x5FC5;&#x5B9A;&#x4F1A;&#x88AB;&#x7ED5;&#x8FC7;&#xFF0C;&#x56E0;&#x4E3A;&#x524D;&#x7AEF;&#x8981;&#x83B7;&#x53D6;cookie&#x91CC;&#x7684;token&#xFF0C;&#x8BE5;&#x5B57;&#x6BB5;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x4E3A;&#x975E;httponly&#xFF0C;&#x5426;&#x5219;&#x83B7;&#x53D6;&#x4E0D;&#x5230;&#x3002;</p>
+<p>在这种防御方案下，攻击者构造一个CSRF页面，由于不知道被攻击者的cookie中的token字段的值，导致无法构造$_POST[‘token’]参数，所以，攻击失败。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
+<li><p>CSRF的token存在cookie的方式，如果存在xss，必定会被绕过，因为前端要获取cookie里的token，该字段必须设置为非httponly，否则获取不到。</p>
 </li>
-<li><p>&#x7528;Referer&#x9650;&#x5236;&#x9632;&#x5FA1;CSRF&#xFF0C;&#x5B58;&#x5728;XSS&#x4E5F;&#x4F1A;&#x88AB;&#x7ED5;&#x8FC7;&#x3002;</p>
+<li><p>用Referer限制防御CSRF，存在XSS也会被绕过。</p>
 </li>
-<li><p>&#x901A;&#x8FC7;$SESSION&#x7684;token&#x65B9;&#x5F0F;&#xFF0C;CSRF&#x9632;&#x5FA1;&#x4E0D;&#x4F1A;&#x88AB;XSS&#x7B49;&#x6F0F;&#x6D1E;&#x7ED5;&#x8FC7;&#xFF0C;&#x56E0;&#x4E3A;XSS&#x7B49;&#x6F0F;&#x6D1E;&#x4E0D;&#x80FD;&#x64CD;&#x4F5C;SESSION&#x3002;</p>
+<li><p>通过$SESSION的token方式，CSRF防御不会被XSS等漏洞绕过，因为XSS等漏洞不能操作SESSION。</p>
 </li>
-<li><p>CSRF&#x7684;&#x9632;&#x5FA1;&#x624B;&#x6BB5;(&#x9664;&#x4E86;SESSION)&#x76EE;&#x524D;&#x5728;&#x6709;XSS&#x7EC4;&#x5408;&#x5229;&#x7528;&#x60C5;&#x51B5;&#x4E0B;&#x90FD;&#x53EF;&#x4EE5;&#x88AB;&#x7ED5;&#x8FC7;&#x3002;(XSS&#x548C;CSRF&#x540C;&#x57DF;&#x7684;&#x60C5;&#x51B5;&#x4E0B;)&#x3002;</p>
+<li><p>CSRF的防御手段(除了SESSION)目前在有XSS组合利用情况下都可以被绕过。(XSS和CSRF同域的情况下)。</p>
 </li>
 </ul>
 
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2018-11-13T16:34:14.000Z" itemprop="datePublished">2018-11-14</time>
-
-    </span>
-    <span class="post-description-item">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /" class="ui tiny button">
-
-                    <i class="angle left icon"></i>
-                    
-                    在Linux下文件包含漏洞的另类拿SHELL方法
-                    
-
-                </a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /" class="ui tiny button">
-                    
-                    从SELF-XSS到存储型XSS/附绕过token分析过程
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
+        <br>
+        <div id="comment-container">
         </div>
-    </div>
+        <div id="disqus_thread"></div>
 
-</div>
-                
-            </div>
-
-            
-            <div class="three wide computer three wide tablet column">
-
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    <ol class="ui ordered list"><li><a href="#Referer"><span>Referer </span></a></li><li><a href="#token"><span>token </span></a></li><li><a href="#0x02-前后端分离："><span>0x02 前后端分离：</span></a></li><li><a href="#总结："><span>总结：</span></a></li></ol>
-                </div>
-
-            </div>
-            
-
+        <div id="lv-container">
         </div>
-    </div>
-</div>
 
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

