@@ -8,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="所有的域组策略存储在：\\SYSVOL\\Policies\ SYSVOL是AD（活动目录）里面一个存储域公共文件服务器副本的共享文件夹，所有的认证用户都可以读取。SYSVOL包括登录脚本，组策略数据，以及其他域控所需要的域数据，这是因为SYSVOL能在所有域控里进行自动同步和共享。 组策略中可被利用的地方:Services\Services.xmlScheduledTasks\Scheduled">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Group Policy Preference (GPP)">
+<meta property="og:title" content="【域渗透】Group Policy Preference">
 <meta property="og:url" content="http://yoursite.com/2019/06/27/GPP/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="所有的域组策略存储在：\\SYSVOL\\Policies\ SYSVOL是AD（活动目录）里面一个存储域公共文件服务器副本的共享文件夹，所有的认证用户都可以读取。SYSVOL包括登录脚本，组策略数据，以及其他域控所需要的域数据，这是因为SYSVOL能在所有域控里进行自动同步和共享。 组策略中可被利用的地方:Services\Services.xmlScheduledTasks\Scheduled">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d14bbe6a3725939b79cff30">
-<meta property="og:updated_time" content="2019-06-27T12:53:18.000Z">
+<meta property="og:updated_time" content="2019-06-27T12:55:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Group Policy Preference (GPP)">
+<meta name="twitter:title" content="【域渗透】Group Policy Preference">
 <meta name="twitter:description" content="所有的域组策略存储在：\\SYSVOL\\Policies\ SYSVOL是AD（活动目录）里面一个存储域公共文件服务器副本的共享文件夹，所有的认证用户都可以读取。SYSVOL包括登录脚本，组策略数据，以及其他域控所需要的域数据，这是因为SYSVOL能在所有域控里进行自动同步和共享。 组策略中可被利用的地方:Services\Services.xmlScheduledTasks\Scheduled">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5d14bbe6a3725939b79cff30">
     
@@ -38,7 +38,7 @@
         
     
     <!-- title -->
-    <title>Group Policy Preference (GPP)</title>
+    <title>【域渗透】Group Policy Preference</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -89,15 +89,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/27/GPP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/27/GPP/&text=Group Policy Preference (GPP)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/27/GPP/&is_video=false&description=Group Policy Preference (GPP)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Group Policy Preference (GPP)&body=Check out this article: http://yoursite.com/2019/06/27/GPP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/27/GPP/&name=Group Policy Preference (GPP)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/27/GPP/&text=【域渗透】Group Policy Preference"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/27/GPP/&is_video=false&description=【域渗透】Group Policy Preference"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=【域渗透】Group Policy Preference&body=Check out this article: http://yoursite.com/2019/06/27/GPP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/27/GPP/&name=【域渗透】Group Policy Preference&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -114,7 +114,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        Group Policy Preference (GPP)
+        【域渗透】Group Policy Preference
     </h1>
 
 
@@ -178,15 +178,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/27/GPP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/27/GPP/&text=Group Policy Preference (GPP)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/27/GPP/&is_video=false&description=Group Policy Preference (GPP)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Group Policy Preference (GPP)&body=Check out this article: http://yoursite.com/2019/06/27/GPP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=Group Policy Preference (GPP)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/27/GPP/&name=Group Policy Preference (GPP)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/27/GPP/&text=【域渗透】Group Policy Preference"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/27/GPP/&is_video=false&description=【域渗透】Group Policy Preference"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=【域渗透】Group Policy Preference&body=Check out this article: http://yoursite.com/2019/06/27/GPP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/27/GPP/&title=【域渗透】Group Policy Preference"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/27/GPP/&name=【域渗透】Group Policy Preference&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
