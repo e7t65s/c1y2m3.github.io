@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a81e67d0a23c65bb1e0">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5cea3a5f2711cd2096ff4c8f">
-<meta property="og:updated_time" content="2019-06-26T16:04:00.000Z">
+<meta property="og:updated_time" content="2019-07-04T13:59:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【域渗透】JBoss引起的内网渗透">
 <meta name="twitter:description" content="切入点Jboss的反序列化漏洞，获取到shell，就不多说了，远程部署war。 信息收集1234whoami  --&amp;gt; windows-7p8piq7\administratoripconfig --&amp;gt; 192.168.58.231tasklist --&amp;gt; 360EntClient.exe \ZhuDongFangYu.exe .. (360全家桶)systeminfo --&amp;g">
@@ -161,7 +161,8 @@
 <h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">从58.18的机子上发现存在域： </span><br><span class="line"></span><br><span class="line">所属域 --&gt;MERCURY.COM  近1400个域用户...</span><br><span class="line"></span><br><span class="line">nltest /dclist:MERCURY.COM #查看域控 （2个)</span><br><span class="line"></span><br><span class="line">pdc.mercury.com [PDC]  --&gt; 主dc --&gt; 192.168.58.2</span><br><span class="line">BDC.mercury.com        --&gt; 备dc --&gt; 192.168.58.1</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">net group &quot;domain admins&quot; /domain  #查看域管理员 （9个)</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">Administrator            chenfeng                 chudonggen               </span><br><span class="line">dongzhiwei               IT                       lifen                    </span><br><span class="line">qiaopeng                 weiwei                   zhangxuejun </span><br><span class="line"></span><br><span class="line">net group &quot;domain controllers&quot; /domain  #查看域控制器</span><br><span class="line">-----------------------------------------------------------------------------</span><br><span class="line">BDC$                     PDC$</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5cea3aa72711cd2096ff4e6f" alt=""></p>
 <p>然而发现我已经获取到了dc的账号密码。并在<code>CS</code>上上线了，这就意味的此时的域已经沦陷。</p>
-<p>同时通过GPP组策略漏洞成功解密出administraor密码：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9" alt=""></p>
+<p>同时通过GPP组策略成功解密出administraor密码：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13b8ddb5aa6649fc91a2b" alt=""><br><img src="https://www.yunzhijia.com/microblog/filesvr/5cf13cfcea3b4a79232077e9" alt=""></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
 <li>vssadmin 无法提取出ntds.dit、在系统中卡死</li>
 <li>ntdsutil 被破坏、无法运行</li>
