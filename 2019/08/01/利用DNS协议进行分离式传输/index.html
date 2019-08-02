@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="NativePayload_DNS 是利用DNS隧道来传输shellcode，在内存中执行，进行分离免杀，躲避杀软的静态检测。 项目地址https://github.com/DamonMohammadbagher/NativePayload_DNS 这里对C#脚本使用csc.exe进行编译可执行文件exe：C:\Windows\Microsoft.NET\Framework64\v4.0.3031">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用DNS协议进行分离式传输">
+<meta property="og:title" content="利用DNS协议进行分离式执行shellcode">
 <meta property="og:url" content="http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="NativePayload_DNS 是利用DNS隧道来传输shellcode，在内存中执行，进行分离免杀，躲避杀软的静态检测。 项目地址https://github.com/DamonMohammadbagher/NativePayload_DNS 这里对C#脚本使用csc.exe进行编译可执行文件exe：C:\Windows\Microsoft.NET\Framework64\v4.0.3031">
@@ -19,9 +19,9 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4413fe28011f3c5371f1bb">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d44140128011f3c5371f1be">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d44144332f2ca7e75d544bf">
-<meta property="og:updated_time" content="2019-08-02T10:58:25.000Z">
+<meta property="og:updated_time" content="2019-08-02T11:00:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用DNS协议进行分离式传输">
+<meta name="twitter:title" content="利用DNS协议进行分离式执行shellcode">
 <meta name="twitter:description" content="NativePayload_DNS 是利用DNS隧道来传输shellcode，在内存中执行，进行分离免杀，躲避杀软的静态检测。 项目地址https://github.com/DamonMohammadbagher/NativePayload_DNS 这里对C#脚本使用csc.exe进行编译可执行文件exe：C:\Windows\Microsoft.NET\Framework64\v4.0.3031">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5d44122832f2ca7e75d5405b">
     
@@ -43,7 +43,7 @@
         
     
     <!-- title -->
-    <title>利用DNS协议进行分离式传输</title>
+    <title>利用DNS协议进行分离式执行shellcode</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -94,15 +94,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&text=利用DNS协议进行分离式传输"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&is_video=false&description=利用DNS协议进行分离式传输"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=利用DNS协议进行分离式传输&body=Check out this article: http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&name=利用DNS协议进行分离式传输&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&text=利用DNS协议进行分离式执行shellcode"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&is_video=false&description=利用DNS协议进行分离式执行shellcode"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=利用DNS协议进行分离式执行shellcode&body=Check out this article: http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&name=利用DNS协议进行分离式执行shellcode&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -119,7 +119,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        利用DNS协议进行分离式传输
+        利用DNS协议进行分离式执行shellcode
     </h1>
 
 
@@ -191,15 +191,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&text=利用DNS协议进行分离式传输"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&is_video=false&description=利用DNS协议进行分离式传输"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=利用DNS协议进行分离式传输&body=Check out this article: http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式传输"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&name=利用DNS协议进行分离式传输&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&text=利用DNS协议进行分离式执行shellcode"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&is_video=false&description=利用DNS协议进行分离式执行shellcode"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=利用DNS协议进行分离式执行shellcode&body=Check out this article: http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&title=利用DNS协议进行分离式执行shellcode"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/利用DNS协议进行分离式传输/&name=利用DNS协议进行分离式执行shellcode&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
