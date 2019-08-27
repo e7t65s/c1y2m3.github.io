@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d4413fe28011f3c5371f1bb">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d44140128011f3c5371f1be">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d44144332f2ca7e75d544bf">
-<meta property="og:updated_time" content="2019-08-27T15:39:21.000Z">
+<meta property="og:updated_time" content="2019-08-27T15:43:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于常规DNS隧道进行深度利用">
 <meta name="twitter:description" content="DNS Tunnel可以分为直连和中继两种。直连就是用目标机器直接和指定的目标DNS Server进行UDPsocket套接字连接，这种方式速度快，但致命的弱点就是直接将IP暴露在流量中，且如果客户端指定了信任的DNS解析服务器，那么将会被白名单限制在外。 中继是通过DNS迭代查询实现的中继隧道，生存能力强，隐蔽性更高，但同时因为数据包到达目标DNS Server前需要经过多个节点，所以速度上慢很">
@@ -163,12 +163,13 @@
 <p>解析配置完成后，在服务端nc监听下udp的53端口，再回到windows机器ping下ns域名,如果收到回显,证明解析成功。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d654b2628011f5f6b5e564b" alt=""></p>
 <p>接下来，在server端开启隧道：</p>
-<p>ruby./dnscat2.rb dnscat.[domain] –no-cache<br>[domain]是刚设置的ns记录的子域名，–no-cache代表不进行缓存<br><img src="https://www.yunzhijia.com/microblog/filesvr/5d654b4990144e41c4b34984" alt=""></p>
+<p>ruby./dnscat2.rb dnscat.[domain] –no-cache<br>[domain]是刚设置的ns记录的子域名，–no-cache代表不进行缓存</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5d654b4990144e41c4b34984" alt=""></p>
 <p>我们以相同的方式启动客户端，并看到会话已经建立。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d654b7332f2ca3c6587cf34" alt=""></p>
 <p>回到服务端使用shell进行命令控制:</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d654bcd90144e41c4b349be" alt=""></p>
-<p>在客户端抓取流量包可以看到Dnscat2 主要使用了TXT,CNAME,MX记录。</p>
+<p>在客户端抓取流量包可以看到Dnscat2 主要进行了TXT,CNAME,MX查询。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5d654c026d67ff2f280a2cf3" alt=""></p>
 <p>并且dnscat2客户端没有直接向我的C2服务器发送DNS查询，相反，受害者的系统正在与标准可信DNS服务器进行通信并转发至该域的权威DNS服务器，</p>
 <p>正如下捕获的数据包, 受害者的本地DNS服务器正在尝试解析“dnscat.[domain].cn”域中的主机名，</p>
