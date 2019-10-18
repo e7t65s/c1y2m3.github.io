@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8ca8082711cd74738fb839">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cbe839b521a131d01c3b8">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5c8cb51ce67d0a40cbc8a460">
-<meta property="og:updated_time" content="2019-07-04T13:59:11.000Z">
+<meta property="og:updated_time" content="2019-10-18T02:26:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【域渗透】记一次域渗透攻击测试">
 <meta name="twitter:description" content="0x00 前言前段参与了一个项目,在项目中,实行的范围在一个会议室，目的是检测内网安全,并需要拿到该公司的财务报表，此文将全部脱敏，涉及某厂商，中间会穿插一些小的知识点与细节。 0x01 信息收集一开始，通过沟通，拿到了内网所在的IP段及所对应的部门信息，由于内部wifi认证缺陷，导致dhcp分配给我了个白名单ip,并且绑定了我的MAC，使得我不使用入网账号直接连入办公网。  为了能尽快找到突破口">
@@ -161,12 +161,11 @@
 <p>参考: <a href="https://www.freebuf.com/articles/system/163144.html" target="_blank" rel="noopener">利用MySQL UDF提权</a></p>
 <p>虽然有四个root权限，提权之路并不是那么的顺利，依然被趋势杀毒intercept了，但，视乎是域用户本地策略的缘故，还是成功的拿到了一台域主机的本地system权限。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5c8c8b3f9b521a131dfebcc6" alt=""></p>
-<p>然后利用 powershell，进行反弹个meterpreter,进行后渗透，但查看进程无果，一样被拦的死死的。</p>
+<p>然后利用 powershell，进行反弹个meterpreter,进行后渗透，但查看进程无果，一样被拦的死死的，查看进程发现存在 360杀毒、趋势杀毒端，为了更好的维持权限，</p>
 <p>接下来的思路是:</p>
-<p>启用Guest账号 - &gt; 3389远程连接 -&gt; Mimikatz -&gt; Tscon-&gt; 进行横向移动 </p>
+<p>启用Guest账号 - &gt; 3389远程连接 -&gt; tscon -&gt; 进行横向移动 </p>
 <p>由于本地策略的问题，Guest没有权限进行rdp，后面发现本地存在xxx用户，</p>
-<p>为了加快进度，修改了本地xxx用户密码(不太优雅)，后面顺利的进入了桌面。</p>
-<p>原来进程里还有 360杀毒、趋势杀毒端，为了更好的维持权限，故丢个免杀上去。</p>
+<p>为了加快项目进度，修改了本地smy用户密码，成功进入了远程桌面。</p>
 <p>项目地址:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/secretsquirrel/the-backdoor-factory</span><br></pre></td></tr></table></figure>
 <p>原理：可执行二进制文件中有大量的00，这些00是不包含数据的，将这些数据替换成payload，并且在程序执行的时候，jump到代码段，来触发payload。 </p>
