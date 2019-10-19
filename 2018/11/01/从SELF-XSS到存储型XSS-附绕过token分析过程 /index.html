@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
+    <meta name="description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 0x01   已修复 https://om.qq.com/article/preview?articleId=20181101A1AC67在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入paylo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从SELF-XSS到存储型XSS&#x2F;附绕过token分析过程">
 <meta property="og:url" content="http://yoursite.com/2018/11/01/从SELF-XSS到存储型XSS-附绕过token分析过程 /index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
+<meta property="og:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 0x01   已修复 https://om.qq.com/article/preview?articleId=20181101A1AC67在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入paylo">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-da9853a424ce04ed7cde3823ca7ae7c6.png!small">
@@ -21,10 +21,10 @@
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-d6fd5c4cab52b722e2130fba345f0367.png!small">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-e5431b2b2d26227d24194de0cfbee8e1.png!small">
 <meta property="og:image" content="http://i.3001.net/uploads/Up_imgs/20181101-0ddd2eae3bd7ba416f8a94e0441d0753.png!small">
-<meta property="og:updated_time" content="2019-01-19T04:14:53.000Z">
+<meta property="og:updated_time" content="2019-10-19T03:52:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从SELF-XSS到存储型XSS&#x2F;附绕过token分析过程">
-<meta name="twitter:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 事情发生在2018年11月01日晚上，地点：北京 天气有点冷。沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。 0x01   已修复 https://om.qq.com/article/preview?articleId=2018">
+<meta name="twitter:description" content="真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。 0x01   已修复 https://om.qq.com/article/preview?articleId=20181101A1AC67在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入paylo">
 <meta name="twitter:image" content="http://i.3001.net/uploads/Up_imgs/20181101-5b7870dc0c92469e0599f7a2a6415c62.png">
     
     
@@ -148,7 +148,6 @@
 
   <div class="content" itemprop="articleBody">
     <p>真正领会了渗透测试中的骚思路后才能挖掘出更多有意思的漏洞，这次的漏洞挖掘是我最近挖的一个觉得比较有意思的漏洞，分析在这里，这个世界从来不缺少创作者。</p>
-<p>事情发生在2018年11月01日晚上，地点：北京 天气有点冷。<br>沉浸在对自己的前途一片黑暗之中，无法自拔。于是，又当起了XSSer。</p>
 <p>0x01   已修复</p>
 <p><a href="https://om.qq.com/article/preview?articleId=20181101A1AC67" target="_blank" rel="noopener">https://om.qq.com/article/preview?articleId=20181101A1AC67</a><br>在文章正文处输入fuzz，发现输出在script标签下、script标签下从来不缺绕过的方法，然后输入payload，点击预览：</p>
 <p>参考：<a href="https://e7t65s.github.io/c1y2m3.github.io/2018/10/18/%E6%B5%85%E8%B0%88%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E7%BB%95%E8%BF%87%E5%92%8C%E9%98%B2%E5%BE%A1/" target="_blank" rel="noopener">浅谈跨站脚本绕过和防御 </a></p>
