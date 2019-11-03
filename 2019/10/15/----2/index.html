@@ -6,19 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="前言​     每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的发现内网更多有价值的资产，进一步找到突破点攻击面,，这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎各位指正与建议，互相共同进步。​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安">
+    <meta name="description" content="前言​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于后渗透自动化收集-ATAttack">
 <meta property="og:url" content="http://yoursite.com/2019/10/15/----2/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
-<meta property="og:description" content="前言​     每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的发现内网更多有价值的资产，进一步找到突破点攻击面,，这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎各位指正与建议，互相共同进步。​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安">
+<meta property="og:description" content="前言​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5da3eacf32f2ca14fb78c69e">
-<meta property="og:updated_time" content="2019-10-14T16:25:54.000Z">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dbe4d62b54c8d19b5579f55">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dac6de090144e463b1d6194">
+<meta property="og:updated_time" content="2019-11-03T03:56:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于后渗透自动化收集-ATAttack">
-<meta name="twitter:description" content="前言​     每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的发现内网更多有价值的资产，进一步找到突破点攻击面,，这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎各位指正与建议，互相共同进步。​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安">
-<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5da3eacf32f2ca14fb78c69e">
+<meta name="twitter:description" content="前言​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5dbe4d62b54c8d19b5579f55">
     
     
         
@@ -104,7 +105,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#v1-0-开发进度："><span class="toc-number">2.</span> <span class="toc-text">v1.0-开发进度：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">2.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快照预览"><span class="toc-number">2.2.</span> <span class="toc-text">快照预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win10测试环境"><span class="toc-number">2.3.</span> <span class="toc-text">win10测试环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">2.4.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cmd-exe"><span class="toc-number">2.5.</span> <span class="toc-text">cmd.exe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基础信息获取："><span class="toc-number">2.6.</span> <span class="toc-text">一、基础信息获取：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、主机网段收集"><span class="toc-number">2.7.</span> <span class="toc-text">二、主机网段收集:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、凭证获取"><span class="toc-number">2.8.</span> <span class="toc-text">三、凭证获取:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、横向移动"><span class="toc-number">2.9.</span> <span class="toc-text">四、横向移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五：数据回传"><span class="toc-number">2.10.</span> <span class="toc-text">五：数据回传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包ATAttack二进制文件"><span class="toc-number">2.11.</span> <span class="toc-text">打包ATAttack二进制文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试打包环境"><span class="toc-number">2.12.</span> <span class="toc-text">测试打包环境:</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#v1-0-开发进度："><span class="toc-number">2.</span> <span class="toc-text">v1.0-开发进度：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">2.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快照预览"><span class="toc-number">2.2.</span> <span class="toc-text">快照预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win10测试环境"><span class="toc-number">2.3.</span> <span class="toc-text">win10测试环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win2008测试环境："><span class="toc-number">2.4.</span> <span class="toc-text">win2008测试环境：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">2.5.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cmd-exe"><span class="toc-number">2.6.</span> <span class="toc-text">cmd.exe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基础信息获取："><span class="toc-number">2.7.</span> <span class="toc-text">一、基础信息获取：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、主机网段收集"><span class="toc-number">2.8.</span> <span class="toc-text">二、主机网段收集:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、凭证获取"><span class="toc-number">2.9.</span> <span class="toc-text">三、凭证获取:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、横向移动"><span class="toc-number">2.10.</span> <span class="toc-text">四、横向移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五：数据回传"><span class="toc-number">2.11.</span> <span class="toc-text">五：数据回传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包ATAttack二进制文件"><span class="toc-number">2.12.</span> <span class="toc-text">打包ATAttack二进制文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试打包环境"><span class="toc-number">2.13.</span> <span class="toc-text">测试打包环境:</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -140,10 +141,11 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​     每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的发现内网更多有价值的资产，进一步找到突破点攻击面,，这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎各位指正与建议，互相共同进步。<br>​     </p>
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！<br>​     </p>
 <h1 id="v1-0-开发进度："><a href="#v1-0-开发进度：" class="headerlink" title="v1.0-开发进度："></a>v1.0-开发进度：</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>ATAttack</strong>是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。</p>
 <p>项目地址：<a href="https://github.com/c1y2m3/ATAttack" target="_blank" rel="noopener">https://github.com/c1y2m3/ATAttack</a></p>
-<h2 id="快照预览"><a href="#快照预览" class="headerlink" title="快照预览"></a>快照预览</h2><h2 id="win10测试环境"><a href="#win10测试环境" class="headerlink" title="win10测试环境"></a>win10测试环境</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5da3eacf32f2ca14fb78c69e" alt=""></p>
+<h2 id="快照预览"><a href="#快照预览" class="headerlink" title="快照预览"></a>快照预览</h2><h2 id="win10测试环境"><a href="#win10测试环境" class="headerlink" title="win10测试环境"></a>win10测试环境</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5dbe4d62b54c8d19b5579f55" alt=""></p>
+<h2 id="win2008测试环境："><a href="#win2008测试环境：" class="headerlink" title="win2008测试环境："></a>win2008测试环境：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5dac6de090144e463b1d6194" alt=""></p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h2 id="cmd-exe"><a href="#cmd-exe" class="headerlink" title="cmd.exe"></a>cmd.exe</h2><p>存储于本地文件夹：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python exploit.py</span><br></pre></td></tr></table></figure>
 <p>回传至远程FTP服务器：</p>
@@ -159,19 +161,19 @@
 <h2 id="三、凭证获取"><a href="#三、凭证获取" class="headerlink" title="三、凭证获取:"></a>三、凭证获取:</h2><p>1、注册表存储sam提取、在线解密  %SystemRoot%\system32\config\sam  </p>
 <p>2、使用comsvcs.dll 中MiniDump 函数 dump指定lsass进程,</p>
 <p>如失败则使用procdump提取lsa缓存进程，回传ftp，半自动化离线解密  </p>
-<p>3、通过netsh 导出系统 wifi密码、Windows Vaults 密码提取，</p>
-<p>3、主流浏览器存储密码在线|离线模式解密,目前覆盖chrome、360chrome、ie，</p>
+<p>3、通过netsh 导出系统 wifi密码[暂时删除]、Windows Vaults 普通 / WEB 凭据提取</p>
+<p>3、主流浏览器存储密码在线|离线模式解密,目前覆盖chrome、360chrome、ie,fiefox</p>
 <p>fiefox浏览器解密基于key3.db、key4.db，logins.json文件，密钥加密，回传文件离线解密。</p>
-<p>4、第三方主机软件 ，如 Navicat、Putty ,foxmail在线解密 </p>
+<p>4、第三方主机软件 ，如 Navicat、Putty ,foxmail在线解密 [未完成]</p>
 <h2 id="四、横向移动"><a href="#四、横向移动" class="headerlink" title="四、横向移动"></a>四、横向移动</h2><p>1、探测网段存活，如存活则识别windows 系统操作版本</p>
 <p>2、如系统版本为windows系统，则检测是否存在永恒之蓝漏洞</p>
 <p>3、基于解密出的ntlmhash，对存活主机进行pth哈希传递攻击，执行回显命令。</p>
 <h2 id="五：数据回传"><a href="#五：数据回传" class="headerlink" title="五：数据回传"></a>五：数据回传</h2><p>将获取的数据落地到本地用户Temp文件夹下存储，进行加密压缩回传，解压密钥为：</p>
 <p><code>Za!@#$@&amp;**(aKg</code>，尽可能避免了网络设备溯源，程序结束后进行自删除</p>
-<p>1、系统所安装的浏览器历史记录，暂命名为update.log</p>
+<p>1、系统所安装的浏览器浏览历史记录，暂命名为update.log</p>
 <p>2、系统所搜索的敏感数据文件存储，暂命名为file_list.txt</p>
-<p>3、通过提取lsass进程所保存的内存文件，暂命令为lsass.dmp</p>
-<p>4、内网主机所识别对应的windows版本，归属于工作组或域主机</p>
+<p>3、通过提取lsass进程所保存的内存文件，暂命名为lsass.dmp</p>
+<p>4、内网主机所识别对应的windows版本，归属于工作组或域主机信息，暂命名为os_version.txt</p>
 <h2 id="打包ATAttack二进制文件"><a href="#打包ATAttack二进制文件" class="headerlink" title="打包ATAttack二进制文件"></a>打包ATAttack二进制文件</h2><h2 id="测试打包环境"><a href="#测试打包环境" class="headerlink" title="测试打包环境:"></a>测试打包环境:</h2><ul>
 <li>Python 2.7.15</li>
 <li>PyInstaller 3.4</li>
@@ -216,7 +218,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#v1-0-开发进度："><span class="toc-number">2.</span> <span class="toc-text">v1.0-开发进度：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">2.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快照预览"><span class="toc-number">2.2.</span> <span class="toc-text">快照预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win10测试环境"><span class="toc-number">2.3.</span> <span class="toc-text">win10测试环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">2.4.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cmd-exe"><span class="toc-number">2.5.</span> <span class="toc-text">cmd.exe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基础信息获取："><span class="toc-number">2.6.</span> <span class="toc-text">一、基础信息获取：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、主机网段收集"><span class="toc-number">2.7.</span> <span class="toc-text">二、主机网段收集:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、凭证获取"><span class="toc-number">2.8.</span> <span class="toc-text">三、凭证获取:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、横向移动"><span class="toc-number">2.9.</span> <span class="toc-text">四、横向移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五：数据回传"><span class="toc-number">2.10.</span> <span class="toc-text">五：数据回传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包ATAttack二进制文件"><span class="toc-number">2.11.</span> <span class="toc-text">打包ATAttack二进制文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试打包环境"><span class="toc-number">2.12.</span> <span class="toc-text">测试打包环境:</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#v1-0-开发进度："><span class="toc-number">2.</span> <span class="toc-text">v1.0-开发进度：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">2.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快照预览"><span class="toc-number">2.2.</span> <span class="toc-text">快照预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win10测试环境"><span class="toc-number">2.3.</span> <span class="toc-text">win10测试环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#win2008测试环境："><span class="toc-number">2.4.</span> <span class="toc-text">win2008测试环境：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用方法"><span class="toc-number">2.5.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cmd-exe"><span class="toc-number">2.6.</span> <span class="toc-text">cmd.exe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基础信息获取："><span class="toc-number">2.7.</span> <span class="toc-text">一、基础信息获取：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、主机网段收集"><span class="toc-number">2.8.</span> <span class="toc-text">二、主机网段收集:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、凭证获取"><span class="toc-number">2.9.</span> <span class="toc-text">三、凭证获取:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、横向移动"><span class="toc-number">2.10.</span> <span class="toc-text">四、横向移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五：数据回传"><span class="toc-number">2.11.</span> <span class="toc-text">五：数据回传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包ATAttack二进制文件"><span class="toc-number">2.12.</span> <span class="toc-text">打包ATAttack二进制文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试打包环境"><span class="toc-number">2.13.</span> <span class="toc-text">测试打包环境:</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
