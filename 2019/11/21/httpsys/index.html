@@ -17,6 +17,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd643e06d67ff57e939b1d0">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd6440290144e0b52ff4fd5">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd64426a3725915003627e4">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5ddbefaeb54c8d62369991a6">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd64458b54c8d62368ed80e">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd6448e28011f0fc49af9f1">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd644b36d67ff57e939b70f">
@@ -26,7 +27,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd645646d67ff57e939bb55">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd6459532f2ca155fc9eb78">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dd645b16d67ff57e939bd03">
-<meta property="og:updated_time" content="2019-11-21T09:09:59.000Z">
+<meta property="og:updated_time" content="2019-11-25T15:29:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="探索基于HTTP.SYS实现权限维持">
 <meta name="twitter:description" content="​    在通常WEB应用中，一个应用只能绑定一个端口，若同时绑定一个端口，必然会抛出端口占用异常信息，微软在IIS 5.0以后版本提供了一种机制，Net. Port Sharing,即端口共享。它允许对应用同时使用一个端口只需要各自注册的url前缀不一样即可， 这种机制被封装在http.sys驱动中，驱动监听HTTP流量，然后根据URL注册的情况去分发到当前URL对应的应用。 Winrm服务端口">
@@ -167,6 +168,8 @@
 <p>Set-Item WSMan:localhost\client\trustedhosts -value * </p>
 <p>然后使用winrs命令连接远程web服务端口获得交互式SHELL,</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5dd64426a3725915003627e4" alt=""></p>
+<p>使用python实现一款支持NTLM hash的客户端，需要注意的是：<br>windows 2008是LM-HASH:NTLM-HASH的方式, windows 2012以及之后只能抓到NTLM的Hash，直接使用即可。</p>
+<p>最终实现的代码已上传至github，地址如下：<br><a href="https://github.com/c1y2m3/python-tools/blob/master/WinrmAttack.py" target="_blank" rel="noopener">https://github.com/c1y2m3/python-tools/blob/master/WinrmAttack.py</a><br><img src="https://www.yunzhijia.com/microblog/filesvr/5ddbefaeb54c8d62369991a6" alt=""></p>
 <h1 id="HTTP-ServerAPI端口复用"><a href="#HTTP-ServerAPI端口复用" class="headerlink" title="HTTP ServerAPI端口复用"></a>HTTP ServerAPI端口复用</h1><p>​    微软对外开放了如何调用这种http.sys驱动机制的API接口，也就是HTTP Server API。HTTP Server API 运行在用户模式中，也就是说任意用户都可以调用该API实现一个HttpListener，与 IIS 共享端口，但是前提是你必须拥有管理员权限。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5dd64458b54c8d62368ed80e" alt=""></p>
 <p>上图整个过程描述如下：</p>
