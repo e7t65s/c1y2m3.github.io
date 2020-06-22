@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前言Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 dll,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。 mimilib从lsass进程中提取明文凭">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于SSP的奇思异想">
+<meta property="og:url" content="http://yoursite.com/2020/06/15/SSP/index.html">
+<meta property="og:site_name" content="c1y2m3’blog">
+<meta property="og:description" content="前言Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 dll,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。 mimilib从lsass进程中提取明文凭">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3b67a6f2230001fe5deb">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3b805c58610001014a58">
+<meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3bd96ed6bb000119eb22">
+<meta property="og:updated_time" content="2020-06-22T11:37:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于SSP的奇思异想">
+<meta name="twitter:description" content="前言Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 dll,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。 mimilib从lsass进程中提取明文凭">
+<meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3b67a6f2230001fe5deb">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/c1y2m3.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/c1y2m3.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/c1y2m3.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>基于SSP的奇思异想</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/c1y2m3.github.io/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/c1y2m3.github.io/2020/05/25/pingtunnel/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/06/15/SSP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/15/SSP/&text=基于SSP的奇思异想"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/15/SSP/&is_video=false&description=基于SSP的奇思异想"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于SSP的奇思异想&body=Check out this article: http://yoursite.com/2020/06/15/SSP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/15/SSP/&name=基于SSP的奇思异想&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        基于SSP的奇思异想
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c1y2m3’blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-06-14T16:00:00.000Z" itemprop="datePublished">2020-06-15</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 <strong>dll</strong>,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。</p>
+<p>mimilib从lsass进程中提取明文凭据的实现代码：</p>
+<p><a href="https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kssp.c" target="_blank" rel="noopener">https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kssp.c</a></p>
+<p>自动武器化实现思路：</p>
+<p> 1、将动态库或是驱动文件打包进一个可执行文件中，再由需要使用的时候，再临时释放和加载。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5eea3b67a6f2230001fe5deb" alt=""></p>
+<p>2、将释放的dll文件复制到c:\windows\system32下，这里编译的时候需要注意的是程序是32位的，在64位系统下，所有对system32的操作都会被转向syswow64，修改系统注册表Security Packages的值为要加载dll的名称。</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5eea3b805c58610001014a58" alt=""></p>
+<p>3、通过调用 AddSecurityPackage API函数可以使 lsass.exe 进程加载指定的SSP / AP，无需重启，此时管理员输入了新的凭据，将会生成文件kiwissp.log，实战中,可配合上述的HTTP ServerAPI端口复用进行实时获取凭证，如有需求也可以自行改进。</p>
+<p>效果演示：</p>
+<p><img src="https://www.yunzhijia.com/microblog/filesvr/5eea3bd96ed6bb000119eb22" alt=""></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://www.mamicode.com/info-detail-2638519.html" target="_blank" rel="noopener">http://www.mamicode.com/info-detail-2638519.html</a></p>
+<p><a href="https://www.4hou.com/posts/y6jW" target="_blank" rel="noopener">https://www.4hou.com/posts/y6jW</a></p>
+<p><a href="https://blog.csdn.net/ayang1986/article/details/83351842" target="_blank" rel="noopener">https://blog.csdn.net/ayang1986/article/details/83351842</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/06/15/SSP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/15/SSP/&text=基于SSP的奇思异想"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/15/SSP/&is_video=false&description=基于SSP的奇思异想"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于SSP的奇思异想&body=Check out this article: http://yoursite.com/2020/06/15/SSP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/15/SSP/&name=基于SSP的奇思异想&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/c1y2m3.github.io/">主页</a></li>
+         
+          <li><a href="/c1y2m3.github.io/About/">关于</a></li>
+         
+          <li><a href="/c1y2m3.github.io/archives/">文章</a></li>
+         
+          <li><a href="/c1y2m3.github.io/projects_url">生活</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/c1y2m3.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/c1y2m3.github.io/lib/jquery/jquery.min.js"></script>
+<script src="/c1y2m3.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/c1y2m3.github.io/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
