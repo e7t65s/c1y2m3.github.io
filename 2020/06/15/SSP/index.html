@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="前言Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 dll,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。 mimilib从lsass进程中提取明文凭">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于SSP的奇思异想">
+<meta property="og:title" content="基于SSP武器化的奇思异想">
 <meta property="og:url" content="http://yoursite.com/2020/06/15/SSP/index.html">
 <meta property="og:site_name" content="c1y2m3’blog">
 <meta property="og:description" content="前言Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 dll,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。 mimilib从lsass进程中提取明文凭">
@@ -16,9 +16,9 @@
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3b67a6f2230001fe5deb">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3b805c58610001014a58">
 <meta property="og:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3bd96ed6bb000119eb22">
-<meta property="og:updated_time" content="2020-07-11T01:32:10.000Z">
+<meta property="og:updated_time" content="2020-08-24T05:22:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于SSP的奇思异想">
+<meta name="twitter:title" content="基于SSP武器化的奇思异想">
 <meta name="twitter:description" content="前言Windows Server 2008 R2及更高版本的系统默认无法获得明文密码，但是可以利用SSP即 Security Support Provider,通俗理解就是一个用于身份验证的 dll,系统在启动时 SSP 会被加载到 lsass.exe 进程中,由于 lsa 可扩展,导致在系统启动时我们完全可以加载一个自定义的 dll来记录明文账号密码。 mimilib从lsass进程中提取明文凭">
 <meta name="twitter:image" content="https://www.yunzhijia.com/microblog/filesvr/5eea3b67a6f2230001fe5deb">
     
@@ -40,7 +40,7 @@
         
     
     <!-- title -->
-    <title>基于SSP的奇思异想</title>
+    <title>基于SSP武器化的奇思异想</title>
     <!-- styles -->
     <link rel="stylesheet" href="/c1y2m3.github.io/css/style.css">
     <!-- persian styles -->
@@ -93,15 +93,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/06/15/SSP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/15/SSP/&text=基于SSP的奇思异想"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/15/SSP/&is_video=false&description=基于SSP的奇思异想"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=基于SSP的奇思异想&body=Check out this article: http://yoursite.com/2020/06/15/SSP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/15/SSP/&name=基于SSP的奇思异想&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/15/SSP/&text=基于SSP武器化的奇思异想"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/15/SSP/&is_video=false&description=基于SSP武器化的奇思异想"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于SSP武器化的奇思异想&body=Check out this article: http://yoursite.com/2020/06/15/SSP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/15/SSP/&name=基于SSP武器化的奇思异想&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -118,7 +118,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        基于SSP的奇思异想
+        基于SSP武器化的奇思异想
     </h1>
 
 
@@ -187,15 +187,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/06/15/SSP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/15/SSP/&text=基于SSP的奇思异想"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/15/SSP/&is_video=false&description=基于SSP的奇思异想"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=基于SSP的奇思异想&body=Check out this article: http://yoursite.com/2020/06/15/SSP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP的奇思异想"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/15/SSP/&name=基于SSP的奇思异想&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/15/SSP/&text=基于SSP武器化的奇思异想"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/15/SSP/&is_video=false&description=基于SSP武器化的奇思异想"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于SSP武器化的奇思异想&body=Check out this article: http://yoursite.com/2020/06/15/SSP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/15/SSP/&title=基于SSP武器化的奇思异想"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/15/SSP/&name=基于SSP武器化的奇思异想&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
